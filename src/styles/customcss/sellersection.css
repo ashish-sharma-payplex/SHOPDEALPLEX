@@ -1,0 +1,311 @@
+/* Main Container for Both Sections */
+.MuiStack-root {
+  margin: 20px 0;
+  padding: 0;
+}
+
+/* Seller Section Styles */
+.seller-section {
+  background: linear-gradient(to bottom right, #fffdf8, #ece3dc);
+  border-radius: 12px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.seller-content {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.seller-content h1 {
+  font-size: 36px;
+  color: #1a3b2f;
+  margin-bottom: 20px;
+}
+
+.seller-content p {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+.seller-content .features-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.seller-content .features-list li {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #1a3b2f;
+}
+
+.seller-content .cta-button {
+  background: linear-gradient(to right, #ffd600, #ff8c00);
+  border: none;
+  color: #1a1a1a;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: fit-content;
+}
+
+.seller-content .cta-button:hover {
+  background: linear-gradient(to right, #ffb700, #ff6900);
+}
+
+.seller-stats-card {
+  background: linear-gradient(to bottom, #caf2a2, #f9b876);
+  color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 12px 24px rgba(255, 140, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.seller-stats-card img {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 30px;
+}
+
+.seller-stats-card h3 {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.seller-stats-card h1 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.seller-stats-card p {
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.seller-stats-card .stats-info {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.seller-stats-card .stats-info div {
+  flex: 1;
+}
+
+/* Deliveryman Section Styles */
+.deliveryman-section {
+  background: linear-gradient(to bottom right, #f9f9f9, #ece3dc);
+  border-radius: 12px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.deliveryman-content {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.deliveryman-content h1 {
+  font-size: 36px;
+  color: #1a3b2f;
+  margin-bottom: 20px;
+}
+
+.deliveryman-content p {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+.deliveryman-content .features-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.deliveryman-content .features-list li {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #1a3b2f;
+}
+
+.deliveryman-content .cta-button {
+  background: linear-gradient(to right, #ffd600, #ff8c00);
+  border: none;
+  color: #1a1a1a;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: fit-content;
+}
+
+.deliveryman-content .cta-button:hover {
+  background: linear-gradient(to right, #ffb700, #ff6900);
+}
+
+.deliveryman-stats-card {
+  background: linear-gradient(to bottom, #caf2a2, #f9b876);
+  color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 12px 24px rgba(255, 140, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.deliveryman-stats-card img {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 30px;
+}
+
+.deliveryman-stats-card h3 {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.deliveryman-stats-card h1 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.deliveryman-stats-card p {
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.deliveryman-stats-card .stats-info {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.deliveryman-stats-card .stats-info div {
+  flex: 1;
+}
+
+/* Global Styles for Breakpoints */
+@media (max-width: 576px) {
+  .MuiStack-root {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .seller-content,
+  .deliveryman-content {
+    flex: 1 1 100%;
+    padding: 20px 0;
+    margin-bottom: 20px;
+  }
+
+  .MuiTypography-root {
+    font-size: 14px;
+  }
+
+  .cta-button {
+    font-size: 14px;
+    padding: 12px 24px;
+    margin-bottom: 20px;
+  }
+
+  .seller-stats-card,
+  .deliveryman-stats-card {
+    width: 100%;
+  }
+
+  .tag {
+    width: 100%;
+  }
+
+  .stats-info {
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .stats-card-image {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .seller-section,
+  .deliveryman-section {
+    padding: 30px 20px;
+  }
+
+  .seller-content h1,
+  .deliveryman-content h1 {
+    font-size: 28px;
+  }
+
+  .cta-button {
+    font-size: 15px;
+  }
+
+  .stats-card-image {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .seller-section,
+  .deliveryman-section {
+    padding: 25px 20px;
+  }
+
+  .cta-button {
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+
+  .stats-card-image {
+    max-width: 85%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .seller-section,
+  .deliveryman-section {
+    padding: 25px 80px;
+  }
+
+  .seller-content,
+  .deliveryman-content {
+    flex: 1 1 48%;
+  }
+
+  .cta-button {
+    font-size: 18px;
+    padding: 14px 28px;
+  }
+
+  .tag {
+    width: 45%;
+  }
+
+  .stats-card-image {
+    max-width: 300px;
+  }
+}

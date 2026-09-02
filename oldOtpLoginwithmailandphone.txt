@@ -1,0 +1,295 @@
+import React from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { t } from "i18next";
+import Typography from "@mui/material/Typography";
+import {
+  CustomColouredTypography,
+  CustomStackFullWidth,
+} from "styled-components/CustomStyles.style";
+import CustomPhoneInput from "components/custom-component/CustomPhoneInput";
+import { Checkbox, FormControlLabel, Tooltip, useTheme } from "@mui/material";
+import { getLanguage } from "helper-functions/getLanguage";
+import { CustomTypography } from "components/landing-page/hero-section/HeroSection.style";
+import { TextField } from "@mui/material";
+import { useState, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
+
+const OtpLogin = ({
+  otpLoginFormik,
+  otpHandleChange,
+  global,
+  isLoading,
+  handleClick,
+  rememberMeHandleChange,
+  fireBaseId,
+  configData,
+  onSubmit, // ✅ NEW PROP for email flow
+}) => {
+  const theme = useTheme();
+  const lanDirection = getLanguage() ? getLanguage() : "ltr";
+  const [inputMode, setInputMode] = useState("email"); // email | phone
+  const [emailValue, setEmailValue] = useState("");
+  const [tandc, setTandc] = useState(false);
+  const phoneRef = useRef(null);
+
+  const handleDynamicChange = (e) => {
+    const value = e.target.value.trim();
+
+    // ✅ Check if value is pure digits (phone number)
+    const onlyDigits = /^[0-9]+$/.test(value);
+
+    if (onlyDigits && value.length >= 3 && inputMode !== "phone") {
+      setInputMode("phone");
+      otpHandleChange(`+91${value}`);
+      setTimeout(() => {
+        const input = phoneRef.current?.querySelector("input");
+        if (input) input.focus();
+      }, 0);
+    } else {
+      // email mode mein formik phone clear rakho
+      otpLoginFormik.setFieldValue("phone", "");
+    }
+  };
+
+  const handlePhoneChange = (value) => {
+    let digits = value.replace(/\D/g, "");
+
+    // Remove 91
+    if (digits.startsWith("91")) {
+      digits = digits.slice(2);
+    }
+
+    // Limit 10 digits
+    digits = digits.slice(0, 10);
+
+    // ✅ Agar sab delete ho gaya
+    if (digits.length === 0) {
+      setInputMode("email");
+      otpLoginFormik.setFieldValue("phone", "");
+      return;
+    }
+
+    otpLoginFormik.setFieldValue("phone", `+91${digits}`);
+  };
+
+  useEffect(() => {
+    let digits = (otpLoginFormik.values.phone || "").replace(/\D/g, "");
+    if (digits.startsWith("91")) {
+      digits = digits.slice(2);
+    }
+    if (digits.length === 0) {
+      setInputMode("email");
+    }
+  }, [otpLoginFormik.values.phone]);
+
+  // ✅ MAIN SUBMIT HANDLER
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (inputMode === "phone") {
+      let digits = (otpLoginFormik.values.phone || "").replace(/\D/g, "");
+
+      if (digits.startsWith("91")) {
+        digits = digits.slice(2);
+      }
+
+      if (digits.length !== 10) {
+        // ✅ Formik error set
+        otpLoginFormik.setFieldError("phone", "Enter valid 10 digit number");
+        otpLoginFormik.setFieldTouched("phone", true);
+
+        // ✅ Toast
+        toast.error("Please enter valid 10 digit mobile number");
+        return;
+      }
+
+      otpLoginFormik.handleSubmit();
+    } else {
+      if (!emailValue) {
+        toast.error("Please enter email");
+        return;
+      }
+
+      if (onSubmit) {
+        onSubmit({
+          email: emailValue,
+          login_type: "otp",
+          type: "email",
+        });
+      }
+    }
+  };
+  return (
+    <CustomStackFullWidth
+      sx={{
+        padding: "20px",
+        borderRadius: "8px !Important",
+        overflow: "hidden",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        background: "#ffffff",
+      }}
+    >
+      {/* Logo */}
+      <CustomStackFullWidth
+        sx={{ textAlign: "center", marginBottom: "1.5rem" }}
+      >
+        <img
+          src="/logo.png"
+          alt="Logo"
+          style={{
+            maxWidth: "120px",
+            height: "auto",
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+      </CustomStackFullWidth>
+
+      {/* Heading */}
+      <CustomStackFullWidth
+        sx={{ textAlign: "center", marginBottom: "1.5rem" }}
+      >
+        <Typography variant="h6" fontWeight="600" sx={{ color: "#1A1A1A" }}>
+          Every Essential. Just One Click Away
+        </Typography>
+        <Typography
+          variant="body1"
+          fontWeight="400"
+          sx={{ marginTop: "0.5rem", color: "#1A1A1A" }}
+        >
+          Log in or Sign up
+        </Typography>
+      </CustomStackFullWidth>
+
+      {/* ✅ form onSubmit — handleFormSubmit use kar raha hai */}
+      <form onSubmit={handleFormSubmit} noValidate>
+        <CustomStackFullWidth sx={{ gap: "14px" }}>
+          {inputMode === "email" ? (
+            <TextField
+              fullWidth
+              placeholder="Enter email or phone"
+              value={emailValue}
+              onChange={(e) => {
+                setEmailValue(e.target.value);
+                handleDynamicChange(e);
+              }}
+            />
+          ) : (
+            <div ref={phoneRef}>
+              <CustomPhoneInput
+                value={otpLoginFormik.values.phone || ""}
+                onHandleChange={handlePhoneChange}
+                initCountry="in"
+                touched={otpLoginFormik.touched.phone}
+                errors={otpLoginFormik.errors.phone}
+                borderRadius="10px"
+                height="45px"
+                lanDirection={lanDirection}
+              />
+
+              {/* ✅ Error text */}
+              {otpLoginFormik.touched.phone && otpLoginFormik.errors.phone && (
+                <Typography
+                  sx={{
+                    color: "red",
+                    fontSize: "12px",
+                    marginTop: "4px",
+                  }}
+                >
+                  {otpLoginFormik.errors.phone}
+                </Typography>
+              )}
+            </div>
+          )}
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="remember"
+                color="primary"
+                onChange={rememberMeHandleChange}
+              />
+            }
+            label={
+              <CustomTypography fontSize="14px" sx={{ color: "#1A1A1A" }}>
+                {t("Remember me")}
+              </CustomTypography>
+            }
+          />
+
+          <CustomStackFullWidth sx={{ paddingBottom: "5px" }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={tandc}
+                  onChange={(e) => setTandc(e.target.checked)}
+                />
+              }
+              label={
+                <CustomColouredTypography
+                  onClick={handleClick}
+                  sx={{
+                    cursor: "pointer",
+                    fontWeight: "400",
+                    fontSize: "12px",
+                  }}
+                >
+                  {t("By login I Agree with all the")}
+                  <Typography
+                    component="span"
+                    color={theme.palette.primary.main}
+                    sx={{
+                      fontSize: "12px",
+                    }}
+                  >
+                    {t(" Terms & Conditions")}
+                  </Typography>
+                </CustomColouredTypography>
+              }
+            />
+          </CustomStackFullWidth>
+
+          <Tooltip
+            title={!tandc ? "Please accept terms and conditions" : ""}
+            arrow
+          >
+            <span>
+              {" "}
+              {/* ⚠️ IMPORTANT: Tooltip needs wrapper */}
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  height: "45px",
+
+                  backgroundColor: "#1A914B",
+                  color: "#fff",
+
+                  "&:hover": {
+                    backgroundColor: "#157a3e",
+                  },
+
+                  "&.Mui-disabled": {
+                    backgroundColor: "#e0e0e0", // grey bg
+                    color: "#9e9e9e", // grey text
+                  },
+                }}
+                loading={isLoading}
+                disabled={!tandc}
+                id={fireBaseId}
+              >
+                {t("Get OTP")}
+              </LoadingButton>
+            </span>
+          </Tooltip>
+        </CustomStackFullWidth>
+      </form>
+    </CustomStackFullWidth>
+  );
+};
+
+export default OtpLogin;

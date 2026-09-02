@@ -1,0 +1,39 @@
+<<<<<<<
+    // The issue was here: setClearCart was clearing items based on the module switch
+    // We now remove the `setClearCart` to avoid cart clearing on module switch
+    // Removed setClearCart to avoid clearing cartList on module switch
+
+    setTotalAmount: (state, action) => {
+      state.totalAmount = action.payload;
+    },
+=======
+    // The issue was here: setClearCart was clearing items based on the module switch
+    // We now remove the `setClearCart` to avoid cart clearing on module switch
+    // Removed setClearCart to avoid clearing cartList on module switch
+
+    setClearCart: (state) => {
+      // Reset cart state to initial state or clear cartList and related fields
+      state.cartList = [];
+      state.campaignItemList = [];
+      state.buyNowItemList = [];
+      state.campaignItem = null;
+      state.totalAmount = null;
+      state.walletAmount = null;
+    },
+
+    setTotalAmount: (state, action) => {
+      state.totalAmount = action.payload;
+    },
+>>>>>>> REPLACE
+
+<<<<<<<
+  setWalletAmount,
+} = cartSlice.actions;
+
+export default cartSlice.reducer;
+=======
+  setWalletAmount,
+  setClearCart,
+} = cartSlice.actions;
+
+export default cartSlice.reducer;

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "src/*",
+        "page/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "page/**/*"
+, "pages/news/News.js", "pages/my-travel-trips"  ]
+}
+  
