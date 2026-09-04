@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import { useState, useEffect } from "react";
 import {
   Box,
@@ -9,48 +9,46 @@ import {
   Skeleton,
   useTheme,
   useMediaQuery,
-} from '@mui/material';
-import { useTranslation } from 'react-i18next';
+} from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 // >>>>>>>>>>> SWIPER IMPORTS <<<<<<<<<<<
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, FreeMode } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/free-mode';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
 // >>>>>>>>>>> END SWIPER IMPORTS <<<<<<<<<<<
 
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import StarIcon from '@mui/icons-material/Star';
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import StarIcon from "@mui/icons-material/Star";
 
-import useWishlistHandler from 'components/home/search/pathflow/wishlisthandler';
+import useWishlistHandler from "components/home/search/pathflow/wishlisthandler";
 
 // ✅ CART + ROUTING
 import { useDispatch } from "react-redux";
 import { setCart, setBuyNowItemList } from "redux/slices/cart";
 import { useRouter } from "next/navigation";
-import ProductModal from './popUpFood';
+import ProductModal from "./popUpFood";
 
 // >>>>>>>>>>> ZONE ID DEPENDENCIES IMPORTS <<<<<<<<<<<
 import { zoneId_api } from "../../../../../api-manage/ApiRoutes";
 import MainApi from "../../../../../api-manage/MainApi";
 // >>>>>>>>>>> END ZONE ID DEPENDENCIES IMPORTS <<<<<<<<<<<
 
-
 // --- CONFIG ---
 const CARD_WIDTH = 200; // स्थिर चौड़ाई
 const CARD_MARGIN = 16;
 const AUTOPLAY_INTERVAL = 3000;
-const GREEN_COLOR = '#4caf50';
+const GREEN_COLOR = "var(--brand-green)";
 
 // --- API ---
-const API_URL = 'https://dealplex.in/api/v1/items/discounted';
+const API_URL = "https://dealplex.in/api/v1/items/discounted";
 let API_HEADERS = {
-  'ModuleId': '5'
+  ModuleId: "5",
 };
-
 
 // ---------------- MAP PRODUCT (Unaltered) -----------------
 const mapProductToOfferCardProps = (product) => {
@@ -59,10 +57,10 @@ const mapProductToOfferCardProps = (product) => {
   let discount = product.discount || 0;
 
   if (discount > 0) {
-    if (product.discount_type === 'percent') {
+    if (product.discount_type === "percent") {
       discountedPrice = Math.max(
         originalPrice - (originalPrice * discount) / 100,
-        0
+        0,
       );
     } else {
       discountedPrice = Math.max(originalPrice - discount, 0);
@@ -76,10 +74,10 @@ const mapProductToOfferCardProps = (product) => {
     deliveryTime: product.delivery_time,
     originalPrice: originalPrice.toFixed(2),
     discountedPrice: discountedPrice.toFixed(2),
-    rating: product.avg_rating > 0 ? product.avg_rating.toFixed(1) : '0',
+    rating: product.avg_rating > 0 ? product.avg_rating.toFixed(1) : "0",
     imageUrl: product.image_full_url,
     discount: Math.round(discount),
-    item: product
+    item: product,
   };
 };
 
@@ -90,9 +88,9 @@ const OfferCardSkeleton = () => (
       width: CARD_WIDTH, // स्थिर चौड़ाई
       mr: 2,
       borderRadius: 2,
-      border: '1px solid #e0e0e0',
-      overflow: 'hidden',
-      background: '#fff'
+      border: "1px solid var(--border-default)",
+      overflow: "hidden",
+      background: "var(--bg-card)",
     }}
   >
     <Skeleton variant="rectangular" height={150} />
@@ -116,9 +114,8 @@ const OfferCard = ({
   imageUrl,
   discount,
   item,
-  onClick
+  onClick,
 }) => {
-
   const { isWishlisted, addToWishlist, removeFromWishlist } =
     useWishlistHandler(item);
 
@@ -136,14 +133,13 @@ const OfferCard = ({
         flexShrink: 0,
         marginRight: 2,
         borderRadius: "12px !important",
-        border: '1px solid #e0e0e0',
-        backgroundColor: 'white',
-        cursor: 'pointer',
-        position: 'relative',
-        overflow: 'hidden',
+        border: "1px solid var(--border-default)",
+        backgroundColor: "var(--bg-card)",
+        cursor: "pointer",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-
       {/* Discount */}
       {discount > 0 && (
         <Box
@@ -151,9 +147,8 @@ const OfferCard = ({
             position: "absolute",
             top: 0,
             left: 8,
-            backgroundColor:
-              "#1A914B",
-            color: "#fff",
+            backgroundColor: "var(--food-cta-green)",
+            color: "var(--food-text-on-brand)",
             fontWeight: 700,
             fontSize: "0.5rem",
             padding: "6px 8px",
@@ -174,7 +169,7 @@ const OfferCard = ({
                               10% 100%,
                               0 85%
                             )`,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+            boxShadow: "0 2px 6px var(--food-overlay-modal)",
             zIndex: 5,
           }}
         >
@@ -188,17 +183,17 @@ const OfferCard = ({
       <Box
         sx={{
           height: 150,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mt: 2
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 2,
         }}
       >
         <img
           src={imageUrl}
           alt={title}
           title={title}
-          style={{ width: '300px', height: '300px', objectFit: 'cover' }}
+          style={{ width: "300px", height: "300px", objectFit: "cover" }}
         />
         <Box
           sx={{
@@ -208,16 +203,16 @@ const OfferCard = ({
             width: 24,
             height: 24,
             borderRadius: "12px",
-            // backgroundColor: "rgba(255,255,255,0.95)",
+            // backgroundColor: "var(--food-overlay-95)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            // border:"1px solid #E7E7E7",
+            // border:"1px solid var(--border-image)",
             cursor: "pointer",
             zIndex: 5,
             transition: "all 0.2s ease",
             "&:hover": {
-              // backgroundColor: "#ffffff",
+              // backgroundColor: "var(--bg-card)",
               transform: "scale(1.05)",
             },
           }}
@@ -231,52 +226,85 @@ const OfferCard = ({
           }}
         >
           {isWishlisted(item) ? (
-            <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+            <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
           ) : (
-            <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+            <FavoriteBorderIcon
+              sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }}
+            />
           )}
         </Box>
-
       </Box>
 
       {/* Content */}
       <Box sx={{ p: 1 }}>
-        <Typography noWrap fontWeight="bold">{title}</Typography>
+        <Typography
+          noWrap
+          fontWeight="bold"
+          sx={{ color: "var(--text-strong)" }}
+        >
+          {title}
+        </Typography>
 
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          background: '#e8f5e9',
-          borderRadius: 1,
-          px: 0.6,
-          py: 0.3,
-          my: 0.5,
-          width: 'fit-content',
-          lineHeight: 1,
-          ml: '-5px'
-        }}>
-          <StarIcon sx={{ fontSize: 14, mr: 0.3, color: '#4caf50', display: 'block' }} />
-          <Typography fontSize={12} sx={{ lineHeight: 1, fontWeight: 600 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            background: "var(--brand-green-soft)",
+            borderRadius: 1,
+            px: 0.6,
+            py: 0.3,
+            my: 0.5,
+            width: "fit-content",
+            lineHeight: 1,
+            ml: "-5px",
+          }}
+        >
+          <StarIcon
+            sx={{
+              fontSize: 14,
+              mr: 0.3,
+              color: "var(--brand-green)",
+              display: "block",
+            }}
+          />
+          <Typography
+            fontSize={12}
+            sx={{
+              lineHeight: 1,
+              fontWeight: 600,
+              color: "var(--brand-green-dark)",
+            }}
+          >
             {rating}
           </Typography>
         </Box>
 
-        <Typography fontSize={12} color="text.secondary">{restaurant}</Typography>
+        <Typography fontSize={12} sx={{ color: "var(--text-secondary)" }}>
+          {restaurant}
+        </Typography>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: .5 }}>
-          <AccessTimeIcon sx={{ fontSize: 14, mr: .5 }} />
-          <Typography fontSize={12}>{deliveryTime}</Typography>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 0.5 }}>
+          <AccessTimeIcon
+            sx={{ fontSize: 14, mr: 0.5, color: "var(--text-secondary)" }}
+          />
+          <Typography fontSize={12} sx={{ color: "var(--text-secondary)" }}>
+            {deliveryTime}
+          </Typography>
         </Box>
 
-        <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
-          <Typography fontWeight="bold">
+        <Box sx={{ mt: 1, display: "flex", gap: 1, alignItems: "center" }}>
+          <Typography fontWeight="bold" sx={{ color: "var(--text-strong)" }}>
             ₹{Math.round(discountedPrice)}
           </Typography>
 
           {originalPrice !== discountedPrice && (
             <Typography
               fontSize={12}
-              sx={{ textDecoration: 'line-through', mt: 0.3 }}
+              sx={{
+                textDecoration: "line-through",
+                mt: 0.3,
+                color: "var(--text-muted)",
+              }}
             >
               ₹{Math.round(originalPrice)}
             </Typography>
@@ -289,11 +317,9 @@ const OfferCard = ({
 
 // ---------------- MAIN -----------------
 const SpecialOffersCompleteLayout = () => {
-
   const { t } = useTranslation();
   const { addToWishlist, removeFromWishlist, isWishlisted } =
     useWishlistHandler(t);
-
 
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -306,19 +332,19 @@ const SpecialOffersCompleteLayout = () => {
   const router = useRouter();
 
   const theme = useTheme();
-  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileView = useMediaQuery(theme.breakpoints.down("sm"));
 
   // ✅ FIX: slidesPerView को 'auto' पर सेट करें।
   // Swiper अब CSS में दी गई चौड़ाई (CARD_WIDTH) का उपयोग करेगा।
   const getLatLngFromStorage = () => {
-    const currentLatLng = localStorage.getItem('currentLatLng');
+    const currentLatLng = localStorage.getItem("currentLatLng");
 
     if (currentLatLng) {
       try {
         const parsedLatLng = JSON.parse(currentLatLng);
         return {
           lat: parsedLatLng?.lat ?? 0,
-          long: parsedLatLng?.lng ?? 0
+          long: parsedLatLng?.lng ?? 0,
         };
       } catch (error) {
         return { lat: 0, long: 0 };
@@ -335,12 +361,11 @@ const SpecialOffersCompleteLayout = () => {
     loop: offers.length > 2,
     autoplay: {
       delay: AUTOPLAY_INTERVAL,
-      disableOnInteraction: false
+      disableOnInteraction: false,
     },
-    slidesPerView: 'auto', // <<<<<<<<<<< यह मुख्य बदलाव है
+    slidesPerView: "auto", // <<<<<<<<<<< यह मुख्य बदलाव है
     freeMode: true, // ऑटो-स्क्रॉल के बाद ड्रैग करने की अनुमति देता है
   };
-
 
   // ---------------- FETCH ZONE ID LOGIC (Unaltered) -----------------
   const fetchZoneId = async () => {
@@ -366,7 +391,6 @@ const SpecialOffersCompleteLayout = () => {
 
       localStorage.setItem("zoneid", JSON.stringify(zoneArray));
       setZoneIds(zoneArray);
-
     } catch (err) {
       // console.error("❌ ZONE FETCH FAILED. Using default [0].", err);
       setZoneIds([0]);
@@ -394,27 +418,26 @@ const SpecialOffersCompleteLayout = () => {
       ...API_HEADERS,
       zoneId: JSON.stringify(finalZoneId),
       latitude: lat,
-      longitude: long
+      longitude: long,
     };
 
     try {
       const response = await fetch(API_URL, {
-        headers: dynamicHeaders
+        headers: dynamicHeaders,
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
       const mapped = (data.products || []).map(mapProductToOfferCardProps);
       setOffers(mapped);
-
     } catch (err) {
       setError(`Failed to load offers: ${err.message}`);
     } finally {
       setLoading(false);
     }
   };
-
 
   // ---------------- EFFECT 1: Load/Fetch zoneIds (Unaltered) -----------------
   useEffect(() => {
@@ -426,7 +449,6 @@ const SpecialOffersCompleteLayout = () => {
     }
   }, []);
 
-
   // ---------------- EFFECT 2: Fetch offers when zoneIds ready (Unaltered) -----------------
   useEffect(() => {
     if (zoneIds.length > 0) {
@@ -434,36 +456,32 @@ const SpecialOffersCompleteLayout = () => {
     }
   }, [zoneIds]);
 
-
   // ---------------- MODAL ACTIONS (Unaltered) -----------------
-  const handleProductClick = product => {
+  const handleProductClick = (product) => {
     setSelectedProduct(product);
     setOpenModal(true);
   };
 
-  const handleAddToCart = product =>
+  const handleAddToCart = (product) =>
     dispatch(setCart({ ...product, quantity: 1 }));
 
-  const handleBuyNow = product => {
+  const handleBuyNow = (product) => {
     dispatch(setBuyNowItemList({ ...product, quantity: 1 }));
     router.push("/checkout?page=buy_now");
   };
-
-
 
   // ---------------- RENDER (Updated Swiper structure) -----------------
   if (loading) {
     const skeletonCount = isMobileView ? 2 : 5;
     return (
-      <Box sx={{ width: '100%', py: 2 }}>
-
+      <Box sx={{ width: "100%", py: 2 }}>
         {/* HEADER SKELETON */}
         <Box
           sx={{
             px: 2,
             mb: 2,
-            display: 'flex',
-            justifyContent: 'space-between'
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
           <Box>
@@ -478,31 +496,34 @@ const SpecialOffersCompleteLayout = () => {
         <Box sx={{ py: 3, px: 2 }}>
           <Swiper {...swiperSettings}>
             {[...Array(skeletonCount)].map((_, index) => (
-              <SwiperSlide key={`skel-${index}`} style={{ width: CARD_WIDTH }}> {/* ✅ width added here */}
+              <SwiperSlide key={`skel-${index}`} style={{ width: CARD_WIDTH }}>
+                {" "}
+                {/* ✅ width added here */}
                 <OfferCardSkeleton />
               </SwiperSlide>
             ))}
           </Swiper>
         </Box>
-
       </Box>
     );
   }
 
-  if (error)
-    return <Typography sx={{ p: 2 }}>{error}</Typography>;
+  if (error) return <Typography sx={{ p: 2 }}>{error}</Typography>;
 
   if (offers.length === 0)
-    return <Typography sx={{ p: 2 }}>No special offers available in your zone.</Typography>;
+    return (
+      <Typography sx={{ p: 2 }}>
+        No special offers available in your zone.
+      </Typography>
+    );
 
   return (
-    <Box sx={{ width: '100%', py: 2 }}>
-
+    <Box sx={{ width: "100%", py: 2 }}>
       {/* Header */}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
           px: 2,
           mb: 2,
         }}
@@ -529,7 +550,7 @@ const SpecialOffersCompleteLayout = () => {
       {/* Carousel (Now using Swiper) */}
       <Box
         sx={{
-          backgroundColor: '#fffdf9',
+          backgroundColor: "var(--food-bg-cream)",
           borderRadius: 2,
           py: 3,
           px: 2,
@@ -537,7 +558,12 @@ const SpecialOffersCompleteLayout = () => {
       >
         <Swiper {...swiperSettings}>
           {offers.map((offer, index) => (
-            <SwiperSlide key={`${offer.item.id}-${index}`} style={{ width: CARD_WIDTH }}> {/* ✅ width added here */}
+            <SwiperSlide
+              key={`${offer.item.id}-${index}`}
+              style={{ width: CARD_WIDTH }}
+            >
+              {" "}
+              {/* ✅ width added here */}
               <OfferCard
                 {...offer}
                 onClick={() => handleProductClick(offer.item)}
@@ -554,9 +580,7 @@ const SpecialOffersCompleteLayout = () => {
         product={selectedProduct}
         onAddToCart={handleAddToCart}
         onBuyNow={handleBuyNow}
-
       />
-
     </Box>
   );
 };

@@ -1,0 +1,57 @@
+/* =========================================================================
+   footer.css
+   Theme-aware colours for the footer (top/middle/bottom sections).
+   Same [data-theme="dark"] mechanism as navbar.css / Food.css.
+
+   Usage:
+     import "styles/footer.css";
+     <Box className="footer-root">...</Box>
+   ========================================================================= */
+
+:root {
+  --footer-bg: #ffffff;
+  --footer-bg-strip: #f4f4f4;
+  --footer-border: #f0eded;
+  --footer-text: #111827;
+  --footer-text-muted: #6b7280;
+  --footer-icon: #111827;
+  --footer-icon-hover: #1a914b;
+}
+
+:root[data-theme="dark"] {
+  --footer-bg: #111827;
+  --footer-bg-strip: #0b0f19;
+  --footer-border: #2d3748;
+  --footer-text: #f3f4f6;
+  --footer-text-muted: #9ca3af;
+  --footer-icon: #f3f4f6;
+  --footer-icon-hover: #4ade80;
+}
+
+.footer-root {
+  background-color: var(--footer-bg) !important;
+  color: var(--footer-text);
+  border: 1px solid var(--footer-border);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.footer-strip {
+  background-color: var(--footer-bg-strip) !important;
+  color: var(--footer-text);
+}
+
+.footer-text {
+  color: var(--footer-text) !important;
+}
+
+.footer-text-muted {
+  color: var(--footer-text-muted) !important;
+}
+
+.footer-icon {
+  color: var(--footer-icon) !important;
+}
+
+.footer-icon:hover {
+  color: var(--footer-icon-hover) !important;
+}

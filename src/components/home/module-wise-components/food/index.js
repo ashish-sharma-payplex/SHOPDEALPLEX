@@ -1,4 +1,3 @@
-// src\components\home\module-wise-components\food\index.js
 import React, { useEffect, useState } from "react";
 import {
   Grid,
@@ -51,7 +50,7 @@ const FoodLoader = ({ loadedCount, totalImages }) => {
         justifyContent: "center",
         minHeight: "400px",
         width: "100%",
-        // backgroundColor: "#fff",
+        // backgroundColor: "var(--bg-card)",
         borderRadius: 2,
         margin: "20px 0",
         padding: 2,
@@ -61,7 +60,7 @@ const FoodLoader = ({ loadedCount, totalImages }) => {
         <Lottie animationData={loaderAnimation} loop={true} />
       </Box>
 
-      {/* <Typography variant="h5" sx={{ color: "#FF4500", mt: 2, fontWeight: "bold" }}>
+      {/* <Typography variant="h5" sx={{ color: "var(--food-accent-orange)", mt: 2, fontWeight: "bold" }}>
         Preparing Your Feast...
       </Typography> */}
 
@@ -206,7 +205,10 @@ const FoodModule = ({ configData }) => {
 
   return (
     <>
-      <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#ffffff" }}>
+      <Box
+        className="food-module-root"
+        sx={{ width: "100%", minHeight: "100vh", bgcolor: "var(--bg-page)" }}
+      >
         {" "}
         {/* full page white background */}
         <CustomStackFullWidth

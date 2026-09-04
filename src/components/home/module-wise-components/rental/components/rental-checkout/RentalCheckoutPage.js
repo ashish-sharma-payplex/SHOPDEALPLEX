@@ -30,6 +30,7 @@ import RentalAdditionalNote from "../global/RentalAdditionalNote";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useReducer, useState } from "react";
+import styles from "styles/rental.module.css";
 import {
   ACTIONS,
   checkoutInitialState,
@@ -71,7 +72,6 @@ import TripVehicleList from "../rental-cart/TripVehicleList";
 import useGetBookingList from "api-manage/hooks/react-query/useGetBookingList";
 import HaveCoupon from "components/checkout/item-checkout/HaveCoupon";
 
-
 const VehicleCardSkeleton = () => {
   return (
     <Box
@@ -82,8 +82,7 @@ const VehicleCardSkeleton = () => {
         gap: "20px",
         alignItems: "center",
         borderRadius: "8px",
-        background: (theme) =>
-          alpha(theme.palette.neutral[200], 0.2),
+        background: (theme) => alpha(theme.palette.neutral[200], 0.2),
       }}
     >
       {/* Image Skeleton */}
@@ -126,43 +125,37 @@ const RentalCheckoutPage = () => {
   const { mutate, isLoading } = useTripBooking();
   const [state, checkoutDispatch] = useReducer(
     rentalCheckoutReducer,
-    checkoutInitialState
+    checkoutInitialState,
   );
   const guestId = getGuestId();
 
-  const {
-    data: bookingLists,
-    isLoading: bookingLoading,
-  } = useGetBookingList(guestId, {
-    enabled: !cartListFromRedux,   // ðŸ”¥ only fetch if redux empty
-  });
-
-
-
-
+  const { data: bookingLists, isLoading: bookingLoading } = useGetBookingList(
+    guestId,
+    {
+      enabled: !cartListFromRedux, // ðŸ”¥ only fetch if redux empty
+    },
+  );
 
   // useEffect(() => {
   //   refetchBooking();
   // }, [guestId]);
 
-
-  const bookingData = cartListFromRedux?.carts?.length > 0
-    ? cartListFromRedux
-    : (Array.isArray(bookingLists) ? bookingLists[0] : bookingLists);
-
-
-
+  const bookingData =
+    cartListFromRedux?.carts?.length > 0
+      ? cartListFromRedux
+      : Array.isArray(bookingLists)
+      ? bookingLists[0]
+      : bookingLists;
 
   const cartList = bookingData || {};
   const carts = bookingData?.carts || [];
   const userData = bookingData?.user_data || {};
 
-
   // console.log("carlist from carBooking")
 
   const text1 = t("After completing the trip, you will receive a");
   const text2 = t(
-    "cashback. The minimum purchase required to avail this offer is"
+    "cashback. The minimum purchase required to avail this offer is",
   );
   const text3 = t("However, the maximum cashback amount is");
 
@@ -189,24 +182,35 @@ const RentalCheckoutPage = () => {
 
   const tripCost = getTotalAmount(cartList);
 
-  const calculateProviderWiseDiscounts = calculateProviderWiseDiscount(cartList, tripCost);
-  const isShowDiscount = calculateProviderWiseDiscounts > calculateTotalDiscount(cartList, tripCost);
-  const tripDiscount = calculateProviderWiseDiscounts > calculateTotalDiscount(cartList, tripCost)
-    ? calculateProviderWiseDiscounts
-    : calculateTotalDiscount(cartList, tripCost);
-  const discountDifference = calculateProviderWiseDiscounts === 0 || calculateTotalDiscount(cartList, tripCost) === 0
-    ? 0
-    : Math.abs(calculateProviderWiseDiscounts - calculateTotalDiscount(cartList, tripCost));
+  const calculateProviderWiseDiscounts = calculateProviderWiseDiscount(
+    cartList,
+    tripCost,
+  );
+  const isShowDiscount =
+    calculateProviderWiseDiscounts > calculateTotalDiscount(cartList, tripCost);
+  const tripDiscount =
+    calculateProviderWiseDiscounts > calculateTotalDiscount(cartList, tripCost)
+      ? calculateProviderWiseDiscounts
+      : calculateTotalDiscount(cartList, tripCost);
+  const discountDifference =
+    calculateProviderWiseDiscounts === 0 ||
+    calculateTotalDiscount(cartList, tripCost) === 0
+      ? 0
+      : Math.abs(
+          calculateProviderWiseDiscounts -
+            calculateTotalDiscount(cartList, tripCost),
+        );
 
   const rentalCoupon =
     carts?.length > 0 &&
-    rentalCouponDiscount(
-      state?.couponDiscount,
-      carts[0]?.provider,
-      cartList
-    );
+    rentalCouponDiscount(state?.couponDiscount, carts[0]?.provider, cartList);
 
-  const subTotal = getRentalSubTotalPrice(cartList, rentalCoupon || 0, tripCost, tripDiscount);
+  const subTotal = getRentalSubTotalPrice(
+    cartList,
+    rentalCoupon || 0,
+    tripCost,
+    tripDiscount,
+  );
   const storeData = carts?.length > 0 && carts[0]?.provider;
   const referDiscount = null;
   const vat_tax = getVat(cartList, storeData, referDiscount, rentalCoupon);
@@ -217,7 +221,7 @@ const RentalCheckoutPage = () => {
     rentalCoupon || 0,
     configData?.additional_charge || 0,
     tripCost,
-    tripDiscount
+    tripDiscount,
   );
 
   // Validation function
@@ -279,9 +283,7 @@ const RentalCheckoutPage = () => {
         ? null
         : guestUserInfo?.contact_person_email,
       schedule_at:
-        scheduleAt === 1
-          ? fTime(userData?.pickup_time)
-          : fTime(new Date()),
+        scheduleAt === 1 ? fTime(userData?.pickup_time) : fTime(new Date()),
       scheduled: scheduleAt,
     };
 
@@ -306,7 +308,6 @@ const RentalCheckoutPage = () => {
     });
   };
 
-
   let zoneId;
   if (typeof window !== "undefined") {
     zoneId = JSON.parse(localStorage.getItem("zoneid"));
@@ -325,7 +326,6 @@ const RentalCheckoutPage = () => {
     }
   }, [bookingLoading, bookingData, carts?.length, zoneId]);
 
-
   const handleCashbackAmount = (data) => {
     setCashbackAmount(data);
   };
@@ -341,21 +341,23 @@ const RentalCheckoutPage = () => {
     }
   }, [totalPrice]);
 
-useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "instant" });
-}, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   return (
     <CustomContainer>
-      <CustomStackFullWidth sx={{
-        maxWidth: '1200px',   // Set the max width
-        margin: '30px auto',     // Center the container horizontally
-        padding: '0px 16px',  // Optional: Add padding if needed
-        // paddingTop: '50px',   // Add space at the top (adjust as needed)
-      }}>
-        <Grid container spacing={4} >
+      <CustomStackFullWidth
+        sx={{
+          maxWidth: "1200px", // Set the max width
+          margin: "30px auto", // Center the container horizontally
+          padding: "0px 16px", // Optional: Add padding if needed
+          // paddingTop: '50px',   // Add space at the top (adjust as needed)
+        }}
+      >
+        <Grid container spacing={4}>
           {/* Left Section starts  */}
-          <Grid item xs={12} md={8} >
+          <Grid item xs={12} md={8}>
             <CustomStackFullWidth>
               {/* <CheckoutStepper
                 text2={t("Trip details")}
@@ -392,12 +394,11 @@ useEffect(() => {
 
             {/* Scrollable Vehicle List */}
             <RentalCardWrapper
+              className={styles.rentalCheckoutBox}
               sx={{
                 mb: 2,
-                border: "1px solid #e7e7e7", // subtle border instead of shadow
                 borderRadius: "8px",
                 p: "12px",
-                backgroundColor: "#fff",
               }}
             >
               <Box
@@ -417,12 +418,12 @@ useEffect(() => {
                   carts.map((item, index) => (
                     <Box
                       key={index}
+                      className={styles.rentalTripCard}
                       sx={{
-                        mb: "12px",                // spacing between items
-                        borderRadius: "8px",       // rounded corners
+                        mb: "12px", // spacing between items
+                        borderRadius: "8px", // rounded corners
                         boxShadow: "0px 1px 4px rgba(0,0,0,0.08)", // subtle inner shadow for separation
                         overflow: "hidden",
-                        backgroundColor: "#fff",
                       }}
                     >
                       <CustomRentalCard.root
@@ -443,7 +444,7 @@ useEffect(() => {
                         <CustomRentalCard.details
                           item={{
                             ...item,
-                            rental_type: userData?.rental_type
+                            rental_type: userData?.rental_type,
                           }}
                           showIcons={false}
                           priceRight
@@ -455,7 +456,6 @@ useEffect(() => {
               </Box>
             </RentalCardWrapper>
             <Box sx={{ py: 2 }}>
-
               <TripDetails
                 tripDetails={{
                   destination_location: userData?.destination_location,
@@ -483,7 +483,6 @@ useEffect(() => {
           </Grid>
           {/* Left Section ends */}
 
-
           {/* Right section starts */}
           <Grid item xs={12} md={4}>
             <Box sx={{ minHeight: { xs: "0", md: "139vh" } }}>
@@ -493,8 +492,16 @@ useEffect(() => {
                     {/* Coupon Skeleton */}
                     {getToken() && (
                       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-                        <Skeleton variant="rectangular" height={45} sx={{ flex: 1 }} />
-                        <Skeleton variant="rectangular" height={45} width={100} />
+                        <Skeleton
+                          variant="rectangular"
+                          height={45}
+                          sx={{ flex: 1 }}
+                        />
+                        <Skeleton
+                          variant="rectangular"
+                          height={45}
+                          width={100}
+                        />
                       </Stack>
                     )}
 
@@ -515,7 +522,11 @@ useEffect(() => {
                     ))}
 
                     {/* Total Skeleton */}
-                    <Stack direction="row" justifyContent="space-between" sx={{ mt: 3 }}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{ mt: 3 }}
+                    >
                       <Skeleton width="80px" height={25} />
                       <Skeleton width="120px" height={25} />
                     </Stack>
@@ -545,10 +556,9 @@ useEffect(() => {
                         deliveryTip={0}
                         payableAmount={totalPrice}
                         walletBalance={0}
-                        setSwitchToWallet={() => { }}
+                        setSwitchToWallet={() => {}}
                       />
                     )}
-
 
                     <RentalBillDetails
                       showTotal={false}
@@ -571,20 +581,31 @@ useEffect(() => {
                           borderLeft={`2px solid ${theme.palette.primary.main}`}
                           padding={"0.3rem"}
                           paddingLeft={"0.7rem"}
-                          backgroundColor={alpha(theme.palette.primary.main, 0.051)}
+                          backgroundColor={alpha(
+                            theme.palette.primary.main,
+                            0.051,
+                          )}
                           fontSize={{ xs: "0.7rem" }}
                         >
                           {cashbackAmount?.cashback_amount > 0
-                            ? `${text1} ${cashbackAmount?.cashback_type === "percentage"
-                              ? cashbackAmount?.cashback_amount + "%"
-                              : getAmountWithSign(cashbackAmount?.cashback_amount)
-                            } ${text2} ${getAmountWithSign(cashbackAmount?.min_purchase)}. ${cashbackAmount?.cashback_type === "percentage"
-                              ? text3 +
-                              " " +
-                              getAmountWithSign(cashbackAmount?.max_discount) +
-                              "."
-                              : ""
-                            }`
+                            ? `${text1} ${
+                                cashbackAmount?.cashback_type === "percentage"
+                                  ? cashbackAmount?.cashback_amount + "%"
+                                  : getAmountWithSign(
+                                      cashbackAmount?.cashback_amount,
+                                    )
+                              } ${text2} ${getAmountWithSign(
+                                cashbackAmount?.min_purchase,
+                              )}. ${
+                                cashbackAmount?.cashback_type === "percentage"
+                                  ? text3 +
+                                    " " +
+                                    getAmountWithSign(
+                                      cashbackAmount?.max_discount,
+                                    ) +
+                                    "."
+                                  : ""
+                              }`
                             : ""}
                         </Box>
                       </Grid>
@@ -644,7 +665,6 @@ useEffect(() => {
                   </>
                 )}
               </RentalCardWrapper>
-
             </Box>
           </Grid>
           {/* Right section ends */}

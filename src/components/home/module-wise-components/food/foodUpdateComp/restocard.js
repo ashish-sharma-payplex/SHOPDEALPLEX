@@ -102,7 +102,7 @@ export default function ProductCard({ product, onProductClick }) {
         height: "290px",
         p: 1.5,
         position: "relative",
-        boxShadow: "0px 1px 4px rgba(0,0,0,0.08)",
+        boxShadow: "0px 1px 4px var(--food-shadow-card)",
        
       }}
     >
@@ -113,8 +113,8 @@ export default function ProductCard({ product, onProductClick }) {
             position: "absolute",
             top: 0,
             left: 10,
-            background: "green",
-            color: "#fff",
+            background: "var(--food-cta-green)",
+            color: "var(--food-text-on-brand)",
             fontWeight: 700,
             fontSize: "8px",
             p: "6px 8px",
@@ -150,7 +150,7 @@ export default function ProductCard({ product, onProductClick }) {
           right: 10,
           width: 24,
           height: 24,
-          background: "white",
+          background: "var(--bg-card)",
           borderRadius: "10px",
         }}
         onClick={(e) => {
@@ -159,9 +159,9 @@ export default function ProductCard({ product, onProductClick }) {
         }}
       >
         {isWishlisted ? (
-          <FavoriteIcon sx={{ color: "red", fontSize: 18 }} />
+          <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 18 }} />
         ) : (
-          <FavoriteBorderIcon sx={{ fontSize: 18, color: "#444" }} />
+          <FavoriteBorderIcon sx={{ fontSize: 18, color: "var(--food-text-icon-muted)" }} />
         )}
       </IconButton> */}
 <Box
@@ -172,16 +172,16 @@ export default function ProductCard({ product, onProductClick }) {
     width: 34,
     height: 34,
     borderRadius: "12px",
-    // backgroundColor: "rgba(255,255,255,0.95)",
+    // backgroundColor: "var(--food-overlay-95)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // border:"1px solid #E7E7E7",
+    // border:"1px solid var(--border-image)",
     cursor: "pointer",
     zIndex: 5,
     transition: "all 0.2s ease",
     "&:hover": {
-      // backgroundColor: "#ffffff",
+      // backgroundColor: "var(--bg-card)",
       transform: "scale(1.05)",
     },
   }}
@@ -195,9 +195,9 @@ export default function ProductCard({ product, onProductClick }) {
   }}
 >
   {isWishlisted(product) ? (
-    <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+    <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
   ) : (
-    <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+    <FavoriteBorderIcon sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }} />
   )}
 </Box>
       {/* IMAGE */}
@@ -236,8 +236,8 @@ export default function ProductCard({ product, onProductClick }) {
               px: 0.8,
               py: "2px",
               borderRadius: "10px",
-              background: "#E6F8EE",
-              color: "#0A8F47",
+              background: "var(--food-rating-bg)",
+              color: "var(--food-rating-text)",
               fontSize: "12px",
               fontWeight: 600,
             }}
@@ -248,14 +248,14 @@ export default function ProductCard({ product, onProductClick }) {
         </Box>
 
         {/* STORE */}
-        <Typography sx={{ fontSize: "12px", color: "#666", mt: 0.3 }}>
+        <Typography sx={{ fontSize: "12px", color: "var(--food-text-soft)", mt: 0.3 }}>
           {product.store_name}
         </Typography>
 
         {/* TIME */}
         <Box sx={{ display: "flex", alignItems: "center", mt: 0.5 }}>
           <AccessTimeIcon sx={{ fontSize: 15, mr: 0.5 }} />
-          <Typography sx={{ fontSize: "12px", color: "#666" }}>
+          <Typography sx={{ fontSize: "12px", color: "var(--food-text-soft)" }}>
             {product.delivery_time}
           </Typography>
         </Box>
@@ -275,7 +275,7 @@ export default function ProductCard({ product, onProductClick }) {
             <Typography
               sx={{
                 textDecoration:"line-through",
-                color:"#999",
+                color:"var(--food-text-placeholder)",
                 fontSize:"14px",
               }}
             >
@@ -290,8 +290,8 @@ export default function ProductCard({ product, onProductClick }) {
               fontSize: "12px",
               px: 2,
               maxHeight: "28px ",
-              borderColor: "#0A8F47",
-              color: "#0A8F47",
+              borderColor: "var(--food-rating-text)",
+              color: "var(--food-rating-text)",
             }}
             onClick={(e) => {
               e.stopPropagation();

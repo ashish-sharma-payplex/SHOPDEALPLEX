@@ -41,7 +41,7 @@ const CATEGORIES = [
 
 // ✅ In pages pe CATEGORIES kabhi nahi dikhega — inke apne CategoryTabs
 // already hain (duplicate avoid karne ke liye).
-const FULLY_HIDDEN_PATHS = [ ];
+const FULLY_HIDDEN_PATHS = [];
 
 // ✅ In pages pe CATEGORIES sirf scroll hone par dikhega (jaise pehle
 // poora StickyNavbar scroll pe dikhta tha).
@@ -103,7 +103,7 @@ const StickyNavbar = ({
     setDrawer(false);
   };
 
-  const Avatar = ({  fontSize = 12 }) =>
+  const Avatar = ({ fontSize = 12 }) =>
     userImage ? (
       <Box
         component="img"
@@ -122,8 +122,8 @@ const StickyNavbar = ({
     ) : (
       <Box
         sx={{
-          width: size,
-          height: size,
+          width: "16px",
+          height: "16px",
           borderRadius: "50%",
           bgcolor: GREEN,
           color: "#fff",

@@ -30,7 +30,7 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, FreeMode } from 'swiper/modules';
 
-const GREEN_COLOR = '#2e7d32';
+const GREEN_COLOR = 'var(--food-offer-green)';
 
 // --- Restaurant Card Content Component (Unchanged) ---
 const RestaurantCard = ({ restaurant, isStoreWishlisted,
@@ -60,7 +60,7 @@ const RestaurantCard = ({ restaurant, isStoreWishlisted,
         sx={{
             width: '100%',
                     borderRadius: "10px !important",
-                    border:"1px solid #e7e7e7",
+                    border:"1px solid var(--border-image)",
                     boxShadow: 1,   
                     height: '100%',
                     cursor: 'pointer',
@@ -123,9 +123,9 @@ const RestaurantCard = ({ restaurant, isStoreWishlisted,
     }}
 >
     {isStoreWishlisted(restaurant) ? (
-        <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+        <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
     ) : (
-        <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+        <FavoriteBorderIcon sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }} />
     )}
 </Box>
         </Box>
@@ -151,7 +151,7 @@ const RestaurantCard = ({ restaurant, isStoreWishlisted,
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        backgroundColor: '#e8f5e9',
+                        backgroundColor: 'var(--brand-green-soft)',
                         color: GREEN_COLOR,
                         borderRadius: 1,
                         px: 0.75,

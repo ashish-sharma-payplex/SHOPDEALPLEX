@@ -79,7 +79,7 @@ const TrackParcelFromHomePage = () => {
             InputLabelProps={{
               style: {
                 fontSize: isSmall ? 16 : 16,
-                color: "#000",
+                color: theme.palette.text.primary,
                 top: isSmall ? "-5px" : "-4px",
               },
             }}

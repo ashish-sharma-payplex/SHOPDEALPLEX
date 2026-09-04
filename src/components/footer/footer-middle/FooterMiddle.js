@@ -9,7 +9,10 @@ const mockConfigData = {
   social_media: [
     { name: "linkedin", link: "https://www.linkedin.com/company/dealplex/" },
     { name: "instagram", link: "https://www.instagram.com/shopdealplex/" },
-    { name: "facebook", link: "https://www.facebook.com/profile.php?id=61578215300972" },
+    {
+      name: "facebook",
+      link: "https://www.facebook.com/profile.php?id=61578215300972",
+    },
     { name: "youtube", link: "https://www.youtube.com/@Dealplex" },
   ],
 };
@@ -17,13 +20,13 @@ const mockConfigData = {
 const iconHandler = (name) => {
   switch (name.toLowerCase()) {
     case "facebook":
-      return <Facebook sx={{ color: "black", fontSize: 26, "&:hover": { color: "#1A914B" } }} />;
+      return <Facebook className="footer-icon" sx={{ fontSize: 26 }} />;
     case "instagram":
-      return <Instagram sx={{ color: "black", fontSize: 26, "&:hover": { color: "#1A914B" } }} />;
+      return <Instagram className="footer-icon" sx={{ fontSize: 26 }} />;
     case "youtube":
-      return <YouTube sx={{ color: "black", fontSize: 26, "&:hover": { color: "#1A914B" } }} />;
+      return <YouTube className="footer-icon" sx={{ fontSize: 26 }} />;
     case "linkedin":
-      return <LinkedIn sx={{ color: "black", fontSize: 26, "&:hover": { color: "#1A914B" } }} />;
+      return <LinkedIn className="footer-icon" sx={{ fontSize: 26 }} />;
     default:
       return null;
   }
@@ -35,9 +38,9 @@ const FooterMiddle = () => {
 
   return (
     <Box
+      className="footer-root"
       sx={{
         mx: "auto",
-        backgroundColor: "#fff",
         pt: { xs: 5, md: 6 },
         px: { sm: 3, md: 3 },
         position: "relative",
@@ -45,7 +48,6 @@ const FooterMiddle = () => {
         overflow: "hidden",
         width: "100%",
         maxWidth: "1200px",
-        border: "3px #F0EDED solid",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -85,8 +87,8 @@ const FooterMiddle = () => {
                 maxWidth: { xs: "100%", sm: "260px", md: "300px" },
               }}
             >
-              Dealplex is a one-stop shop for all your daily necessities. You can shop for groceries,
-              pharmacy items, order food, and more.
+              Dealplex is a one-stop shop for all your daily necessities. You
+              can shop for groceries, pharmacy items, order food, and more.
             </Typography>
 
             <Box
@@ -135,7 +137,7 @@ const FooterMiddle = () => {
                 onClick={() =>
                   window.open(
                     "https://play.google.com/store/apps/details?id=com.dealplex.dealplex_user",
-                    "_blank"
+                    "_blank",
                   )
                 }
               />
@@ -162,8 +164,8 @@ const FooterMiddle = () => {
                 sx={{ height: "20px", display: "block" }}
               />
             </Box> */}
-<HitCounter/>
-</Box>
+              <HitCounter />
+            </Box>
           </Box>
         </Grid>
 
@@ -180,45 +182,187 @@ const FooterMiddle = () => {
           >
             {/* HOME */}
             <Box sx={{ flex: "0 0 120px" }}>
-              <Typography variant="h6" textAlign={"left"} sx={headingStyle}>Home</Typography>
-              <Typography component="a" href="https://hrms.dealplex.in/career/1/en" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Careers</Typography>
-              <Typography component="a" href="/blog" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Blog</Typography>
-              <Typography component="a" href="/leader" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Lead</Typography>
-              <Typography component="a" href="/val-page" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Values</Typography>
-              <Typography component="a" href="/security" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Security</Typography>
-              <Typography component="a" href="/support" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Support</Typography>
-              <Typography component="a" href="/sitemap" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Sitemap</Typography>
-              <Typography component="a" href="/faqs" target="_blank" rel="noopener noreferrer" sx={linkStyle}>FAQ's</Typography>
+              <Typography variant="h6" textAlign={"left"} sx={headingStyle}>
+                Home
+              </Typography>
+              <Typography
+                component="a"
+                href="https://hrms.dealplex.in/career/1/en"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Careers
+              </Typography>
+              <Typography
+                component="a"
+                href="/blog"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Blog
+              </Typography>
+              <Typography
+                component="a"
+                href="/leader"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Lead
+              </Typography>
+              <Typography
+                component="a"
+                href="/val-page"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Values
+              </Typography>
+              <Typography
+                component="a"
+                href="/security"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Security
+              </Typography>
+              <Typography
+                component="a"
+                href="/support"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Support
+              </Typography>
+              <Typography
+                component="a"
+                href="/sitemap"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Sitemap
+              </Typography>
+              <Typography
+                component="a"
+                href="/faqs"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                FAQ's
+              </Typography>
             </Box>
 
             {/* PARTNERSHIP */}
             <Box sx={{ flex: 1, minWidth: "130px" }}>
-              <Typography variant="h6"  textAlign={"left"} sx={headingStyle}>Partnership</Typography>
-              <Typography component="a" href="https://franchise.shopdealplex.in/" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Franchise</Typography>
-              <Typography component="a" href="https://warehouse.shopdealplex.in/" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Warehouse</Typography>
-              <Typography component="a" href="https://vendor.shopdealplex.in/" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Vendor</Typography>
-              <Typography component="a" href="https://partner.shopdealplex.in/" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Partner</Typography>
-              <Typography component="a" href="https://deliveryman.shopdealplex.in/" target="_blank" rel="noopener noreferrer" sx={linkStyle}>Delivery man</Typography>
+              <Typography variant="h6" textAlign={"left"} sx={headingStyle}>
+                Partnership
+              </Typography>
+              <Typography
+                component="a"
+                href="https://franchise.shopdealplex.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Franchise
+              </Typography>
+              <Typography
+                component="a"
+                href="https://warehouse.shopdealplex.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Warehouse
+              </Typography>
+              <Typography
+                component="a"
+                href="https://vendor.shopdealplex.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Vendor
+              </Typography>
+              <Typography
+                component="a"
+                href="https://partner.shopdealplex.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Partner
+              </Typography>
+              <Typography
+                component="a"
+                href="https://deliveryman.shopdealplex.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={linkStyle}
+              >
+                Delivery man
+              </Typography>
             </Box>
 
             {/* CATEGORIES */}
             <Box sx={{ flex: 1, minWidth: "130px" }}>
-              <Typography variant="h6" textAlign={"left"} sx={headingStyle}>Categories</Typography>
-              <Typography component="a" href="/home?module=grocery" sx={linkStyle}>Grocery</Typography>
-              <Typography component="a" href="/home?module=food" sx={linkStyle}>Food</Typography>
-              <Typography component="a" href="/home?module=pharmacy" sx={linkStyle}>Pharmacy</Typography>
-              <Typography component="a" href="/travel" sx={linkStyle}>Travels</Typography>
-              <Typography component="a" href="/home?module=parcel" sx={linkStyle}>Parcel</Typography>
-              <Typography component="a" href="/home?module=rental" sx={linkStyle}>Rental</Typography>
-              <Typography component="a" href="/utility" sx={linkStyle}>Utility</Typography>
+              <Typography variant="h6" textAlign={"left"} sx={headingStyle}>
+                Categories
+              </Typography>
+              <Typography
+                component="a"
+                href="/home?module=grocery"
+                sx={linkStyle}
+              >
+                Grocery
+              </Typography>
+              <Typography component="a" href="/home?module=food" sx={linkStyle}>
+                Food
+              </Typography>
+              <Typography
+                component="a"
+                href="/home?module=pharmacy"
+                sx={linkStyle}
+              >
+                Pharmacy
+              </Typography>
+              <Typography component="a" href="/travel" sx={linkStyle}>
+                Travels
+              </Typography>
+              <Typography
+                component="a"
+                href="/home?module=parcel"
+                sx={linkStyle}
+              >
+                Parcel
+              </Typography>
+              <Typography
+                component="a"
+                href="/home?module=rental"
+                sx={linkStyle}
+              >
+                Rental
+              </Typography>
+              <Typography component="a" href="/utility" sx={linkStyle}>
+                Utility
+              </Typography>
             </Box>
 
             {/* REGISTERED ADDRESS */}
-            <Box sx={{
-              flex: 1,
-              minWidth: "220px",
-              textAlign: "left",
-            }}>
+            <Box
+              sx={{
+                flex: 1,
+                minWidth: "220px",
+                textAlign: "left",
+              }}
+            >
               <Typography variant="h6" sx={headingStyle}>
                 Registered Address
               </Typography>
@@ -256,7 +400,6 @@ const FooterMiddle = () => {
                 CIN: U82990PN2024PTC231764
               </Typography>
             </Box>
-
           </Box>
         </Grid>
       </Grid>
@@ -296,17 +439,42 @@ const FooterMiddle = () => {
               width: "100%",
             }}
           >
-            <Typography component="a" href="/about-us" sx={bottomLinkStyle}>About us</Typography>
-            <Typography component="a" href="/privacy-policy" sx={bottomLinkStyle}>Privacy policy</Typography>
-            <Typography component="a" href="/refund-policy" sx={bottomLinkStyle}>Refund/Shipping policy</Typography>
-            <Typography component="a" href="/contactus" sx={bottomLinkStyle}>Contact us</Typography>
-            <Typography component="a" href="/terms-and-conditions" sx={bottomLinkStyle}>Terms of Use</Typography>
+            <Typography component="a" href="/about-us" sx={bottomLinkStyle}>
+              About us
+            </Typography>
+            <Typography
+              component="a"
+              href="/privacy-policy"
+              sx={bottomLinkStyle}
+            >
+              Privacy policy
+            </Typography>
+            <Typography
+              component="a"
+              href="/refund-policy"
+              sx={bottomLinkStyle}
+            >
+              Refund/Shipping policy
+            </Typography>
+            <Typography component="a" href="/contactus" sx={bottomLinkStyle}>
+              Contact us
+            </Typography>
+            <Typography
+              component="a"
+              href="/terms-and-conditions"
+              sx={bottomLinkStyle}
+            >
+              Terms of Use
+            </Typography>
           </Box>
         </Grid>
 
-        <Grid item xs={12} md="auto" sx={{ textAlign: { xs: "left", md: "right" } }}>
-         
-
+        <Grid
+          item
+          xs={12}
+          md="auto"
+          sx={{ textAlign: { xs: "left", md: "right" } }}
+        >
           {/* Copyright */}
           <Typography sx={{ fontSize: "0.9rem", color: "#333" }}>
             © 2026 Dealplex Solutions Private Limited, All Rights Reserved
@@ -315,7 +483,15 @@ const FooterMiddle = () => {
       </Grid>
 
       {/* DEALPLEX FADED TEXT */}
-      <Box sx={{ paddingTop: "0px !important", display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+      <Box
+        sx={{
+          paddingTop: "0px !important",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <Typography
           sx={{
             fontSize: { xs: "2.6rem", sm: "4.5rem", md: "12rem" },

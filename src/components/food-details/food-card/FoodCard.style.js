@@ -24,7 +24,8 @@ export const CustomCardContent = styled(CardContent)(
     borderBottomRightRadius: "10px",
     textAlign: "center",
     padding: "10px",
-  })
+    backgroundColor: "var(--bg-card)",
+  }),
 );
 
 export const RestaurantDetailsNavButton = styled(Button)(
@@ -48,7 +49,7 @@ export const RestaurantDetailsNavButton = styled(Button)(
     "&:hover": {
       backgroundColor: background && theme.palette.primary.dark,
     },
-  })
+  }),
 );
 export const FoodTitleTypography = styled(Typography)(
   ({ theme, textAlign, fontWeight }) => ({
@@ -63,11 +64,12 @@ export const FoodTitleTypography = styled(Typography)(
     display: "-webkit-box",
     WebkitLineClamp: "1",
     WebkitBoxOrient: "vertical",
+    color: "var(--text-strong)",
     [theme.breakpoints.down("sm")]: {
       fontSize: "14px",
       marginBottom: "5px",
     },
-  })
+  }),
 );
 export const FoodTitleTypographyDetails = styled(Typography)(({ theme }) => ({
   // eslint-disable-next-line no-mixed-operators
@@ -95,7 +97,7 @@ export const FoodSubTitleTypography = styled(Typography)(({ theme }) => ({
   display: "-webkit-box",
   WebkitLineClamp: "2",
   WebkitBoxOrient: "vertical",
-  color: theme.palette.neutral[500],
+  color: "var(--text-secondary)",
   [theme.breakpoints.down("sm")]: {
     fontSize: "10px",
   },
@@ -111,6 +113,8 @@ export const CustomFoodCard = styled(Card)(({ theme }) => ({
   overflow: "hidden",
   maxWidth: "230px",
   cursor: "pointer",
+  backgroundColor: "var(--bg-card)",
+  transition: "background-color 0.2s ease, border-color 0.2s ease",
   //height:"100%",
   [theme.breakpoints.down("sm")]: {
     maxWidth: "150px",
@@ -181,7 +185,7 @@ export const RatingWrapTypography = styled(Typography)(({ theme }) => ({
   alignItems: "center",
   fontWeight: 600,
   lineHeight: "normal",
-  // color: 'rgba(0, 0, 0, 0.87)',
+  color: "var(--text-strong)",
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
@@ -209,7 +213,7 @@ export const PricingCardActions = styled(CardActions)(
 
       alignItems: "center",
     },
-  })
+  }),
 );
 
 export const OfferTypography = styled(Typography)(
@@ -236,7 +240,7 @@ export const OfferTypography = styled(Typography)(
       fontWeight: 400,
       fontSize: "13px",
     },
-  })
+  }),
 );
 export const NewTypography = styled(Typography)(
   ({ theme, language_direction }) => ({
@@ -254,7 +258,7 @@ export const NewTypography = styled(Typography)(
     [theme.breakpoints.down("sm")]: {
       fontSize: "10px",
     },
-  })
+  }),
 );
 export const TypographyText = styled(Typography)(({ theme }) => ({
   color: `${theme.palette.mode === "dark" && "#fff"}`,

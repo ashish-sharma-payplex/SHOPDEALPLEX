@@ -5,7 +5,10 @@ import React from "react";
 import { CustomStackFullWidth } from "styled-components/CustomStyles.style";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { t } from "i18next";
-import { getAmountWithSign, getDiscountedAmount } from "helper-functions/CardHelpers";
+import {
+  getAmountWithSign,
+  getDiscountedAmount,
+} from "helper-functions/CardHelpers";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import usePostLocationUpdate from "components/home/module-wise-components/rental/rental-api-manage/hooks/react-query/confirm-booking/usePostLocationUpdate";
 import { useMutation } from "react-query";
@@ -13,6 +16,7 @@ import useDeleteMultipleItem from "components/home/module-wise-components/rental
 import { onErrorResponse } from "api-manage/api-error-response/ErrorResponses";
 import { setCartList } from "redux/slices/cart";
 import { toast } from "react-hot-toast";
+import styles from "styles/rental.module.css";
 import { useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { bookingConfirm } from "../global/search/searchHepler";
@@ -39,7 +43,8 @@ const TripVehicleList = ({
     estimated_hours: updateCartObject?.durationValue,
     pickup_time: updateCartObject?.dateValue,
     destination_time: Math.floor(
-      updateCartObject?.data?.rows?.[0]?.elements[0]?.duration?.value / (60 * 60)
+      updateCartObject?.data?.rows?.[0]?.elements[0]?.duration?.value /
+        (60 * 60),
     ),
     distance:
       updateCartObject?.data?.rows?.[0]?.elements[0]?.distance?.value / 1000,
@@ -86,53 +91,63 @@ const TripVehicleList = ({
 
   return (
     <CustomStackFullWidth
+      className={styles.rentalTripCard}
       sx={{
         maxWidth: "480px",
-        bgcolor: "#ffffff",
         borderRadius: "16px",
         p: { xs: "20px 16px", sm: "28px 24px 24px" },
       }}
     >
       {/* Vehicle List */}
-      <Box sx={{
-        maxHeight: "240px", overflowY: "auto", pr: "2px",
-        "&::-webkit-scrollbar": { width: "4px" },
-        "&::-webkit-scrollbar-thumb": { background: "#ddd", borderRadius: "4px" },
-        "&::-webkit-scrollbar-track": { background: "transparent" },
-      }}>
+      <Box
+        sx={{
+          maxHeight: "240px",
+          overflowY: "auto",
+          pr: "2px",
+          "&::-webkit-scrollbar": { width: "4px" },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#ddd",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": { background: "transparent" },
+        }}
+      >
         {cartLists?.map((item) => (
           <Vehicle key={item?.id} item={item} ids={ids} cartList={cartLists} />
         ))}
       </Box>
 
       {/* Divider */}
-      <Box sx={{ height: "1px", bgcolor: "#f0f0f0", my: "20px" }} />
+      <Box
+        className={styles.rentalHairline}
+        sx={{ height: "1px", my: "20px" }}
+      />
 
       {/* Warning Notice */}
       <Box
+        className={styles.rentalWarningNotice}
         sx={{
           display: "flex",
           alignItems: "flex-start",
           gap: "10px",
-          bgcolor: "#fffbf0",
-          border: "0.5px solid #fde9a0",
           borderRadius: "10px",
           p: "12px 14px",
         }}
       >
         <ReportProblemIcon
-          sx={{ color: "#d08a00", fontSize: "16px", mt: "2px", flexShrink: 0 }}
+          className={styles.rentalWarningIcon}
+          sx={{ fontSize: "16px", mt: "2px", flexShrink: 0 }}
         />
         <Typography
+          className={styles.rentalWarningText}
           sx={{
             fontSize: "12px",
-            color: "#7a5c00",
             lineHeight: 1.6,
             fontWeight: "400",
           }}
         >
           {t(
-            "One of the vehicles in your list doesnt have a distance wise trip. If you proceed with a distance wise trip this vehicle will be removed."
+            "One of the vehicles in your list doesnt have a distance wise trip. If you proceed with a distance wise trip this vehicle will be removed.",
           )}
         </Typography>
       </Box>
@@ -155,7 +170,7 @@ const TripVehicleList = ({
             bgcolor: "#f5f5f5",
             border: "0.5px solid #ddd",
             flexShrink: 0,
-            width: { xs: "100%", sm: "110px" },   // fixed smaller width
+            width: { xs: "100%", sm: "110px" }, // fixed smaller width
             "&:hover": {
               bgcolor: "#ececec",
             },
@@ -166,7 +181,7 @@ const TripVehicleList = ({
         <LoadingButton
           onClick={removeAndAdd}
           variant="contained"
-          fullWidth                                // baaki saari jagah le lega
+          fullWidth // baaki saari jagah le lega
           loading={userDataIsLoading}
           sx={{
             borderRadius: "10px",
@@ -224,29 +239,41 @@ const Vehicle = ({ item, ids, cartList }) => {
           objectFit="cover"
         />
         <Box>
-          <Typography sx={{ fontWeight: "500", fontSize: "13px", color: "#111", mb: "5px" }}>
+          <Typography
+            sx={{
+              fontWeight: "500",
+              fontSize: "13px",
+              color: "#111",
+              mb: "5px",
+            }}
+          >
             {item?.vehicle?.name}
           </Typography>
 
           {/* Hourly Price */}
           {item?.vehicle?.trip_hourly === 1 && (
-            <Stack direction="row" alignItems="center" spacing={0.6} sx={{ mb: "2px" }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={0.6}
+              sx={{ mb: "2px" }}
+            >
               <Typography sx={{ fontSize: "11px", color: "#888" }}>
                 {t("Hourly")}:
               </Typography>
               {(item?.vehicle?.discount_price > 0 ||
                 item?.vehicle?.provider?.discount?.discount > 0) && (
-                  <Typography
-                    component="span"
-                    sx={{
-                      fontSize: "10px",
-                      color: "#bbb",
-                      textDecoration: "line-through",
-                    }}
-                  >
-                    {getAmountWithSign(item?.vehicle?.hourly_price)}
-                  </Typography>
-                )}
+                <Typography
+                  component="span"
+                  sx={{
+                    fontSize: "10px",
+                    color: "#bbb",
+                    textDecoration: "line-through",
+                  }}
+                >
+                  {getAmountWithSign(item?.vehicle?.hourly_price)}
+                </Typography>
+              )}
               <Typography
                 component="span"
                 sx={{ fontSize: "12px", fontWeight: "500", color: "#555" }}
@@ -257,8 +284,8 @@ const Vehicle = ({ item, ids, cartList }) => {
                     item?.vehicle?.discount_price,
                     item?.vehicle?.discount_type,
                     item?.provider?.discount,
-                    1
-                  )
+                    1,
+                  ),
                 )}
               </Typography>
             </Stack>
@@ -266,23 +293,28 @@ const Vehicle = ({ item, ids, cartList }) => {
 
           {/* Distance Price */}
           {item?.vehicle?.trip_distance === 1 && (
-            <Stack direction="row" alignItems="center" justifyContent={"center"} spacing={0.6}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent={"center"}
+              spacing={0.6}
+            >
               <Typography sx={{ fontSize: "11px", color: "#888" }}>
                 {t("Distance")}:
               </Typography>
               {(item?.vehicle?.discount_price > 0 ||
                 item?.vehicle?.provider?.discount?.discount > 0) && (
-                  <Typography
-                    component="span"
-                    sx={{
-                      fontSize: "10px",
-                      color: "#bbb",
-                      textDecoration: "line-through",
-                    }}
-                  >
-                    {getAmountWithSign(item?.vehicle?.distance_price)}
-                  </Typography>
-                )}
+                <Typography
+                  component="span"
+                  sx={{
+                    fontSize: "10px",
+                    color: "#bbb",
+                    textDecoration: "line-through",
+                  }}
+                >
+                  {getAmountWithSign(item?.vehicle?.distance_price)}
+                </Typography>
+              )}
               <Typography
                 component="span"
                 sx={{ fontSize: "12px", fontWeight: "500", color: "#555" }}
@@ -293,8 +325,8 @@ const Vehicle = ({ item, ids, cartList }) => {
                     item?.vehicle?.discount_price,
                     item?.vehicle?.discount_type,
                     item?.provider?.discount,
-                    1
-                  )
+                    1,
+                  ),
                 )}
               </Typography>
             </Stack>

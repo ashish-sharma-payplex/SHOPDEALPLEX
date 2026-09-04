@@ -40,7 +40,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useTranslation } from 'react-i18next';
 
 
-const GREEN_COLOR = "#4caf50";
+const GREEN_COLOR = "var(--brand-green)";
 
 // ----------------------------------------------------------------------------------------------------
 // ⭐ PRODUCT CARD
@@ -61,7 +61,7 @@ const ProductCardContent = ({ product, handleProductClick, handleAddToCart, hand
   return (
     <Card sx={{
       height: '100%',
-      border: "0.5px solid #e7e7e7",
+      border: "0.5px solid var(--border-image)",
       // boxShadow: 1,
       borderRadius: "12px !important",
       position: 'relative',
@@ -76,8 +76,8 @@ const ProductCardContent = ({ product, handleProductClick, handleAddToCart, hand
               position: "absolute",
               top: 0,
               left: 8,
-              background: "green",
-              color: "#fff",
+              background: "var(--food-cta-green)",
+              color: "var(--food-text-on-brand)",
               fontWeight: 700,
               fontSize: "0.55rem",
               padding: "6px 8px",
@@ -111,16 +111,16 @@ const ProductCardContent = ({ product, handleProductClick, handleAddToCart, hand
             width: 24,
             height: 24,
             borderRadius: "12px",
-            // backgroundColor: "rgba(255,255,255,0.95)",
+            // backgroundColor: "var(--food-overlay-95)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            // border:"1px solid #E7E7E7",
+            // border:"1px solid var(--border-image)",
             cursor: "pointer",
             zIndex: 5,
             transition: "all 0.2s ease",
             "&:hover": {
-              // backgroundColor: "#ffffff",
+              // backgroundColor: "var(--bg-card)",
               transform: "scale(1.05)",
             },
           }}
@@ -134,9 +134,9 @@ const ProductCardContent = ({ product, handleProductClick, handleAddToCart, hand
           }}
         >
           {isWishlisted(product) ? (
-            <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+            <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
           ) : (
-            <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+            <FavoriteBorderIcon sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }} />
           )}
         </Box>
       </Box>
@@ -147,7 +147,7 @@ const ProductCardContent = ({ product, handleProductClick, handleAddToCart, hand
             {product?.name}
           </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e8f5e9', borderRadius: 1, px: 0.75 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'var(--brand-green-soft)', borderRadius: 1, px: 0.75 }}>
             <StarIcon sx={{ color: GREEN_COLOR, fontSize: 14 }} />
             <Typography fontWeight="bold">
               {Number(product?.avg_rating || 0).toFixed(1)}
@@ -166,7 +166,7 @@ const ProductCardContent = ({ product, handleProductClick, handleAddToCart, hand
 
         <Typography sx={{ fontWeight: "600", mt: 1 }}>
           ₹{Math.round(newPrice)}{' '}
-          <span style={{ textDecoration: 'line-through', color: '#999' }}>
+          <span style={{ textDecoration: 'line-through', color: 'var(--food-text-placeholder)' }}>
             ₹{Math.round(originalPrice)}
           </span>
         </Typography>
@@ -185,7 +185,7 @@ const ProductCardSkeleton = () => (
   <Card
     sx={{
       height: "100%",
-      border: "0.5px solid #e7e7e7",
+      border: "0.5px solid var(--border-image)",
       borderRadius: "12px !important",
       position: "relative",
       maxWidth: 300,

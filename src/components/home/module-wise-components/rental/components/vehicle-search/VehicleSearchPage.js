@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import styles from "styles/rental.module.css";
 import RentalFilterLayout from "../global/RentalFilterLayout";
 import TopBanner from "components/home/top-banner";
 import { CustomStackFullWidth } from "styled-components/CustomStyles.style";
@@ -71,12 +72,12 @@ const VehicleSearchPage = () => {
         isSticky={isSticky}
         topContent={
           <CustomStackFullWidth
+            className={styles.rentalPage}
             sx={{
               position: "relative",
               width: "100vw",                    // ⭐ force full screen width
               ml: "calc(-50vw + 50%)",           // ⭐ center the full-width block
               mr: "calc(-50vw + 50%)",
-              backgroundColor: "#ffffff"
             }}
           >
 

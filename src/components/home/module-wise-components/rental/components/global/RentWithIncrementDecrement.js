@@ -13,11 +13,12 @@ import { t } from "i18next";
 import { PrimaryToolTip } from "components/cards/QuickView";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import styles from "styles/rental.module.css";
 import { useSelector } from "react-redux";
 
-const CustomButton = styled(Box)(({ theme, fill,width,height }) => ({
-  width: width|| "36px",
-  height: height|| "36px",
+const CustomButton = styled(Box)(({ theme, fill, width, height }) => ({
+  width: width || "36px",
+  height: height || "36px",
   borderRadius: "4px",
   textAlign: "center",
   display: "flex",
@@ -33,7 +34,7 @@ const CustomButton = styled(Box)(({ theme, fill,width,height }) => ({
           getCurrentModuleType() === ModuleTypes.FOOD
             ? theme.palette.moduleTheme.food
             : theme.palette.primary.main,
-          0.1
+          0.1,
         ),
   color:
     fill === "true"
@@ -74,9 +75,8 @@ const RentWithIncrementDecrement = (props) => {
     removeItemCart,
     countWidth,
     buttonHeight,
-    width
+    width,
   } = props;
-
 
   const theme = useTheme();
   const handleCart = (e) => {
@@ -124,11 +124,19 @@ const RentWithIncrementDecrement = (props) => {
           }}
         >
           {count === 1 ? (
-            <CustomButton width={width} height={buttonHeight} onClick={(e) => handleRemove(e)}>
+            <CustomButton
+              width={width}
+              height={buttonHeight}
+              onClick={(e) => handleRemove(e)}
+            >
               <DeleteIcon sx={{ width: "16px", color: "red" }} />
             </CustomButton>
           ) : (
-            <CustomButton width={width} height={buttonHeight} onClick={(e) => decrementHandler(e)}>
+            <CustomButton
+              width={width}
+              height={buttonHeight}
+              onClick={(e) => decrementHandler(e)}
+            >
               <RemoveIcon
                 sx={{
                   fontSize: { xs: "15px", md: "20px" },
@@ -157,7 +165,13 @@ const RentWithIncrementDecrement = (props) => {
             </Typography>
           )}
 
-          <CustomButton width={width} height={buttonHeight} fill="true" onClick={(e) => incrementHandler(e)} backgroundColor="">
+          <CustomButton
+            width={width}
+            height={buttonHeight}
+            fill="true"
+            onClick={(e) => incrementHandler(e)}
+            backgroundColor=""
+          >
             <AddIcon
               sx={{
                 fontSize: { xs: "15px", md: "20px" },
@@ -189,10 +203,11 @@ const RentWithIncrementDecrement = (props) => {
             </Stack>
           ) : (
             <PrimaryToolTip text="Add to Trip cart">
-              <Stack onClick={(e) => handleCart(e)} sx={{ width:"100%" }}>
+              <Stack onClick={(e) => handleCart(e)} sx={{ width: "100%" }}>
                 <Button
+                  className={styles.rentalButtonOutline}
                   sx={{
-                    width:"100%",
+                    width: "100%",
                     borderRadius: borderRadius,
                     paddingLeft: paddingLeft,
                     paddingRight: paddingRight,
@@ -200,16 +215,11 @@ const RentWithIncrementDecrement = (props) => {
                     paddingTop: paddingTop,
                     fontSize: fontSize,
                     height: height,
-                    border:"1px solid #1A914B",
-                    backgroundColor: "#ffffff",
-                    color:"#1A914B",
                     "&:hover": {
                       backgroundColor: "#9de7bcff",
-                      color:"#1A914B"
+                      color: "#1A914B",
                     },
-
                   }}
-                  
                   variant="contained"
                 >
                   {t(text)}

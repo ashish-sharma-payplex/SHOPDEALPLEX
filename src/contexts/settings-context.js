@@ -51,6 +51,20 @@ export const SettingsProvider = (props) => {
     }
   }, []);
 
+  // Bridge: mirror settings.theme onto <html data-theme="..."> so that
+  // plain CSS files (Food.css, rental.module.css, navbar.css, footer.css)
+  // can react to the SAME toggle MUI uses, instead of the OS-level
+  // prefers-color-scheme. Without this, MUI theme and plain CSS go out
+  // of sync (MUI stuck on one mode, CSS following the OS setting).
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute(
+        "data-theme",
+        settings.theme === "dark" ? "dark" : "light",
+      );
+    }
+  }, [settings.theme]);
+
   const saveSettings = (updatedSettings) => {
     setSettings(updatedSettings);
     storeSettings(updatedSettings);

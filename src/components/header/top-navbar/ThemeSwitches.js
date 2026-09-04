@@ -4,50 +4,54 @@ import { Stack, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import { CustomSwitch } from "../NavBar.style";
-import { useSettings } from "../../../contexts/use-settings";  // Custom hook for settings
+import { useSettings } from "../../../contexts/use-settings"; // Custom hook for settings
 import i18n from "i18next";
 
 // Helper function to extract values from settings
 const getValues = (settings) => ({
   direction: settings.direction,
   responsiveFontSizes: settings.responsiveFontSizes,
-  theme: "light",  // Always use light theme
+  theme: settings.theme || "light",
 });
 
 const ThemeSwitches = ({ noText }) => {
   // Retrieve settings and saveSettings from context
   const { settings, saveSettings } = useSettings();
 
-  // Set initial state for values based on the settings object (fixed to light mode)
+  // Local state kept in sync with the real settings object
   const [values, setValues] = useState(getValues(settings));
+
+  useEffect(() => {
+    setValues(getValues(settings));
+  }, [settings]);
 
   // Translate function from react-i18next
   const { t } = useTranslation();
 
-  // Theme from Material-UI (not necessary for this change, but kept for completeness)
+  // Theme from Material-UI
   const theme = useTheme();
 
-  // Handle the switch change (no need for dark mode)
+  // Toggle between light <-> dark on every switch click
   const handleChange = (event) => {
-    // We will no longer toggle between light and dark, so always set light mode
-    saveSettings({
-      ...values,
-      theme: "light",  // Always keep light mode
-    });
-
-    // Update local state to reflect light mode
-    setValues({ ...values, theme: "light" });
+    const nextTheme = settings.theme === "dark" ? "light" : "dark";
+    const updated = { ...settings, theme: nextTheme };
+    saveSettings(updated);
+    setValues(updated);
   };
 
   useEffect(() => {
-    // Ensure default theme is set to light mode when the component first renders
+    // Only set a default the very first time (no theme saved yet).
+    // Do NOT force it back to light on every render.
     if (!settings.theme) {
       saveSettings({
-        ...values,
-        theme: "light",  // Set theme to light mode on initial load
+        ...settings,
+        theme: "light",
       });
     }
-  }, [settings, saveSettings, values]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const isDark = settings.theme === "dark";
 
   return (
     <Stack
@@ -56,15 +60,12 @@ const ThemeSwitches = ({ noText }) => {
       justifyContent="center"
       spacing={0.8}
     >
-      {/* Custom Switch, but it will always reflect light mode */}
-      <CustomSwitch
-        checked={settings.theme === "light"}  // Always checked as it will only be light mode
-        onChange={handleChange}  // Will always set light mode on toggle
-      />
-      {/* Display text only for light mode */}
+      <CustomSwitch checked={isDark} onChange={handleChange} />
       {!noText ? (
-        <Typography color="#ffffff">
-          {t("Light Mode")}  {/* Always display Light Mode */}
+        <Typography
+          color={theme.palette.mode === "dark" ? "#ffffff" : "#000000"}
+        >
+          {isDark ? t("Dark Mode") : t("Light Mode")}
         </Typography>
       ) : null}
     </Stack>
@@ -73,7 +74,7 @@ const ThemeSwitches = ({ noText }) => {
 
 // Prop types validation (optional)
 ThemeSwitches.propTypes = {
-  noText: PropTypes.bool,  // Optionally disable text display
+  noText: PropTypes.bool,
 };
 
 export default ThemeSwitches;

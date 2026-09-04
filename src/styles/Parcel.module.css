@@ -1,0 +1,242 @@
+/* =========================================================================
+   Parcel.module.css
+   Hardcoded DARK MODE styles for the Parcel module ONLY.
+   -------------------------------------------------------------------------
+   - Colors are written as literal hex codes (no theme.js lookup), the same
+     way Grocery / Food home dark mode is hardcoded.
+   - Nothing here touches light mode — every class below is only applied
+     from JS when theme.palette.mode === "dark". Light mode keeps using
+     the original inline sx colors exactly as they are today.
+   - Palette is kept consistent with the app-wide dark theme
+     (src/theme/dark-theme-options.js) so Parcel doesn't look "off" next
+     to Food/Grocery/Pharmacy when the whole app is switched to dark.
+   ========================================================================= */
+
+/* ---------- Base surfaces ---------- */
+.pageDark {
+  background-color: #0b0f19;               /* app dark background.default */
+  color: #e8eaec;
+}
+
+.cardDark {
+  background-color: #111827 !important;     /* background.paper (dark) */
+  border: 1px solid #2d3748 !important;      /* divider (dark) */
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 16px !important;
+  color: #e8eaec !important;
+}
+
+.innerCardDark {
+  background-color: #1f2937 !important;      /* background.custom2 (dark) */
+  border: 1px solid #2d3748 !important;
+  border-radius: 16px !important;
+  color: #e8eaec !important;
+}
+
+.sectionBoxDark {
+  background-color: #161c2a !important;
+  border: 1px solid #2d3748 !important;
+  border-radius: 16px !important;
+  color: #e8eaec !important;
+}
+
+.dividerDark {
+  border-color: #2d3748 !important;
+  background-color: #2d3748 !important;
+}
+
+/* ---------- Text ---------- */
+.textPrimaryDark {
+  color: #e8eaec !important;
+}
+
+.textSecondaryDark {
+  color: #a0aec0 !important;
+}
+
+.textMutedDark {
+  color: #6b7280 !important;
+}
+
+.linkAccentDark {
+  color: #3bb77e !important;
+}
+
+/* ---------- Brand / accent (green = primary, orange = food/grocery-style accent) ---------- */
+.accentGreenDark {
+  color: #34a42c !important;
+}
+
+.accentGreenBgDark {
+  background-color: rgba(52, 164, 44, 0.14) !important;
+  color: #3bb77e !important;
+}
+
+.accentOrangeDark {
+  color: #ef7822 !important;
+}
+
+.accentOrangeBgDark {
+  background-color: rgba(239, 120, 34, 0.14) !important;
+  color: #ef7822 !important;
+}
+
+/* ---------- Step progress (StepProgress.js) ---------- */
+.stepBarDark {
+  background-color: #111827 !important;
+  border: 1px solid #2d3748 !important;
+  border-radius: 999px !important;
+}
+
+.stepCircleCompletedDark {
+  background-color: rgba(52, 164, 44, 0.18) !important;
+}
+
+.stepCircleCompletedIconDark {
+  color: #3bb77e !important;
+}
+
+.stepCircleActiveDark {
+  border-color: #3bb77e !important;
+}
+
+.stepCircleActiveDotDark {
+  background-color: #0b0f19 !important;
+}
+
+.stepCircleInactiveDark {
+  border-color: #4b5563 !important;
+}
+
+.stepLabelActiveDark {
+  color: #3bb77e !important;
+}
+
+.stepLabelCompletedDark {
+  color: #e8eaec !important;
+}
+
+.stepLabelInactiveDark {
+  color: #6b7280 !important;
+}
+
+.stepArrowDark {
+  border-color: #4b5563 !important;
+}
+
+/* ---------- Inputs (TextField / Select) ---------- */
+/* Applied on the wrapping Card/Box, cascades to MUI's rendered DOM
+   using :global() since MUI classnames are not CSS-modules-scoped. */
+.inputsDark :global(.MuiOutlinedInput-root) {
+  background-color: #161c2a;
+  color: #e8eaec;
+  border-radius: 8px;
+}
+
+.inputsDark :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #2d3748;
+}
+
+.inputsDark :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: #3bb77e;
+}
+
+.inputsDark :global(.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: #34a42c !important;
+}
+
+.inputsDark :global(.MuiInputBase-input) {
+  color: #e8eaec;
+}
+
+.inputsDark :global(.MuiInputBase-input::placeholder) {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.inputsDark :global(.MuiFormLabel-root),
+.inputsDark :global(.MuiInputLabel-root) {
+  color: #a0aec0;
+}
+
+.inputsDark :global(.MuiFormHelperText-root) {
+  color: #a0aec0;
+}
+
+.inputsDark :global(.MuiSvgIcon-root) {
+  color: #a0aec0;
+}
+
+.inputsDark :global(.MuiSwitch-track) {
+  background-color: #4b5563;
+}
+
+/* ---------- Buttons ---------- */
+.buttonPrimaryDark {
+  background-color: #34a42c !important;
+  color: #ffffff !important;
+}
+
+.buttonPrimaryDark:hover {
+  background-color: #1c6641 !important;
+}
+
+.buttonOutlinedDark {
+  border-color: #3bb77e !important;
+  color: #3bb77e !important;
+  background-color: transparent !important;
+}
+
+.buttonOutlinedDark:hover {
+  background-color: rgba(59, 183, 122, 0.1) !important;
+}
+
+.buttonDisabledDark {
+  background-color: #1f2937 !important;
+  color: #6b7280 !important;
+}
+
+/* ---------- Badges / status chips ---------- */
+.badgeSuccessDark {
+  background-color: rgba(52, 164, 44, 0.16) !important;
+  color: #3bb77e !important;
+  border: 1px solid rgba(52, 164, 44, 0.35) !important;
+}
+
+.badgeWarningDark {
+  background-color: rgba(255, 176, 32, 0.14) !important;
+  color: #ffb020 !important;
+  border: 1px solid rgba(255, 176, 32, 0.35) !important;
+}
+
+.badgeErrorDark {
+  background-color: rgba(209, 67, 67, 0.14) !important;
+  color: #ff8a8a !important;
+  border: 1px solid rgba(209, 67, 67, 0.35) !important;
+}
+
+/* ---------- Price / fare highlight ---------- */
+.priceHighlightDark {
+  color: #3bb77e !important;
+  font-weight: 700 !important;
+}
+
+/* ---------- Map / media containers ---------- */
+.mapContainerDark {
+  border: 1px solid #2d3748 !important;
+  border-radius: 16px !important;
+  filter: brightness(0.92) contrast(1.05);
+}
+
+/* ---------- Scrollbar polish inside dark cards (optional, non-breaking) ---------- */
+.cardDark ::-webkit-scrollbar,
+.innerCardDark ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.cardDark ::-webkit-scrollbar-thumb,
+.innerCardDark ::-webkit-scrollbar-thumb {
+  background-color: #2d3748;
+  border-radius: 4px;
+}

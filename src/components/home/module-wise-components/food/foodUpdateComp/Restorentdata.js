@@ -12,13 +12,13 @@ import {
 } from "@mui/material";
 import { FavoriteBorder, Star, AccessTime } from "@mui/icons-material";
 import useWishlistHandler from "components/home/search/pathflow/wishlisthandler";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useTranslation } from 'react-i18next';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import useStoreWishlistHandler from "components/home/search/pathflow/storewishlisthandler";
-import EastIcon from '@mui/icons-material/East';
+import EastIcon from "@mui/icons-material/East";
 
 export default function RestaurantsGrid1() {
   const { t } = useTranslation();
@@ -64,7 +64,7 @@ export default function RestaurantsGrid1() {
       }
 
       const res = await fetch(
-        `https://your-api-url.com/getZoneId?lat=${lat}&lng=${lng}`
+        `https://your-api-url.com/getZoneId?lat=${lat}&lng=${lng}`,
       );
 
       const data = await res.json();
@@ -178,14 +178,22 @@ export default function RestaurantsGrid1() {
         mb={2}
       >
         <Box>
-          <Typography variant="h5" fontWeight={700}>
+          <Typography
+            variant="h5"
+            fontWeight={700}
+            sx={{ color: "var(--text-primary)" }}
+          >
             {search === "category"
               ? `Category: ${atob(name || "")}`
               : "Top Restaurants"}
           </Typography>
 
-          <Typography variant="body2" color="text.secondary">
-            {loading ? <Skeleton width="50%" /> : `${stores.length} Restaurants found`}
+          <Typography variant="body2" sx={{ color: "var(--text-secondary)" }}>
+            {loading ? (
+              <Skeleton width="50%" />
+            ) : (
+              `${stores.length} Restaurants found`
+            )}
           </Typography>
         </Box>
 
@@ -199,7 +207,7 @@ export default function RestaurantsGrid1() {
             fontWeight: 600,
             borderRadius: "20px",
             padding: "4px 12px",
-            border: "1px solid #cfeccc",
+            border: "1px solid var(--food-view-all-border)",
             textDecoration: "none",
           }}
           href={{
@@ -223,14 +231,14 @@ export default function RestaurantsGrid1() {
               display: "inline-flex",
               alignItems: "center",
               gap: "5px",
-              color: "#1A914B", // ✅ FORCE TEXT COLOR
+              color: "var(--food-cta-green)", // ✅ FORCE TEXT COLOR
             }}
           >
             View All
             <EastIcon
               sx={{
                 fontSize: 12,
-                color: "#1A914B",
+                color: "var(--food-cta-green)",
               }}
             />
           </span>
@@ -257,22 +265,28 @@ export default function RestaurantsGrid1() {
       >
         {loading ? (
           // Show Skeleton loading effect for cards
-          <Skeleton variant="rectangular" width={280} height={380} sx={{ margin: 1 }} />
+          <Skeleton
+            variant="rectangular"
+            width={280}
+            height={380}
+            sx={{ margin: 1 }}
+          />
         ) : (
           stores.map((res) => (
-
             <Card
               key={res.id}
               sx={{
                 minWidth: 320,
                 width: 280,
                 borderRadius: "12px !important",
-                border: "1px solid #e0e0e0",
+                border: "1px solid var(--border-default)",
+                backgroundColor: "var(--bg-card)",
+                transition:
+                  "background-color 0.2s ease, border-color 0.2s ease",
                 overflow: "hidden",
                 boxShadow: "none",
                 display: "inline-block",
               }}
-
             >
               {/* IMAGE */}
               <Box position="relative">
@@ -306,16 +320,16 @@ export default function RestaurantsGrid1() {
                     width: 35,
                     height: 35,
                     borderRadius: "12px",
-                    // backgroundColor: "rgba(255,255,255,0.95)",
+                    // backgroundColor: "var(--food-overlay-95)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    // border:"1px solid #E7E7E7",
+                    // border:"1px solid var(--border-image)",
                     cursor: "pointer",
                     zIndex: 5,
                     transition: "all 0.2s ease",
                     "&:hover": {
-                      // backgroundColor: "#ffffff",
+                      // backgroundColor: "var(--bg-card)",
                       transform: "scale(1.05)",
                     },
                   }}
@@ -329,27 +343,35 @@ export default function RestaurantsGrid1() {
                   }}
                 >
                   {isStoreWishlisted(res) ? (
-                    <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                    <FavoriteIcon
+                      sx={{ color: "var(--danger)", fontSize: 20 }}
+                    />
                   ) : (
-                    <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+                    <FavoriteBorderIcon
+                      sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }}
+                    />
                   )}
                 </Box>
-
               </Box>
 
               {/* PRICE BAR */}
               <Box
                 sx={{
-                  background: "linear-gradient(150deg, #56e388ff, #f7fcf9ff)",
+                  background:
+                    "linear-gradient(150deg, var(--food-price-gradient-start), var(--food-price-gradient-end))",
                   padding: "8px 12px",
                 }}
               >
                 <Typography
                   variant="body2"
                   fontWeight={600}
-                  sx={{ color: "#1a3d1a", fontSize: "13px" }}
+                  sx={{ color: "var(--food-price-bar-text)", fontSize: "13px" }}
                 >
-                  {loading ? <Skeleton width="50%" /> : `ITEMS START AT ₹${res.minimum_order}`}
+                  {loading ? (
+                    <Skeleton width="50%" />
+                  ) : (
+                    `ITEMS START AT ₹${res.minimum_order}`
+                  )}
                 </Typography>
               </Box>
 
@@ -372,7 +394,10 @@ export default function RestaurantsGrid1() {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: 700, color: "var(--text-primary)" }}
+                    >
                       {loading ? <Skeleton width="80%" /> : res.name}
                     </Typography>
 
@@ -381,33 +406,39 @@ export default function RestaurantsGrid1() {
                       display="flex"
                       alignItems="center"
                       sx={{
-                        backgroundColor: "#E6F4EA",
+                        backgroundColor: "var(--food-rating-bg-alt)",
                         padding: "2px 8px",
                         borderRadius: "12px",
-                        color: "#34A853",
+                        color: "var(--food-rating-text-alt)",
                         fontWeight: 600,
                         fontSize: "14px",
                       }}
                     >
                       <Star sx={{ fontSize: 18, mr: 0.5 }} />
-                      {loading ? <Skeleton width={30} /> : res.avg_rating?.toFixed(1)}
+                      {loading ? (
+                        <Skeleton width={30} />
+                      ) : (
+                        res.avg_rating?.toFixed(1)
+                      )}
                     </Box>
                   </Box>
 
                   {/* Description */}
                   <Typography
                     variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 0.3 }}
+                    sx={{ mt: 0.3, color: "var(--text-secondary)" }}
                   >
-                    {loading ? <Skeleton width="60%" /> : res.meta_description || "Cuisines available"}
+                    {loading ? (
+                      <Skeleton width="60%" />
+                    ) : (
+                      res.meta_description || "Cuisines available"
+                    )}
                   </Typography>
 
                   {/* Address */}
                   <Typography
                     variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 0.5, mb: 1 }}
+                    sx={{ mt: 0.5, mb: 1, color: "var(--text-secondary)" }}
                   >
                     {loading ? (
                       <Skeleton width="60%" />
@@ -422,15 +453,19 @@ export default function RestaurantsGrid1() {
 
                   {/* Delivery Time */}
                   <Box display="flex" alignItems="center" gap={0.5}>
-                    <AccessTime sx={{ fontSize: 17, color: "#555" }} />
-                    <Typography variant="caption" color="text.secondary">
+                    <AccessTime
+                      sx={{ fontSize: 17, color: "var(--food-text-soft)" }}
+                    />
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "var(--text-secondary)" }}
+                    >
                       {loading ? <Skeleton width="30%" /> : res.delivery_time}
                     </Typography>
                   </Box>
                 </Link>
               </CardContent>
             </Card>
-
           ))
         )}
       </Box>

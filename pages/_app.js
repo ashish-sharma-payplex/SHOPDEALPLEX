@@ -2,6 +2,9 @@
 import "../src/styles/globals.css";
 import "../src/styles/nprogress.css";
 import "../src/styles/smooth-scroll.css";
+import "../src/styles/Food.css";
+import "../src/styles/navbar.css";
+import "../src/styles/footer.css";
 
 import Head from "next/head";
 import Script from "next/script";
@@ -88,7 +91,7 @@ function MyApp(props) {
   const router = useRouter();
 
   const shouldShowLocationModal = !LOCATION_MODAL_HIDDEN_PATHS.includes(
-    router.pathname
+    router.pathname,
   );
 
   const queryClient = new QueryClient({
@@ -107,7 +110,7 @@ function MyApp(props) {
 
     if (storedVersion !== currentVersion) {
       const cartKeys = Object.keys(localStorage).filter((key) =>
-        key.startsWith("cart_")
+        key.startsWith("cart_"),
       );
 
       const preservedCartData = {};
@@ -137,7 +140,7 @@ function MyApp(props) {
     }
   }, []);
 
- // 1. Existing route change scroll to top
+  // 1. Existing route change scroll to top
   useEffect(() => {
     const handleRouteChange = () => {
       window.scrollTo(0, 0);
@@ -189,7 +192,6 @@ function MyApp(props) {
 
   return (
     <CacheProvider value={emotionCache}>
-
       <Head>
         {/* Facebook Pixel Noscript */}
         <noscript>
@@ -316,7 +318,6 @@ function MyApp(props) {
 
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
-
     </CacheProvider>
   );
 }

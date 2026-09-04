@@ -22,6 +22,7 @@ import {
   cartItemPrice,
 } from "components/home/module-wise-components/rental/components/rental-checkout/checkoutHeplerFunction";
 import { mainPrice } from "../utils/bookingHepler";
+import styles from "styles/rental.module.css";
 
 const Price = ({ item }) => {
   const hourlyPrice = item?.vehicle?.hourly_price;
@@ -64,10 +65,10 @@ const Price = ({ item }) => {
     <Stack direction="column" spacing={0.5}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography
+          className={styles.rentalPrice}
           sx={{
             fontSize: "16px",
             fontWeight: "600",
-            color: "#1a914b",
           }}
         >
           {getAmountWithSign(Number(discountedPrice.toFixed(2)))}
@@ -75,9 +76,8 @@ const Price = ({ item }) => {
           {basePrice !== discountedPrice && (
             <Box
               component="span"
+              className={styles.rentalPriceOld}
               sx={{
-                textDecoration: "line-through",
-                color: "#a7a3a3",
                 ml: 1,
               }}
             >
@@ -100,9 +100,9 @@ const Price = ({ item }) => {
 
       {/* 👇 YEH ADD KARO (price ke niche) */}
       <Typography
+        className={styles.rentalTotalText}
         sx={{
           fontSize: "14px",
-          color: "#555",
           fontWeight: 500,
         }}
       >
@@ -118,11 +118,11 @@ const Image = ({ imgWidth = "110px", imgHeight = "80px", itemImage }) => {
       src={itemImage}
       width={imgWidth}
       height={imgHeight}
-    // sx={{
-    //   border: (theme) =>
-    //     `1px solid ${alpha(theme.palette.neutral[400], 0.4)} !important`,
-    //   borderRadius: "5px",
-    // }}
+      // sx={{
+      //   border: (theme) =>
+      //     `1px solid ${alpha(theme.palette.neutral[400], 0.4)} !important`,
+      //   borderRadius: "5px",
+      // }}
     />
   );
 };
@@ -275,10 +275,7 @@ const CardDetailsSection = ({
       {/* Checkout page price  */}
       {priceRight &&
         (() => {
-          const basePrice = mainPrice(
-            item?.vehicle,
-            item?.rental_type
-          );
+          const basePrice = mainPrice(item?.vehicle, item?.rental_type);
 
           const discountedPrice = getDiscountedAmount(
             basePrice,
@@ -287,7 +284,6 @@ const CardDetailsSection = ({
             item?.provider?.discount,
             1,
           );
-
 
           // console.log("🔵 CHECKOUT PRICE DEBUG", {
           //   basePrice,
@@ -300,28 +296,29 @@ const CardDetailsSection = ({
             item?.rental_type === "distance_wise"
               ? "/Km"
               : item?.rental_type === "hourly"
-                ? "/Hr"
-                : "";
+              ? "/Hr"
+              : "";
 
           return (
             <Stack direction="column" spacing={0.5}>
               {/* Price row */}
               <Stack direction="row" spacing={1} alignItems="center">
                 <Typography
+                  className={styles.rentalPrice}
                   sx={{
                     fontSize: "16px",
                     fontWeight: "600",
-                    color: "#1a914b",
                   }}
                 >
-                  {getAmountWithSign(Number(Number(discountedPrice).toFixed(2)))}
+                  {getAmountWithSign(
+                    Number(Number(discountedPrice).toFixed(2)),
+                  )}
 
                   {basePrice !== discountedPrice && (
                     <Typography
                       component="span"
+                      className={styles.rentalPriceOld}
                       sx={{
-                        textDecoration: "line-through",
-                        color: "#a7a3a3",
                         ml: 1,
                       }}
                     >
@@ -344,9 +341,9 @@ const CardDetailsSection = ({
 
               {/* 👇 Total yaha add karo */}
               <Typography
+                className={styles.rentalTotalText}
                 sx={{
                   fontSize: "14px",
-                  color: "#555",
                   fontWeight: 500,
                 }}
               >
@@ -364,7 +361,7 @@ const CardDetailsSection = ({
           columnGap={0.5}
         >
           {item?.vehicle?.discount_price > 0 ||
-            item?.vehicle?.provider?.discount?.discount > 0 ? (
+          item?.vehicle?.provider?.discount?.discount > 0 ? (
             <Typography
               className="original-price"
               sx={{
@@ -380,10 +377,10 @@ const CardDetailsSection = ({
             </Typography>
           ) : null}
           <Typography
+            className={styles.rentalPrice}
             sx={{
               fontSize: "18px",
               fontWeight: "600",
-              color: "#1a914b",
             }}
           >
             {getAmountWithSign(

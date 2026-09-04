@@ -1,0 +1,71 @@
+/* =========================================================================
+   navbar.css
+   Theme-aware colours for the header / navbar (logo bar + category row +
+   bottom mobile nav). Switches with the app's own dark-mode toggle via
+   the [data-theme="dark"] attribute set on <html> by SettingsProvider
+   (src/contexts/settings-context.js) — NOT via prefers-color-scheme, so
+   it always matches whatever the user picked in-app.
+
+   Usage:
+     import "styles/navbar.css";
+     <Box className="navbar-root">...</Box>
+     <Typography className="navbar-link">Home</Typography>
+   ========================================================================= */
+
+:root {
+  --nav-bg: #ffffff;
+  --nav-border: #eeeeee;
+  --nav-text: #111827;
+  --nav-text-muted: #6b7280;
+  --nav-icon: #111827;
+  --nav-search-bg: #000000;
+  --nav-search-text: #ffffff;
+  --nav-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="dark"] {
+  --nav-bg: #111827;
+  --nav-border: #2d3748;
+  --nav-text: #f3f4f6;
+  --nav-text-muted: #9ca3af;
+  --nav-icon: #f3f4f6;
+  --nav-search-bg: #1f2937;
+  --nav-search-text: #ffffff;
+  --nav-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-root {
+  background-color: var(--nav-bg) !important;
+  color: var(--nav-text);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: var(--nav-shadow);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar-link {
+  color: var(--nav-text) !important;
+}
+
+.navbar-link-muted {
+  color: var(--nav-text-muted) !important;
+}
+
+.navbar-icon {
+  color: var(--nav-icon) !important;
+}
+
+.navbar-search {
+  background-color: var(--nav-search-bg) !important;
+  color: var(--nav-search-text) !important;
+}
+
+.navbar-search::placeholder {
+  color: var(--nav-text-muted);
+  opacity: 1;
+}
+
+/* Bottom mobile nav bar */
+.bottom-navbar-root {
+  background-color: var(--nav-bg) !important;
+  border-top: 1px solid var(--nav-border);
+}

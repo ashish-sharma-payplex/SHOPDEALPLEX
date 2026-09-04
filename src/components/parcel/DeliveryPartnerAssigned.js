@@ -95,7 +95,7 @@ const DeliveryAssignedSection = ({data} ) => {
             p: "20px 24px",
             borderRadius: "20px",
             border: "1px solid #eef2f6",
-            bgcolor: "#fff",
+            bgcolor: (theme) => theme.palette.background.paper,
             mb: 4,
             gap: 3, // Image aur text ke beech ka gap
           }}

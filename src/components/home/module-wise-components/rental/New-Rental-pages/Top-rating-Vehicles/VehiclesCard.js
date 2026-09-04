@@ -22,7 +22,8 @@ import QuickView from "components/cards/QuickView";
 import { CustomOverLay } from "components/cards/Card.style";
 import RentWithIncrementDecrement from "components/home/module-wise-components/rental/components/global/RentWithIncrementDecrement";
 import { t } from "i18next";
-import WarningIcon from '@mui/icons-material/Warning';
+import WarningIcon from "@mui/icons-material/Warning";
+import styles from "styles/rental.module.css";
 import React, { useEffect, useReducer, useState } from "react";
 import {
   ACTIONS,
@@ -70,23 +71,25 @@ import TripVehicleList from "../../components/rental-cart/TripVehicleList";
 import Link from "next/link";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const CarBookingModal = dynamic(() =>
-  import("components/home/module-wise-components/rental/components/global/CarBookingModal")
+  import(
+    "components/home/module-wise-components/rental/components/global/CarBookingModal"
+  ),
 );
-
-
-
 
 // ----------------------------------------------------
 // ✅ SKELETON CARD (NO LOGIC TOUCH)
 // ----------------------------------------------------
 const VehicleCardSkeleton = () => {
-
   const guesthere = getGuestId();
 
   return (
     <CustomCarCard sx={{ border: "1px solid #E3E8EE", boxShadow: "none" }}>
       <Box p={2}>
-        <Skeleton variant="rectangular" height={220} sx={{ borderRadius: "10px", mb: 1 }} />
+        <Skeleton
+          variant="rectangular"
+          height={220}
+          sx={{ borderRadius: "10px", mb: 1 }}
+        />
         <Skeleton width="40%" height={16} />
         <Stack direction="row" justifyContent="space-between" mt={1}>
           <Stack gap={1}>
@@ -124,12 +127,15 @@ const VehicleCardSkeleton = () => {
       </Box>
 
       <Stack p={2}>
-        <Skeleton variant="rectangular" height={38} sx={{ borderRadius: "999px" }} />
+        <Skeleton
+          variant="rectangular"
+          height={38}
+          sx={{ borderRadius: "999px" }}
+        />
       </Stack>
     </CustomCarCard>
   );
 };
-
 
 // ----------------------------------------------------
 // ✅ MAIN COMPONENT
@@ -143,7 +149,6 @@ const VehicleCard = ({
   from,
   loading = false,
 }) => {
-
   // ✅ render skeleton first
   if (loading) return <VehicleCardSkeleton />;
   // const p_off = t("% off");
@@ -174,17 +179,17 @@ const VehicleCard = ({
   const [openHourDiffModal, setOpenHourDiffModal] = useState(false);
   const [disableLink, setDisableLink] = useState(false);
   const [updateOrAdd, setUpdateOrAdd] = useState({
-    type: 'add',
-    quantity: 0
+    type: "add",
+    quantity: 0,
   });
   const [state, carCardDispatch] = useReducer(
     carCardReducer,
-    carCardInitialState
+    carCardInitialState,
   );
   const rawCartList = useSelector((state) => state.cart.cartList);
   const cartList = Array.isArray(rawCartList) ? rawCartList[0] : rawCartList;
   const rentalSearch = useSelector(
-    (state) => state?.rentalSearch?.rentalSearch
+    (state) => state?.rentalSearch?.rentalSearch,
   );
   const fromSearch = router?.query?.from;
   const { mutate: addFavoriteMutation } = useAddWishlist();
@@ -218,7 +223,7 @@ const VehicleCard = ({
     const vehicles = wishLists?.vehicles || [];
 
     const isExist = vehicles.some(
-      (wishItem) => String(wishItem.id) === String(data?.id)
+      (wishItem) => String(wishItem.id) === String(data?.id),
     );
 
     setIsWishlisted(isExist);
@@ -240,7 +245,7 @@ const VehicleCard = ({
           onError: (error) => {
             toast.error(error.response.data.message);
           },
-        }
+        },
       );
     } else toast.error(t(not_logged_in_message));
   };
@@ -261,14 +266,15 @@ const VehicleCard = ({
         onError: (error) => {
           toast.error(error.response.data.message);
         },
-      }
+      },
     );
   };
 
-  const { mutate: confirmMutate, isLoading: confirmIsLoading } = useConfirmBooking();
+  const { mutate: confirmMutate, isLoading: confirmIsLoading } =
+    useConfirmBooking();
 
   const isProductExist = cartList?.carts?.find(
-    (item) => item.vehicle?.id === data?.id
+    (item) => item.vehicle?.id === data?.id,
   );
   const { mutate: updateMutate, isLoading: updateIsLoading } =
     useUpdateBookingCart();
@@ -277,26 +283,33 @@ const VehicleCard = ({
   const handleIncrement = (cartItem) => {
     const updateQuantity = cartItem?.quantity + 1;
     if (data?.total_vehicle_count < updateQuantity) {
-      toast.error(t(`You can't add more than ${data?.total_vehicle_count} quantities of this vehicle.`));
+      toast.error(
+        t(
+          `You can't add more than ${data?.total_vehicle_count} quantities of this vehicle.`,
+        ),
+      );
     } else {
       if (from === "from_search") {
-        if (Number(rentalSearch?.duration) === Number(cartList?.user_data?.estimated_hours)) {
+        if (
+          Number(rentalSearch?.duration) ===
+          Number(cartList?.user_data?.estimated_hours)
+        ) {
           updateCart(
             cartItem,
             cartList?.user_data,
             dispatch,
             setCartList,
             updateQuantity,
-            updateMutate
-          )
+            updateMutate,
+          );
         } else {
           setUpdateOrAdd({
-            type: 'update',
+            type: "update",
             quantity: updateQuantity,
-            cartItem: cartItem
+            cartItem: cartItem,
           });
           setOpenHourDiffModal(true);
-          setOpen(false)
+          setOpen(false);
         }
       } else {
         updateCart(
@@ -305,8 +318,8 @@ const VehicleCard = ({
           dispatch,
           setCartList,
           updateQuantity,
-          updateMutate
-        )
+          updateMutate,
+        );
       }
     }
   };
@@ -314,21 +327,24 @@ const VehicleCard = ({
   const handleDecrement = (cartItem) => {
     const updateQuantity = cartItem?.quantity - 1;
     if (from === "from_search") {
-      if (Number(rentalSearch?.duration) === Number(cartList?.user_data?.estimated_hours)) {
+      if (
+        Number(rentalSearch?.duration) ===
+        Number(cartList?.user_data?.estimated_hours)
+      ) {
         updateCart(
           cartItem,
           cartList?.user_data,
           dispatch,
           setCartList,
           updateQuantity,
-          updateMutate
-        )
+          updateMutate,
+        );
       } else {
         setUpdateOrAdd({
-          type: 'update',
+          type: "update",
           quantity: updateQuantity,
-          cartItem: cartItem
-        })
+          cartItem: cartItem,
+        });
         setOpenHourDiffModal(true);
       }
     } else {
@@ -338,7 +354,7 @@ const VehicleCard = ({
         dispatch,
         setCartList,
         updateQuantity,
-        updateMutate
+        updateMutate,
       );
     }
   };
@@ -348,7 +364,7 @@ const VehicleCard = ({
   };
 
   const isDifferentProvider = cartList?.carts?.some(
-    (cart) => cart.provider?.id !== data?.provider?.id
+    (cart) => cart.provider?.id !== data?.provider?.id,
   );
 
   const openCarBookingModal = () => {
@@ -372,7 +388,6 @@ const VehicleCard = ({
     data: rentalSearch?.distanceData,
   };
 
-
   const addToCartHandler = () => {
     // Step 1: User type check
     const token = getToken(); // Logged in user token
@@ -391,8 +406,8 @@ const VehicleCard = ({
         pickup: rentalSearch?.pickup_location,
         destination: rentalSearch?.destination_location,
       },
-      searchKey1: rentalSearch?.pickup_location?.location_name,  // ✅ ADD
-      searchKey2: rentalSearch?.destination_location?.location_name,  // ✅ ADD
+      searchKey1: rentalSearch?.pickup_location?.location_name, // ✅ ADD
+      searchKey2: rentalSearch?.destination_location?.location_name, // ✅ ADD
       tripType: priceType === "hourly" ? "hourly" : "distance_wise",
       durationValue: rentalSearch?.duration,
       dateValue: rentalSearch?.selectedDate?.$d,
@@ -421,12 +436,14 @@ const VehicleCard = ({
     setCartItemData(bookingDetails);
   };
 
-
   const handleSameProvider = (bookingDetails) => {
     if (cartList?.carts?.length > 0) {
       if (rentalSearch?.tripType === cartList?.user_data?.rental_type) {
         if (cartList?.user_data?.rental_type === "hourly") {
-          if (Number(rentalSearch?.duration) === Number(cartList?.user_data?.estimated_hours)) {
+          if (
+            Number(rentalSearch?.duration) ===
+            Number(cartList?.user_data?.estimated_hours)
+          ) {
             bookingConfirm({
               ...bookingDetails,
               confirmMutate,
@@ -435,11 +452,11 @@ const VehicleCard = ({
               toast,
               handleClose: null,
               onErrorResponse,
-              onSuccessRedirect: () => router.push('/rental/cart'),
+              onSuccessRedirect: () => router.push("/rental/cart"),
             });
           } else {
             setUpdateOrAdd({
-              type: 'add',
+              type: "add",
             });
             setOpenHourDiffModal(true);
           }
@@ -458,7 +475,7 @@ const VehicleCard = ({
         setUpdateCartObject?.({
           ...bookingDetails,
           userId: cartList?.user_data?.id,
-          id: data?.id
+          id: data?.id,
         });
         setIsSameOpen?.(true);
         handleClose?.();
@@ -506,10 +523,12 @@ const VehicleCard = ({
       estimated_hours: updateCartObject?.durationValue,
       pickup_time: updateCartObject?.dateValue,
       destination_time: Math.floor(
-        updateCartObject?.data?.rows?.[0]?.elements[0]?.duration?.value / (60 * 60)
+        updateCartObject?.data?.rows?.[0]?.elements[0]?.duration?.value /
+          (60 * 60),
       ),
-      distance: updateCartObject?.data?.rows?.[0]?.elements[0]?.distance?.value / 1000,
-      guest_id: getToken() ? null : getGuestId()
+      distance:
+        updateCartObject?.data?.rows?.[0]?.elements[0]?.distance?.value / 1000,
+      guest_id: getToken() ? null : getGuestId(),
     };
 
     userDataUpdateMutate(tempUpdateCartObject, {
@@ -538,7 +557,7 @@ const VehicleCard = ({
   };
 
   const handleHourDiffModal = (bookingDetails, updateOrAdd) => {
-    if (updateOrAdd?.type === 'add') {
+    if (updateOrAdd?.type === "add") {
       bookingConfirm({
         ...bookingDetails,
         confirmMutate,
@@ -552,15 +571,15 @@ const VehicleCard = ({
       const tempUserData = {
         ...cartList?.user_data,
         estimated_hours: rentalSearch?.duration,
-      }
+      };
       updateCart(
         updateOrAdd?.cartItem,
         tempUserData,
         dispatch,
         setCartList,
         updateOrAdd?.quantity,
-        updateMutate
-      )
+        updateMutate,
+      );
       setOpenHourDiffModal(false);
     }
   };
@@ -571,18 +590,25 @@ const VehicleCard = ({
   };
   return (
     <>
-      <Toaster position="top-center" toastOptions={{
-        style: {
-          boxShadow: "none",
-          WebkitBoxShadow: "none",
-          MozBoxShadow: "none",
-        },
-      }} />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            boxShadow: "none",
+            WebkitBoxShadow: "none",
+            MozBoxShadow: "none",
+          },
+        }}
+      />
 
       {currentView === 0 ? (
-
         <CustomCarCard
-          sx={{ position: "relative", cursor: "pointer", border: "1px solid #E3E8EE", boxShadow: "none" }}
+          sx={{
+            position: "relative",
+            cursor: "pointer",
+            border: "1px solid #E3E8EE",
+            boxShadow: "none",
+          }}
         >
           {/* 🔥 DISCOUNT BADGE – top-left on card */}
 
@@ -609,7 +635,6 @@ const VehicleCard = ({
             </Box>
           )}
           <Box p={2}>
-
             {showSameVehicleText && direction === "row" && (
               <Box
                 sx={{
@@ -624,7 +649,7 @@ const VehicleCard = ({
                   component="div"
                   sx={{
                     color: (theme) => theme.palette.neutral[500],
-                    paddingTop: "2px"
+                    paddingTop: "2px",
                   }}
                 >
                   <Typography
@@ -667,13 +692,13 @@ const VehicleCard = ({
                 <Stack
                   position="relative"
                   width="100%"
+                  className={styles.rentalImageWrap}
                   sx={{
                     img: {
                       width: "100%",
                       height: "100%",
                       objectFit: "contain",
                       borderRadius: "10px",
-                      backgroundColor: "#fff",
                     },
                   }}
                 >
@@ -691,10 +716,8 @@ const VehicleCard = ({
 
                   {/* {handleBadgeRental(data)} */}
 
-
                   {/* WISHLIST ICON – Top Right of Image */}
                   <Stack position="relative" width="100%">
-
                     {/* ✅ WISHLIST ICON – OUTSIDE LINK */}
                     <IconButton
                       onClick={(e) => {
@@ -720,11 +743,11 @@ const VehicleCard = ({
                       {isWishlisted ? (
                         <FavoriteIcon sx={{ color: "#fd0b07", fontSize: 20 }} />
                       ) : (
-                        <FavoriteBorderIcon sx={{ color: "#666", fontSize: 22 }} />
+                        <FavoriteBorderIcon
+                          sx={{ color: "#666", fontSize: 22 }}
+                        />
                       )}
                     </IconButton>
-
-
                   </Stack>
                   {/* 
                 <CustomOverLay
@@ -749,7 +772,7 @@ const VehicleCard = ({
                   <Box
                     sx={{
                       width: "100%",
-                      aspectRatio: "16 / 9",   // ✅ universal ratio
+                      aspectRatio: "16 / 9", // ✅ universal ratio
                       borderRadius: "10px",
                       overflow: "hidden",
                       backgroundColor: "#f5f5f5",
@@ -763,42 +786,61 @@ const VehicleCard = ({
                       sx={{
                         width: "100%",
                         height: "100%",
-                        objectFit: "cover",     // 🔥 MOST IMPORTANT
+                        objectFit: "cover", // 🔥 MOST IMPORTANT
                         display: "block",
                       }}
                     />
                   </Box>
 
-
-                  <Stack direction="row" spacing={2} justifyContent="space-between" mt={1}>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                    mt={1}
+                  >
                     <Stack gap={1} width="100%">
-
                       {/* ⭐ Rating row */}
                       <Stack direction="row" alignItems="center" spacing={0.5}>
-                        <StarIcon sx={{
-                          fontSize: isMobile ? "12px" : "14px",
-                          color: "#F0A500"
-                        }} />
+                        <StarIcon
+                          sx={{
+                            fontSize: isMobile ? "12px" : "14px",
+                            color: "#F0A500",
+                          }}
+                        />
 
-
-                        <Typography sx={{ fontSize: "13px", fontWeight: 500, color: "#F0A500" }}>
+                        <Typography
+                          sx={{
+                            fontSize: "13px",
+                            fontWeight: 500,
+                            color: "#F0A500",
+                          }}
+                        >
                           {Number(data?.avg_rating || 0).toFixed(1)}
                         </Typography>
 
-                        <Typography sx={{ fontSize: "13px", color: theme.palette.neutral[500], color: "#F0A500" }}>
+                        <Typography
+                          sx={{
+                            fontSize: "13px",
+                            color: theme.palette.neutral[500],
+                            color: "#F0A500",
+                          }}
+                        >
                           ({data?.total_trip || 0} {t("Trips")})
                         </Typography>
                       </Stack>
 
                       {/* MAIN 2 COLUMN WRAPPER */}
-                      <Stack direction="row" width="100%" alignItems="flex-start">
-
+                      <Stack
+                        direction="row"
+                        width="100%"
+                        alignItems="flex-start"
+                      >
                         {/* LEFT BLOCK */}
                         <Stack sx={{ flex: 1, minWidth: 0 }}>
                           <Typography
                             fontFamily="Inter, sans-serif"
                             fontWeight="600"
-                              fontSize={isMobile ? 16 : 18}
+                            fontSize={isMobile ? 16 : 18}
                             component="h6"
                             sx={{
                               color: "#000000",
@@ -824,7 +866,6 @@ const VehicleCard = ({
                           </Typography>
                         </Stack>
 
-
                         {/* RIGHT BLOCK - FLUSH TO IMAGE EDGE */}
                         <Stack
                           alignItems="flex-end"
@@ -837,14 +878,16 @@ const VehicleCard = ({
                             e.stopPropagation();
                           }}
                         >
-
                           {(() => {
                             let basePrice = 0;
 
                             if (priceType === "hourly") {
-                              basePrice = data?.hourly_price || mainPrice(data, "hourly");
+                              basePrice =
+                                data?.hourly_price || mainPrice(data, "hourly");
                             } else {
-                              basePrice = data?.distance_price || mainPrice(data, "distance");
+                              basePrice =
+                                data?.distance_price ||
+                                mainPrice(data, "distance");
                             }
 
                             const discountedPrice = getDiscountedAmount(
@@ -853,28 +896,34 @@ const VehicleCard = ({
                               data?.discount_type,
                               data?.provider?.discount,
                               1,
-                              data?.provider?.discount?.max_discount
+                              data?.provider?.discount?.max_discount,
                             );
 
                             return (
                               <>
                                 {/* PRICE ROW */}
-                                <Stack direction="row" spacing={0.5} alignItems="center">
-
+                                <Stack
+                                  direction="row"
+                                  spacing={0.5}
+                                  alignItems="center"
+                                >
                                   {/* Arrow Icon - only if both supported */}
-                                  {data?.trip_hourly === 1 && data?.trip_distance === 1 && (
-                                    <IconButton
-                                      size="small"
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handlePriceToggle(e);
-                                      }}
-                                      sx={{ padding: "2px" }}
-                                    >
-                                      <KeyboardArrowDownIcon sx={{ fontSize: "18px" }} />
-                                    </IconButton>
-                                  )}
+                                  {data?.trip_hourly === 1 &&
+                                    data?.trip_distance === 1 && (
+                                      <IconButton
+                                        size="small"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          handlePriceToggle(e);
+                                        }}
+                                        sx={{ padding: "2px" }}
+                                      >
+                                        <KeyboardArrowDownIcon
+                                          sx={{ fontSize: "18px" }}
+                                        />
+                                      </IconButton>
+                                    )}
 
                                   {/* DISCOUNTED PRICE */}
                                   <Typography
@@ -916,13 +965,9 @@ const VehicleCard = ({
                               </>
                             );
                           })()}
-
                         </Stack>
-
                       </Stack>
-
                     </Stack>
-
 
                     <Stack gap={1} alignItems="center">
                       {/* {data?.total_reviews > 0 && (
@@ -963,40 +1008,42 @@ const VehicleCard = ({
                     )} */}
                     </Stack>
                   </Stack>
-                  {showSameVehicleText && direction === "column" && data?.total_vehicle_count !== 1 && (
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        right: "0.625rem",
-                        bottom: "0.625rem",
-                        backgroundColor: theme.palette.background.paper,
-                        borderRadius: "50rem",
-                        display: "flex",
-                        alignItems: "center",
-                        zIndex: 0,
-                        svg: {
-                          color: theme.palette.info.main,
-                        },
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
-                        component="div"
-                        className="infoText"
+                  {showSameVehicleText &&
+                    direction === "column" &&
+                    data?.total_vehicle_count !== 1 && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          right: "0.625rem",
+                          bottom: "0.625rem",
+                          backgroundColor: theme.palette.background.paper,
+                          borderRadius: "50rem",
+                          display: "flex",
+                          alignItems: "center",
+                          zIndex: 0,
+                          svg: {
+                            color: theme.palette.info.main,
+                          },
+                        }}
                       >
                         <Typography
                           variant="body2"
-                          fontWeight="bold"
-                          component="strong"
-                          sx={{ mx: "3px" }}
+                          component="div"
+                          className="infoText"
                         >
-                          {data?.total_vehicle_count}
+                          <Typography
+                            variant="body2"
+                            fontWeight="bold"
+                            component="strong"
+                            sx={{ mx: "3px" }}
+                          >
+                            {data?.total_vehicle_count}
+                          </Typography>
+                          {t(`Vehicles available`)}
                         </Typography>
-                        {t(`Vehicles available`)}
-                      </Typography>
-                      {/* <InfoIcon /> */}
-                    </Box>
-                  )}
+                        {/* <InfoIcon /> */}
+                      </Box>
+                    )}
                 </Stack>
 
                 {/* Features start */}
@@ -1013,7 +1060,7 @@ const VehicleCard = ({
                     marginTop: "5px",
 
                     "& > div": {
-                      width: "25%",            // ✅ keep 4 items per row
+                      width: "25%", // ✅ keep 4 items per row
                       justifyContent: "center",
                       alignItems: "center",
                       flexDirection: "column",
@@ -1024,12 +1071,12 @@ const VehicleCard = ({
                     color: theme.palette.neutral[400],
 
                     svg: {
-                      fontSize: isMobile ? "14px" : "18px",   // ✅ smaller icons on mobile
+                      fontSize: isMobile ? "14px" : "18px", // ✅ smaller icons on mobile
                       color: "#0f0f0f",
                     },
 
                     "& p": {
-                      fontSize: isMobile ? "10px" : "12px",   // ✅ smaller text on mobile
+                      fontSize: isMobile ? "10px" : "12px", // ✅ smaller text on mobile
                       fontWeight: 500,
                       textTransform: "capitalize",
                       color: "#000000",
@@ -1059,20 +1106,24 @@ const VehicleCard = ({
                   <Stack>
                     <AirIcon color={"#0f0f0f"} />
                     <Typography color={"#000000"}>
-                      {limitText(data?.air_condition > 0 ? t("AC") : t("Non AC"))}
+                      {limitText(
+                        data?.air_condition > 0 ? t("AC") : t("Non AC"),
+                      )}
                     </Typography>
                   </Stack>
 
                   {data?.fuel_type && (
                     <Stack>
                       <EvStationIcon color={"#0f0f0f"} />
-                      <Typography color={"#000000"}>  {limitText(data.fuel_type.replace("_", " "))}</Typography>
+                      <Typography color={"#000000"}>
+                        {" "}
+                        {limitText(data.fuel_type.replace("_", " "))}
+                      </Typography>
                     </Stack>
                   )}
                 </Stack>
                 {/* Features End */}
               </Link>
-
             </Stack>
           </Box>
           <Stack
@@ -1156,7 +1207,6 @@ const VehicleCard = ({
             />
           </Stack>
         </CustomCarCard>
-
       ) : (
         <HorizontalCarCard
           addToWishlistHandler={addToWishlistHandler}
@@ -1214,7 +1264,11 @@ const VehicleCard = ({
           providerId={data?.provider?.id}
         />
       </CustomModal>
-      <CustomModal openModal={open} handleClose={() => setOpen(false)} maxWidth="900px">
+      <CustomModal
+        openModal={open}
+        handleClose={() => setOpen(false)}
+        maxWidth="900px"
+      >
         <IconButton
           onClick={() => setOpen(false)}
           sx={{ position: "absolute", top: 0, right: 0 }}
@@ -1253,7 +1307,13 @@ const VehicleCard = ({
           from={fromSearch}
         /> */}
       </CustomModal>
-      <CustomModal openModal={isSameOpen} handleClose={() => { setIsSameOpen(false) }} maxWidth="380px">
+      <CustomModal
+        openModal={isSameOpen}
+        handleClose={() => {
+          setIsSameOpen(false);
+        }}
+        maxWidth="380px"
+      >
         <IconButton
           onClick={() => setIsSameOpen(false)}
           sx={{ position: "absolute", top: 0, right: 0 }}
@@ -1261,11 +1321,21 @@ const VehicleCard = ({
           <CloseIcon sx={{ fontSize: "16px" }} />
         </IconButton>
         <Stack spacing={2} p="1.5rem">
-          <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+          >
             {/* <InfoIcon sx={{ fontSize: "70px" }} /> */}
             {/* <WarningIcon sx={{ color:theme=>theme.palette.error.main, fontSize: "70px" }} /> */}
           </Stack>
-          <Typography textAlign="center" fontSize="18px" fontWeight="600" color={theme => theme.palette.error.main}>
+          <Typography
+            textAlign="center"
+            fontSize="18px"
+            fontWeight="600"
+            color={(theme) => theme.palette.error.main}
+          >
             {t(`Do you want to change trip type`)}
           </Typography>
           <Typography textAlign="center" fontSize="16px" fontWeight="400">
@@ -1280,15 +1350,29 @@ const VehicleCard = ({
               };
 
               return t(
-                `Are you sure you want to switch trip type to ${getLabel(toType)}?`
+                `Are you sure you want to switch trip type to ${getLabel(
+                  toType,
+                )}?`,
               );
             })()}
           </Typography>
           <Stack direction="row" spacing={2} justifyContent="flex-end">
-            <Button fullWidth variant="outlined" onClick={() => { setIsSameOpen(false) }}>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                setIsSameOpen(false);
+              }}
+            >
               {t("No")}
             </Button>
-            <LoadingButton backgroundColor="#1A914B" loading={userDataIsLoading} fullWidth variant="contained" onClick={handleChangePrvTripType}>
+            <LoadingButton
+              backgroundColor="#1A914B"
+              loading={userDataIsLoading}
+              fullWidth
+              variant="contained"
+              onClick={handleChangePrvTripType}
+            >
               {t("Yes")}
             </LoadingButton>
           </Stack>
@@ -1315,7 +1399,13 @@ const VehicleCard = ({
           }
         />
       </CustomModal>
-      <CustomModal openModal={openHourDiffModal} handleClose={() => { setOpenHourDiffModal(false) }} maxWidth="350px">
+      <CustomModal
+        openModal={openHourDiffModal}
+        handleClose={() => {
+          setOpenHourDiffModal(false);
+        }}
+        maxWidth="350px"
+      >
         <IconButton
           onClick={() => setOpenHourDiffModal(false)}
           sx={{ position: "absolute", top: 0, right: 0 }}
@@ -1323,20 +1413,45 @@ const VehicleCard = ({
           <CloseIcon sx={{ fontSize: "16px" }} />
         </IconButton>
         <Stack spacing={2} p="1.5rem">
-          <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+          >
             {/* <InfoIcon sx={{ fontSize: "70px" }} /> */}
           </Stack>
-          <Typography textAlign="center" fontSize="18px" fontWeight="600" color={theme => theme.palette.error.main}>
+          <Typography
+            textAlign="center"
+            fontSize="18px"
+            fontWeight="600"
+            color={(theme) => theme.palette.error.main}
+          >
             {t(`Do you want to change trip duration`)}
           </Typography>
           <Typography textAlign="center" fontSize="16px" fontWeight="400">
-            {t(`Are you sure, you want to update trip duration to ${rentalSearch?.duration} hours`)}
+            {t(
+              `Are you sure, you want to update trip duration to ${rentalSearch?.duration} hours`,
+            )}
           </Typography>
           <Stack direction="row" spacing={2} justifyContent="flex-end">
-            <Button fullWidth variant="outlined" onClick={() => { setOpenHourDiffModal(false) }}>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                setOpenHourDiffModal(false);
+              }}
+            >
               {t("No")}
             </Button>
-            <LoadingButton loading={confirmIsLoading} fullWidth variant="contained" onClick={() => { handleHourDiffModal(bookingDetails, updateOrAdd) }}>
+            <LoadingButton
+              loading={confirmIsLoading}
+              fullWidth
+              variant="contained"
+              onClick={() => {
+                handleHourDiffModal(bookingDetails, updateOrAdd);
+              }}
+            >
               {t("Yes")}
             </LoadingButton>
           </Stack>

@@ -140,8 +140,8 @@ const GlobalSearchBox = () => {
           sx: {
             height: inputHeight,
             fontSize,
-            backgroundColor: "#fff",
-            "& .MuiOutlinedInput-notchedOutline": { borderColor: "#ddd" },
+            backgroundColor: "var(--bg-card)",
+            "& .MuiOutlinedInput-notchedOutline": { borderColor: "var(--food-border-input)" },
           },
           startAdornment: (
             <InputAdornment position="start">
@@ -159,8 +159,8 @@ const GlobalSearchBox = () => {
             top: "100%",
             left: 0,
             width: "100%",
-            bgcolor: "#fff",
-            color: "black",
+            bgcolor: "var(--bg-card)",
+            color: "var(--text-strong)",
             boxShadow: 3,
             // 🔧 FIX: bahut zyada high z-index taaki koi bhi page content (banner/carousel/
             // header ka koi aur hissa) isse upar na aa sake aur click intercept na kare.
@@ -173,7 +173,7 @@ const GlobalSearchBox = () => {
           }}
         >
           {filteredData.items.length === 0 && filteredData.stores.length === 0 ? (
-            <Box sx={{ padding: suggestionPadding, textAlign: "center", fontSize, color: "#020202ff" }}>
+            <Box sx={{ padding: suggestionPadding, textAlign: "center", fontSize, color: "var(--text-strong)" }}>
               No results found
             </Box>
           ) : (
@@ -187,9 +187,9 @@ const GlobalSearchBox = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: 1,
-                    borderBottom: "1px solid #eee",
+                    borderBottom: "1px solid var(--food-border-light)",
                     cursor: "pointer",
-                    "&:hover": { backgroundColor: "#f5f5f5" },
+                    "&:hover": { backgroundColor: "var(--food-bg-hover)" },
                   }}
                   // 🔧 FIX: onMouseDown use kiya + preventDefault, taaki TextField ka blur
                   // ya document ka "mousedown" outside-click listener, click complete hone
@@ -214,9 +214,9 @@ const GlobalSearchBox = () => {
                   />
                   <Box sx={{ flex: 1, pointerEvents: "none" }}>
                     <Typography sx={{ fontSize, fontWeight: 500 }}>{item.name}</Typography>
-                    <Typography sx={{ fontSize: "11px", color: "#050505ff" }}>{item.store_name}</Typography>
+                    <Typography sx={{ fontSize: "11px", color: "var(--text-strong)" }}>{item.store_name}</Typography>
                   </Box>
-                  <Typography sx={{ fontSize, fontWeight: 600, color: "black", pointerEvents: "none" }}>
+                  <Typography sx={{ fontSize, fontWeight: 600, color: "var(--text-strong)", pointerEvents: "none" }}>
                     {getAmountWithSign(item.price)}
                   </Typography>
                 </Box>
@@ -231,9 +231,9 @@ const GlobalSearchBox = () => {
                     display: "flex",
                     alignItems: "center",
                     gap: 1,
-                    borderBottom: "1px solid #eee",
+                    borderBottom: "1px solid var(--food-border-light)",
                     cursor: "pointer",
-                    "&:hover": { backgroundColor: "#f5f5f5" },
+                    "&:hover": { backgroundColor: "var(--food-bg-hover)" },
                   }}
                   onMouseDown={(e) => {
                     e.preventDefault();
@@ -254,7 +254,7 @@ const GlobalSearchBox = () => {
                   />
                   <Box sx={{ flex: 1, pointerEvents: "none" }}>
                     <Typography sx={{ fontSize, fontWeight: 500 }}>{store.name}</Typography>
-                    <Typography sx={{ fontSize: "11px", color: "black" }}>Store</Typography>
+                    <Typography sx={{ fontSize: "11px", color: "var(--text-strong)" }}>Store</Typography>
                   </Box>
                 </Box>
               ))}

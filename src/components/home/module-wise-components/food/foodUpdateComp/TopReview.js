@@ -26,9 +26,9 @@ import { useTranslation } from 'react-i18next';
 
 
 // --- Configuration ---
-const GREEN_COLOR = '#e8f4ed'; // Background for container
-const ICON_GREEN_COLOR = '#4caf50'; // Color for icons/buttons
-const PINK_COLOR = '#fff5cd';
+const GREEN_COLOR = 'var(--food-soft-mint-bg)'; // Background for container
+const ICON_GREEN_COLOR = 'var(--brand-green)'; // Color for icons/buttons
+const PINK_COLOR = 'var(--food-badge-soft-yellow-bg)';
 
 // API Configuration (we will update ZoneId dynamically)
 const API_URL = 'https://dealplex.in/api/v1/items/most-reviewed';
@@ -79,7 +79,7 @@ const OfferCard = ({ title, restaurant, deliveryTime, originalPrice, discountedP
                 height: "100%", // Ensure equal height
                 flexShrink: 0,
                 borderRadius: '8px !Important',
-                border: '1px solid #e0e0e0',
+                border: '1px solid var(--border-default)',
                 stroke: 1,
                 position: 'relative',
                 overflow: 'hidden',
@@ -99,16 +99,16 @@ const OfferCard = ({ title, restaurant, deliveryTime, originalPrice, discountedP
                     width: 40,
                     height: 40,
                     // borderRadius: "12px",
-                    // backgroundColor: "rgba(255,255,255,0.95)",
+                    // backgroundColor: "var(--food-overlay-95)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    // border: "1px solid #E7E7E7",
+                    // border: "1px solid var(--border-image)",
                     cursor: "pointer",
                     zIndex: 5,
                     transition: "all 0.2s ease",
                     "&:hover": {
-                        backgroundColor: "#ffffff",
+                        backgroundColor: "var(--bg-card)",
                         transform: "scale(1.05)",
                     },
                 }}
@@ -122,9 +122,9 @@ const OfferCard = ({ title, restaurant, deliveryTime, originalPrice, discountedP
                 }}
             >
                 {isWishlisted(item.id) ? (
-                    <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                    <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
                 ) : (
-                    <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+                    <FavoriteBorderIcon sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }} />
                 )}
             </Box>
 
@@ -160,13 +160,13 @@ const OfferCard = ({ title, restaurant, deliveryTime, originalPrice, discountedP
                             display: 'flex',
                             alignItems: 'center',
                             backgroundColor: PINK_COLOR,
-                            color: '#333',
+                            color: 'var(--food-text-body)',
                             px: 0.9,
                             py: 0.7,
                             zIndex: 3,
                             mb: 0.5,
                             width: 'fit-content',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                            boxShadow: '0 1px 3px var(--food-shadow-strong)',
                         }}
                     >
                         <Typography variant="caption" fontWeight="bold" lineHeight={1} sx={{ fontSize: '0.7rem' }}>
@@ -188,7 +188,7 @@ const OfferCard = ({ title, restaurant, deliveryTime, originalPrice, discountedP
                     <Typography
                         variant="subtitle1"
                         fontWeight="bold"
-                        color="#333"
+                        color="var(--food-text-body)"
                         sx={{
                             flexGrow: 1,
                             overflow: 'hidden',
@@ -214,8 +214,8 @@ const OfferCard = ({ title, restaurant, deliveryTime, originalPrice, discountedP
                             height: '24px',
                         }}
                     >
-                        <StarIcon sx={{ color: '#1A914B', fontSize: 14, mr: 0.2 }} />
-                        <Typography variant="body2" fontWeight="bold" sx={{ color: '#1A914B' }} >
+                        <StarIcon sx={{ color: 'var(--food-cta-green)', fontSize: 14, mr: 0.2 }} />
+                        <Typography variant="body2" fontWeight="bold" sx={{ color: 'var(--food-cta-green)' }} >
                             {isLoading ? <Skeleton width={30} /> : rating}
                         </Typography>
                     </Box>
@@ -359,7 +359,7 @@ const TopReviewedItemsLayout = () => {
     return (
         <Box sx={{ width: '100%', py: 2, boxSizing: 'border-box', margin: 0 }}>
             {error && (
-                <Box sx={{ p: 1, mx: 2, mb: 1, backgroundColor: '#ffe0b2', color: '#ff9800', borderRadius: 1 }}>
+                <Box sx={{ p: 1, mx: 2, mb: 1, backgroundColor: 'var(--food-badge-soft-orange-bg)', color: 'var(--food-accent-orange)', borderRadius: 1 }}>
                     <Typography variant="body2" fontWeight="bold">{error}</Typography>
                 </Box>
             )}
@@ -385,11 +385,11 @@ const TopReviewedItemsLayout = () => {
                     '.swiper-button-prev, .swiper-button-next': {
                         color: ICON_GREEN_COLOR,
                         '&:after': { fontSize: '20px !important', fontWeight: 'bold' },
-                        backgroundColor: 'rgba(255,255,255,0.8)',
+                        backgroundColor: 'var(--food-overlay-80)',
                         borderRadius: '50%',
                         width: '35px',
                         height: '35px',
-                        boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                        boxShadow: '0 2px 5px var(--food-shadow-strong)',
                     },
                     '.swiper-slide': {
                         height: 'auto',

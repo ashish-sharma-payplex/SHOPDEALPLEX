@@ -49,7 +49,7 @@ import useWishlistHandler from "../../../search/pathflow/wishlisthandler"; // en
 
 // Constants
 const CARD_WIDTH = 200;
-const GREEN_COLOR = "#4caf50";
+const GREEN_COLOR = "var(--brand-green)";
 const CATEGORIES_API_URL = "https://dealplex.in/api/v1/categories";
 const moduleId = 5;
 const offset = 1;
@@ -81,9 +81,9 @@ const ProductCardDesignB = ({ product, handleProductPreview, loading }) => { // 
                 borderRadius: "12px !important",
                 flexShrink: 0,
                 mr: 2,
-                border: "1px solid #e0e0e0",
+                border: "1px solid var(--border-default)",
                 overflow: "hidden",
-                backgroundColor: "white",
+                backgroundColor: "var(--bg-card)",
                 cursor: loading ? "default" : "pointer", // Change cursor when loading
                 scrollSnapAlign: "start",
                 position: "relative",
@@ -134,8 +134,8 @@ const ProductCardDesignB = ({ product, handleProductPreview, loading }) => { // 
                                 top: 0,
                                 left: 8,
                                 backgroundColor:
-                                    "#1A914B",
-                                color: "#fff",
+                                    "var(--food-cta-green)",
+                                color: "var(--food-text-on-brand)",
                                 fontWeight: 700,
                                 fontSize: "0.6rem",
                                 padding: "6px 4px", // Adjusted padding for better fit
@@ -161,7 +161,7 @@ const ProductCardDesignB = ({ product, handleProductPreview, loading }) => { // 
                                     10% 100%,
                                     0 85%
                                 )`,
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                                boxShadow: "0 2px 6px var(--food-overlay-modal)",
                                 zIndex: 5,
                             }}
                         >
@@ -205,16 +205,16 @@ const ProductCardDesignB = ({ product, handleProductPreview, loading }) => { // 
                   width: 24,
                   height: 24,
                   borderRadius: "12px",
-                //   backgroundColor: "rgba(255,255,255,0.95)",
+                //   backgroundColor: "var(--food-overlay-95)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                //   border:"1px solid #E7E7E7",
+                //   border:"1px solid var(--border-image)",
                   cursor: "pointer",
                   zIndex: 5,
                   transition: "all 0.2s ease",
                   "&:hover": {
-                    // backgroundColor: "#ffffff",
+                    // backgroundColor: "var(--bg-card)",
                     transform: "scale(1.05)",
                   },
                 }}
@@ -228,9 +228,9 @@ const ProductCardDesignB = ({ product, handleProductPreview, loading }) => { // 
                 }}
               >
                 {isWishlisted(product) ? (
-                  <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                  <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
                 ) : (
-                  <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+                  <FavoriteBorderIcon sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }} />
                 )}
               </Box>
                     </Box>
@@ -343,14 +343,14 @@ const ProductSliderDesignB = ({ products = [], pageLimit = 6, handleProductPrevi
       cursor: "pointer", // optional (mostly works on thumb)
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#ccc",
+      backgroundColor: "var(--food-border-lightgray)",
       borderRadius: 4,
       cursor: "pointer",
     },
 
     // ✅ hover effect
     "&::-webkit-scrollbar-thumb:hover": {
-      backgroundColor: "#000000", // black on hover
+      backgroundColor: "var(--text-strong)", // black on hover
       cursor: "pointer",
     },
   }}
@@ -707,8 +707,8 @@ export default function FoodDynamicUI() {
                                         sx={{
                                             flexShrink: 0,
                                             fontWeight: 500,
-                                            backgroundColor: "white !important",
-                                            color: activeId === sub.id ? GREEN_COLOR : "black",
+                                            backgroundColor: "var(--bg-card) !important",
+                                            color: activeId === sub.id ? GREEN_COLOR : "var(--text-strong)",
                                             border: "none",
                                             height: "auto",
                                             padding: 0,

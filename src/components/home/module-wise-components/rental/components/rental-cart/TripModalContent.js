@@ -4,6 +4,7 @@ import React from "react";
 import { CustomStackFullWidth } from "styled-components/CustomStyles.style";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, IconButton } from "@mui/material";
+import styles from "styles/rental.module.css";
 const TripModalContent = ({
   content,
   title = "Edit Trip Type",
@@ -12,10 +13,10 @@ const TripModalContent = ({
   return (
     <>
       <CustomStackFullWidth
+        className={styles.rentalModalContent}
         sx={{
           p: "10px",
           position: "relative",
-          backgroundColor: "#ffffff",
           borderRadius: "12px !important",
         }}
       >

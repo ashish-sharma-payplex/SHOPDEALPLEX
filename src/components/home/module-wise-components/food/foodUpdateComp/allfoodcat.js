@@ -45,7 +45,7 @@ const CategoryCardContent = ({ cat }) => {
                 textAlign: "center",
                 padding: isMobile ? "2px" : "16px",
                 height: isMobile ? "100px" : "170px",
-                // backgroundColor: "#f9fafb",
+                // backgroundColor: "var(--bg-subtle)",
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "column",
@@ -104,7 +104,7 @@ const CategoryCardSkeleton = () => (
             padding: "16px",
             width: "100%",
             height: "170px",
-            backgroundColor: "#f9fafb",
+            backgroundColor: "var(--bg-subtle)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -252,7 +252,7 @@ const AllFoodCategories = () => {
         return (
             <Box
                 sx={{
-                    // backgroundColor: "#f9fafb",
+                    // backgroundColor: "var(--bg-subtle)",
                     borderRadius: "12px",
                     px: 3,
                     py: 3,
@@ -284,7 +284,7 @@ const AllFoodCategories = () => {
 
     if (error) {
         return (
-            <Box sx={{ textAlign: "center", color: "red", mt: 3 }}>
+            <Box sx={{ textAlign: "center", color: "var(--danger)", mt: 3 }}>
                 <Typography>Failed to load categories</Typography>
                 <Typography variant="body2">{error}</Typography>
             </Box>
@@ -293,7 +293,7 @@ const AllFoodCategories = () => {
 
     if (categories.length === 0) {
         return (
-            <Typography sx={{ textAlign: "center", mt: 3, color: "gray" }}>
+            <Typography sx={{ textAlign: "center", mt: 3, color: "var(--text-secondary)" }}>
                 No categories available.
             </Typography>
         );
@@ -316,7 +316,7 @@ const AllFoodCategories = () => {
   onClick={toggleExpand}
   sx={{
     textTransform: "none",
-    color: "#15803d",
+    color: "var(--brand-green-hover)",
     display: "inline-flex",
     alignItems: "center",
     gap: "6px", // 👈 yaha gap control karo
@@ -328,7 +328,7 @@ const AllFoodCategories = () => {
     <EastIcon
       sx={{
         fontSize: 15, // thoda chota
-        color: "#1A914B",
+        color: "var(--food-cta-green)",
       }}
     />
   )}

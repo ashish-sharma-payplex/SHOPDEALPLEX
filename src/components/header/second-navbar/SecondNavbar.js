@@ -25,7 +25,10 @@ import useGetBookingList from "api-manage/hooks/react-query/useGetBookingList";
 import useGetUserInfo from "api-manage/hooks/react-query/user/useGetUserInfo";
 
 /* ✅ TRAVEL AUTH BRIDGE */
-import { syncTravelUser, clearTravelUser } from "components/travel-config/userConfig";
+import {
+  syncTravelUser,
+  clearTravelUser,
+} from "components/travel-config/userConfig";
 
 const TRAVELS_REDIRECT_MODE = "PROD";
 
@@ -46,18 +49,18 @@ const SecondNavBar = ({ configData, isBlog = false }) => {
     setUserInfo(reduxProfile ?? null);
   }, [reduxProfile]);
 
-const { refetch: refetchUserInfo } = useGetUserInfo((data) => {
-  if (data) {
-    setUserInfo(data);
-    dispatch(setUser(data));
-  }
-});
+  const { refetch: refetchUserInfo } = useGetUserInfo((data) => {
+    if (data) {
+      setUserInfo(data);
+      dispatch(setUser(data));
+    }
+  });
 
-useEffect(() => {
-  if (token) {
-    refetchUserInfo();
-  }
-}, [token]);
+  useEffect(() => {
+    if (token) {
+      refetchUserInfo();
+    }
+  }, [token]);
   /* ============================================================
      GUEST IMPLEMENTATION
      ============================================================ */
@@ -155,35 +158,35 @@ useEffect(() => {
      ✅ TRAVELS / PROJECT 2 LINK
      ============================================================ */
   const handleTravelsClick = () => {
-  if (TRAVELS_REDIRECT_MODE === "dev") {
-    const travelUrl = new URL("http://localhost:5173");
-    if (userId) travelUrl.searchParams.set("user_id", userId);
-    if (userName) travelUrl.searchParams.set("name", userName);
-    if (userImage) travelUrl.searchParams.set("image", userImage);
-    window.open(travelUrl.toString(), "_blank");
-    return;
-  }
+    if (TRAVELS_REDIRECT_MODE === "dev") {
+      const travelUrl = new URL("http://localhost:5173");
+      if (userId) travelUrl.searchParams.set("user_id", userId);
+      if (userName) travelUrl.searchParams.set("name", userName);
+      if (userImage) travelUrl.searchParams.set("image", userImage);
+      window.open(travelUrl.toString(), "_blank");
+      return;
+    }
 
-  // PROD MODE — same app, internal /travel route
-  if (!token || !userId) {
-    // console.warn("⚠️ Travels click | user login nahi hai — signin modal khol rahe hain");
-    sessionStorage.setItem("pendingRedirect", "/travel/hotels");
-    dispatch(setModalFor("sign-in"));
-    dispatch(setSignInModalOpen(true));
-    return;
-  }
+    // PROD MODE — same app, internal /travel route
+    if (!token || !userId) {
+      // console.warn("⚠️ Travels click | user login nahi hai — signin modal khol rahe hain");
+      sessionStorage.setItem("pendingRedirect", "/travel/hotels");
+      dispatch(setModalFor("sign-in"));
+      dispatch(setSignInModalOpen(true));
+      return;
+    }
 
-  syncTravelUser({ userId, name: userName, image: userImage });
+    syncTravelUser({ userId, name: userName, image: userImage });
 
-  // ✅ router.push (Next.js) ki jagah full page navigation —
-  // taaki React Router ka BrowserRouter fresh mount ho aur
-  // sahi URL (/travel/hotels) se match kare. router.push use karne
-  // se Next.js sirf apna internal history update karta hai, jo
-  // BrowserRouter ko pata hi nahi chalta (wo already mounted state
-  // pe stuck reh jata hai — isi wajah se purana FlightTicketPage
-  // dikhta reh raha tha).
-  window.location.href = "/travel/hotels";
-};
+    // ✅ router.push (Next.js) ki jagah full page navigation —
+    // taaki React Router ka BrowserRouter fresh mount ho aur
+    // sahi URL (/travel/hotels) se match kare. router.push use karne
+    // se Next.js sirf apna internal history update karta hai, jo
+    // BrowserRouter ko pata hi nahi chalta (wo already mounted state
+    // pe stuck reh jata hai — isi wajah se purana FlightTicketPage
+    // dikhta reh raha tha).
+    window.location.href = "/travel/hotels";
+  };
 
   /* ============================================================
      CATEGORY ROUTES
@@ -243,8 +246,8 @@ useEffect(() => {
      ============================================================ */
   return (
     <CustomBoxFullWidth
+      className="navbar-root"
       sx={{
-        backgroundColor: "#FFF",
         zIndex: 1251,
       }}
     >

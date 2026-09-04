@@ -88,7 +88,7 @@ const FoodPopup = ({ open, onClose, product }) => {
   const [storeSwitchOpen, setStoreSwitchOpen] = useState(false);
   const [storeSwitchLoading, setStoreSwitchLoading] = useState(false);
 
-  const greenColor = "#1A914B";
+  const greenColor = "var(--food-cta-green)";
   const hasAuthToken = () => {
     if (typeof window === "undefined") return false;
     return !!localStorage.getItem("token");
@@ -539,7 +539,7 @@ const FoodPopup = ({ open, onClose, product }) => {
         fullWidth
         PaperProps={{
           sx: {
-            backgroundColor: "#ffffff",
+            backgroundColor: "var(--bg-card)",
           },
         }}
       >
@@ -565,8 +565,8 @@ const FoodPopup = ({ open, onClose, product }) => {
                     position: "absolute",
                     top: 0,
                     left: 8,
-                    background: "green",
-                    color: "#fff",
+                    background: "var(--food-cta-green)",
+                    color: "var(--food-text-on-brand)",
                     fontWeight: 700,
                     fontSize: "0.55rem",
                     padding: "6px 8px",
@@ -586,7 +586,7 @@ const FoodPopup = ({ open, onClose, product }) => {
                   position: "absolute",
                   top: 6,
                   right: 6,
-                  bgcolor: "rgba(255,255,255,0.8)",
+                  bgcolor: "var(--food-overlay-80)",
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -595,15 +595,15 @@ const FoodPopup = ({ open, onClose, product }) => {
                 }}
               >
                 {isWishlisted(product) ? (
-                  <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                  <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 20 }} />
                 ) : (
-                  <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+                  <FavoriteBorderIcon sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }} />
                 )}
               </IconButton>
             </Box>
 
             <Box sx={{ width: "65%", pl: 1 }}>
-              <Typography fontWeight="bold" color={"#000000"}>
+              <Typography fontWeight="bold" color={"var(--text-strong)"}>
                 {product?.name}
               </Typography>
 
@@ -615,7 +615,7 @@ const FoodPopup = ({ open, onClose, product }) => {
                   precision={0.5}
                   sx={{
                     "& .MuiRating-iconEmpty": {
-                      color: "#faaf00",
+                      color: "var(--food-star-gold)",
                       opacity: 0.4,
                     },
                   }}
@@ -630,14 +630,14 @@ const FoodPopup = ({ open, onClose, product }) => {
 
               <Box display="flex" alignItems="center" gap={1} mt={0.5}>
                 <Typography fontWeight="bold">
-                  <span style={{ color: "#1A914B" }}>
+                  <span style={{ color: "var(--food-cta-green)" }}>
                     ₹{Math.round(priceToUse)}
                   </span>
                   <span
                     style={{
                       textDecoration: "line-through",
                       marginLeft: "8px",
-                      color: "#ADADAD",
+                      color: "var(--food-text-disabled)",
                       fontSize: "0.8rem",
                       fontWeight: "semibold",
                     }}
@@ -651,7 +651,7 @@ const FoodPopup = ({ open, onClose, product }) => {
                     width: 14,
                     height: 14,
                     border: "1px solid",
-                    borderColor: product?.veg === 1 ? "green" : "red",
+                    borderColor: product?.veg === 1 ? "var(--brand-green)" : "var(--danger)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -662,7 +662,7 @@ const FoodPopup = ({ open, onClose, product }) => {
                       width: 8,
                       height: 8,
                       borderRadius: "50%",
-                      bgcolor: product?.veg === 1 ? "green" : "red",
+                      bgcolor: product?.veg === 1 ? "var(--brand-green)" : "var(--danger)",
                     }}
                   />
                 </Box>
@@ -815,7 +815,7 @@ const FoodPopup = ({ open, onClose, product }) => {
               mb: 1,
             }}
           >
-            <Typography fontWeight="bold" color="green">
+            <Typography fontWeight="bold" color="var(--brand-green)">
               Total Amount: ₹{totalAmount.toFixed(2)}
             </Typography>
 
@@ -842,7 +842,7 @@ const FoodPopup = ({ open, onClose, product }) => {
               sx={{
                 backgroundColor: greenColor,
                 "&:hover": {
-                  backgroundColor: "#157a3f",
+                  backgroundColor: "var(--brand-green-hover)",
                 },
                 position: "relative",
               }}
@@ -865,11 +865,11 @@ const FoodPopup = ({ open, onClose, product }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              borderBottom: "1px solid #eee",
-              backgroundColor: "#ffffff",
+              borderBottom: "1px solid var(--food-border-light)",
+              backgroundColor: "var(--bg-card)",
             }}
           >
-            <Typography fontWeight="bold" color={"#1a1a1a"}>
+            <Typography fontWeight="bold" color={"var(--food-text-neutral-dark)"}>
               {product?.name} Reviews
             </Typography>
             <IconButton onClick={() => setOpenReviews(false)}>
@@ -877,7 +877,7 @@ const FoodPopup = ({ open, onClose, product }) => {
             </IconButton>
           </Box>
 
-          <DialogContent sx={{ p: "12px 16px", backgroundColor: "#ffffff" }}>
+          <DialogContent sx={{ p: "12px 16px", backgroundColor: "var(--bg-card)" }}>
             {reviews.length > 0 ? (
               reviews.map((review, index) => (
                 <Box
@@ -886,8 +886,8 @@ const FoodPopup = ({ open, onClose, product }) => {
                     mb: 2,
                     p: 2,
                     borderRadius: "10px",
-                    backgroundColor: "#fff",
-                    boxShadow: "0px 1px 6px rgba(0,0,0,0.07)",
+                    backgroundColor: "var(--bg-card)",
+                    boxShadow: "0px 1px 6px var(--shadow-review-color)",
                   }}
                 >
                   <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
@@ -896,7 +896,7 @@ const FoodPopup = ({ open, onClose, product }) => {
                         width: 36,
                         height: 36,
                         borderRadius: "50%",
-                        backgroundColor: "#1976d2",
+                        backgroundColor: "var(--food-blue-info)",
                         color: "white",
                         display: "flex",
                         alignItems: "center",
@@ -912,7 +912,7 @@ const FoodPopup = ({ open, onClose, product }) => {
                       <Typography fontWeight={600} fontSize="0.9rem">
                         {review.customer?.f_name || "Unknown User"}
                       </Typography>
-                      <Typography fontSize="0.7rem" color="gray">
+                      <Typography fontSize="0.7rem" color="var(--text-secondary)">
                         {new Date(review.created_at).toLocaleDateString()}
                       </Typography>
                     </Box>
@@ -924,14 +924,14 @@ const FoodPopup = ({ open, onClose, product }) => {
                       precision={0.5}
                       sx={{
                         "& .MuiRating-iconEmpty": {
-                          color: "#faaf00",
+                          color: "var(--food-star-gold)",
                           opacity: 0.4,
                         },
                       }}
                     />
                   </Box>
 
-                  <Typography fontSize="0.85rem" color="#444">
+                  <Typography fontSize="0.85rem" color="var(--food-text-icon-muted)">
                     {review.comment}
                   </Typography>
                 </Box>
@@ -974,12 +974,12 @@ const FoodPopup = ({ open, onClose, product }) => {
               width: { xs: 52, sm: 60 },
               height: { xs: 52, sm: 60 },
               borderRadius: "50%",
-              backgroundColor: "#fff7ed",
+              backgroundColor: "var(--warning-bg)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               mb: 2,
-              border: "2px solid #fed7aa",
+              border: "2px solid var(--warning-border)",
             }}
           >
             <Typography sx={{ fontSize: { xs: 24, sm: 28 } }}>🛒</Typography>
@@ -989,7 +989,7 @@ const FoodPopup = ({ open, onClose, product }) => {
             sx={{
               fontWeight: 700,
               fontSize: { xs: "17px", sm: "19px" },
-              color: "#111827",
+              color: "var(--text-primary)",
               textAlign: "center",
               lineHeight: 1.3,
               mb: 0.5,
@@ -1001,7 +1001,7 @@ const FoodPopup = ({ open, onClose, product }) => {
           <Typography
             sx={{
               fontSize: { xs: "12px", sm: "13px" },
-              color: "#6b7280",
+              color: "var(--text-secondary)",
               textAlign: "center",
             }}
           >
@@ -1012,8 +1012,8 @@ const FoodPopup = ({ open, onClose, product }) => {
         <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: 1.5 }}>
           <Box
             sx={{
-              backgroundColor: "#fef3c7",
-              border: "1px solid #fde68a",
+              backgroundColor: "var(--amber-bg)",
+              border: "1px solid var(--amber-border)",
               borderRadius: "12px",
               px: { xs: 1.8, sm: 2 },
               py: { xs: 1.5, sm: 1.8 },
@@ -1028,7 +1028,7 @@ const FoodPopup = ({ open, onClose, product }) => {
             <Typography
               sx={{
                 fontSize: { xs: "12px", sm: "13px" },
-                color: "#92400e",
+                color: "var(--amber-text)",
                 lineHeight: 1.6,
               }}
             >
@@ -1041,14 +1041,14 @@ const FoodPopup = ({ open, onClose, product }) => {
             sx={{
               mt: 2,
               mb: 1.5,
-              borderTop: "1px dashed #e5e7eb",
+              borderTop: "1px dashed var(--border-subtle)",
             }}
           />
 
           <Typography
             sx={{
               fontSize: { xs: "13px", sm: "14px" },
-              color: "#374151",
+              color: "var(--food-text-form)",
               textAlign: "center",
               fontWeight: 500,
             }}
@@ -1076,13 +1076,13 @@ const FoodPopup = ({ open, onClose, product }) => {
               fontWeight: 600,
               fontSize: { xs: "13px", sm: "14px" },
               py: { xs: 1.3, sm: 1.4 },
-              border: "1.5px solid #e5e7eb",
-              color: "#374151",
-              backgroundColor: "#fff",
+              border: "1.5px solid var(--border-subtle)",
+              color: "var(--food-text-form)",
+              backgroundColor: "var(--bg-card)",
               order: { xs: 2, sm: 1 },
               "&:hover": {
-                backgroundColor: "#f9fafb",
-                borderColor: "#d1d5db",
+                backgroundColor: "var(--bg-subtle)",
+                borderColor: "var(--food-form-border)",
               },
             }}
           >
@@ -1099,17 +1099,17 @@ const FoodPopup = ({ open, onClose, product }) => {
               fontWeight: 700,
               fontSize: { xs: "13px", sm: "14px" },
               py: { xs: 1.3, sm: 1.4 },
-              backgroundColor: "#16a34a",
-              color: "#fff",
+              backgroundColor: "var(--brand-green)",
+              color: "var(--food-text-on-brand)",
               order: { xs: 1, sm: 2 },
-              boxShadow: "0 4px 14px rgba(22,163,74,0.25)",
+              boxShadow: "0 4px 14px var(--food-shadow-btn)",
               "&:hover": {
-                backgroundColor: "#15803d",
-                boxShadow: "0 4px 18px rgba(22,163,74,0.35)",
+                backgroundColor: "var(--brand-green-hover)",
+                boxShadow: "0 4px 18px var(--food-shadow-btn-hover)",
               },
               "&.Mui-disabled": {
-                backgroundColor: "#86efac",
-                color: "#fff",
+                backgroundColor: "var(--brand-green-disabled)",
+                color: "var(--food-text-on-brand)",
               },
             }}
           >

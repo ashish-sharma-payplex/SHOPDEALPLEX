@@ -16,6 +16,7 @@ import TopRatingVehicles from "./New-Rental-pages/Top-rating-Vehicles/TopRatingV
 import ComingSoonPage from "../commingSoon";
 import { Toaster } from "react-hot-toast";
 import Head from "next/head";
+import styles from "styles/rental.module.css";
 
 const Rental = ({ configData, landingPageData }) => {
   const router = useRouter();
@@ -69,6 +70,7 @@ const Rental = ({ configData, landingPageData }) => {
   if (!imagesLoaded) {
     return (
       <Box
+        className={styles.rentalPage}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -76,7 +78,6 @@ const Rental = ({ configData, landingPageData }) => {
           justifyContent: "center",
           minHeight: "350px",
           width: "100%",
-          backgroundColor: "#fff",
           borderRadius: "8px",
           my: 3,
         }}
@@ -98,9 +99,9 @@ const Rental = ({ configData, landingPageData }) => {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <CustomStackFullWidth
+        className={styles.rentalPage}
         sx={{
           width: "100%",
-          backgroundColor: "#fff",
           padding: "24px 0",
         }}
       >

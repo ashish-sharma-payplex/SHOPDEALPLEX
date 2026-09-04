@@ -9,7 +9,9 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  useTheme,
 } from "@mui/material";
+import styles from "styles/Parcel.module.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
@@ -39,6 +41,8 @@ const BookingStatusCard = ({
   drop_latitude,
   drop_longitude,
 }) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
   const TOTAL_TIME = 10 * 60;
 
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
@@ -211,24 +215,26 @@ const BookingStatusCard = ({
   return (
     <>
       <Box
+        className={isDark ? styles.pageDark : undefined}
         sx={{
           minHeight: "100vh",
-          bgcolor: "#f0f4f8",
+          bgcolor: isDark ? undefined : "#f0f4f8",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           p: 2,
-          py: { xs: 10, md: 14 },  // ✅ top & bottom space — navbar/footer se door
+          py: { xs: 10, md: 14 }, // ✅ top & bottom space — navbar/footer se door
         }}
       >
         <Card
+          className={isDark ? styles.cardDark : undefined}
           sx={{
             width: "100%",
             maxWidth: 450,
             borderRadius: "24px",
             p: 4,
-            boxShadow: "0px 8px 24px rgba(0,0,0,0.05)",
-            border: "1px solid #eef2f6",
+            boxShadow: isDark ? undefined : "0px 8px 24px rgba(0,0,0,0.05)",
+            border: isDark ? undefined : "1px solid #eef2f6",
           }}
         >
           {/* ── Animated Circle ── */}
@@ -238,7 +244,7 @@ const BookingStatusCard = ({
                 width: 160,
                 height: 160,
                 borderRadius: "50%",
-                bgcolor: "#def5e5",
+                bgcolor: isDark ? "rgba(52, 164, 44, 0.14)" : "#def5e5",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -249,7 +255,7 @@ const BookingStatusCard = ({
                   width: 100,
                   height: 100,
                   borderRadius: "50%",
-                  bgcolor: "#88dca3",
+                  bgcolor: isDark ? "#34a42c" : "#88dca3",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -321,8 +327,12 @@ const BookingStatusCard = ({
             alignItems="center"
             justifyContent="space-between"
             sx={{ mb: 1 }}
-          > 
-            <Typography variant="h6" fontWeight={700} sx={{ color: "#000", fontFamily: "Inter" }}>
+          >
+            <Typography
+              variant="h6"
+              fontWeight={700}
+              sx={{ color: "#000", fontFamily: "Inter" }}
+            >
               Order Details
             </Typography>
             {/* <IconButton size="small">
@@ -352,7 +362,13 @@ const BookingStatusCard = ({
               >
                 {payment}
               </Typography>
-              <Typography sx={{ color: "#7e8ba0", fontSize: "0.95rem", fontFamily: "Inter" }}>
+              <Typography
+                sx={{
+                  color: "#7e8ba0",
+                  fontSize: "0.95rem",
+                  fontFamily: "Inter",
+                }}
+              >
                 Payment Method
               </Typography>
             </Box>

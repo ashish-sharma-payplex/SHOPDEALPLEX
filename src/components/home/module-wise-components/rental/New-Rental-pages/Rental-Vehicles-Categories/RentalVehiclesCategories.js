@@ -13,6 +13,7 @@ import { useGetCategoryVehicleLists } from "../../rental-api-manage/hooks/react-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Mousewheel } from "swiper/modules";
 import "swiper/css";
+import styles from "styles/rental.module.css";
 import "swiper/css/navigation";
 
 const CARD_WIDTH = 160;
@@ -56,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   swiperWrapper: {
-    backgroundColor: "#fff",
     padding: theme.spacing(2, 0),
     borderRadius: 8,
   },
@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
     border: "1px solid #e0e0e0",
     borderRadius: 10,
-    backgroundColor: "#fff",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -122,7 +121,7 @@ const RentalVehiclesCategories = () => {
   const categories = data?.vehicles ?? [];
 
   const handleCategoryClick = (id) => {
-    // console.log("Category ID:", id); 
+    // console.log("Category ID:", id);
     router.push({
       pathname: "/rental/vehicle-search",
       query: { categoryId: id },
@@ -130,7 +129,6 @@ const RentalVehiclesCategories = () => {
   };
   return (
     <Box className={classes.root}>
-
       {/* Header */}
       {/* Header */}
       <Box
@@ -165,11 +163,12 @@ const RentalVehiclesCategories = () => {
             });
           }}
         >
-          <Typography variant="body1" sx={{ fontWeight: 600, fontSize: { xs: "0.9rem", md: "0.9rem" } }}>
+          <Typography
+            variant="body1"
+            sx={{ fontWeight: 600, fontSize: { xs: "0.9rem", md: "0.9rem" } }}
+          >
             View All
           </Typography>
-
-
 
           <ArrowForwardIcon
             sx={{
@@ -184,10 +183,8 @@ const RentalVehiclesCategories = () => {
         </Box>
       </Box>
 
-
-
       {/* Swiper */}
-      <Box className={classes.swiperWrapper}>
+      <Box className={`${classes.swiperWrapper} ${styles.rentalSection}`}>
         <Swiper
           modules={[Autoplay, Navigation, Mousewheel]}
           loop={true}
@@ -198,19 +195,20 @@ const RentalVehiclesCategories = () => {
           navigation={false}
           slidesPerView={1}
           breakpoints={{
-            0: { slidesPerView: 2, spaceBetween: 8 },       // mobile
-            600: { slidesPerView: 4, spaceBetween: 12 },    // ⭐ tablet → 3 cards
-            900: { slidesPerView: 4, spaceBetween: 16 },    // laptop
-            1200: { slidesPerView: 6, spaceBetween: 24 },   // desktop
+            0: { slidesPerView: 2, spaceBetween: 8 }, // mobile
+            600: { slidesPerView: 4, spaceBetween: 12 }, // ⭐ tablet → 3 cards
+            900: { slidesPerView: 4, spaceBetween: 16 }, // laptop
+            1200: { slidesPerView: 6, spaceBetween: 24 }, // desktop
           }}
-
         >
           {/* Loading */}
           {isLoading &&
             [...Array(6)].map((_, index) => (
               <SwiperSlide key={index}>
                 <Box className={classes.slideContent}>
-                  <Box className={classes.imageBox}>
+                  <Box
+                    className={`${classes.imageBox} ${styles.rentalImageWrap}`}
+                  >
                     <Box
                       style={{
                         width: "80%",
@@ -241,7 +239,9 @@ const RentalVehiclesCategories = () => {
                 className={classes.slideContent}
                 onClick={() => handleCategoryClick(category.id)}
               >
-                <Box className={classes.imageBox}>
+                <Box
+                  className={`${classes.imageBox} ${styles.rentalImageWrap}`}
+                >
                   <Image
                     src={
                       typeof category?.image_full_url === "string"

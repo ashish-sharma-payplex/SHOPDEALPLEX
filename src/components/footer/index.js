@@ -22,10 +22,13 @@ const FooterComponent = (props) => {
         },
       }}
     >
-
       {/* <FooterTop landingPageData={landingPageData} /> */}
       {/* <Brands/> */}
-      <StyledFooterBackground nobottommargin={isLandingPage} sx={{backgroundColor:"#ffffff", my:3}} >
+      <StyledFooterBackground
+        className="footer-root"
+        nobottommargin={isLandingPage}
+        sx={{ my: 3 }}
+      >
         <CustomStackFullWidth
           height="100%"
           alignItems="center"

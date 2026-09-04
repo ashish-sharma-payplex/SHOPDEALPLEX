@@ -1,25 +1,33 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import styles from "styles/Parcel.module.css";
 
 const StepProgress = ({ activeStep, onStepClick }) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark"; // dark-mode flag only, light mode logic below is untouched
   const steps = ["Parcel Details", "Pickup & Drop Details", "Checkout"];
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" sx={{
-      py: 1.5,
-      mt: 0,
-      width: "100%",
-      // overflowX: { xs: "auto", sm: "visible" },
-    }}>
-
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      className={isDark ? styles.stepBarDark : undefined}
+      sx={{
+        py: 1.5,
+        mt: 0,
+        width: "100%",
+        // overflowX: { xs: "auto", sm: "visible" },
+      }}
+    >
       <Box
         display="flex"
         alignItems="center"
         sx={{
           flexDirection: "row",
           justifyContent: "center",
-          gap: {xs:0,sm:4}, // clean spacing between steps
+          gap: { xs: 0, sm: 4 }, // clean spacing between steps
           width: "100%",
         }}
       >
@@ -27,7 +35,19 @@ const StepProgress = ({ activeStep, onStepClick }) => {
           const isActive = index === activeStep;
           const isCompleted = index < activeStep;
 
-          const color = isActive ? "#2e7d32" : isCompleted ? "#000" : "#ccc";
+          // Light mode colors are exactly as before. Dark mode uses its own
+          // hardcoded set from Parcel.module.css's palette.
+          const color = isDark
+            ? isActive
+              ? "#3bb77e"
+              : isCompleted
+              ? "#e8eaec"
+              : "#6b7280"
+            : isActive
+            ? "#2e7d32"
+            : isCompleted
+            ? "#000"
+            : "#ccc";
 
           return (
             <Box
@@ -59,7 +79,9 @@ const StepProgress = ({ activeStep, onStepClick }) => {
                       width: 35,
                       height: 35,
                       borderRadius: "50%",
-                      backgroundColor: "#e6f4ea",
+                      backgroundColor: isDark
+                        ? "rgba(52, 164, 44, 0.18)"
+                        : "#e6f4ea",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -67,7 +89,7 @@ const StepProgress = ({ activeStep, onStepClick }) => {
                   >
                     <CheckIcon
                       sx={{
-                        color: "#1f8f4a",
+                        color: isDark ? "#3bb77e" : "#1f8f4a",
                         fontSize: 20,
                       }}
                     />
@@ -90,7 +112,7 @@ const StepProgress = ({ activeStep, onStepClick }) => {
                         width: 10,
                         height: 10,
                         borderRadius: "50%",
-                        backgroundColor: "#fff",
+                        backgroundColor: isDark ? "#0b0f19" : "#fff",
                       }}
                     />
                   </Box>

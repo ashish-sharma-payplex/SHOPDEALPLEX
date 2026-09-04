@@ -14,7 +14,7 @@ const TopBannerLoader = () => {
         justifyContent: "center",
         borderRadius:3,
         alignItems: "center",
-        backgroundColor: "#f7f7f7", // Light background color for the section
+        backgroundColor: "var(--food-bg-banner)", // Light background color for the section
         py: { xs: 4, md: 8 },
         height: "auto"
       }}
@@ -33,14 +33,14 @@ const TopBannerLoader = () => {
 
             <Typography
               variant="h4"
-              sx={{ fontWeight: "bold", color: "black", mb: 1 }}
+              sx={{ fontWeight: "bold", color: "var(--text-strong)", mb: 1 }}
             >
-              Your <span style={{ color: "green" }}>Favorite</span> Food
+              Your <span style={{ color: "var(--brand-green)" }}>Favorite</span> Food
             </Typography>
 
             <Typography
               variant="h5"
-              sx={{ fontWeight: "bold", color: "orange", mb: 2 }}
+              sx={{ fontWeight: "bold", color: "var(--food-accent-orange)", mb: 2 }}
             >
               Just Minutes Away
             </Typography>

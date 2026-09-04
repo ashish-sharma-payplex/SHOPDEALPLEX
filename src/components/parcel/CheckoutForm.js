@@ -11,7 +11,9 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  useTheme,
 } from "@mui/material";
+import styles from "styles/Parcel.module.css";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -40,9 +42,8 @@ const PAYMENT_MODES = [
 const VehicleImageToggle = ({ vehicle, size = "large" }) => {
   const [showDimensional, setShowDimensional] = useState(false);
 
-  const imgSize = size === "large"
-    ? { width: 110, height: 100 }
-    : { width: 70, height: 60 };
+  const imgSize =
+    size === "large" ? { width: 110, height: 100 } : { width: 70, height: 60 };
 
   const handleToggle = (e) => {
     e.stopPropagation();
@@ -57,7 +58,11 @@ const VehicleImageToggle = ({ vehicle, size = "large" }) => {
 
   return (
     <Box
-      sx={{ position: "relative", cursor: vehicle.dimentional_image ? "zoom-in" : "default", flexShrink: 0 }}
+      sx={{
+        position: "relative",
+        cursor: vehicle.dimentional_image ? "zoom-in" : "default",
+        flexShrink: 0,
+      }}
       onClick={handleToggle}
     >
       <Box
@@ -70,7 +75,9 @@ const VehicleImageToggle = ({ vehicle, size = "large" }) => {
           display: "block",
           transition: "opacity 0.2s ease",
         }}
-        onError={(e) => { e.target.style.display = "none"; }}
+        onError={(e) => {
+          e.target.style.display = "none";
+        }}
       />
       {/* {vehicle.dimentional_image && (
         <Box
@@ -103,6 +110,8 @@ const CheckoutForm = ({
   onEditDrop,
   onBookingSuccess,
 }) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
   const [selectedVehicleId, setSelectedVehicleId] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(PAYMENT_MODES[0]);
   const [isChecked, setIsChecked] = useState(false);
@@ -168,11 +177,12 @@ const CheckoutForm = ({
       <Card
         key={vehicle.vehicle_id}
         onClick={() => setSelectedVehicleId(vehicle.vehicle_id)}
+        className={isDark ? styles.innerCardDark : undefined}
         sx={{
           cursor: "pointer",
           // border: isSelected ? "2px solid #16a34a" : "1px solid #e5e7eb",
           // boxShadow: isSelected ? "0 0 0 3px rgba(22,163,74,0.09)" : "none",
-          boxShadow:"none",
+          boxShadow: "none",
           transition: "all 0.2s ease",
           p: 2,
           borderRadius: "16px !important",
@@ -181,9 +191,13 @@ const CheckoutForm = ({
           flexDirection: "column",
           alignItems: "center",
           gap: 1,
-          background: isSelected
+          background: isDark
+            ? isSelected
+              ? "linear-gradient(90deg, rgba(52,164,44,0.16) 0%, rgba(52,164,44,0.10) 60%, #1f2937 100%)"
+              : undefined
+            : isSelected
             ? "linear-gradient(90deg, #f0fdf4 0%, #f0fdf4 60%, #ffffff 100%)"
-            : "#fff"
+            : "#fff",
         }}
       >
         {/* {isRecommended && (
@@ -208,7 +222,7 @@ const CheckoutForm = ({
           sx={{
             fontWeight: 600,
             fontSize: "14px",
-            color: "#1f2937",
+            color: isDark ? "#e8eaec" : "#1f2937",
             fontFamily: "Inter",
           }}
         >
@@ -222,7 +236,11 @@ const CheckoutForm = ({
           sx={{ px: 0.5 }}
         >
           <Typography
-            sx={{ fontSize: "12px", color: "#6b7280", fontFamily: "Inter" }}
+            sx={{
+              fontSize: "12px",
+              color: isDark ? "#a0aec0" : "#6b7280",
+              fontFamily: "Inter",
+            }}
           >
             {vehicle.vehicle_weight_capacity}
           </Typography>
@@ -230,16 +248,29 @@ const CheckoutForm = ({
             sx={{
               fontWeight: 700,
               fontSize: "16px",
-              color: "#374151",
+              color: isDark ? "#3bb77e" : "#374151",
               fontFamily: "Inter",
             }}
           >
             ₹{vehicle.estimated_fare}
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center" gap={0.5} alignSelf="flex-start">
-          <AccessTimeIcon sx={{ fontSize: 13, color: "#6b7280" }} />
-          <Typography sx={{ fontSize: "12px", color: "#6b7280", fontFamily: "Inter" }}>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={0.5}
+          alignSelf="flex-start"
+        >
+          <AccessTimeIcon
+            sx={{ fontSize: 13, color: isDark ? "#a0aec0" : "#6b7280" }}
+          />
+          <Typography
+            sx={{
+              fontSize: "12px",
+              color: isDark ? "#a0aec0" : "#6b7280",
+              fontFamily: "Inter",
+            }}
+          >
             {vehicle.loding_unloding_time} min loading time
           </Typography>
         </Box>
@@ -254,6 +285,7 @@ const CheckoutForm = ({
       <Card
         key={vehicle.vehicle_id}
         onClick={() => setSelectedVehicleId(vehicle.vehicle_id)}
+        className={isDark ? styles.innerCardDark : undefined}
         sx={{
           cursor: "pointer",
           // border: isSelected ? "2px solid #16a34a" : "1px solid #e5e7eb",
@@ -272,19 +304,34 @@ const CheckoutForm = ({
           <VehicleImageToggle vehicle={vehicle} size="small" />
           <Box>
             <Typography
-              sx={{ fontWeight: 500, fontSize: "13px", fontFamily: "Inter" }}
+              sx={{
+                fontWeight: 500,
+                fontSize: "13px",
+                fontFamily: "Inter",
+                color: isDark ? "#e8eaec" : undefined,
+              }}
             >
               {vehicle.vehicle_name}
             </Typography>
             <Typography
-              sx={{ fontSize: "12px", color: "#6b7280", fontFamily: "Inter" }}
+              sx={{
+                fontSize: "12px",
+                color: isDark ? "#a0aec0" : "#6b7280",
+                fontFamily: "Inter",
+              }}
             >
               {vehicle.vehicle_weight_capacity}
             </Typography>
             <Box display="flex" alignItems="center" gap={0.5} mt={0.3}>
-              <AccessTimeIcon sx={{ fontSize: 12, color: "#9ca3af" }} />
+              <AccessTimeIcon
+                sx={{ fontSize: 12, color: isDark ? "#8b95a5" : "#9ca3af" }}
+              />
               <Typography
-                sx={{ fontSize: "11px", color: "#9ca3af", fontFamily: "Inter" }}
+                sx={{
+                  fontSize: "11px",
+                  color: isDark ? "#8b95a5" : "#9ca3af",
+                  fontFamily: "Inter",
+                }}
               >
                 {vehicle.loding_unloding_time} min
               </Typography>
@@ -292,7 +339,12 @@ const CheckoutForm = ({
           </Box>
         </Box>
         <Typography
-          sx={{ fontWeight: 600, fontSize: "14px", fontFamily: "Inter" }}
+          sx={{
+            fontWeight: 600,
+            fontSize: "14px",
+            fontFamily: "Inter",
+            color: isDark ? "#3bb77e" : undefined,
+          }}
         >
           ₹{vehicle.estimated_fare}
         </Typography>
@@ -305,6 +357,7 @@ const CheckoutForm = ({
       <Toaster position="top-center" reverseOrder={false} />
 
       <Box
+        className={isDark ? styles.pageDark : undefined}
         sx={{
           minHeight: "100vh",
           display: "flex",
@@ -315,6 +368,7 @@ const CheckoutForm = ({
       >
         <Card
           elevation={0}
+          className={isDark ? styles.cardDark : undefined}
           sx={{
             p: 2,
             borderRadius: 3,
@@ -327,7 +381,15 @@ const CheckoutForm = ({
           <Grid container spacing={4} wrap="nowrap">
             {/* ═══ LEFT ═══ */}
             <Grid item sx={{ width: "62%" }}>
-              <Card variant="outlined" sx={{ p: 3, borderRadius: "16px !important" }}>
+              <Card
+                variant="outlined"
+                className={
+                  isDark
+                    ? `${styles.innerCardDark} ${styles.inputsDark}`
+                    : undefined
+                }
+                sx={{ p: 3, borderRadius: "16px !important" }}
+              >
                 {/* Parcel Info */}
                 <Box
                   display="flex"
@@ -358,7 +420,13 @@ const CheckoutForm = ({
                     Change
                   </Typography>
                 </Box>
-                <Box display="flex" alignItems="center" gap={1} flexWrap="wrap" mb={1.5}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  flexWrap="wrap"
+                  mb={1.5}
+                >
                   <Typography
                     sx={{
                       fontSize: "14px",
@@ -394,10 +462,13 @@ const CheckoutForm = ({
                     alignItems: "center",
                     gap: 1,
                     borderRadius: "4px",
-                    background: "linear-gradient(to right, #d8f5e5, rgba(216,245,229,0))",
+                    background:
+                      "linear-gradient(to right, #d8f5e5, rgba(216,245,229,0))",
                   }}
                 >
-                  <AccessTimeIcon sx={{ fontSize: 18, color: "#1f8f4a", flexShrink: 0 }} />
+                  <AccessTimeIcon
+                    sx={{ fontSize: 18, color: "#1f8f4a", flexShrink: 0 }}
+                  />
                   <Typography
                     sx={{
                       fontSize: "13px",
@@ -407,7 +478,8 @@ const CheckoutForm = ({
                       fontFamily: "Inter",
                     }}
                   >
-                    Free <strong>{lodingTime} min</strong> of loading-unloading time included.
+                    Free <strong>{lodingTime} min</strong> of loading-unloading
+                    time included.
                   </Typography>
                 </Box>
 
@@ -465,9 +537,14 @@ const CheckoutForm = ({
                       </Typography>
                       <Box display="flex" justifyContent="space-between">
                         <Typography
-                          sx={{ fontWeight: 600, fontSize: "13px", fontFamily: "Inter" }}
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: "13px",
+                            fontFamily: "Inter",
+                          }}
                         >
-                          {parcelData?.sender_name} • {parcelData?.sender_contact_no}
+                          {parcelData?.sender_name} •{" "}
+                          {parcelData?.sender_contact_no}
                         </Typography>
                         <Typography
                           onClick={onEditPickup}
@@ -483,9 +560,12 @@ const CheckoutForm = ({
                         </Typography>
                       </Box>
                       <Typography sx={{ ...bodyTextSx, mt: 0.3 }}>
-                        {parcelData?.pickup_houseno_buildingname}, {parcelData?.pickup_street_locality}
+                        {parcelData?.pickup_houseno_buildingname},{" "}
+                        {parcelData?.pickup_street_locality}
                       </Typography>
-                      <Typography sx={bodyTextSx}>{parcelData?.pickup_location}</Typography>
+                      <Typography sx={bodyTextSx}>
+                        {parcelData?.pickup_location}
+                      </Typography>
                     </Box>
                   </Box>
                   {/* Drop */}
@@ -518,9 +598,14 @@ const CheckoutForm = ({
                       </Typography>
                       <Box display="flex" justifyContent="space-between">
                         <Typography
-                          sx={{ fontWeight: 600, fontSize: "13px", fontFamily: "Inter" }}
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: "13px",
+                            fontFamily: "Inter",
+                          }}
                         >
-                          {parcelData?.receiver_name} • {parcelData?.receiver_contact_no}
+                          {parcelData?.receiver_name} •{" "}
+                          {parcelData?.receiver_contact_no}
                         </Typography>
                         <Typography
                           onClick={onEditDrop}
@@ -536,9 +621,12 @@ const CheckoutForm = ({
                         </Typography>
                       </Box>
                       <Typography sx={{ ...bodyTextSx, mt: 0.3 }}>
-                        {parcelData?.drop_houseno_buildingname}, {parcelData?.drop_street_locality}
+                        {parcelData?.drop_houseno_buildingname},{" "}
+                        {parcelData?.drop_street_locality}
                       </Typography>
-                      <Typography sx={bodyTextSx}>{parcelData?.drop_location}</Typography>
+                      <Typography sx={bodyTextSx}>
+                        {parcelData?.drop_location}
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
@@ -551,21 +639,49 @@ const CheckoutForm = ({
                     fontWeight: 600,
                     fontSize: "18px",
                     fontFamily: "Inter",
-                    color: "#0f0f0f",
+                    color: isDark ? "#e8eaec" : "#0f0f0f",
                   }}
                 >
                   Fare Breakdown
                 </Typography>
                 <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography sx={bodyTextSx}>Estimated Fare</Typography>
-                  <Typography sx={bodyTextSx}>₹{selectedVehicle?.estimated_fare || 0}</Typography>
+                  <Typography
+                    sx={{
+                      ...bodyTextSx,
+                      color: isDark ? "#a0aec0" : bodyTextSx.color,
+                    }}
+                  >
+                    Estimated Fare
+                  </Typography>
+                  <Typography
+                    sx={{
+                      ...bodyTextSx,
+                      color: isDark ? "#a0aec0" : bodyTextSx.color,
+                    }}
+                  >
+                    ₹{selectedVehicle?.estimated_fare || 0}
+                  </Typography>
                 </Box>
                 <Divider sx={{ my: 1 }} />
                 <Box display="flex" justifyContent="space-between" mb={2}>
-                  <Typography sx={{ fontWeight: 600, fontSize: "14px", fontFamily: "Inter" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: "14px",
+                      fontFamily: "Inter",
+                      color: isDark ? "#e8eaec" : undefined,
+                    }}
+                  >
                     Amount to Pay
                   </Typography>
-                  <Typography sx={{ fontWeight: 600, fontSize: "14px", fontFamily: "Inter" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: "14px",
+                      fontFamily: "Inter",
+                      color: isDark ? "#3bb77e" : undefined,
+                    }}
+                  >
                     ₹{totalCost}
                   </Typography>
                 </Box>
@@ -577,14 +693,20 @@ const CheckoutForm = ({
                       checked={isChecked}
                       onChange={(e) => setIsChecked(e.target.checked)}
                       sx={{
-                        color: "#d1d5db",
+                        color: isDark ? "#4b5563" : "#d1d5db",
                         "&.Mui-checked": { color: "#1f8f4a" },
                         borderRadius: "4px",
                       }}
                     />
                   }
                   label={
-                    <Typography sx={{ fontSize: "13px", fontFamily: "Inter", color: "#374151" }}>
+                    <Typography
+                      sx={{
+                        fontSize: "13px",
+                        fontFamily: "Inter",
+                        color: isDark ? "#a0aec0" : "#374151",
+                      }}
+                    >
                       I agree to the{" "}
                       <span
                         style={{
@@ -603,16 +725,17 @@ const CheckoutForm = ({
 
                 {/* Payment Method */}
                 <Box
+                  className={isDark ? styles.sectionBoxDark : undefined}
                   sx={{
                     mt: 2,
                     px: 2,
                     py: 1.5,
                     borderRadius: "12px",
-                    border: "1px solid #e5e7eb",
+                    border: isDark ? undefined : "1px solid #e5e7eb",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    backgroundColor: "#fff",
+                    backgroundColor: isDark ? undefined : "#fff",
                   }}
                 >
                   <Box display="flex" alignItems="center" gap={1.5}>
@@ -621,7 +744,7 @@ const CheckoutForm = ({
                         width: 44,
                         height: 44,
                         borderRadius: "10px",
-                        backgroundColor: "#f3f4f6",
+                        backgroundColor: isDark ? "#1f2937" : "#f3f4f6",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -649,16 +772,27 @@ const CheckoutForm = ({
                         sx={{ cursor: "pointer" }}
                       >
                         <Typography
-                          sx={{ fontSize: "12px", color: "#6b7280", fontFamily: "Inter" }}
+                          sx={{
+                            fontSize: "12px",
+                            color: "#6b7280",
+                            fontFamily: "Inter",
+                          }}
                         >
                           {selectedPayment.label}
                         </Typography>
-                        <KeyboardArrowDownIcon sx={{ fontSize: 16, color: "#6b7280" }} />
+                        <KeyboardArrowDownIcon
+                          sx={{ fontSize: 16, color: "#6b7280" }}
+                        />
                       </Box>
                     </Box>
                   </Box>
                   <Typography
-                    sx={{ fontWeight: 700, fontSize: "18px", fontFamily: "Inter", color: "#111827" }}
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: "18px",
+                      fontFamily: "Inter",
+                      color: "#111827",
+                    }}
                   >
                     ₹{totalCost}
                   </Typography>
@@ -669,7 +803,11 @@ const CheckoutForm = ({
                   open={Boolean(anchorEl)}
                   onClose={handlePaymentClose}
                   PaperProps={{
-                    sx: { borderRadius: "10px", minWidth: 160, boxShadow: "0 4px 20px rgba(0,0,0,0.12)" },
+                    sx: {
+                      borderRadius: "10px",
+                      minWidth: 160,
+                      boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
+                    },
                   }}
                 >
                   {PAYMENT_MODES.map((mode) => (
@@ -681,7 +819,10 @@ const CheckoutForm = ({
                         fontFamily: "Inter",
                         fontSize: "13px",
                         gap: 1.5,
-                        "&.Mui-selected": { backgroundColor: "#f0fdf4", color: "#1f8f4a" },
+                        "&.Mui-selected": {
+                          backgroundColor: "#f0fdf4",
+                          color: "#1f8f4a",
+                        },
                       }}
                     >
                       <span style={{ fontSize: "18px" }}>{mode.emoji}</span>
@@ -750,7 +891,7 @@ const CheckoutForm = ({
                           fontSize: "18px",
                           fontFamily: "Inter",
                           color: "#0f0f0f",
-                          mb: 2
+                          mb: 2,
                         }}
                       >
                         Others
@@ -758,7 +899,7 @@ const CheckoutForm = ({
                       {otherVehicles.map((vehicle) =>
                         selectedVehicleId === vehicle.vehicle_id
                           ? renderExpandedCard(vehicle, false)
-                          : renderCompactCard(vehicle)
+                          : renderCompactCard(vehicle),
                       )}
                     </>
                   )}

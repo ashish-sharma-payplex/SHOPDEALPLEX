@@ -119,8 +119,8 @@ const SPACING = 24;
 const AUTO_SCROLL_INTERVAL = 3000;
 const PRELOAD_COUNT = 3; 
 
-const GREEN_COLOR = '#2e7d32'; 
-const RED_COLOR = '#d32f2f';
+const GREEN_COLOR = 'var(--food-offer-green)'; 
+const RED_COLOR = 'var(--danger)';
 
 // --- Haversine Distance Calculation Function (Unchanged) ---
 const calculateDistanceKm = (lat1, lon1, lat2, lon2) => {
@@ -148,7 +148,7 @@ const renderStars = (rating) => {
       <StarIcon 
         key={i} 
         sx={{ 
-          color: i < normalizedRating ? '#ffb400' : 'grey.300', 
+          color: i < normalizedRating ? 'var(--food-offer-amber)' : 'grey.300', 
           fontSize: 16,
           mr: 0.1, 
         }} 
@@ -180,7 +180,7 @@ const OfferCardSkeleton = () => (
         sx={{ 
             borderRadius: '8px !Important', 
             minWidth: { xs: CARD_MIN_WIDTH_MOBILE, sm: CARD_MIN_WIDTH }, 
-            boxShadow: '0 2px 4px rgba(0,0,0,0.05)', 
+            boxShadow: '0 2px 4px var(--food-shadow-soft)', 
             display: 'flex', 
             flexDirection: 'row', 
             flexShrink: 0, 
@@ -275,13 +275,13 @@ const OfferCard = React.memo(({ store, isMobileView }) => {
       <Card 
         sx={{ 
           borderRadius: '8px !Important', 
-          border: '1px solid #e0e0e0',
+          border: '1px solid var(--border-default)',
           stroke:1,
           minWidth: CARD_MIN_WIDTH, 
           '@media (max-width: 600px)': {
               minWidth: CARD_MIN_WIDTH_MOBILE, 
           },
-          boxShadow: '0 2px 4px rgba(0,0,0,0.05)', 
+          boxShadow: '0 2px 4px var(--food-shadow-soft)', 
           display: 'flex', 
           flexDirection: 'row', 
           position: 'relative', 
@@ -294,7 +294,7 @@ const OfferCard = React.memo(({ store, isMobileView }) => {
           sx={{ 
             width: { xs: MOBILE_IMAGE_WIDTH, sm: 120 }, 
             height: { xs: MOBILE_IMAGE_HEIGHT, sm: 140 }, 
-            backgroundColor: '#f5f5f5', 
+            backgroundColor: 'var(--food-bg-hover)', 
             borderRadius: 1, 
             flexShrink: 0, 
             position: 'relative', 
@@ -322,7 +322,7 @@ const OfferCard = React.memo(({ store, isMobileView }) => {
               position: 'absolute',
               top: 4,
               right: 4,
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              backgroundColor: 'var(--food-overlay-80)',
               p: 0.5,
               zIndex: 3,
             }}
