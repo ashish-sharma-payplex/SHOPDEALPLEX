@@ -843,7 +843,7 @@ const VehicleCard = ({
                             fontSize={isMobile ? 16 : 18}
                             component="h6"
                             sx={{
-                              color: "#000000",
+                              color: (theme) => theme.palette.text.primary,
                               display: "-webkit-box",
                               WebkitLineClamp: 1,
                               WebkitBoxOrient: "vertical",
@@ -857,8 +857,7 @@ const VehicleCard = ({
                           <Typography
                             sx={{
                               fontSize: "12px",
-                              // color: theme.palette.neutral[600],
-                              color: "#000000",
+                              color: (theme) => theme.palette.neutral[500],
                               textTransform: "capitalize",
                             }}
                           >

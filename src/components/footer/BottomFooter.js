@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import styles from "styles/footer.module.css";
 
 const BottomFooter = () => {
   return (
     <Box
-      className="footer-strip"
+      className={styles["footer-strip"]}
       sx={{
         width: "100%",
         height: "auto",
@@ -16,7 +17,7 @@ const BottomFooter = () => {
         textAlign: "center",
       }}
     >
-      <Typography variant="subtitle" className="footer-text">
+      <Typography variant="subtitle" className={styles["footer-text"]}>
         Copyright 2025 © DealPlex. Created by Payplex
       </Typography>
     </Box>

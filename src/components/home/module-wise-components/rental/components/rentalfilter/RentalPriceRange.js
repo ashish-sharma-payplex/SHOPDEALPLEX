@@ -5,17 +5,14 @@ import { CustomTextField } from "styled-components/CustomStyles.style";
 import { getAmountWithSign } from "helper-functions/CardHelpers";
 
 const RentalPriceRange = ({ minMax, setMinMax, rentalPriceFilterRange }) => {
-
   const handleMinMax = (value) => {
     setMinMax(value);
   };
 
   // ✅ SAFE VALUES (no ||)
-  const min =
-    minMax?.[0] ?? rentalPriceFilterRange?.[0] ?? 0;
+  const min = minMax?.[0] ?? rentalPriceFilterRange?.[0] ?? 0;
 
-  const max =
-    minMax?.[1] ?? rentalPriceFilterRange?.[1] ?? 0;
+  const max = minMax?.[1] ?? rentalPriceFilterRange?.[1] ?? 0;
 
   return (
     <>
@@ -27,12 +24,20 @@ const RentalPriceRange = ({ minMax, setMinMax, rentalPriceFilterRange }) => {
           mb: "7px",
         }}
       >
-        <Typography sx={{ color: "black", letterSpacing: "1px" }}>
+        <Typography
+          sx={{
+            color: (theme) => theme.palette.text.primary,
+            letterSpacing: "1px",
+          }}
+        >
           {getAmountWithSign(min)}
         </Typography>
 
         <Typography
-          sx={{ fontSize: "12px", color: (theme) => theme.palette.neutral[400] }}
+          sx={{
+            fontSize: "12px",
+            color: (theme) => theme.palette.neutral[400],
+          }}
         >
           {getAmountWithSign(max)}
         </Typography>
@@ -67,8 +72,7 @@ const RentalPriceRange = ({ minMax, setMinMax, rentalPriceFilterRange }) => {
               padding: "10px",
               borderRadius: "5px",
               textAlign: "center",
-              background: (theme) =>
-                alpha(theme.palette.neutral[200], 0.3),
+              background: (theme) => alpha(theme.palette.neutral[200], 0.3),
             },
           }}
         />
@@ -88,8 +92,7 @@ const RentalPriceRange = ({ minMax, setMinMax, rentalPriceFilterRange }) => {
               padding: "10px",
               borderRadius: "5px",
               textAlign: "center",
-              background: (theme) =>
-                alpha(theme.palette.neutral[200], 0.3),
+              background: (theme) => alpha(theme.palette.neutral[200], 0.3),
             },
           }}
         />

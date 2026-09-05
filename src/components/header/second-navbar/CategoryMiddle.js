@@ -45,12 +45,12 @@ const CategoryNavbar = ({
       // Travels ke liye alag flow — query param wale user data ke saath external redirect
       onTravelsClick?.();
     } else {
-     const route = categoryRoutes[cat.name];
-if (route) {
-  router.push(route, undefined, { shallow: true });
-} else {
-  // console.warn(`⚠️ No route defined for category: ${cat.name}`);
-}
+      const route = categoryRoutes[cat.name];
+      if (route) {
+        router.push(route, undefined, { shallow: true });
+      } else {
+        // console.warn(`⚠️ No route defined for category: ${cat.name}`);
+      }
     }
 
     if (isMobile) setOpenCategoryMenu(false); // auto-close menu
@@ -60,8 +60,8 @@ if (route) {
     <Box
       sx={{
         width: "100%",
-        backgroundColor: "#fff",
-        borderBottom: "1px solid #ececec",
+        backgroundColor: "var(--nav-bg)",
+        borderBottom: "1px solid var(--nav-border)",
         padding: isMobile ? "0px" : "10px 30px",
       }}
     >
@@ -95,7 +95,10 @@ if (route) {
                   display: "flex",
                   alignItems: "center",
                   transition: "0.3s",
-                  color: selectedCategory === cat.name ? "green" : "black",
+                  color:
+                    selectedCategory === cat.name
+                      ? "#1a914b"
+                      : "var(--nav-text)",
                   fontSize:
                     selectedCategory === cat.name ? activeFontSize : fontSize,
                   fontWeight: selectedCategory === cat.name ? "600" : "400",
@@ -112,6 +115,8 @@ if (route) {
                     filter:
                       selectedCategory === cat.name
                         ? "brightness(0) saturate(100%) invert(46%) sepia(99%) saturate(406%) hue-rotate(86deg)"
+                        : theme.palette.mode === "dark"
+                        ? "invert(1) brightness(1.8)"
                         : "none",
                   }}
                 />

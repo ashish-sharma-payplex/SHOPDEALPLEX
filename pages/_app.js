@@ -2,9 +2,9 @@
 import "../src/styles/globals.css";
 import "../src/styles/nprogress.css";
 import "../src/styles/smooth-scroll.css";
-import "../src/styles/Food.css";
-import "../src/styles/navbar.css";
-import "../src/styles/footer.css";
+import foodStyles from "../src/styles/Food.module.css";
+import navbarStyles from "../src/styles/navbar.module.css";
+import footerStyles from "../src/styles/footer.module.css";
 
 import Head from "next/head";
 import Script from "next/script";
@@ -301,13 +301,17 @@ function MyApp(props) {
                     })}
                   >
                     <RTL direction={value?.settings?.direction}>
-                      <CssBaseline />
+                      <div
+                        className={`${navbarStyles.navbarThemeVars} ${footerStyles.footerThemeVars} ${foodStyles.foodThemeVars}`}
+                      >
+                        <CssBaseline />
 
-                      {getLayout(<Component {...pageProps} />)}
+                        {getLayout(<Component {...pageProps} />)}
 
-                      {shouldShowLocationModal && <LocationModal />}
+                        {shouldShowLocationModal && <LocationModal />}
 
-                      <Toaster />
+                        <Toaster />
+                      </div>
                     </RTL>
                   </ThemeProvider>
                 )}

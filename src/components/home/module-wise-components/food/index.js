@@ -23,6 +23,7 @@ import LoveItem from "../../love-item";
 import RunningCampaigns from "../../running-campaigns";
 import TopBannerLoader from "./foodUpdateComp/TopBannerFood";
 import AllFoodCategories from "./foodUpdateComp/allfoodcat";
+import foodModuleStyles from "styles/Food.module.css";
 import RecommendedRestaurant from "./foodUpdateComp/recomandedResto";
 import SpecialOffersCompleteLayout from "./foodUpdateComp/specialofferSession";
 import TopOffers from "./foodUpdateComp/TopOffers";
@@ -206,7 +207,7 @@ const FoodModule = ({ configData }) => {
   return (
     <>
       <Box
-        className="food-module-root"
+        className={foodModuleStyles["food-module-root"]}
         sx={{ width: "100%", minHeight: "100vh", bgcolor: "var(--bg-page)" }}
       >
         {" "}

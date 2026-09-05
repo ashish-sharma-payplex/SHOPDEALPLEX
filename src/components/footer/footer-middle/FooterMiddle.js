@@ -4,6 +4,7 @@ import { Facebook, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
 import CustomImageContainer from "../../CustomImageContainer";
 import { useSelector } from "react-redux";
 import HitCounter from "components/HitCounter";
+import styles from "styles/footer.module.css";
 
 const mockConfigData = {
   social_media: [
@@ -20,13 +21,21 @@ const mockConfigData = {
 const iconHandler = (name) => {
   switch (name.toLowerCase()) {
     case "facebook":
-      return <Facebook className="footer-icon" sx={{ fontSize: 26 }} />;
+      return (
+        <Facebook className={styles["footer-icon"]} sx={{ fontSize: 26 }} />
+      );
     case "instagram":
-      return <Instagram className="footer-icon" sx={{ fontSize: 26 }} />;
+      return (
+        <Instagram className={styles["footer-icon"]} sx={{ fontSize: 26 }} />
+      );
     case "youtube":
-      return <YouTube className="footer-icon" sx={{ fontSize: 26 }} />;
+      return (
+        <YouTube className={styles["footer-icon"]} sx={{ fontSize: 26 }} />
+      );
     case "linkedin":
-      return <LinkedIn className="footer-icon" sx={{ fontSize: 26 }} />;
+      return (
+        <LinkedIn className={styles["footer-icon"]} sx={{ fontSize: 26 }} />
+      );
     default:
       return null;
   }
@@ -38,7 +47,7 @@ const FooterMiddle = () => {
 
   return (
     <Box
-      className="footer-root"
+      className={styles["footer-root"]}
       sx={{
         mx: "auto",
         pt: { xs: 5, md: 6 },
@@ -79,7 +88,7 @@ const FooterMiddle = () => {
 
             <Typography
               sx={{
-                color: "#555",
+                color: "var(--footer-text-muted)",
                 mt: 2,
                 fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
                 textAlign: { xs: "left", sm: "left" },
@@ -369,7 +378,7 @@ const FooterMiddle = () => {
 
               <Typography
                 sx={{
-                  color: "#555",
+                  color: "var(--footer-text-muted)",
                   fontSize: "0.93rem",
                   lineHeight: 1.7,
                   mb: 2,
@@ -381,7 +390,7 @@ const FooterMiddle = () => {
 
               <Typography
                 sx={{
-                  color: "#555",
+                  color: "var(--footer-text-muted)",
                   fontSize: "0.85rem",
                   mb: 1,
                   fontWeight: 500,
@@ -392,7 +401,7 @@ const FooterMiddle = () => {
 
               <Typography
                 sx={{
-                  color: "#555",
+                  color: "var(--footer-text-muted)",
                   fontSize: "0.85rem",
                   fontWeight: 500,
                 }}
@@ -408,7 +417,7 @@ const FooterMiddle = () => {
       <Divider
         sx={{
           my: 4,
-          borderColor: "#e0e0e0",
+          borderColor: "var(--footer-border)",
           maxWidth: "1200px",
           mx: "auto",
         }}
@@ -476,7 +485,9 @@ const FooterMiddle = () => {
           sx={{ textAlign: { xs: "left", md: "right" } }}
         >
           {/* Copyright */}
-          <Typography sx={{ fontSize: "0.9rem", color: "#333" }}>
+          <Typography
+            sx={{ fontSize: "0.9rem", color: "var(--footer-text-muted)" }}
+          >
             © 2026 Dealplex Solutions Private Limited, All Rights Reserved
           </Typography>
         </Grid>
@@ -518,7 +529,7 @@ const FooterMiddle = () => {
 };
 
 const headingStyle = {
-  color: "#0B3D20",
+  color: "var(--footer-text)",
   fontWeight: "bold",
   mb: 2,
   // textalign: "left",
@@ -527,19 +538,19 @@ const headingStyle = {
 const linkStyle = {
   display: "block",
   mb: 1.2,
-  color: "#555",
+  color: "var(--footer-text-muted)",
   fontSize: "0.93rem",
   textDecoration: "none",
   textAlign: "left",
-  "&:hover": { textDecoration: "underline" },
+  "&:hover": { textDecoration: "underline", color: "var(--footer-icon-hover)" },
 };
 
 const bottomLinkStyle = {
   fontSize: "0.9rem",
-  color: "#333",
+  color: "var(--footer-text-muted)",
   textDecoration: "none",
   textAlign: "left",
-  "&:hover": { textDecoration: "underline" },
+  "&:hover": { textDecoration: "underline", color: "var(--footer-icon-hover)" },
 };
 
 export default FooterMiddle;

@@ -1,14 +1,14 @@
 /* =========================================================================
-   footer.css
+   footer.module.css
    Theme-aware colours for the footer (top/middle/bottom sections).
-   Same [data-theme="dark"] mechanism as navbar.css / Food.css.
+   Same [data-theme="dark"] mechanism as navbar.module.css / Food.module.css.
 
-   Usage:
-     import "styles/footer.css";
-     <Box className="footer-root">...</Box>
+   Written the same way as Parcel.module.css: every selector has a
+   locally-scoped class. Variables live on .footerThemeVars instead of a
+   bare :root, applied once near the top of the app in pages/_app.js.
    ========================================================================= */
 
-:root {
+.footerThemeVars {
   --footer-bg: #ffffff;
   --footer-bg-strip: #f4f4f4;
   --footer-border: #f0eded;
@@ -18,7 +18,7 @@
   --footer-icon-hover: #1a914b;
 }
 
-:root[data-theme="dark"] {
+:global([data-theme="dark"]) .footerThemeVars {
   --footer-bg: #111827;
   --footer-bg-strip: #0b0f19;
   --footer-border: #2d3748;
