@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { NoSsr, Toolbar } from "@mui/material";
 import { CustomBoxFullWidth } from "styled-components/CustomStyles.style";
+import styles from "styles/navbar.module.css";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -250,7 +251,7 @@ const SecondNavBar = ({ configData, isBlog = false }) => {
      ============================================================ */
   return (
     <CustomBoxFullWidth
-      className="navbar-root"
+      className={styles["navbar-root"]}
       sx={{
         zIndex: 1251,
       }}

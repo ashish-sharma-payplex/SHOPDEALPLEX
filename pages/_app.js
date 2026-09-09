@@ -300,13 +300,17 @@ function MyApp(props) {
                     })}
                   >
                     <RTL direction={value?.settings?.direction}>
-                      <CssBaseline />
+                      <div
+                        className={`${navbarStyles.navbarThemeVars} ${footerStyles.footerThemeVars} ${foodStyles.foodThemeVars}`}
+                      >
+                        <CssBaseline />
 
-                      {getLayout(<Component {...pageProps} />)}
+                        {getLayout(<Component {...pageProps} />)}
 
-                      {shouldShowLocationModal && <LocationModal />}
+                        {shouldShowLocationModal && <LocationModal />}
 
-                      <Toaster />
+                        <Toaster />
+                      </div>
                     </RTL>
                   </ThemeProvider>
                 )}

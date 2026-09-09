@@ -30,9 +30,7 @@ import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import TuneIcon from "@mui/icons-material/Tune";
-import {
-  CustomBoxFullWidth,
-} from "styled-components/CustomStyles.style";
+import { CustomBoxFullWidth } from "styled-components/CustomStyles.style";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,14 +46,11 @@ import {
 import ProductModal from "../../../src/components/home/module-wise-components/food/foodUpdateComp/popUpFood";
 import ProductCard from "../../../src/components/home/module-wise-components/food/foodUpdateComp/restocard";
 import useWishlistHandler from "../../../src/components/home/search/pathflow/wishlisthandler";
-import useStoreWishlistHandler from '../../../src/components/home/search/pathflow/storewishlisthandler';
+import useStoreWishlistHandler from "../../../src/components/home/search/pathflow/storewishlisthandler";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function RestorentComponent({
-
-
-
   restaurant,
   categories: initialCategories,
   onBack,
@@ -63,7 +58,8 @@ export default function RestorentComponent({
   if (!restaurant) return null;
 
   const { t } = useTranslation();
-  const { addStoreToWishlist, removeStoreFromWishlist, isStoreWishlisted } = useStoreWishlistHandler(t);
+  const { addStoreToWishlist, removeStoreFromWishlist, isStoreWishlisted } =
+    useStoreWishlistHandler(t);
 
   const dispatch = useDispatch();
   const { cartList } = useSelector((state) => state.cart);
@@ -89,7 +85,7 @@ export default function RestorentComponent({
     if (!categories || categories.length === 0) return;
 
     const firstParent = categories.find(
-      (c) => c.parent_id === 0 && c.childes && c.childes.length > 0
+      (c) => c.parent_id === 0 && c.childes && c.childes.length > 0,
     );
 
     if (!firstParent) return;
@@ -115,7 +111,6 @@ export default function RestorentComponent({
   const [vegFilter, setVegFilter] = useState(null);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
 
-
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -134,13 +129,13 @@ export default function RestorentComponent({
   }, [filteredProducts, page, itemsPerPage]);
 
   const getLatLngFromStorage = () => {
-    const currentLatLng = localStorage.getItem('currentLatLng');
+    const currentLatLng = localStorage.getItem("currentLatLng");
     if (currentLatLng) {
       try {
         const parsedLatLng = JSON.parse(currentLatLng); // Parse the stored JSON string
         return {
           lat: parsedLatLng.lat,
-          long: parsedLatLng.lng
+          long: parsedLatLng.lng,
         };
       } catch (error) {
         // console.error('Error parsing lat/lng from localStorage:', error);
@@ -191,7 +186,7 @@ export default function RestorentComponent({
             moduleId: "5",
             zoneId: JSON.stringify(finalZoneId),
             latitude: lat,
-            longitude: long
+            longitude: long,
           },
         });
         const data = await res.json();
@@ -210,9 +205,6 @@ export default function RestorentComponent({
   const restoCatIds = useMemo(() => {
     return new Set((restaurant.category_ids || []).map(Number));
   }, [restaurant]);
-
-
-
 
   const parentsToRender = useMemo(() => {
     if (!categories) return [];
@@ -243,7 +235,6 @@ export default function RestorentComponent({
     setPage(1);
   }, [products, searchQuery, vegFilter]);
 
-
   // -------------------- fetch products for a subcategory --------------------
   const handleSubClick = async (sub) => {
     setSelectedSubId(sub.id);
@@ -264,16 +255,18 @@ export default function RestorentComponent({
         {
           method: "GET",
           headers: {
-            moduleId: "5", zoneId: JSON.stringify(finalZoneId), latitude: lat,
-            longitude: long
+            moduleId: "5",
+            zoneId: JSON.stringify(finalZoneId),
+            latitude: lat,
+            longitude: long,
           },
-        }
+        },
       );
 
       const data = await res.json();
       if (Array.isArray(data.products)) {
         const filtered = data.products.filter(
-          (p) => p.store_name === restaurant.name
+          (p) => p.store_name === restaurant.name,
         );
         setProducts(filtered);
         setFilteredProducts(filtered);
@@ -315,7 +308,9 @@ export default function RestorentComponent({
   const handleAddToCart = (product) => {
     const exist = cartList.find((p) => p.id === product.id);
     if (exist) {
-      dispatch(setCartItemQuantity({ id: product.id, quantity: exist.quantity + 1 }));
+      dispatch(
+        setCartItemQuantity({ id: product.id, quantity: exist.quantity + 1 }),
+      );
       toast.success("Quantity updated");
     } else {
       dispatch(setCart({ ...product, quantity: 1 }));
@@ -350,8 +345,7 @@ export default function RestorentComponent({
     setOpenModal(true);
   };
   return (
-
-    <Box sx={{ mt: isMobile ? 0 : 0, px: { xs: 2, md: 6 }, }}>
+    <Box sx={{ mt: isMobile ? 0 : 0, px: { xs: 2, md: 6 } }}>
       {/* BACK BUTTON */}
       {/* <IconButton onClick={() => router.push("/restaurant?view=all")}>
         <ArrowBackIcon />
@@ -386,18 +380,16 @@ export default function RestorentComponent({
                 <ArrowBackIcon />
               </IconButton>
 
-
-
               <Typography sx={{ ml: 1, fontWeight: 600 }}>
                 Back to Restaurants
               </Typography>
             </Box>
             <Box
               sx={{
-                border: "1px solid #eee",
+                border: "1px solid #eeeeeea8",
                 borderRadius: "12px",
                 overflow: "hidden",
-                bgcolor: "white",
+                // bgcolor: "white",
               }}
             >
               {/* TOP INFO */}
@@ -436,8 +428,6 @@ export default function RestorentComponent({
                       <FavoriteBorderIcon />
                     )}
                   </IconButton> */}
-
-
                 </Box>
 
                 {/* DESCRIPTION */}
@@ -464,7 +454,7 @@ export default function RestorentComponent({
                     const query = encodeURIComponent(restaurant.address);
                     window.open(
                       `https://www.google.com/maps/search/?api=1&query=${query}`,
-                      "_blank"
+                      "_blank",
                     );
                   }}
                 >
@@ -489,7 +479,7 @@ export default function RestorentComponent({
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <StarIcon sx={{ color: "#00b15e", fontSize: 18 }} />
                     <Typography variant="body2">
-                     {Number(restaurant?.avg_rating || 0).toFixed(1)}
+                      {Number(restaurant?.avg_rating || 0).toFixed(1)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       ({restaurant.reviews_comments_count})
@@ -533,7 +523,9 @@ export default function RestorentComponent({
               </Link>
             )}
 
-            {mobileSubCategory && <Typography>{mobileSubCategory.name}</Typography>}
+            {mobileSubCategory && (
+              <Typography>{mobileSubCategory.name}</Typography>
+            )}
           </Breadcrumbs>
 
           {/* CATEGORY GRID */}
@@ -545,7 +537,10 @@ export default function RestorentComponent({
                     textAlign="center"
                     onClick={() => handleMobileCategoryClick(c)}
                   >
-                    <Avatar src={c.image_full_url} sx={{ mx: "auto", mb: 1, bgcolor: "white", }} />
+                    <Avatar
+                      src={c.image_full_url}
+                      sx={{ mx: "auto", mb: 1, bgcolor: "white" }}
+                    />
                     <Typography variant="body2">{c.name}</Typography>
                   </Box>
                 </Grid>
@@ -628,10 +623,8 @@ export default function RestorentComponent({
                   ))}
                 </Grid>
               )}
-
             </>
           )}
-
         </>
       ) : (
         /* ---------------- DESKTOP VIEW ---------------- */
@@ -644,7 +637,6 @@ export default function RestorentComponent({
               mx: "auto",
             }}
           >
-
             <Box sx={{ mt: "50px", px: { xs: 2, md: 6 }, pb: 6 }}>
               {/* HEADER */}
               <Box sx={{ mb: 2, display: "flex", alignItems: "center" }}>
@@ -653,7 +645,7 @@ export default function RestorentComponent({
                     router.push("/restaurant?view=all");
                   }}
                   sx={{
-                    background: "#f3f3f3",
+                    // background: "#f3f3f3",
                     height: 44,
                     width: 44,
                     borderRadius: "12px",
@@ -661,8 +653,6 @@ export default function RestorentComponent({
                 >
                   <ArrowBackIcon />
                 </IconButton>
-
-
 
                 <Typography sx={{ ml: 1, fontWeight: 600 }}>
                   Back to Restaurants
@@ -713,7 +703,7 @@ export default function RestorentComponent({
                         sx={{
                           cursor: "pointer",
                           textDecoration: "underline",
-                          maxWidth: "300px",        // adjust as per UI
+                          maxWidth: "300px", // adjust as per UI
                           overflow: "hidden",
                           whiteSpace: "nowrap",
                           display: "block",
@@ -723,13 +713,10 @@ export default function RestorentComponent({
                           const query = encodeURIComponent(restaurant.address);
                           window.open(
                             `https://www.google.com/maps/search/?api=1&query=${query}`,
-                            "_blank"
+                            "_blank",
                           );
                         }}
                       >
-
-
-
                         <style>
                           {`
                           @keyframes scrollText {
@@ -751,11 +738,10 @@ export default function RestorentComponent({
                   </Grid>
 
                   <Grid item sx={{ textAlign: "right", position: "relative" }}>
-
                     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                       <StarIcon sx={{ color: "#00b15e", fontSize: 22 }} />
                       <Typography variant="h6" sx={{ ml: 0.5 }}>
-                       {Number(restaurant?.avg_rating || 0).toFixed(1)}
+                        {Number(restaurant?.avg_rating || 0).toFixed(1)}
                       </Typography>
 
                       <Box
@@ -767,8 +753,15 @@ export default function RestorentComponent({
                         }}
                       />
 
-
-                      <Box sx={{ display: "flex", gap: 1, ml: 1, position: "relative", alignItems: "center" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 1,
+                          ml: 1,
+                          position: "relative",
+                          alignItems: "center",
+                        }}
+                      >
                         {restaurant.id && (
                           <Box
                             sx={{
@@ -798,9 +791,13 @@ export default function RestorentComponent({
                             }}
                           >
                             {isStoreWishlisted(restaurant) ? (
-                              <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                              <FavoriteIcon
+                                sx={{ color: "#E53935", fontSize: 20 }}
+                              />
                             ) : (
-                              <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+                              <FavoriteBorderIcon
+                                sx={{ color: "#c4c2c2", fontSize: 20 }}
+                              />
                             )}
                           </Box>
                         )}
@@ -831,12 +828,16 @@ export default function RestorentComponent({
                         <SocialShareModal
                           open={modalOpen}
                           handleClose={handleCloseModal}
-                          currentUrl={window.location.href}  // Get current page URL
+                          currentUrl={window.location.href} // Get current page URL
                         />
                       </Box>
                     </Box>
 
-                    <Typography variant="body2" color="text.secondary" marginRight={13}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      marginRight={13}
+                    >
                       ({restaurant.reviews_comments_count}) reviews
                     </Typography>
                   </Grid>
@@ -890,7 +891,9 @@ export default function RestorentComponent({
                     <Box sx={{ overflowY: "auto", flex: 1 }}>
                       <Box sx={{ marginRight: 2 }}>
                         {!categories ? (
-                          <Typography color="text.secondary">Loading...</Typography>
+                          <Typography color="text.secondary">
+                            Loading...
+                          </Typography>
                         ) : (
                           parentsToRender.map((parent) => {
                             const pid = Number(parent.id);
@@ -900,12 +903,18 @@ export default function RestorentComponent({
                             if (search.trim() !== "") {
                               const lowerSearch = search.toLowerCase();
                               // Filter childes (subcategories) based on the search term
-                              childes = childes.filter((c) => c.name.toLowerCase().includes(lowerSearch));
+                              childes = childes.filter((c) =>
+                                c.name.toLowerCase().includes(lowerSearch),
+                              );
                             }
 
                             // Check if the parent or any child matches the search, and highlight the parent if so
-                            const isParentHighlighted = parent.name.toLowerCase().includes(search.toLowerCase());
-                            const isExpanded = !!expanded[pid] || (search.trim() !== "" && childes.length > 0);
+                            const isParentHighlighted = parent.name
+                              .toLowerCase()
+                              .includes(search.toLowerCase());
+                            const isExpanded =
+                              !!expanded[pid] ||
+                              (search.trim() !== "" && childes.length > 0);
 
                             return (
                               <Box key={pid} sx={{ mb: 1 }}>
@@ -919,16 +928,31 @@ export default function RestorentComponent({
                                     p: 1.1,
                                     display: "flex",
                                     justifyContent: "space-between",
-                                    bgcolor: isParentHighlighted ? "rgba(52,168,83,0.05)" : "white", // Highlight parent if matches search
+                                    bgcolor: isParentHighlighted
+                                      ? "rgba(52,168,83,0.05)"
+                                      : "white", // Highlight parent if matches search
                                   }}
                                 >
-                                  <Box display="flex" gap={2} alignItems="center">
-                                    <Avatar src={parent.image_full_url} sx={{ width: 38, height: 38 }} />
-                                    <Typography fontWeight={700}>{parent.name}</Typography>
+                                  <Box
+                                    display="flex"
+                                    gap={2}
+                                    alignItems="center"
+                                  >
+                                    <Avatar
+                                      src={parent.image_full_url}
+                                      sx={{ width: 38, height: 38 }}
+                                    />
+                                    <Typography fontWeight={700}>
+                                      {parent.name}
+                                    </Typography>
                                   </Box>
 
                                   <Box display="flex" alignItems="center">
-                                    {expanded[pid] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                    {expanded[pid] ? (
+                                      <ExpandLessIcon />
+                                    ) : (
+                                      <ExpandMoreIcon />
+                                    )}
                                   </Box>
                                 </Box>
 
@@ -937,7 +961,9 @@ export default function RestorentComponent({
                                   <Box sx={{ mt: 1 }}>
                                     {parent.childes.map((c, i) => {
                                       // Highlight the subcategory if it matches the search term
-                                      const isSubHighlighted = c.name.toLowerCase().includes(search.toLowerCase());
+                                      const isSubHighlighted = c.name
+                                        .toLowerCase()
+                                        .includes(search.toLowerCase());
                                       return (
                                         <Box key={c.id}>
                                           <Box
@@ -948,16 +974,31 @@ export default function RestorentComponent({
                                               display: "flex",
                                               alignItems: "center",
                                               gap: 1.5,
-                                              color: selectedSubId === c.id ? "#34a853" : "#000", // Highlight selected subcategory
-                                              fontWeight: selectedSubId === c.id ? 700 : 400,
-                                              bgcolor: isSubHighlighted ? "rgba(52,168,83,0.1)" : "transparent", // Highlight if matches search
+                                              color:
+                                                selectedSubId === c.id
+                                                  ? "#34a853"
+                                                  : "#000", // Highlight selected subcategory
+                                              fontWeight:
+                                                selectedSubId === c.id
+                                                  ? 700
+                                                  : 400,
+                                              bgcolor: isSubHighlighted
+                                                ? "rgba(52,168,83,0.1)"
+                                                : "transparent", // Highlight if matches search
                                             }}
                                           >
-                                            <Avatar src={c.image_full_url} sx={{ width: 28, height: 28 }} />
-                                            <Typography variant="body2">{c.name}</Typography>
+                                            <Avatar
+                                              src={c.image_full_url}
+                                              sx={{ width: 28, height: 28 }}
+                                            />
+                                            <Typography variant="body2">
+                                              {c.name}
+                                            </Typography>
                                           </Box>
 
-                                          {i < parent.childes.length - 1 && <Divider sx={{ ml: 6 }} />}
+                                          {i < parent.childes.length - 1 && (
+                                            <Divider sx={{ ml: 6 }} />
+                                          )}
                                         </Box>
                                       );
                                     })}
@@ -984,7 +1025,6 @@ export default function RestorentComponent({
                       position: "relative", // 👈 important
                     }}
                   >
-
                     <TextField
                       placeholder="Search for items..."
                       size="small"
@@ -1023,8 +1063,8 @@ export default function RestorentComponent({
                             bgcolor: "#fff",
                             zIndex: 1000,
                             boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
-                            minWidth: 100,  // Reduced width
-                            mr:-2
+                            minWidth: 100, // Reduced width
+                            mr: -2,
                           }}
                         >
                           {/* Veg option */}
@@ -1033,9 +1073,11 @@ export default function RestorentComponent({
                             sx={{
                               p: 1,
                               cursor: "pointer",
-                              fontWeight: vegFilter === "veg" ? "bold" : "normal",
+                              fontWeight:
+                                vegFilter === "veg" ? "bold" : "normal",
                               fontSize: "0.85rem",
-                              backgroundColor: vegFilter === "veg" ? "#f0f0f0" : "transparent",
+                              backgroundColor:
+                                vegFilter === "veg" ? "#f0f0f0" : "transparent",
                               borderRadius: "4px",
                               "&:hover": {
                                 backgroundColor: "#f5f5f5", // light hover color
@@ -1054,9 +1096,13 @@ export default function RestorentComponent({
                             sx={{
                               p: 1,
                               cursor: "pointer",
-                              fontWeight: vegFilter === "nonveg" ? "bold" : "normal",
+                              fontWeight:
+                                vegFilter === "nonveg" ? "bold" : "normal",
                               fontSize: "0.85rem",
-                              backgroundColor: vegFilter === "nonveg" ? "#f0f0f0" : "transparent",
+                              backgroundColor:
+                                vegFilter === "nonveg"
+                                  ? "#f0f0f0"
+                                  : "transparent",
                               borderRadius: "4px",
                               "&:hover": {
                                 backgroundColor: "#f5f5f5", // same hover
@@ -1075,7 +1121,7 @@ export default function RestorentComponent({
                             sx={{
                               p: 1,
                               cursor: "pointer",
-                              fontSize: "0.85rem",  // Reduced font size
+                              fontSize: "0.85rem", // Reduced font size
                               color: "gray",
                             }}
                             onClick={() => {
@@ -1096,13 +1142,25 @@ export default function RestorentComponent({
                   ) : filteredProducts.length === 0 ? (
                     <Typography>No items found</Typography>
                   ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                      }}
+                    >
                       {/* Product Cards (85/90% area) */}
                       <Box sx={{ flex: "1 0 90%" }}>
                         <Grid container spacing={3} sx={{ flexGrow: 1 }}>
                           {paginatedProducts.map((product) => (
-
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              md={4}
+                              lg={3}
+                              key={product.id}
+                            >
                               <ProductCard
                                 product={product}
                                 onAddToCart={handleAddToCart}
@@ -1115,9 +1173,19 @@ export default function RestorentComponent({
 
                       {/* Pagination controls (bottom fixed area) */}
                       {filteredProducts.length > itemsPerPage && (
-                        <Box sx={{ flex: "0 0 10%", display: "flex", justifyContent: "center", mt: 1, mb: 2 }}>
+                        <Box
+                          sx={{
+                            flex: "0 0 10%",
+                            display: "flex",
+                            justifyContent: "center",
+                            mt: 1,
+                            mb: 2,
+                          }}
+                        >
                           <Pagination
-                            count={Math.ceil(filteredProducts.length / itemsPerPage)}
+                            count={Math.ceil(
+                              filteredProducts.length / itemsPerPage,
+                            )}
                             page={page}
                             onChange={(e, value) => setPage(value)}
                             color="primary"
@@ -1136,7 +1204,6 @@ export default function RestorentComponent({
                 product={selectedProduct}
                 onAddToCart={handleAddToCart}
                 onBuyNow={handleBuyNow}
-
               />
             </Box>
           </CustomBoxFullWidth>
@@ -1152,6 +1219,5 @@ export default function RestorentComponent({
         onBuyNow={handleBuyNow}
       />
     </Box>
-
   );
 }
