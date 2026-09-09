@@ -79,7 +79,6 @@ const DEFAULT_GUESTS_DATA = {
   ],
 };
 
-
 // ─── Full-screen Search Loader (Lottie) — Bus wale jaisa hi ───
 const HotelSearchLoader = ({ open }) => {
   if (!open) return null;
@@ -113,7 +112,6 @@ const HotelSearchLoader = ({ open }) => {
     </Box>
   );
 };
-
 
 // ─── CategoryTabs ─────────────────────────────
 const CategoryTabs = () => {
@@ -234,7 +232,7 @@ function renderFields(
         sx={{
           flex: 1,
           px: 2.5,
-          py: 1.1, // ✅ pehle 1.8 tha, ab kam kar diya
+          py: 1.1,
           cursor: "pointer",
           borderRight: {
             md:
@@ -254,21 +252,12 @@ function renderFields(
           minWidth: 0,
           transition: "background 0.15s",
           bgcolor: hasError ? "#fff5f5" : isActive ? "#f0fdf4" : "transparent",
-          // ✅ FIX — pehle sirf "isActive" hone par hi corner-radius milta tha,
-          // isliye error state (bgcolor #fff5f5 + red border) wale field ka
-          // background container ke round border ke andar sharp/square corner
-          // banata tha — jo red color round border ke upar "overlap" jaisa
-          // dikhta tha. Ab pehle (index 0) aur aakhri (index FIELDS.length-1)
-          // field ko HAMESHA outer container ke corner-radius jitna hi radius
-          // milega (chahe active ho, error ho, ya normal), taaki background /
-          // border colour bilkul round corner ke andar hi clip ho, sharp edge
-          // kabhi na dikhe.
           borderRadius:
             index === 0
               ? {
-                xs: "10.5px 10.5px 0 0",
-                md: "10.5px 0 0 10.5px",
-              }
+                  xs: "10.5px 10.5px 0 0",
+                  md: "10.5px 0 0 10.5px",
+                }
               : "0",
           "&:hover": { background: hasError ? "#fff5f5" : "#f9fafb" },
         }}
@@ -292,7 +281,6 @@ function renderFields(
             sx={{
               fontSize: "0.92rem",
               fontWeight: 600,
-              // ✅ isPlaceholder ho toh gray, real value ho toh dark
               color: field.isPlaceholder ? "#9ca3af" : "#111827",
               flex: 1,
               overflow: "hidden",
@@ -338,9 +326,12 @@ function renderFields(
 const HotelsPage = ({ scrolled }) => {
   const navigate = useNavigate();
 
-  // ✅ TRAVEL AUTH GUARD — page mount hote hi check karega,
-  // login nahi hai to signin modal khol dega (Redux se, grocery jaisa hi)
-  useTravelAuthGuard();
+  // ✅ TRAVEL AUTH GUARD — ab ye `loggedIn` boolean bhi return karta hai.
+  // Login nahi hai to signin modal khol dega (Redux se, grocery jaisa hi),
+  // aur `loggedIn` false hone par hum niche data-fetching useEffect ko
+  // bhi skip karenge — taaki guest ke liye "Session Expired" wala
+  // duplicate blocking Swal popup kabhi trigger na ho.
+  const loggedIn = useTravelAuthGuard();
 
   // ✅ Check In / Check Out ab default aaj aur kal ki date se pre-selected hain
   const [checkIn, setCheckIn] = useState(today);
@@ -358,18 +349,21 @@ const HotelsPage = ({ scrolled }) => {
   const [locationOpen, setLocationOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState({ code: "", name: "" });
 
-  // ✅ FIX — "Mumbai" abhi tak sirf ek GRAY PLACEHOLDER text tha
-  // (selectedCity.code hamesha "" hi rehta tha jab tak user khud
-  // dropdown se koi city na chune). Isliye "default values ke saath
-  // seedha Search karo" test case fail ho raha tha — Search click
-  // karte hi "Please select a location" error aa jata tha, chahe UI
-  // pe "Mumbai" dikh raha ho.
-  //
-  // Ab page load hote hi Mumbai ka REAL city code CITIES API se fetch
+  // ✅ Page load hote hi Mumbai ka REAL city code CITIES API se fetch
   // karke selectedCity me set kar dete hain, taaki default value bhi
   // ek genuinely "selected" value ho aur bina kisi manual selection ke
-  // Search seedha kaam kare — jaisa test case expect karta hai.
+  // Search seedha kaam kare.
+  //
+  // ✅ NAYA — ab ye API call sirf tab hi hoga jab user LOGGED IN ho
+  // (`loggedIn` true). Guest ke liye hotelFetch() andar se
+  // "Session Expired" wala blocking SweetAlert (allowOutsideClick:
+  // false) trigger karta tha, jo signin-modal ke UPAR aake page ko
+  // completely stuck/crash jaisa dikhata tha. Ab guest ke case mein
+  // ye effect kuch nahi karta — sirf useTravelAuthGuard() ka signin
+  // modal dikhega.
   useEffect(() => {
+    if (!loggedIn) return;
+
     let cancelled = false;
 
     async function resolveDefaultCity() {
@@ -392,8 +386,8 @@ const HotelsPage = ({ scrolled }) => {
           prev.code
             ? prev
             : match
-              ? { code: match.code, name: match.name }
-              : prev,
+            ? { code: match.code, name: match.name }
+            : prev,
         );
       } catch {
         // Network/API fail ho jaye toh bhi silently ignore — user
@@ -406,7 +400,8 @@ const HotelsPage = ({ scrolled }) => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [loggedIn]); // ✅ login modal se login karne ke turant baad (bina
+  // reload) ye effect firse chalega aur city fetch ho jaayegi.
 
   // ✅ Rooms & Guests ab default "1 Room, 1 Adult" se pre-selected hain,
   // "Done" click kiye bina bhi valid rahega. User dropdown khol ke
@@ -419,13 +414,9 @@ const HotelsPage = ({ scrolled }) => {
   const guestsRef = useRef(null);
   const locationRef = useRef(null);
 
-  // ✅ NAYA — background (#f0f4f8) ko search-bar ke exact MIDDLE tak
-  // dikhane ke liye do refs: ek outer relative wrapper (jiske andar
-  // background absolute-position hota hai), aur ek khud search-bar
-  // row (fields + Search button wala Box). Fixed px height guess
-  // karne ke bajaye hum runtime pe actual layout se calculate karte
-  // hain, taaki content wrap / responsive breakpoints pe bhi hamesha
-  // sahi jagah tak hi bg dikhe.
+  // ✅ Background (#f0f4f8) ko search-bar ke exact MIDDLE tak dikhane
+  // ke liye do refs: ek outer relative wrapper (jiske andar background
+  // absolute-position hota hai), aur ek khud search-bar row.
   const bgSectionRef = useRef(null);
   const searchBoxRef = useRef(null);
   const [bgHeight, setBgHeight] = useState(null);
@@ -436,7 +427,6 @@ const HotelsPage = ({ scrolled }) => {
         const outerTop = bgSectionRef.current.getBoundingClientRect().top;
         const boxRect = searchBoxRef.current.getBoundingClientRect();
         const offsetTop = boxRect.top - outerTop;
-        // search bar ke vertical MIDDLE tak hi background dikhana hai
         setBgHeight(offsetTop + boxRect.height / 2);
       }
     }
@@ -485,7 +475,6 @@ const HotelsPage = ({ scrolled }) => {
       hasError = true;
     }
     if (!guestsLabel) {
-      // ← guests validation
       newErrors.guests = "Please select rooms & guests";
       hasError = true;
     }
@@ -493,25 +482,11 @@ const HotelsPage = ({ scrolled }) => {
     setErrors(newErrors);
     if (hasError) return;
 
-    // const loadingToast = toast.loading("Searching hotels...", { icon: "🔍" });
     try {
       const data = await searchHotels(selectedCity.code);
-      // toast.dismiss(loadingToast);
 
       const hotels = data?.data ?? data?.hotels ?? data?.results ?? [];
       const total = data?.meta?.total ?? hotels.length ?? 0;
-
-      // if (total > 0) {
-      //   toast.success(
-      //     `🏨 ${total} hotels found in ${selectedCity.name.split(",")[0]}!`,
-      //     {
-      //       duration: 3000,
-      //       style: { fontWeight: 600 },
-      //     },
-      //   );
-      // } else {
-      //   toast("No hotels found for this location.", { icon: "😔" });
-      // }
 
       navigate("/hotels/results", {
         state: {
@@ -526,9 +501,6 @@ const HotelsPage = ({ scrolled }) => {
         },
       });
     } catch (err) {
-      // toast.dismiss(loadingToast);
-      // ✅ ab agar API ne specific error message diya (e.g. "No Hotels Found")
-      // toh wahi dikhega, generic message sirf fallback hai
       toast.error(err?.message || "Something went wrong. Please try again.");
     }
   };
@@ -537,7 +509,6 @@ const HotelsPage = ({ scrolled }) => {
     {
       id: "location",
       label: "Location",
-      // ✅ city select nahi ki toh "Mumbai" placeholder
       value: selectedCity.code ? selectedCity.name : "Mumbai",
       isPlaceholder: !selectedCity.code,
       error: errors.location,
@@ -552,7 +523,6 @@ const HotelsPage = ({ scrolled }) => {
     {
       id: "checkin",
       label: "Check In",
-      // ✅ ab actual selected date (default aaj) — placeholder nahi
       value: formatDate(checkIn),
       isPlaceholder: false,
       error: errors.checkin,
@@ -567,7 +537,6 @@ const HotelsPage = ({ scrolled }) => {
     {
       id: "checkout",
       label: "Check Out",
-      // ✅ ab actual selected date (default kal) — placeholder nahi
       value: formatDate(checkOut),
       isPlaceholder: false,
       error: errors.checkout,
@@ -582,7 +551,6 @@ const HotelsPage = ({ scrolled }) => {
     {
       id: "guests",
       label: "Rooms & Guests",
-      // ✅ ab default "1 Room, 1 Adult" hamesha selected value maana jayega
       value: guestsLabel,
       isPlaceholder: false,
       error: errors.guests,
@@ -598,8 +566,7 @@ const HotelsPage = ({ scrolled }) => {
 
   return (
     <>
-
-     <HotelSearchLoader open={hotelLoading} />
+      <HotelSearchLoader open={hotelLoading} />
       <Toaster
         position="top-center"
         toastOptions={{
@@ -623,26 +590,18 @@ const HotelsPage = ({ scrolled }) => {
         ref={bgSectionRef}
         sx={{
           fontFamily: "Inter, sans-serif",
-
           position: "relative",
-
           width: "100%",
-
           boxSizing: "border-box",
-
           overflowX: "hidden",
-
           px: {
             xs: 1.5,
             sm: 2,
-            // md: 4,
           },
-
           pb: {
             xs: 3,
             md: 5,
           },
-
           pt: {
             xs: 2,
             md: 4,
@@ -682,15 +641,11 @@ const HotelsPage = ({ scrolled }) => {
               sm: 3,
               md: 4,
             },
-
             py: {
               xs: 2,
               sm: 3,
               md: 4,
             },
-
-            boxSizing: "border-box",
-            overflow: "hidden",
             boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
             position: "relative",
             zIndex: 1,
@@ -713,12 +668,10 @@ const HotelsPage = ({ scrolled }) => {
           >
             <Box
               sx={{
-                // ✅ Mobile only center
                 textAlign: {
                   xs: "center",
                   md: "left",
                 },
-
                 width: "100%",
               }}
             >
@@ -730,7 +683,6 @@ const HotelsPage = ({ scrolled }) => {
                   color: "#111827",
                   letterSpacing: "-0.3px",
                   lineHeight: 1.2,
-                  // ✅ Mobile only
                   textAlign: {
                     xs: "center",
                     md: "left",
@@ -746,7 +698,6 @@ const HotelsPage = ({ scrolled }) => {
                   fontFamily: "Inter, sans-serif",
                   color: "rgba(0, 0, 0, 0.87)",
                   mt: 0.5,
-                  // ✅ Mobile only
                   textAlign: {
                     xs: "center",
                     md: "left",
@@ -759,7 +710,6 @@ const HotelsPage = ({ scrolled }) => {
           </Box>
 
           {/* SEARCH BOX */}
-
           <Box
             ref={searchBoxRef}
             sx={{
@@ -768,11 +718,8 @@ const HotelsPage = ({ scrolled }) => {
               alignItems: "stretch",
               border: `1.5px solid ${BORDER}`,
               borderRadius: "12px",
-              overflow: "hidden", // border corners clip hoke round dikhenge
-              boxSizing: "border-box", // ✅ FIX: border ab width/height ke andar hi count hota hai,
-              // isliye rounded corner outer edge se exactly align hota hai — pehle
-              // border box ke bahar add ho raha tha jisse right-side corner
-              // clearly visible nahi ho raha tha (ek pixel ka mismatch tha).
+              overflow: "hidden",
+              boxSizing: "border-box",
               position: "relative",
             }}
           >

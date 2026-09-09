@@ -115,24 +115,33 @@ const PopularInTheStore = ({ id, storeShare }) => {
   const handleAddToCart = (product) => {
     setAddingProductId(product.id);
     const guestId = getGuestId();
-    const itemData = getItemDataForAddToCart(product, 1, product.price, guestId);
+    const itemData = getItemDataForAddToCart(
+      product,
+      1,
+      product.price,
+      guestId,
+    );
     addCartMutation.mutate(itemData, {
       onSuccess: (res) => {
         setAddingProductId(null);
         if (res && res.length > 0) {
-          dispatch(setCartList(res.map(item => ({
-            ...item.item,
-            cartItemId: item.id,
-            quantity: item.quantity,
-            totalPrice: item.price,
-            selectedOption: [],
-          }))));
+          dispatch(
+            setCartList(
+              res.map((item) => ({
+                ...item.item,
+                cartItemId: item.id,
+                quantity: item.quantity,
+                totalPrice: item.price,
+                selectedOption: [],
+              })),
+            ),
+          );
         }
       },
       onError: (err) => {
         setAddingProductId(null);
-        toast.error('Failed to add to cart');
-      }
+        toast.error("Failed to add to cart");
+      },
     });
   };
 
@@ -143,9 +152,12 @@ const PopularInTheStore = ({ id, storeShare }) => {
       <Box
         key={index}
         sx={{
-          background: "#fff",
+          background: theme.palette.background.paper,
           borderRadius: "18px",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 2px 12px rgba(0,0,0,0.35)"
+              : "0 2px 12px rgba(0,0,0,0.07)",
           p: 2,
           height: 350,
           display: "flex",
@@ -153,8 +165,13 @@ const PopularInTheStore = ({ id, storeShare }) => {
           position: "relative",
           cursor: "pointer",
           transition: "box-shadow 0.2s",
-          "&:hover": { boxShadow: "0 6px 24px rgba(0,0,0,0.13)" },
-          border: "1px solid #e0e0e0",
+          "&:hover": {
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 6px 24px rgba(0,0,0,0.5)"
+                : "0 6px 24px rgba(0,0,0,0.13)",
+          },
+          border: `1px solid ${theme.palette.divider}`,
         }}
       >
         {discountText && (
@@ -194,7 +211,7 @@ const PopularInTheStore = ({ id, storeShare }) => {
             sx={{
               boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
               borderRadius: "12px",
-              background: "#f9f9f9",
+              background: theme.palette.mode === "dark" ? "#232323" : "#f9f9f9",
               cursor: "pointer",
               transition: "transform 0.2s",
               "&:hover": {
@@ -291,7 +308,7 @@ const PopularInTheStore = ({ id, storeShare }) => {
                 {!isLoading && (
                   <Grid container spacing={3} justifyContent="center">
                     {commonConditionitems?.products?.map((item, index) =>
-                      renderProductCard(item, index)
+                      renderProductCard(item, index),
                     )}
                   </Grid>
                 )}
@@ -315,7 +332,7 @@ const PopularInTheStore = ({ id, storeShare }) => {
                 {!isLoading && (
                   <Grid container spacing={3} justifyContent="center">
                     {data?.items?.map((item, index) =>
-                      renderProductCard(item, index)
+                      renderProductCard(item, index),
                     )}
                   </Grid>
                 )}

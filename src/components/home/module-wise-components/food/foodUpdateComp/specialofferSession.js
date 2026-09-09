@@ -193,7 +193,12 @@ const OfferCard = ({
           src={imageUrl}
           alt={title}
           title={title}
-          style={{ width: "300px", height: "300px", objectFit: "cover" }}
+          style={{
+            width: "300px",
+            height: "160px",
+            padding: "0px 8px",
+            objectFit: "cover",
+          }}
         />
         <Box
           sx={{

@@ -70,7 +70,6 @@ export const getUserName = () => {
   if (typeof window === "undefined") return null;
   return sessionStorage.getItem(USER_NAME_KEY) || null;
 };
-
 export const getUserImage = () => {
   if (typeof window === "undefined") return null;
   return sessionStorage.getItem(USER_IMAGE_KEY) || null;

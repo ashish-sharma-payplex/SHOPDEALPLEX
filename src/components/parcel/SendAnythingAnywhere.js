@@ -3,6 +3,8 @@ import { Box, Typography, Card } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
+import { useTheme } from "@mui/material/styles";
+import styles from "styles/Parcel.module.css";
 
 const items = [
   { label: "Documents", img: "/documents.png" },
@@ -18,6 +20,9 @@ const items = [
 const loopedItems = [...items, ...items, ...items];
 
 const SendAnywhere = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Box
       sx={{
@@ -35,7 +40,8 @@ const SendAnywhere = () => {
         align="center"
         fontFamily="Inter"
         fontWeight={600}
-        color="#000000"
+        className={isDark ? styles.textPrimaryDark : undefined}
+        color={isDark ? undefined : "#000000"}
         gutterBottom
         sx={{
           fontSize: { xs: "18px", sm: "24px", md: "32px" },
@@ -49,7 +55,8 @@ const SendAnywhere = () => {
       <Typography
         fontFamily="Inter"
         fontWeight={500}
-        color="#767676"
+        className={isDark ? styles.textSecondaryDark : undefined}
+        color={isDark ? undefined : "#767676"}
         sx={{
           mb: 3,
           fontSize: { xs: "12px", sm: "16px", md: "20px" },
@@ -61,12 +68,17 @@ const SendAnywhere = () => {
           boxSizing: "border-box",
         }}
       >
-        From small essentials to big packages, we pick up and deliver
-        everything right to your doorstep.
+        From small essentials to big packages, we pick up and deliver everything
+        right to your doorstep.
       </Typography>
 
       {/* Swiper */}
-      <Box sx={{ width: { xs: "25%", sm: "100%", md: "100%" }, boxSizing: "border-box" }}>
+      <Box
+        sx={{
+          width: { xs: "25%", sm: "100%", md: "100%" },
+          boxSizing: "border-box",
+        }}
+      >
         <Swiper
           modules={[Autoplay]}
           loop={true}
@@ -82,12 +94,15 @@ const SendAnywhere = () => {
         >
           {loopedItems.map((item, index) => (
             <SwiperSlide key={index}>
-              <Box textAlign="center" sx={{ py: 1, width: "100%", boxSizing: "border-box" }}>
+              <Box
+                textAlign="center"
+                sx={{ py: 1, width: "100%", boxSizing: "border-box" }}
+              >
                 <Card
                   elevation={0}
                   sx={{
                     borderRadius: 3,
-                    backgroundColor: "#f8fafc",
+                    backgroundColor: isDark ? "#1f2937" : "#f8fafc",
                     width: { xs: 75, sm: 100, md: 110 },
                     height: { xs: 75, sm: 100, md: 110 },
                     display: "flex",
@@ -106,16 +121,21 @@ const SendAnywhere = () => {
                     src={item.img}
                     alt={item.label}
                     title={item.label}
-                    sx={{ maxHeight: "75%", maxWidth: "75%", objectFit: "contain" }}
+                    sx={{
+                      maxHeight: "75%",
+                      maxWidth: "75%",
+                      objectFit: "contain",
+                    }}
                   />
                 </Card>
                 <Typography
+                  className={isDark ? styles.textPrimaryDark : undefined}
                   sx={{
                     mt: 1,
                     fontSize: { xs: "10px", sm: "13px", md: "13px" },
                     fontFamily: "Inter",
                     fontWeight: 500,
-                    color: "#191919",
+                    color: isDark ? undefined : "#191919",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",

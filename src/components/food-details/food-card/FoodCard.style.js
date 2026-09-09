@@ -261,14 +261,14 @@ export const NewTypography = styled(Typography)(
   }),
 );
 export const TypographyText = styled(Typography)(({ theme }) => ({
-  color: `${theme.palette.mode === "dark" && "#fff"}`,
+  color: "var(--text-strong)",
 }));
 export const StyleThemBox = styled(Box)(({ theme }) => ({
-  color: `${theme.palette.mode === "dark" && "#9b9b9b"}`,
+  color: "var(--text-secondary)",
 }));
 
 export const CatMessageStyle = styled(Box)(({ theme }) => ({
-  color: `${theme.palette.mode === "dark" && "#fff"}`,
+  color: "var(--text-strong)",
   margin: "20px 0",
 }));
 

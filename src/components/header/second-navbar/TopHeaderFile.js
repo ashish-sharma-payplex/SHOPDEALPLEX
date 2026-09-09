@@ -140,19 +140,24 @@ const TopHeaderBar = ({
           sx={{
             width: "100%",
             padding: "8px 8px",
-            backgroundColor: "#fff",
-            borderBottom: "1px solid #ececec",
+            backgroundColor: "var(--nav-bg)",
+            borderBottom: "1px solid var(--nav-border)",
             height: "52px",
           }}
         >
           {/* LOGO */}
           <Grid item sx={{ width: "62px" }}>
-            <LogoSide width="62px" height="26px" configData={configData} isBlog={isBlog} />
+            <LogoSide
+              width="62px"
+              height="26px"
+              configData={configData}
+              isBlog={isBlog}
+            />
           </Grid>
 
           {/* LOCATION */}
           <Grid item sx={{ width: "26px", ml: 1 }}>
-            <LocationSelector color="black" iconColor="#279d44" />
+            <LocationSelector color="var(--nav-text)" iconColor="#279d44" />
           </Grid>
 
           {/* SEARCH BOX */}
@@ -170,7 +175,14 @@ const TopHeaderBar = ({
               <img
                 src="./icons/allcategory.svg"
                 alt="categories"
-                style={{ width: 15, height: 15 }}
+                style={{
+                  width: 15,
+                  height: 15,
+                  filter:
+                    theme.palette.mode === "dark"
+                      ? "invert(1) brightness(1.8)"
+                      : "none",
+                }}
               />
             </IconButton>
           </Grid>
@@ -292,17 +304,22 @@ const TopHeaderBar = ({
         sx={{
           width: "100%",
           padding: "12px 30px",
-          backgroundColor: "#fff",
-          borderBottom: "1px solid #ececec",
+          backgroundColor: "var(--nav-bg)",
+          borderBottom: "1px solid var(--nav-border)",
         }}
       >
         <Grid item xs="auto">
-          <LogoSide width="220px" height="55px" configData={configData} isBlog={isBlog} />
+          <LogoSide
+            width="220px"
+            height="55px"
+            configData={configData}
+            isBlog={isBlog}
+          />
         </Grid>
 
         <Grid item xs="auto">
           <Box sx={{ width: "230px" }}>
-            <LocationSelector color="black" iconColor="#279d44" />
+            <LocationSelector color="var(--nav-text)" iconColor="#279d44" />
           </Box>
         </Grid>
 
@@ -316,7 +333,14 @@ const TopHeaderBar = ({
               <img
                 src="/trackorder.svg"
                 alt="Track Order"
-                style={{ width: "30px", height: "30px" }}
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  filter:
+                    theme.palette.mode === "dark"
+                      ? "invert(1) brightness(1.8)"
+                      : "none",
+                }}
               />
             </Tooltip>
           </IconButton>
@@ -329,7 +353,14 @@ const TopHeaderBar = ({
                 <img
                   src="/cart.svg"
                   alt="Cart"
-                  style={{ width: "26px", height: "26px" }}
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    filter:
+                      theme.palette.mode === "dark"
+                        ? "invert(1) brightness(1.8)"
+                        : "none",
+                  }}
                 />
               }
               label="Cart"
@@ -338,7 +369,7 @@ const TopHeaderBar = ({
               badgeCount={
                 moduleType !== "rental"
                   ? getCartListModuleWise(cartList, currentModule)?.length ??
-                  null
+                    null
                   : null
               }
             />
@@ -366,8 +397,8 @@ const TopHeaderBar = ({
                     height: 36,
                     bgcolor: "transparent",
                     "& img": {
-                      objectFit: "contain"
-                    }
+                      objectFit: "contain",
+                    },
                   }}
                 />
               ) : (

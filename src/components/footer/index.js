@@ -7,6 +7,7 @@ import FooterMiddle from "./footer-middle/FooterMiddle";
 import FooterTop from "./footer-top/FooterTop";
 import Brands from "../landing-page/brands";
 import BottomFooter from "./BottomFooter";
+import styles from "styles/footer.module.css";
 
 const FooterComponent = (props) => {
   const { configData, landingPageData } = props;
@@ -25,7 +26,7 @@ const FooterComponent = (props) => {
       {/* <FooterTop landingPageData={landingPageData} /> */}
       {/* <Brands/> */}
       <StyledFooterBackground
-        className="footer-root"
+        className={styles["footer-root"]}
         nobottommargin={isLandingPage}
         sx={{ my: 3 }}
       >

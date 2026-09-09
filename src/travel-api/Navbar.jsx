@@ -100,8 +100,7 @@ const Navbar = ({
     setDrawer(false);
   };
 
- 
-  const Avatar = () =>
+  const Avatar = ({ size = 26, fontSize = 12 }) =>
     userImage ? (
       <Box
         component="img"
@@ -129,7 +128,7 @@ const Navbar = ({
           alignItems: "center",
           justifyContent: "center",
           fontWeight: 700,
-          fontSize:"12px",
+          fontSize: `${fontSize}px`,
         }}
       >
         {(userName || "U").charAt(0).toUpperCase()}

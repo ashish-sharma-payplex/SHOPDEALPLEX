@@ -145,6 +145,11 @@ const SecondNavBar = ({ configData, isBlog = false }) => {
      ✅ TRAVEL AUTH BRIDGE — login/logout/profile change pe
      sessionStorage ko sync/clear karte raho, taaki bus/flight/hotel
      teeno modules ko hamesha CORRECT x-user-id mile, kabhi "1" nahi.
+     ✅ FIX — Travel module ke liye LOGIN MANDATORY rakhna hai, isliye
+     guest_id ka fallback yahan se hata diya. Guest ke liye ab
+     clearTravelUser() hi chalega — taaki isTravelUserLoggedIn() sirf
+     genuinely logged-in user ke liye hi true return kare, aur
+     useTravelAuthGuard() guest ko sahi se signin-modal dikha sake.
      ============================================================ */
   useEffect(() => {
     if (token && userId) {
@@ -169,7 +174,6 @@ const SecondNavBar = ({ configData, isBlog = false }) => {
 
     // PROD MODE — same app, internal /travel route
     if (!token || !userId) {
-      // console.warn("⚠️ Travels click | user login nahi hai — signin modal khol rahe hain");
       sessionStorage.setItem("pendingRedirect", "/travel/hotels");
       dispatch(setModalFor("sign-in"));
       dispatch(setSignInModalOpen(true));

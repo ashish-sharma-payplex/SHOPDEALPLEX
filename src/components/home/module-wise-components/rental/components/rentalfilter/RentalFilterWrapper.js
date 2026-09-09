@@ -6,7 +6,7 @@ const RentalFilterWrapper = ({ title, content }) => {
   return (
     <Box
       sx={{
-        mb: "22px",        // ✅ SPACING UNDER EACH SECTION
+        mb: "22px", // ✅ SPACING UNDER EACH SECTION
       }}
     >
       <Typography
@@ -14,7 +14,7 @@ const RentalFilterWrapper = ({ title, content }) => {
           fontSize: "14px",
           fontWeight: 600,
           mb: "8px",
-          color: "#000",
+          color: "text.primary",
         }}
       >
         {title}

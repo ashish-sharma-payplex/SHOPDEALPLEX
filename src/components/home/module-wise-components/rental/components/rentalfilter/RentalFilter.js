@@ -6,7 +6,7 @@ import RentalBrands from "./RentalBrands";
 import RentalSeats from "./RentalSeats";
 import RentalCooling from "./RentalCooling";
 import { FILTER_TITLES } from "./constants";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useGetBrandLists } from "components/home/module-wise-components/rental/rental-api-manage/hooks/react-query/brands/useGetBrandLists";
 
@@ -14,7 +14,7 @@ const RentalFilter = ({
   minMax,
   setMinMax,
   setSelectedCategoryIds,
-    selectedCategoryIds,  
+  selectedCategoryIds,
   setSelectedBrandIds,
   setSelectedSeats,
   setAirCondition,
@@ -22,37 +22,37 @@ const RentalFilter = ({
   rentalPriceFilterRange,
 }) => {
   const { rentalCategories } = useSelector(
-    (state) => state?.rentalCategoriesLists
+    (state) => state?.rentalCategoriesLists,
   );
 
   const { data: brands } = useGetBrandLists();
+  const theme = useTheme();
 
   return (
-  <Box
-  sx={{
-    background: "#fff",
-    border: "1px solid #eaeaea",
-    borderRadius: "10px",
-    px: 2,
-    py: 2,
+    <Box
+      sx={{
+        background: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: "10px",
+        px: 2,
+        py: 2,
 
-    /* Desktop scroll only */
-    maxHeight: { xs: "none", md: "870px" },
-    overflowY: { xs: "visible", md: "auto" },
-    overflowX: "hidden",
-    
+        /* Desktop scroll only */
+        maxHeight: { xs: "none", md: "870px" },
+        overflowY: { xs: "visible", md: "auto" },
+        overflowX: "hidden",
 
-    /* Smooth scrollbar */
-    "&::-webkit-scrollbar": {
-      width: "5px",
-      mx:2
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#c1c1c1",
-      borderRadius: "10px",
-    },
-  }}
->
+        /* Smooth scrollbar */
+        "&::-webkit-scrollbar": {
+          width: "5px",
+          mx: 2,
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: theme.palette.mode === "dark" ? "#4b5563" : "#c1c1c1",
+          borderRadius: "10px",
+        },
+      }}
+    >
       <RentalFilterWrapper
         title={FILTER_TITLES.PRICE_RANGE}
         content={
@@ -70,7 +70,7 @@ const RentalFilter = ({
           content={
             <RentalCategories
               setSelectedCategoryIds={setSelectedCategoryIds}
-                selectedCategoryIds={selectedCategoryIds} 
+              selectedCategoryIds={selectedCategoryIds}
             />
           }
         />
