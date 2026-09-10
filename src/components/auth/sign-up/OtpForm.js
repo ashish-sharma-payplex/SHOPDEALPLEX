@@ -30,10 +30,14 @@ const OtpForm = ({
   handleClose,     // ✅ ata ha "back" button sathi use hoil (mobile number screen var parat ja)
   externalError,   // ✅ SignIn se aane wala error
   clearExternalError, // ✅ user type kare toh clear karo
+  layout = "vertical", // ✅ NAYA PROP — default "vertical" (SignIn, Profile — jaisa tha waisa hi rahega)
+                        //    "horizontal" — sirf ForgotPassword se pass hoga, wide/short card
 }) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { configData } = useSelector((state) => state.configData);
+
+  const isHorizontal = layout === "horizontal"; // ✅ shortcut flag, kahi aur koi logic change nahi
 
   const otpFormik = useFormik({
     initialValues: {
@@ -113,9 +117,22 @@ const OtpForm = ({
           },
         }}
       />
+      {/* ✅ DARK MODE FIX — #ffffff/#eeeeee/#000000/#fdf2f2/#f3fbf6/#ef4444/
+          #757575 saare hardcoded colors hata ke globals.css wale CSS
+          variables use kiye. theme.palette.primary.main jaisi MUI-theme
+          driven values ko chheda nahi — woh already dynamic hain. */}
       <CustomStackFullWidth
         position="relative"
-        sx={{ background: "#ffffff" }}
+        sx={{
+          background: "var(--bg-card)",
+          transition: "background-color 0.2s ease",
+          // ✅ width sirf horizontal layout ke liye badhti hai; default (vertical) bilkul
+          //    pehle jaisa hi rehta hai (koi width set nahi thi pehle, ab bhi nahi).
+          ...(isHorizontal && {
+            maxWidth: { xs: "100%", sm: "620px" },
+            width: "100%",
+          }),
+        }}
       >
         {/* ✅ Header row: back arrow (left) + centered title, jasa Figma madhe ahe */}
         <Stack
@@ -123,8 +140,8 @@ const OtpForm = ({
           alignItems="center"
           justifyContent="center"
           position="relative"
-          padding="20px 16px"
-          sx={{ borderBottom: "1px solid #eeeeee" }}
+          padding={isHorizontal ? "14px 16px" : "20px 16px"} // ✅ horizontal me thoda tight padding
+          sx={{ borderBottom: "1px solid var(--border-subtle)" }}
         >
           <IconButton
             onClick={handleClose} // ✅ back arrow -> mobile number screen var parat
@@ -138,7 +155,7 @@ const OtpForm = ({
             <ArrowBackIcon sx={{ fontSize: "20px" }} />
           </IconButton>
 
-          <Typography fontSize="16px" fontWeight="600" color="#000000">
+          <Typography fontSize="16px" fontWeight="600" color="var(--text-strong)">
             {t("OTP Verification")}
           </Typography>
         </Stack>
@@ -161,140 +178,157 @@ const OtpForm = ({
           gap="20px"
           alignItems="center"
           justifyContent="center"
-          padding={{ xs: "2rem", md: "2.5rem" }}
+          padding={
+            isHorizontal
+              ? { xs: "1.25rem", sm: "1.5rem 2rem" } // ✅ horizontal me kam vertical padding -> height kam
+              : { xs: "2rem", md: "2.5rem" }          // vertical (default) — bilkul original jaisa
+          }
         >
-          <Stack gap="4px" alignItems="center">
-            <Typography textAlign="center" fontSize="13px" color="#000000">
-              {t("We have sent a Verification code to")}
-            </Typography>
-            <Typography
-              textAlign="center"
-              fontSize="14px"
-              fontWeight="700"
-              color="#000000"
-            >
-              {maskSensitiveInfo(loginValue?.phone || data)}
-            </Typography>
-
-            {configData?.demo && (
-              <Typography
-                mt="5px"
-                textAlign="center"
-                fontSize="12px"
-                color="textSecondary"
-              >
-                {t("For demo purpose use otp 123456")}
+          {/* ✅ YAHI ASLI CHANGE: vertical (default) me pehle jaisa hi column Stack hai,
+              koi structural difference nahi. horizontal me sm+ se row ban jata hai:
+              left me text block, right me OTP + status block. */}
+          <Stack
+            direction={isHorizontal ? { xs: "column", sm: "row" } : "column"}
+            alignItems="center"
+            justifyContent="center"
+            gap={isHorizontal ? { xs: "16px", sm: "28px" } : "20px"}
+            width="100%"
+          >
+            <Stack gap="4px" alignItems="center" sx={isHorizontal ? { flexShrink: 0 } : undefined}>
+              <Typography textAlign="center" fontSize="13px" color="var(--text-strong)">
+                {t("We have sent a Verification code to")}
               </Typography>
-            )}
-          </Stack>
-
-          <Stack width="100%">
-            <form onSubmit={otpFormik.handleSubmit}>
-              <Stack
-                alignItems="center"
-                justifyContent="center"
-                gap="10px"
-                width="100%"
+              <Typography
+                textAlign="center"
+                fontSize="14px"
+                fontWeight="700"
+                color="var(--text-strong)"
               >
-                <Box
-                  sx={{
-                    div: {
-                      gap: {
-                        xs: "10px",
-                        sm: "14px",
-                        md: "16px",
-                      },
-                    },
-                    input: {
-                      flexGrow: "1",
-                      background: externalError ? "#fdf2f2" : "#f3fbf6",
-                      color: externalError
-                        ? "#ef4444"
-                        : theme.palette.primary.main,
-                      fontSize: "18px",
-                      fontWeight: "600",
-                      outline: "none",
-                      height: {
-                        xs: "44px",
-                        sm: "48px",
-                        md: "52px",
-                      },
-                      width: {
-                        xs: "44px !important",
-                        sm: "48px !important",
-                        md: "52px !important",
-                      },
-                      borderRadius: "14px !important",
-                      WebkitBorderRadius: "14px !important",
-                      MozBorderRadius: "14px !important",
-                      border: externalError
-                        ? "1.6px solid #ef4444"
-                        : "1.6px solid " + theme.palette.primary.main,
-                    },
-                  }}
+                {maskSensitiveInfo(loginValue?.phone || data)}
+              </Typography>
+
+              {configData?.demo && (
+                <Typography
+                  mt="5px"
+                  textAlign="center"
+                  fontSize="12px"
+                  color="textSecondary"
                 >
-                  <OtpInput
-                    value={otpFormik.values.reset_token}
-                    onChange={(otp) => {
-                      otpFormik.setFieldValue("reset_token", otp);
-                      // ✅ User type kare toh external error clear karo
-                      if (clearExternalError) clearExternalError();
-                    }}
-                    numInputs={6}
-                    onBlur={otpFormik.handleBlur("reset_token")}
-                    renderInput={(props) => <input {...props} />}
-                    error={
-                      otpFormik.touched.reset_token &&
-                      Boolean(otpFormik.errors.reset_token)
-                    }
-                  />
-                </Box>
+                  {t("For demo purpose use otp 123456")}
+                </Typography>
+              )}
+            </Stack>
 
-                {/* ✅ Niche status text: error / resend countdown / resend link */}
-                {externalError ? (
-                  <Typography
+            <Stack width={isHorizontal ? { xs: "100%", sm: "auto" } : "100%"}>
+              <form onSubmit={otpFormik.handleSubmit}>
+                <Stack
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="10px"
+                  width="100%"
+                >
+                  <Box
                     sx={{
-                      fontSize: 12,
-                      color: "#ef4444",
-                      textAlign: "center",
+                      div: {
+                        gap: {
+                          xs: "10px",
+                          sm: "14px",
+                          md: "16px",
+                        },
+                      },
+                      input: {
+                        flexGrow: "1",
+                        background: externalError
+                          ? "var(--discount-bg)"
+                          : "var(--brand-green-soft)",
+                        color: externalError
+                          ? "var(--danger)"
+                          : theme.palette.primary.main,
+                        fontSize: "18px",
+                        fontWeight: "600",
+                        outline: "none",
+                        height: {
+                          xs: "44px",
+                          sm: "48px",
+                          md: "52px",
+                        },
+                        width: {
+                          xs: "44px !important",
+                          sm: "48px !important",
+                          md: "52px !important",
+                        },
+                        borderRadius: "14px !important",
+                        WebkitBorderRadius: "14px !important",
+                        MozBorderRadius: "14px !important",
+                        border: externalError
+                          ? "1.6px solid var(--danger)"
+                          : "1.6px solid " + theme.palette.primary.main,
+                      },
                     }}
                   >
-                    {t("Code invalid")}
-                  </Typography>
-                ) : isResendDisabled ? (
-                  <Typography
-                    sx={{
-                      fontSize: 12,
-                      color: theme.palette.neutral?.[500] || "#757575",
-                      textAlign: "center",
-                    }}
-                  >
-                    {t("Code will resend in")} {formatTime(counter)}
-                  </Typography>
-                ) : (
-                  <Typography
-                    onClick={handleResendClick}
-                    sx={{
-                      fontSize: 12,
-                      fontWeight: "600",
-                      color: theme.palette.primary.main,
-                      textAlign: "center",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {t("Resend Code")}
-                  </Typography>
-                )}
+                    <OtpInput
+                      value={otpFormik.values.reset_token}
+                      onChange={(otp) => {
+                        otpFormik.setFieldValue("reset_token", otp);
+                        // ✅ User type kare toh external error clear karo
+                        if (clearExternalError) clearExternalError();
+                      }}
+                      numInputs={6}
+                      onBlur={otpFormik.handleBlur("reset_token")}
+                      renderInput={(props) => <input {...props} />}
+                      error={
+                        otpFormik.touched.reset_token &&
+                        Boolean(otpFormik.errors.reset_token)
+                      }
+                    />
+                  </Box>
 
-                {/* ✅ Verify button lapवला; Loading state dakhvaychi asel tar fakt spinner/text dakhva, button nahi */}
-                {isLoading && (
-                  <LoadingButton
-                    loading
-                    sx={{ mt: 1 }}
-                  />
-                )}
-              </Stack>
-            </form>
+                  {/* ✅ Niche status text: error / resend countdown / resend link */}
+                  {externalError ? (
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--danger)",
+                        textAlign: "center",
+                      }}
+                    >
+                      {t("Code invalid")}
+                    </Typography>
+                  ) : isResendDisabled ? (
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: theme.palette.neutral?.[500] || "var(--text-secondary)",
+                        textAlign: "center",
+                      }}
+                    >
+                      {t("Code will resend in")} {formatTime(counter)}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      onClick={handleResendClick}
+                      sx={{
+                        fontSize: 12,
+                        fontWeight: "600",
+                        color: theme.palette.primary.main,
+                        textAlign: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t("Resend Code")}
+                    </Typography>
+                  )}
+
+                  {/* ✅ Verify button lapवला; Loading state dakhvaychi asel tar fakt spinner/text dakhva, button nahi */}
+                  {isLoading && (
+                    <LoadingButton
+                      loading
+                      sx={{ mt: 1 }}
+                    />
+                  )}
+                </Stack>
+              </form>
+            </Stack>
           </Stack>
         </CustomStackFullWidth>
       </CustomStackFullWidth>

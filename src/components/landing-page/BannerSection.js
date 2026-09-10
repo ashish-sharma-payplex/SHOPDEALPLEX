@@ -31,12 +31,25 @@ const banners = [
   },
 ];
 
+/* ============================================================
+   ✅ DARK MODE FIX
+   Yahan hardcoded colors (#fff, #ccc, #1a4a1a) hata ke globals.css
+   wale CSS variables (--bg-page, --bg-card, --border-default,
+   --brand-green) use kiye hain — same variables jo tumne globals.css
+   mein :root aur @media (prefers-color-scheme: dark) block mein
+   define kiye the.
+
+   Isse yeh hoga: jaise hi user apne OS/browser ka theme light se
+   dark (ya dark se light) switch karega, browser khud CSS variable
+   ki value badal dega — koi JS listener, koi reload, koi state
+   nahi chahiye. Bilkul instant/live switch hoga.
+   ============================================================ */
 const styles = `
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   .banner-wrapper {
     padding: 0px 48px;
-    background: #fff;
+    background: var(--bg-page);
   }
 
   /* ✅ Mobile ke liye padding */
@@ -71,6 +84,8 @@ const styles = `
     display: flex;
     border-radius: 16px;
     overflow: hidden;
+    background: var(--bg-card);
+    transition: background-color 0.2s ease;
   }
 
   .banner-large img {
@@ -87,6 +102,8 @@ const styles = `
     display: flex;
     border-radius: 16px;
     overflow: hidden;
+    background: var(--bg-card);
+    transition: background-color 0.2s ease;
   }
 
   .banner-small img {
@@ -110,6 +127,8 @@ const styles = `
     display: flex;
     border-radius: 16px;
     overflow: hidden;
+    background: var(--bg-card);
+    transition: background-color 0.2s ease;
   }
 
   .bottom-row img {
@@ -140,6 +159,8 @@ const styles = `
     aspect-ratio: 1 / 1;
     display: block;
     flex-shrink: 0;
+    background: var(--bg-card);
+    transition: background-color 0.2s ease;
   }
 
   .carousel-slide img {
@@ -161,13 +182,13 @@ const styles = `
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #ccc;
+    background: var(--border-default);
     transition: all 0.2s;
     cursor: pointer;
   }
 
   .dot.active {
-    background: #1a4a1a;
+    background: var(--brand-green);
     width: 20px;
     border-radius: 4px;
   }

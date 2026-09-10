@@ -1,0 +1,110 @@
+/* =========================================================================
+   cart.module.css
+   Dark-mode tokens for the Cart drawer components (CardView, CartContents,
+   CartContent, OrderSummaryDetails, FreeDeliveryProgressBar).
+
+   SCOPE (as requested):
+   - ONLY pure white / pure black (and near-black text like #1D1D1D,
+     #0B0B0C, #1a2027) are made theme-aware here.
+   - Every other color already in the components (green #1A914B and its
+     family, grays like #EAEAEA/#F8F8F8/#F5F7FD/#6B7280/#808080, "grey",
+     "gray", error colors, theme.palette.primary.main, etc.) is left
+     completely untouched by this file — those stay exactly the same in
+     light AND dark mode, per your instruction.
+
+   Two switch mechanisms are included, same as Grocery.module.css /
+   rental.module.css:
+   1. `@media (prefers-color-scheme: dark)` — automatic, OS/browser driven.
+   2. `:global(html[data-theme="dark"])` — manual override if/when you add
+      an in-app toggle. Uses the same values as #1.
+   ========================================================================= */
+
+/* ===================== SURFACE (pure white backgrounds) ===================== */
+/* Covers every place a component used backgroundColor/bgcolor/background:
+   "white" | "#fff" | "#FFFFFF" */
+
+.cartBgWhite {
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+:global(html[data-theme="dark"]) .cartBgWhite {
+  background-color: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .cartBgWhite {
+    background-color: #1a1a1a;
+  }
+}
+
+/* ===================== TEXT — pure black (#000000) ===================== */
+
+.cartTextBlack {
+  color: #000000;
+  transition: color 0.2s ease;
+}
+
+:global(html[data-theme="dark"]) .cartTextBlack {
+  color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .cartTextBlack {
+    color: #ffffff;
+  }
+}
+
+/* ===================== TEXT — near-black #1D1D1D ===================== */
+/* CartContents.jsx: "Delivery in {deliveryTime}" */
+
+.cartText1D1D1D {
+  color: #1d1d1d;
+  transition: color 0.2s ease;
+}
+
+:global(html[data-theme="dark"]) .cartText1D1D1D {
+  color: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .cartText1D1D1D {
+    color: #f3f4f6;
+  }
+}
+
+/* ===================== TEXT — near-black #0B0B0C ===================== */
+/* FreeDeliveryProgressBar.jsx: "Get a FREE delivery" + bold amount span */
+
+.cartText0B0B0C {
+  color: #0b0b0c;
+  transition: color 0.2s ease;
+}
+
+:global(html[data-theme="dark"]) .cartText0B0B0C {
+  color: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .cartText0B0B0C {
+    color: #f3f4f6;
+  }
+}
+
+/* ===================== TEXT — near-black #1a2027 ===================== */
+/* OrderSummaryDetails (bannerTop.jsx): "Bill Summary" heading */
+
+.cartText1a2027 {
+  color: #1a2027;
+  transition: color 0.2s ease;
+}
+
+:global(html[data-theme="dark"]) .cartText1a2027 {
+  color: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .cartText1a2027 {
+    color: #f3f4f6;
+  }
+}

@@ -22,7 +22,8 @@ const moduleTheme = {
 };
 
 const background = {
-  default: "#0B0F19",
+  // default: "#0B0F19",
+  default: "#131313",
   custom8: "#ffffff",
   paper: neutral[900],
   custom: "#282829",

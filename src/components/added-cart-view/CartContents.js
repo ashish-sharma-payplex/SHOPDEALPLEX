@@ -11,6 +11,7 @@ import { getAmountWithSign } from "../../helper-functions/CardHelpers";
 import { cartItemTotalDiscount } from "../../utils/CustomFunctions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Toaster } from "react-hot-toast";
+import cartStyles from "../../styles/Cart.module.css";
 
 const CartContents = ({
   cartList = [],
@@ -41,16 +42,17 @@ const CartContents = ({
         }}
       />
       <CustomStackFullWidth
-        justifyContent="flex-start"
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "12px",
-          display: "flex",
-          flexDirection: "column",
-          padding: "1rem",
-        }}
-        alignItems="center"
-        mt=".7rem"
+       className={cartStyles.cartBgWhite}   
+  sx={{
+    display: "flex",
+    alignItems: "center",
+    padding: "8px",
+    // backgroundColor: "#FFFFFF",   
+    border: "1px solid #EAEAEA",     
+    borderRadius: "12px",
+    width: "100%",
+    maxWidth: "400px",
+  }}
       >
         <SimpleBar
           style={{
@@ -91,9 +93,9 @@ const CartContents = ({
             </Box>
 
             <Stack spacing={0.5}>
-              <Typography variant="h7" sx={{ fontWeight: 600, color: "#1D1D1D" }}>
-                Delivery in {deliveryTime}
-              </Typography>
+            <Typography variant="h7" className={cartStyles.cartText1D1D1D} sx={{ fontWeight: 600 /* color: "#1D1D1D" hata di */ }}>
+  Delivery inn {deliveryTime}
+</Typography>
               <Typography variant="body2" sx={{ color: "#7A7A7A" }}>
                 Shipment of {cartList.length} Items
               </Typography>

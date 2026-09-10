@@ -19,6 +19,7 @@ import {
 } from "utils/CustomFunctions";
 
 import DeliveryManTip from "../../../../checkout/DeliveryManTip";
+import cartStyles from "../../../../../styles/Cart.module.css";
 
 const OrderSummaryDetails = ({
   cartList = [],
@@ -378,8 +379,9 @@ const OrderSummaryDetails = ({
         <Stack spacing={1.3}>
           {/* Bill summary card */}
           <Stack
+            className={cartStyles.cartBgWhite}
             sx={{
-              bgcolor: "#fff",
+              // bgcolor: "#fff",
               border: "1px solid #EAEAEA",
               borderRadius: "12px",
               px: "16px",
@@ -412,7 +414,7 @@ const OrderSummaryDetails = ({
               </Box>
 
               <Box>
-                <Typography fontSize="14px" fontWeight={600} color="#1a2027">
+                <Typography fontSize="14px" fontWeight={600} className={cartStyles.cartText1a2027}>
                   Bill Summary
                 </Typography>
                 <Typography fontSize="12px" color="text.secondary">
@@ -519,8 +521,9 @@ const OrderSummaryDetails = ({
 
           {/* Delivery Tip Card */}
           <Stack
+            className={cartStyles.cartBgWhite}
             sx={{
-              bgcolor: "#fff",
+              // bgcolor: "#fff",
               border: "1px solid #EAEAEA",
               borderRadius: "12px",
               px: "16px",

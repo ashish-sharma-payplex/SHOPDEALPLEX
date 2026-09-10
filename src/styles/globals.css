@@ -32,11 +32,12 @@ a {
     html {
         color-scheme: dark;
     }
-
-    body {
-        color: white;
-        background: black;
-    }
+    /* ✅ FIX — purana "body { color: white; background: black; }" yahan se
+       hata diya. Ye hardcoded rule niche wale CSS-variable-based body
+       rule se conflict kar raha tha (dono same specificity, order pe
+       depend karta tha kaun jeetega). Ab body ka color/background
+       SIRF file ke end wale var(--bg-page)/var(--text-primary) rule
+       se control hoga — single source of truth. */
 }
 
 /* Phone input color */
@@ -579,8 +580,18 @@ button.gm-ui-hover-effect {
     }
 }
 
-/* Body bg bhi switch hona chahiye */
+/* ============================================================
+   ✅ Body/html background — SINGLE SOURCE OF TRUTH.
+   !important isliye lagaya hai taaki MUI ka CssBaseline (jo runtime
+   pe apna khud ka body{background-color:...} inject karta hai aur
+   is plain CSS ke BAAD load hota hai) isko override na kar paaye.
+   Agar phir bhi white dikhe, toh MUI theme ke
+   palette.background.default ko bhi var(--bg-page) se link karna
+   padega (theme file mein) — CSS akela us case mein kaafi nahi hoga.
+   ============================================================ */
+html,
 body {
-    background-color: var(--bg-page);
+    background-color: var(--bg-page) !important;
+    color: var(--text-primary) !important;
     transition: background-color 0.2s ease, color 0.2s ease;
 }

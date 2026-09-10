@@ -53,6 +53,17 @@ export const CustomSignUpTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
+// ✅ Name allow: letters (any case) + spaces + apostrophe only
+// (hyphen "-" hata diya gaya hai — ab ye allowed nahi hai)
+const NAME_REGEX = /^[A-Za-z\s']+$/;
+
+// ✅ Email regex — matches given valid examples (user@gmail.com,
+// john.doe@company.co.in), rejects given invalid ones:
+// "abc" (no @/domain), "user@" (no domain), "@gmail.com" (no local part),
+// "user@gmail" (no TLD/dot in domain), "user..test@gmail.com" (consecutive dots)
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9]+(?:[._%+-][a-zA-Z0-9]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+
 const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
   const { configData } = useSelector((state) => state.configData);
   const lanDirection = getLanguage() ? getLanguage() : "ltr";
@@ -64,15 +75,33 @@ const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
       phone: "",
     },
     validationSchema: Yup.object({
-      // phone: Yup.string()
-      //     .required(t('Please give a phone number'))
-      //     .min(10, 'number must be 10 digits'),
+      // ✅ NAME VALIDATION
+      name: Yup.string()
+        .trim(t("Name cannot start or end with a space"))
+        .strict(true) // strict() zaroori hai taaki .trim() ek validation ki tarah kaam kare (auto-strip na kare)
+        .required(t("Name is required"))
+        .min(2, t("Name must be at least 2 characters"))
+        .max(50, t("Name must be at most 50 characters")),
+        // ✅ matches() validation hata diya — ab zaroorat nahi kyunki
+        // handleNameChange already invalid characters ko type hone hi
+        // nahi deta, isliye ye error kabhi trigger hi nahi hoga
+
+      // ✅ EMAIL VALIDATION — sirf tab required jab is_email false ho,
+      // kyunki tab hi email field render hoti hai (warna phone field aati hai)
+      email: loginInfo?.is_email
+        ? Yup.string().notRequired()
+        : Yup.string()
+            .required(t("Email is required"))
+            .min(5, t("Email must be at least 5 characters"))
+            .max(50, t("Email must be at most 50 characters"))
+            .matches(EMAIL_REGEX, t("Enter a valid email address")),
     }),
 
     onSubmit: async (values, helpers) => {
       try {
         formSubmitHandler({
           ...values,
+          name: values.name.trim(), // ✅ submit se pehle extra safety ke liye trim kar diya
           login_type: loginInfo.login_type,
           phone: loginInfo?.is_email ? values?.phone : loginInfo.phone,
           email: loginInfo?.is_email ? loginInfo?.email : values?.email,
@@ -83,6 +112,14 @@ const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
   });
   const otpHandleChange = (value) => {
     userInfoFormik.setFieldValue("phone", `+${value}`);
+  };
+
+  // ✅ Name field me type karte waqt hi invalid characters (numbers,
+  // hyphen, +, _, ., etc.) ko filter kar dete hain — user unhe type
+  // hi nahi kar payega, error message dikhane ki zaroorat hi nahi padegi.
+  const handleNameChange = (e) => {
+    const filteredValue = e.target.value.replace(/[^A-Za-z\s']/g, "");
+    userInfoFormik.setFieldValue("name", filteredValue);
   };
 
   return (
@@ -121,7 +158,8 @@ const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
                 name="name"
                 autoComplete="name"
                 value={userInfoFormik.values.name}
-                onChange={userInfoFormik.handleChange}
+                onChange={handleNameChange}
+                onBlur={userInfoFormik.handleBlur}
                 error={
                   userInfoFormik.touched.name &&
                   Boolean(userInfoFormik.errors.name)
@@ -130,6 +168,7 @@ const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
                   userInfoFormik.touched.name && userInfoFormik.errors.name
                 }
                 touched={userInfoFormik.touched.name}
+                inputProps={{ maxLength: 50 }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -167,6 +206,7 @@ const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
                   placeholder={t("Email")}
                   value={userInfoFormik.values.email}
                   onChange={userInfoFormik.handleChange}
+                  onBlur={userInfoFormik.handleBlur}
                   error={
                     userInfoFormik.touched.email &&
                     Boolean(userInfoFormik.errors.email)
@@ -175,6 +215,7 @@ const AddUserInfo = ({ formSubmitHandler, loginInfo, isLoading, userInfo }) => {
                     userInfoFormik.touched.email && userInfoFormik.errors.email
                   }
                   touched={userInfoFormik.touched.email}
+                  inputProps={{ maxLength: 50 }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">

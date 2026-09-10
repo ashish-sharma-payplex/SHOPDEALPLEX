@@ -1,21 +1,4 @@
-/*
-  rental.module.css
-  -----------------------------------------------------------------
-  Dark mode ONLY for the Rental module.
-  Colors are HARDCODED hex values (no CSS custom properties) as
-  requested — every class carries its own light value, and gets
-  overridden by :global(html[data-theme="dark"]) with its own
-  hardcoded dark value. data-theme is set on <html> by
-  SettingsProvider (src/contexts/settings-context.js) so this
-  follows the app's own dark-mode toggle, not the OS setting.
-  Palette matches the Food/Home module
-  dark theme (src/styles/Food.css) so rental looks consistent with
-  the rest of the app, just written directly instead of via var().
 
-  Usage:
-    import styles from "styles/rental.module.css";
-    <Box className={styles.rentalPage}>...</Box>
-*/
 
 /* ===================== PAGE / SECTION WRAPPERS ===================== */
 
@@ -43,8 +26,8 @@
 }
 
 .rentalImageWrap {
-  background-color: #f9fafb;
-  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 5px;
 }
 
@@ -70,7 +53,7 @@
   color: #aaaaaa;
 }
 
-/* ===================== PRICE ===================== */
+/* ===================== PRICE (EXCLUDED FAMILY — untouched) ===================== */
 
 .rentalPrice {
   color: #1a914b;
@@ -115,7 +98,7 @@
   background-color: rgb(255, 243, 224);
 }
 
-/* ===================== BUTTONS ===================== */
+/* ===================== BUTTONS (EXCLUDED FAMILY — untouched) ===================== */
 
 .rentalButtonPrimary {
   background-color: #16a34a;
@@ -187,7 +170,56 @@
 }
 
 /* ===================================================================
-   DARK MODE — hardcoded overrides (same class names, dark values)
+   NEW — VehicleCard.jsx ke inline hardcoded colors (light values)
+   #1a914b family ke ilawa sab yahan cover hai
+   =================================================================== */
+
+/* Card outer border jo pehle inline sx="1px solid #E3E8EE" tha */
+.rentalCardBorder {
+  border: 1px solid #e3e8ee;
+}
+
+/* Skeleton ki feature-icons row aur real feature-icons row, dono ka bg */
+.rentalFeatureBg {
+  background-color: #f4f6f8;
+}
+
+/* Feature icons + labels wrapper — svg aur p ka color yahan se control hota hai */
+.rentalFeatureBox svg {
+  color: #0f0f0f;
+}
+
+.rentalFeatureBox p {
+  color: #000000;
+}
+
+/* Discount ribbon badge (top-left, "X% OFF") */
+.rentalDiscountBadge {
+  background-color: green;
+  color: #ffffff;
+}
+
+/* Image load hone se pehle ka placeholder box */
+.rentalImagePlaceholderBg {
+  background-color: #f5f5f5;
+}
+
+/* Wishlist heart ke peeche wala white circle */
+.rentalWishlistIconButton {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.rentalWishlistIconButton:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+/* Un-wishlisted heart outline ka color */
+.rentalWishlistIconInactive {
+  color: #666666;
+}
+
+/* ===================================================================
+   DARK MODE — app ke apne toggle se (data-theme="dark")
    =================================================================== */
 
 :global(html[data-theme="dark"]) .rentalPage {
@@ -209,8 +241,8 @@
 }
 
 :global(html[data-theme="dark"]) .rentalImageWrap {
-  background-color: #232323;
-  border: 1px solid #2e2e2e;
+  background-color: #121212;
+  border: 1px solid #121212;
 }
 
 :global(html[data-theme="dark"]) .rentalTitle {
@@ -324,4 +356,205 @@
 
 :global(html[data-theme="dark"]) .rentalTripCard {
   background-color: #1a1a1a;
+}
+
+/* --- naye classes ka data-theme dark override --- */
+
+:global(html[data-theme="dark"]) .rentalCardBorder {
+  border: 1px solid #2e2e2e;
+}
+
+:global(html[data-theme="dark"]) .rentalFeatureBg {
+  background-color: #1f1f1f;
+}
+
+:global(html[data-theme="dark"]) .rentalFeatureBox svg {
+  color: #e5e5e5;
+}
+
+:global(html[data-theme="dark"]) .rentalFeatureBox p {
+  color: #f3f4f6;
+}
+
+:global(html[data-theme="dark"]) .rentalDiscountBadge {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+:global(html[data-theme="dark"]) .rentalImagePlaceholderBg {
+  background-color: #1a1a1a;
+}
+
+:global(html[data-theme="dark"]) .rentalWishlistIconButton {
+  background-color: rgba(18, 18, 18, 0.75);
+}
+
+:global(html[data-theme="dark"]) .rentalWishlistIconButton:hover {
+  background-color: rgba(18, 18, 18, 0.9);
+}
+
+:global(html[data-theme="dark"]) .rentalWishlistIconInactive {
+  color: #cfcfcf;
+}
+
+/* ===================================================================
+   OS / BROWSER DARK MODE — instant sync (koi JS wait nahi)
+   Sirf tab apply hoga jab app ne explicitly data-theme="light"
+   force na kiya ho. Agar app ne data-theme="dark" set kiya hai to
+   upar wala block already handle kar raha hai.
+   #1a914b family (rentalPrice, rentalBadgeSoft, rentalButtonPrimary,
+   rentalButtonOutline) yahan jaan-bujhkar EXCLUDE hai.
+   =================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .rentalPage {
+    background-color: #121212;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalSection {
+    background-color: #121212;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalCard {
+    background-color: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+  }
+
+  :global(html:not([data-theme="light"])) .rentalCard:hover {
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  :global(html:not([data-theme="light"])) .rentalImageWrap {
+    background-color: #121212;
+    border: 1px solid #121212;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalTitle {
+    color: #ffffff;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalSubtitle {
+    color: #9ca3af;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalMetaText {
+    color: #a1a1aa;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalBodyText {
+    color: #f3f4f6;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalDisabledText {
+    color: #555555;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalPriceOld {
+    color: #71717a;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalTotalText {
+    color: #a1a1aa;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalBadgeWarning {
+    background-color: #2e2712;
+    color: #fbbf24;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalWarningNotice {
+    background-color: #2a2410;
+    border: 0.5px solid #5c4d1a;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalWarningIcon {
+    color: #fbbf24;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalWarningText {
+    color: #fcd34d;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalInfoStrip {
+    background-color: rgba(251, 146, 60, 0.2);
+  }
+
+  :global(html:not([data-theme="light"])) .rentalSkeleton {
+    background-color: #1a1a1a;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalDivider {
+    border-color: #2e2e2e;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalHairline {
+    background-color: #2e2e2e;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalModalOverlay {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  :global(html:not([data-theme="light"])) .rentalModalContent {
+    background-color: #1a1a1a;
+    color: #f3f4f6;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalBannerBg {
+    background-color: #1c1c1c;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalFilterSidebar {
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalCheckoutBox {
+    background-color: #1a1a1a;
+    border: 1px solid #2e2e2e;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalTripCard {
+    background-color: #1a1a1a;
+  }
+
+  /* --- naye classes ka OS-level dark --- */
+
+  :global(html:not([data-theme="light"])) .rentalCardBorder {
+    border: 1px solid #2e2e2e;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalFeatureBg {
+    background-color: #1f1f1f;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalFeatureBox svg {
+    color: #e5e5e5;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalFeatureBox p {
+    color: #f3f4f6;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalDiscountBadge {
+    background-color: #16a34a;
+    color: #ffffff;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalImagePlaceholderBg {
+    background-color: #1a1a1a;
+  }
+
+  :global(html:not([data-theme="light"])) .rentalWishlistIconButton {
+    background-color: rgba(18, 18, 18, 0.75);
+  }
+
+  :global(html:not([data-theme="light"])) .rentalWishlistIconButton:hover {
+    background-color: rgba(18, 18, 18, 0.9);
+  }
+
+  :global(html:not([data-theme="light"])) .rentalWishlistIconInactive {
+    color: #cfcfcf;
+  }
 }

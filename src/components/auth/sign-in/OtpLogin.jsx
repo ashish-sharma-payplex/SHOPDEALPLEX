@@ -75,14 +75,38 @@ const OtpLogin = ({
       return;
     }
 
-    // Create phone with +91 for API
+    // ✅ FIX: +91 sirf yahan local variable me jodo, formik ke values.phone
+    // ko kabhi mutate mat karo — warna TextField ki display value hi
+    // "+91xxxxxxxxxx" ban jaati hai aur baad me edit/delete karte time
+    // wahi "91" bhi digit gin liya jata hai (isi wajah se 10-digit limit
+    // gadbad ho rahi thi aur pura number type nahi ho pa raha tha).
     const phoneWithCode = `+91${digits}`;
 
-    // Update formik values for API call
-    otpLoginFormik.values.phone = phoneWithCode;
+    // ✅ FIX: formik.values.phone ko touch kiye bina seedha onSubmit prop
+    // (SignIn.js se pass hota hai) ko sahi payload ke saath call karo.
+    // login_type/type yahan explicitly bhejna zaroori hai — pehle ye
+    // formik ke apne internal onSubmit se aate the, ab humne wo bypass
+    // kar diya hai to yahan khud add karne padenge.
+    const payload = {
+      phone: phoneWithCode,
+      login_type: "otp",
+      type: "phone",
+    };
 
-    // Submit form
-    otpLoginFormik.handleSubmit();
+    if (onSubmit) {
+      onSubmit(payload);
+    } else {
+      // Fallback: agar kahi onSubmit prop pass nahi hua, tab bhi values
+      // ko safe tarike se (setFieldValue se) update karke submit karo,
+      // seedha object property assign kabhi nahi karna.
+      Promise.all([
+        otpLoginFormik.setFieldValue("phone", phoneWithCode),
+        otpLoginFormik.setFieldValue("login_type", "otp"),
+        otpLoginFormik.setFieldValue("type", "phone"),
+      ]).then(() => {
+        otpLoginFormik.handleSubmit();
+      });
+    }
   };
 
   const getCurrentDigits = () => {
@@ -120,6 +144,11 @@ const OtpLogin = ({
     !isRepetitivePattern(getCurrentDigits());
 
   return (
+    // ✅ DARK MODE FIX — saare hardcoded hex colors (#fff, #333, #1a1a1a,
+    // #666, #ddd, #999 etc.) hata ke globals.css wale CSS variables use
+    // kiye hain. Ab yeh form bhi --bg-page/--bg-card/--text-* variables
+    // follow karega jo prefers-color-scheme ke hisaab se khud switch
+    // hote hain — koi JS/theme-detection logic yahan nahi chahiye.
     <Box
       sx={{
         position: "relative",
@@ -129,8 +158,9 @@ const OtpLogin = ({
         py: "24px",
         px: "80px",
         borderRadius: "16px",
-        background: "#ffffff",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+        background: "var(--bg-card)",
+        boxShadow: "var(--shadow-badge)",
+        transition: "background-color 0.2s ease",
       }}
     >
       {/* Back Button */}
@@ -141,8 +171,8 @@ const OtpLogin = ({
             position: "absolute",
             top: 16,
             left: 16,
-            color: "#333",
-            "&:hover": { bgcolor: "#f5f5f5" },
+            color: "var(--text-primary)",
+            "&:hover": { bgcolor: "var(--bg-subtle)" },
           }}
         >
           <ArrowBackIcon />
@@ -174,7 +204,7 @@ const OtpLogin = ({
           sx={{
             fontSize: "18px",
             fontWeight: 600,
-            color: "#1a1a1a",
+            color: "var(--text-strong)",
             lineHeight: 1.4,
             whiteSpace: "nowrap",
           }}
@@ -187,7 +217,7 @@ const OtpLogin = ({
           sx={{
             fontSize: "14px",
             fontWeight: 400,
-            color: "#666",
+            color: "var(--text-secondary)",
             whiteSpace: "nowrap",
           }}
         >
@@ -204,18 +234,18 @@ const OtpLogin = ({
               sx={{
                 display: "flex",
                 alignItems: "center",
-                border: "1px solid #ddd",
+                border: "1px solid var(--border-default)",
                 borderRadius: "8px",
                 overflow: "hidden",
-                bgcolor: "#fafafa",
-                transition: "border-color 0.2s",
+                bgcolor: "var(--bg-subtle)",
+                transition: "border-color 0.2s, background-color 0.2s",
                 "&:focus-within": {
-                  borderColor: "#16a34a",
-                  bgcolor: "#fff",
+                  borderColor: "var(--brand-green)",
+                  bgcolor: "var(--bg-card)",
                 },
                 ...(getPhoneError() && {
-                  borderColor: "#ff6b6b",
-                  bgcolor: "#fff5f5",
+                  borderColor: "var(--danger)",
+                  bgcolor: "var(--discount-bg)",
                 }),
               }}
             >
@@ -225,8 +255,8 @@ const OtpLogin = ({
                   px: 2,
                   py: "12px",
                   fontWeight: 500,
-                  color: "#666",
-                  borderRight: "1px solid #ddd",
+                  color: "var(--text-secondary)",
+                  borderRight: "1px solid var(--border-default)",
                   fontSize: "14px",
                   flexShrink: 0,
                 }}
@@ -250,10 +280,10 @@ const OtpLogin = ({
                   "& input": {
                     paddingLeft: "12px !important",
                     fontSize: "14px",
-                    color: "#1a1a1a",
+                    color: "var(--text-strong)",
 
                     "&::placeholder": {
-                      color: "#999",
+                      color: "var(--text-muted)",
                       opacity: 1,
                     },
                   },
@@ -291,7 +321,7 @@ const OtpLogin = ({
               <Typography
                 sx={{
                   fontSize: "12px",
-                  color: "#ff6b6b",
+                  color: "var(--danger)",
                   mt: "6px",
                   ml: "4px",
                   fontWeight: 500,
@@ -316,15 +346,19 @@ const OtpLogin = ({
               fontWeight: 600,
               textTransform: "none",
               borderRadius: "8px",
-              backgroundColor: isPhoneComplete ? "#1A914B" : "#999",
-              color: isPhoneComplete ? "#ffffff" : "#fff",
+              backgroundColor: isPhoneComplete
+                ? "var(--brand-green)"
+                : "var(--bg-disabled)",
+              color: "#ffffff",
               transition: "all 0.3s ease",
               "&:hover": {
-                backgroundColor: isPhoneComplete ? "#157a3d" : "#7a7a7a",
+                backgroundColor: isPhoneComplete
+                  ? "var(--brand-green-hover)"
+                  : "var(--text-disabled)",
               },
               "&.Mui-disabled": {
-                backgroundColor: "#ddd",
-                color: "#999",
+                backgroundColor: "var(--bg-disabled)",
+                color: "var(--text-disabled)",
               },
             }}
           >
@@ -344,7 +378,7 @@ const OtpLogin = ({
           variant="caption"
           sx={{
             fontSize: "12px",
-            color: "#666",
+            color: "var(--text-secondary)",
             lineHeight: 1.5,
             whiteSpace: "nowrap",
           }}
@@ -354,11 +388,11 @@ const OtpLogin = ({
             component="a"
             onClick={handleClick}
             sx={{
-              color: "#16a34a",
+              color: "var(--brand-green)",
               textDecoration: "underline",
               cursor: "pointer",
               fontWeight: 500,
-              "&:hover": { color: "#15803d" },
+              "&:hover": { color: "var(--brand-green-hover)" },
             }}
           >
             Terms of service
@@ -368,11 +402,11 @@ const OtpLogin = ({
             component="a"
             onClick={handleClick}
             sx={{
-              color: "#16a34a",
+              color: "var(--brand-green)",
               textDecoration: "underline",
               cursor: "pointer",
               fontWeight: 500,
-              "&:hover": { color: "#15803d" },
+              "&:hover": { color: "var(--brand-green-hover)" },
             }}
           >
             Privacy policy

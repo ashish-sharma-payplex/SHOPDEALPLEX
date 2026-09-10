@@ -473,7 +473,8 @@ const Perticular = ({ open, onClose, product }) => {
       fullScreen={isMobile}
       sx={{
         "& .MuiDialog-paper": {
-          backgroundColor: "#fff",
+          backgroundColor: "var(--bg-card)",
+          color: "var(--text-primary)",
           borderRadius: { xs: 0, sm: "16px" },
         },
       }}
@@ -484,7 +485,7 @@ const Perticular = ({ open, onClose, product }) => {
           position: "absolute",
           top: 0,
           right: 8,
-          color: "gray",
+          color: "var(--text-secondary)",
           zIndex: 1,
         }}
       >
@@ -506,7 +507,7 @@ const Perticular = ({ open, onClose, product }) => {
                   position: "relative",
                   borderRadius: 3,
                   overflow: "hidden",
-                  border: "2px solid #E7E7E7",
+                  border: "2px solid var(--border-image)",
                   width: { xs: "100%", md: 340 },
                   height: { xs: 220, sm: 280, md: 270 },
                 }}
@@ -530,8 +531,8 @@ const Perticular = ({ open, onClose, product }) => {
                     top: "50%",
                     left: 10,
                     transform: "translateY(-50%)",
-                    bgcolor: "rgba(255,255,255,0.7)",
-                    "&:hover": { bgcolor: "white" },
+                    bgcolor: "var(--grocery-overlay-70)",
+                    "&:hover": { bgcolor: "var(--bg-card)" },
                     width: { xs: 28, sm: 30 },
                     height: { xs: 28, sm: 30 },
                   }}
@@ -545,8 +546,8 @@ const Perticular = ({ open, onClose, product }) => {
                     top: "50%",
                     right: 10,
                     transform: "translateY(-50%)",
-                    bgcolor: "rgba(255,255,255,0.7)",
-                    "&:hover": { bgcolor: "white" },
+                    bgcolor: "var(--grocery-overlay-70)",
+                    "&:hover": { bgcolor: "var(--bg-card)" },
                     width: { xs: 28, sm: 30 },
                     height: { xs: 28, sm: 30 },
                   }}
@@ -571,10 +572,10 @@ const Perticular = ({ open, onClose, product }) => {
                   }}
                 >
                   {isWishlisted(product) ? (
-                    <FavoriteIcon sx={{ color: "#E53935", fontSize: 22 }} />
+                    <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 22 }} />
                   ) : (
                     <FavoriteBorderIcon
-                      sx={{ color: "#c4c2c2", fontSize: 22 }}
+                      sx={{ color: "var(--wishlist-inactive)", fontSize: 22 }}
                     />
                   )}
                 </Box>
@@ -603,8 +604,8 @@ const Perticular = ({ open, onClose, product }) => {
                       height: { xs: 52, sm: 70 },
                       border:
                         idx === currentImageIndex
-                          ? "2px solid #4CAF50"
-                          : "1px solid #ddd",
+                          ? "2px solid var(--brand-green)"
+                          : "1px solid var(--grocery-border-lightgray)",
                       borderRadius: 2,
                       overflow: "hidden",
                       cursor: "pointer",
@@ -651,7 +652,7 @@ const Perticular = ({ open, onClose, product }) => {
                     sx={{
                       fontWeight: 600,
                       fontSize: { xs: "1rem", sm: "1.2rem" },
-                      color: "#000",
+                      color: "var(--text-strong)",
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: "vertical",
@@ -687,7 +688,7 @@ const Perticular = ({ open, onClose, product }) => {
                 >
                   <Typography
                     variant="body2"
-                    sx={{ fontWeight: 600, color: "#000" }}
+                    sx={{ fontWeight: 600, color: "var(--text-strong)" }}
                   >
                     Net Qty:{" "}
                     <b>
@@ -702,7 +703,7 @@ const Perticular = ({ open, onClose, product }) => {
                       precision={0.5}
                       sx={{
                         "& .MuiRating-iconEmpty": {
-                          color: "#faaf00",
+                          color: "var(--grocery-star-gold)",
                           opacity: 0.4,
                         },
                       }}
@@ -733,7 +734,7 @@ const Perticular = ({ open, onClose, product }) => {
                     variant="h6"
                     sx={{
                       fontWeight: 700,
-                      color: "green",
+                      color: "var(--brand-green)",
                       fontSize: { xs: "1rem", sm: "1.25rem" },
                     }}
                   >
@@ -752,8 +753,8 @@ const Perticular = ({ open, onClose, product }) => {
                         label={`${product.discount}% Off`}
                         size="small"
                         sx={{
-                          bgcolor: "#f5e5e5 !important",
-                          color: "#EA4B48",
+                          bgcolor: "var(--grocery-discount-bg) !important",
+                          color: "var(--grocery-discount-text)",
                           ml: 1,
                           fontWeight: 600,
                         }}
@@ -806,7 +807,7 @@ const Perticular = ({ open, onClose, product }) => {
                     <Typography
                       sx={{
                         fontWeight: 600,
-                        color: "#000",
+                        color: "var(--text-strong)",
                         fontSize: { xs: "0.85rem", sm: "1rem" },
                       }}
                     >
@@ -814,11 +815,14 @@ const Perticular = ({ open, onClose, product }) => {
                     </Typography>
 
                     {/* ── Stock display — 3 rules applied ── */}
-                    <Typography variant="caption" sx={{ color: "#888" }}>
+                    <Typography variant="caption" sx={{ color: "var(--text-muted)" }}>
                       Stock:{" "}
                       <b
                         style={{
-                          color: displayStock > 10 ? "#2e7d32" : "#e53935",
+                          color:
+                            displayStock > 10
+                              ? "var(--brand-green)"
+                              : "var(--danger)",
                         }}
                       >
                         {displayStock}
@@ -834,15 +838,15 @@ const Perticular = ({ open, onClose, product }) => {
                         minWidth: { xs: 30, sm: 34 },
                         height: { xs: 30, sm: 34 },
                         borderRadius: "50%",
-                        border: "1.5px solid #2e7d32",
-                        color: "#2e7d32",
+                        border: "1.5px solid var(--brand-green)",
+                        color: "var(--brand-green)",
                         fontSize: "20px",
                         fontWeight: 700,
                         p: 0,
-                        "&:hover": { backgroundColor: "#e8f5e9" },
+                        "&:hover": { backgroundColor: "var(--brand-green-soft)" },
                         "&.Mui-disabled": {
-                          borderColor: "#ddd",
-                          color: "#ccc",
+                          borderColor: "var(--grocery-border-lightgray)",
+                          color: "var(--text-disabled)",
                         },
                       }}
                     >
@@ -854,7 +858,7 @@ const Perticular = ({ open, onClose, product }) => {
                         textAlign: "center",
                         fontWeight: 700,
                         fontSize: "16px",
-                        color: "#000",
+                        color: "var(--text-strong)",
                       }}
                     >
                       {quantity}
@@ -866,15 +870,15 @@ const Perticular = ({ open, onClose, product }) => {
                         minWidth: { xs: 30, sm: 34 },
                         height: { xs: 30, sm: 34 },
                         borderRadius: "50%",
-                        border: "1.5px solid #2e7d32",
-                        color: "#2e7d32",
+                        border: "1.5px solid var(--brand-green)",
+                        color: "var(--brand-green)",
                         fontSize: "20px",
                         fontWeight: 700,
                         p: 0,
-                        "&:hover": { backgroundColor: "#e8f5e9" },
+                        "&:hover": { backgroundColor: "var(--brand-green-soft)" },
                         "&.Mui-disabled": {
-                          borderColor: "#ddd",
-                          color: "#ccc",
+                          borderColor: "var(--grocery-border-lightgray)",
+                          color: "var(--text-disabled)",
                         },
                       }}
                     >
@@ -891,7 +895,7 @@ const Perticular = ({ open, onClose, product }) => {
                         fontWeight: 600,
                         mb: 0.8,
                         fontSize: "0.9rem",
-                        color: "#000",
+                        color: "var(--text-strong)",
                       }}
                     >
                       {product?.choice_options?.[0]?.title
@@ -926,34 +930,36 @@ const Perticular = ({ open, onClose, product }) => {
                               textTransform: "none",
                               border: "1.5px solid",
                               borderColor: isSelected
-                                ? "#2e7d32"
+                                ? "var(--brand-green)"
                                 : isOOS
-                                ? "#eee"
-                                : "#d0e6d5",
+                                ? "var(--border-subtle)"
+                                : "var(--grocery-border-mint)",
                               color: isSelected
-                                ? "#fff"
+                                ? "var(--grocery-text-on-brand)"
                                 : isOOS
-                                ? "#bbb"
-                                : "#2e7d32",
+                                ? "var(--text-disabled)"
+                                : "var(--brand-green)",
                               backgroundColor: isSelected
-                                ? "#2e7d32"
+                                ? "var(--brand-green)"
                                 : isOOS
-                                ? "#f5f5f5"
-                                : "#fff",
+                                ? "var(--bg-muted)"
+                                : "var(--bg-card)",
                               minWidth: 0,
                               flexDirection: "column",
                               "&:hover": {
                                 backgroundColor: isSelected
-                                  ? "#1b5e20"
+                                  ? "var(--brand-green-hover)"
                                   : isOOS
-                                  ? "#f5f5f5"
-                                  : "#e8f5e9",
-                                borderColor: isOOS ? "#eee" : "#2e7d32",
+                                  ? "var(--bg-muted)"
+                                  : "var(--brand-green-soft)",
+                                borderColor: isOOS
+                                  ? "var(--border-subtle)"
+                                  : "var(--brand-green)",
                               },
                               "&.Mui-disabled": {
-                                color: "#bbb",
-                                borderColor: "#eee",
-                                backgroundColor: "#f5f5f5",
+                                color: "var(--text-disabled)",
+                                borderColor: "var(--border-subtle)",
+                                backgroundColor: "var(--bg-muted)",
                               },
                             }}
                           >
@@ -963,7 +969,7 @@ const Perticular = ({ open, onClose, product }) => {
                                 component="span"
                                 sx={{
                                   fontSize: "9px",
-                                  color: "#e53935",
+                                  color: "var(--danger)",
                                   lineHeight: 1,
                                   display: "block",
                                 }}
@@ -986,11 +992,11 @@ const Perticular = ({ open, onClose, product }) => {
                 sx={{
                   mt: 2,
                   pt: 1.5,
-                  borderTop: "1px solid #f0f0f0",
+                  borderTop: "1px solid var(--border-subtle)",
                   flexShrink: 0,
                   position: { xs: "sticky", md: "relative" },
                   bottom: 0,
-                  backgroundColor: "#fff",
+                  // backgroundColor: "var(--bg-card)",
                   pb: { xs: 1, md: 0 },
                 }}
               >
@@ -1006,6 +1012,7 @@ const Perticular = ({ open, onClose, product }) => {
                           flex: 1,
                           py: { xs: 1, sm: 1.2 },
                           fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                          // 🔒 fixed brand CTA green — does NOT change with theme
                           color: "#188444",
                           borderColor: "#188444",
                           whiteSpace: "nowrap",
@@ -1029,6 +1036,7 @@ const Perticular = ({ open, onClose, product }) => {
                         flex: 1,
                         py: { xs: 1, sm: 1.2 },
                         fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                        // 🔒 fixed brand CTA green — does NOT change with theme
                         color: "white",
                         backgroundColor: "#188444",
                         whiteSpace: "nowrap",
@@ -1064,6 +1072,8 @@ const Perticular = ({ open, onClose, product }) => {
         fullScreen={isMobile}
         sx={{
           "& .MuiDialog-paper": {
+            backgroundColor: "var(--bg-card)",
+            color: "var(--text-primary)",
             borderRadius: { xs: 0, sm: "16px !important" },
           },
         }}
@@ -1074,7 +1084,7 @@ const Perticular = ({ open, onClose, product }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottom: "1px solid #eee",
+            borderBottom: "1px solid var(--border-subtle)",
           }}
         >
           <Typography
@@ -1095,8 +1105,8 @@ const Perticular = ({ open, onClose, product }) => {
                   mb: 2,
                   p: 2,
                   borderRadius: "10px",
-                  backgroundColor: "#fff",
-                  boxShadow: "0px 1px 6px rgba(0, 0, 0, 0.07)",
+                  backgroundColor: "var(--bg-card)",
+                  boxShadow: "var(--shadow-review)",
                 }}
               >
                 <Box display="flex" alignItems="center" sx={{ mb: 1 }}>
@@ -1105,7 +1115,7 @@ const Perticular = ({ open, onClose, product }) => {
                       width: 36,
                       height: 36,
                       borderRadius: "50%",
-                      backgroundColor: "#1976d2",
+                      backgroundColor: "var(--grocery-blue-info)",
                       color: "white",
                       display: "flex",
                       alignItems: "center",
@@ -1120,7 +1130,7 @@ const Perticular = ({ open, onClose, product }) => {
                     <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
                       {review.customer?.f_name ?? "Unknown User"}
                     </Typography>
-                    <Typography sx={{ fontSize: "0.7rem", color: "gray" }}>
+                    <Typography sx={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>
                       {new Date(review.created_at).toLocaleDateString()}
                     </Typography>
                   </Box>
@@ -1131,7 +1141,7 @@ const Perticular = ({ open, onClose, product }) => {
                     precision={0.5}
                   />
                 </Box>
-                <Typography sx={{ fontSize: "0.85rem", color: "#444" }}>
+                <Typography sx={{ fontSize: "0.85rem", color: "var(--grocery-text-body)" }}>
                   {review.comment}
                 </Typography>
               </Box>

@@ -170,14 +170,14 @@ const AuthModal = ({ modalFor, open, handleClose, setModalFor }) => {
   };
 
   useEffect(() => {
-    setUpRecaptcha();
-    return () => {
-      if (recaptchaWrapperRef.current) {
-        recaptchaWrapperRef.current.clear();
-        recaptchaWrapperRef.current = null;
-      }
-    };
-  }, []);
+  setUpRecaptcha();
+  return () => {
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+      window.recaptchaVerifier = null;
+    }
+  };
+}, []);
 
   const sendOTP = (response, setOtpData, setMainToken, phone) => {
     const phoneNumber = phone;

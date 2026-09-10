@@ -1,23 +1,25 @@
 import React from "react";
 import { Box, Typography, Container } from "@mui/material";
+import styles from "../../../src/styles/Grocery.module.css";
 
-const LocationScreen = ({title,subtext}) => {
+const LocationScreen = ({ title, subtext }) => {
   return (
     <Box
+      className={styles.groceryThemeVars}
       sx={{
         minHeight: "50vh",
-        // backgroundColor: "#f5f5f5",
+        backgroundColor: "var(--bg-page)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         px: 2,
+        transition: "background-color 0.2s ease, color 0.2s ease",
       }}
     >
       <Container maxWidth="sm">
         <Box
           sx={{
             textAlign: "center",
-            // py: { xs: 6, sm: 8 },
           }}
         >
           {/* Image instead of icon */}
@@ -30,12 +32,15 @@ const LocationScreen = ({title,subtext}) => {
           >
             <Box
               component="img"
-              src="/locationSelect.png" 
+              src="/locationSelect.png"
               alt="location"
               sx={{
                 width: { xs: 120, sm: 160 },
                 height: "auto",
                 opacity: 0.8,
+                // dark mode mein image thoda aur mute/dim ho, taaki white bg pe bana icon
+                // dark background pe zyada harsh na lage
+                filter: "var(--grocery-image-filter, none)",
               }}
             />
           </Box>
@@ -46,20 +51,20 @@ const LocationScreen = ({title,subtext}) => {
               fontWeight: 600,
               mb: 1,
               fontSize: { xs: "18px", sm: "22px" },
-              color:"#000000"
+              color: "var(--text-strong)",
             }}
           >
-           {title}
+            {title}
           </Typography>
 
           {/* Subtext */}
           <Typography
             sx={{
-              color: "text.secondary",
+              color: "var(--text-secondary)",
               fontSize: { xs: "14px", sm: "16px" },
             }}
           >
-           {subtext}
+            {subtext}
           </Typography>
         </Box>
       </Container>

@@ -49,7 +49,7 @@ const Root = (props) => {
         <LandingLayout configData={landingData} landingPageData={data}>
           <div
             style={{
-              backgroundColor: "white",
+              // backgroundColor: "white",
               minHeight: "100vh",
               display: "flex",
               justifyContent: "center",

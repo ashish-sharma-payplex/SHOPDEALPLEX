@@ -50,24 +50,48 @@ const OtpForm = ({ data, formSubmitHandler, isLoading }) => {
             alignItems="center"
             justifyContent="center"
           >
+            {/* ✅ FIX — pehle sirf underline (border-bottom) style thi,
+                jisse input boxes ka default width alignment bikhar
+                jaata tha aur digits "hilte"/misaligned dikhte the.
+                Ab proper fixed-size boxed inputs hain (jaisa doosre
+                OtpForm mein hai) — har digit apni fixed width/height
+                box mein center mein rahega, kabhi shift nahi hoga.
+                Dark mode ke liye bhi CSS variables use kiye hain. */}
             <Box
               sx={{
                 mt: 3,
                 mb: 1,
                 mx: "auto",
-                maxWidth: "380px",
                 div: {
-                  gap: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: {
+                    xs: "10px",
+                    sm: "14px",
+                    md: "16px",
+                  },
                 },
                 input: {
-                  flexGrow: "1",
-                  background: "transparent",
+                  flexGrow: "0",
+                  background: "var(--brand-green-soft)",
                   color: theme.palette.primary.main,
-                  fontSize: "24px",
-                  border: "none",
+                  fontSize: "18px",
+                  fontWeight: "600",
                   outline: "none",
-                  height: "45px",
-                  borderBottom: "1px solid " + theme.palette.primary.main,
+                  height: {
+                    xs: "44px",
+                    sm: "48px",
+                    md: "52px",
+                  },
+                  width: {
+                    xs: "44px !important",
+                    sm: "48px !important",
+                    md: "52px !important",
+                  },
+                  borderRadius: "14px !important",
+                  WebkitBorderRadius: "14px !important",
+                  MozBorderRadius: "14px !important",
+                  border: "1.6px solid " + theme.palette.primary.main,
                 },
               }}
             >
@@ -84,7 +108,17 @@ const OtpForm = ({ data, formSubmitHandler, isLoading }) => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: "var(--brand-green)",
+                color: "#ffffff",
+                "&:hover": { backgroundColor: "var(--brand-green-hover)" },
+                "&.Mui-disabled": {
+                  backgroundColor: "var(--bg-disabled)",
+                  color: "var(--text-disabled)",
+                },
+              }}
               loading={isLoading}
             >
               {t("Verify")}

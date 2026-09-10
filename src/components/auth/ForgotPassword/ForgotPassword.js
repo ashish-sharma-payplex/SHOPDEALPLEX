@@ -89,6 +89,7 @@ const ForgotPassword = ({ configData }) => {
           goBack={goBack}
           formSubmitHandler={formSubmitHandler}
           isLoading={isLoading}
+          layout="horizontal" 
         />
       );
     } else page === 2;

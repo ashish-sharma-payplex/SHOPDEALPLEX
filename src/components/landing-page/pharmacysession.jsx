@@ -50,6 +50,7 @@ import Perticular from "components/home/module-wise-components/Grocerysubcompone
 import { setModalFor, setSignInModalOpen } from "redux/slices/utils";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import useDeleteAllCartItem from "api-manage/hooks/react-query/add-cart/useDeleteAllCartItem";
+import styles from "../../../src/styles/Pharmacy.module.css";
 
 const fetchZoneId = async () => {
   try {
@@ -198,7 +199,7 @@ const PharmacySession = () => {
         sx={{
           fontSize: isMobile ? "14px" : "16px",
           fontWeight: 500,
-          color: "#6b7280",
+          color: "var(--text-secondary)",
         }}
       >
         {text}
@@ -559,8 +560,8 @@ const PharmacySession = () => {
             borderRadius: "8px",
             fontSize: "10px",
             width: buttonWidth,
-            color: "#e53935 !important",
-            border: "1.8px solid #e53935 !important",
+            color: "var(--danger) !important",
+            border: "1.8px solid var(--danger) !important",
             padding: "5px 0px",
             opacity: 0.7,
           }}
@@ -584,8 +585,8 @@ const PharmacySession = () => {
             borderRadius: "8px",
             fontSize: "12px",
             width: buttonWidth,
-            color: "#16A34A",
-            border: "1.8px solid #16A34A",
+            color: "var(--pharmacy-cta-green)",
+            border: "1.8px solid var(--pharmacy-cta-green)",
             padding: "5px",
           }}
         >
@@ -604,7 +605,7 @@ const PharmacySession = () => {
           justifyContent: "space-between",
           width: buttonWidth,
           height: "32px",
-          border: "1.8px solid #16A34A",
+          border: "1.8px solid var(--pharmacy-cta-green)",
           borderRadius: "6px",
         }}
       >
@@ -619,16 +620,21 @@ const PharmacySession = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#f1f1f1",
+            backgroundColor: "var(--qty-btn-bg)",
             borderRadius: "4px",
             cursor: "pointer",
           }}
         >
-          <Typography sx={{ fontSize: "14px" }}>−</Typography>
+          <Typography sx={{ fontSize: "14px", color: "var(--text-strong)" }}>
+            −
+          </Typography>
         </Box>
 
         {/* ✅ displayQty — ref se, Redux re-render ka wait nahi */}
-        <Typography fontWeight={600} sx={{ fontSize: "14px" }}>
+        <Typography
+          fontWeight={600}
+          sx={{ fontSize: "14px", color: "var(--text-strong)" }}
+        >
           {displayQty}
         </Typography>
 
@@ -647,14 +653,19 @@ const PharmacySession = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: isMaxReached ? "#e0e0e0" : "#f1f1f1",
+            backgroundColor: isMaxReached
+              ? "var(--qty-btn-bg-disabled)"
+              : "var(--qty-btn-bg)",
             borderRadius: "4px",
             cursor: isMaxReached ? "not-allowed" : "pointer",
             opacity: isMaxReached ? 0.5 : 1,
           }}
         >
           <Typography
-            sx={{ fontSize: "14px", color: isMaxReached ? "#aaa" : "inherit" }}
+            sx={{
+              fontSize: "14px",
+              color: isMaxReached ? "var(--text-disabled)" : "var(--text-strong)",
+            }}
           >
             +
           </Typography>
@@ -665,524 +676,537 @@ const PharmacySession = () => {
 
   /* ================= RENDER ================= */
   return (
-    <CustomContainer>
-      <Toaster position="top-center" />
+    <div className={`${styles.pharmacyThemeVars} ${styles["pharmacy-module-root"]}`}>
+      <CustomContainer>
+        <Toaster position="top-center" />
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-          mt: 2,
-        }}
-      >
-        <Typography
+        <Box
           sx={{
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 500,
-            fontSize: isMobile ? "18px" : "24px",
-            color: "#000000",
-            whiteSpace: "nowrap",
-          }}
-        >
-          Pharmacy & Wellness
-        </Typography>
-        <Link
-          component="button"
-          onClick={() => router.push("/home?module=pharmacy")}
-          underline="none"
-          sx={{
-            color: "#1A914b",
-            fontWeight: 500,
-            background: "none",
-            cursor: "pointer",
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: "4px",
-            whiteSpace: "nowrap",
-            ml: isMobile ? "10px" : "0",
-            "&:hover": { textDecoration: "underline" },
+            mb: 3,
+            mt: 2,
           }}
         >
-          View All
-          <ArrowForwardIcon sx={{ fontSize: { xs: "1.1rem", sm: "1rem" } }} />
-        </Link>
-      </Box>
+          <Typography
+            sx={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 500,
+              fontSize: isMobile ? "18px" : "24px",
+              color: "var(--text-strong)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Pharmacy & Wellness
+          </Typography>
+          <Link
+            component="button"
+            onClick={() => router.push("/home?module=pharmacy")}
+            underline="none"
+            sx={{
+              color: "var(--pharmacy-brand-green)",
+              fontWeight: 500,
+              background: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              whiteSpace: "nowrap",
+              ml: isMobile ? "10px" : "0",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            View All
+            <ArrowForwardIcon sx={{ fontSize: { xs: "1.1rem", sm: "1rem" } }} />
+          </Link>
+        </Box>
 
-      <Grid container spacing={2.2}>
-        {isLoading ? (
-          Array.from({ length: 8 }).map((_, i) => (
-            <Grid item xs={6} sm={4} md={2.4} key={i}>
-              <Skeleton height={220} sx={{ borderRadius: "10px" }} />
+        <Grid container spacing={2.2}>
+          {isLoading ? (
+            Array.from({ length: 8 }).map((_, i) => (
+              <Grid item xs={6} sm={4} md={2.4} key={i}>
+                <Skeleton height={220} sx={{ borderRadius: "10px" }} />
+              </Grid>
+            ))
+          ) : !products.length ? (
+            // ✅ EMPTY STATE (FULL WIDTH)
+            <Grid item xs={12}>
+              <EmptyState text="No Medicines Found" />
             </Grid>
-          ))
-        ) : !products.length ? (
-          // ✅ EMPTY STATE (FULL WIDTH)
-          <Grid item xs={12}>
-            <EmptyState text="No Medicines Found" />
-          </Grid>
-        ) : (
-          products.map((item) => {
-            const variation = item?.variations?.[0];
-            const unitLabel = variation?.type || "Default Label";
-            const unitType = item?.unit?.unit || "Unit";
-            const discountedPrice =
-              item.price - (item.price * item.discount) / 100;
+          ) : (
+            products.map((item) => {
+              const variation = item?.variations?.[0];
+              const unitLabel = variation?.type || "Default Label";
+              const unitType = item?.unit?.unit || "Unit";
+              const discountedPrice =
+                item.price - (item.price * item.discount) / 100;
 
-            const limitByChars = (text, max = 15) => {
-              if (!text) return "";
-              return text.length > max ? text.slice(0, max) + "..." : text;
-            };
+              const limitByChars = (text, max = 15) => {
+                if (!text) return "";
+                return text.length > max ? text.slice(0, max) + "..." : text;
+              };
 
-            return (
-              <Grid item xs={6} sm={4} md={2.4} key={item.id}>
-                <Box
-                  sx={{
-                    p: "12px 8px",
-                    border: "1px solid #e0e0e0",
-                    borderRadius: "12px",
-                    backgroundColor: "#ffffff",
-                    cursor: "pointer",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
-                  onClick={() => {
-                    setSelectedProduct(item);
-                    setOpenModal(true);
-                  }}
-                >
-                  <Box sx={{ position: "relative", mb: 1.5 }}>
-                    {item.discount > 0 && (
+              return (
+                <Grid item xs={6} sm={4} md={2.4} key={item.id}>
+                  <Box
+                    sx={{
+                      p: "12px 8px",
+                      border: "1px solid var(--border-default)",
+                      borderRadius: "12px",
+                      backgroundColor: "var(--bg-card)",
+                      cursor: "pointer",
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                    }}
+                    onClick={() => {
+                      setSelectedProduct(item);
+                      setOpenModal(true);
+                    }}
+                  >
+                    <Box sx={{ position: "relative", mb: 1.5 }}>
+                      {item.discount > 0 && (
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: -12,
+                            left: 0,
+                            background: "var(--pharmacy-brand-green)",
+                            color: "var(--text-on-brand)",
+                            fontWeight: 700,
+                            fontSize: "0.55rem",
+                            padding: "6px 4px",
+                            width: "38px",
+                            height: "45px",
+                            textAlign: "center",
+                            whiteSpace: "nowrap",
+                            clipPath:
+                              "polygon(0 0,100% 0,100% 85%,90% 100%,80% 85%,70% 100%,60% 85%,50% 100%,40% 85%,30% 100%,20% 85%,10% 100%,0 85%)",
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                            zIndex: 2,
+                          }}
+                        >
+                          {item.discount}%<br /> OFF
+                        </Box>
+                      )}
+
+                      <CustomImageContainer
+                        src={item.image_full_url || item.image}
+                        alt={item.name}
+                        title={item.name}
+                        height="160px"
+                        width="100%"
+                        objectFit="contain"
+                        borderRadius="8px"
+                      />
+
                       <Box
                         sx={{
                           position: "absolute",
-                          top: -12,
-                          left: 0,
-                          background: "#1A914B",
-                          color: "#fff",
-                          fontWeight: 700,
-                          fontSize: "0.55rem",
-                          padding: "6px 4px",
-                          width: "38px",
-                          height: "45px",
-                          textAlign: "center",
-                          whiteSpace: "nowrap",
-                          clipPath:
-                            "polygon(0 0,100% 0,100% 85%,90% 100%,80% 85%,70% 100%,60% 85%,50% 100%,40% 85%,30% 100%,20% 85%,10% 100%,0 85%)",
-                          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                          zIndex: 2,
+                          top: -6,
+                          right: -5,
+                          width: 24,
+                          height: 24,
+                          borderRadius: "12px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          zIndex: 5,
+                          transition: "all 0.2s ease",
+                          "&:hover": { transform: "scale(1.05)" },
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isWishlisted(item)) removeFromWishlist(item, e);
+                          else addToWishlist(item, e);
                         }}
                       >
-                        {item.discount}%<br /> OFF
+                        {isWishlisted(item) ? (
+                          <FavoriteIcon
+                            sx={{ color: "var(--danger)", fontSize: 20 }}
+                          />
+                        ) : (
+                          <FavoriteBorderIcon
+                            sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }}
+                          />
+                        )}
                       </Box>
-                    )}
+                    </Box>
 
-                    <CustomImageContainer
-                      src={item.image_full_url || item.image}
-                      alt={item.name}
-                      title={item.name}
-                      height="160px"
-                      width="100%"
-                      objectFit="contain"
-                      borderRadius="8px"
-                    />
+                    <Typography
+                      sx={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 600,
+                        fontSize: isMobile ? "14px" : "16px",
+                        color: "var(--text-strong)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {limitByChars(item.name || "Unnamed Product", 15)}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 500,
+                        fontSize: isMobile ? "10px" : "12px",
+                        color: "var(--text-muted)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {unitLabel}
+                      {unitType}
+                    </Typography>
 
                     <Box
                       sx={{
-                        position: "absolute",
-                        top: -6,
-                        right: -5,
-                        width: 24,
-                        height: 24,
-                        borderRadius: "12px",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        zIndex: 5,
-                        transition: "all 0.2s ease",
-                        "&:hover": { transform: "scale(1.05)" },
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (isWishlisted(item)) removeFromWishlist(item, e);
-                        else addToWishlist(item, e);
+                        justifyContent: "space-between",
+                        mt: 0.8,
+                        pb: 0.5,
                       }}
                     >
-                      {isWishlisted(item) ? (
-                        <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
-                      ) : (
-                        <FavoriteBorderIcon
-                          sx={{ color: "#c4c2c2", fontSize: 20 }}
-                        />
-                      )}
+                      <Box sx={{ alignItems: "center", gap: 0.6 }}>
+                        <Typography
+                          sx={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 600,
+                            fontSize: isMobile ? "14px" : "16px",
+                            color: "var(--pharmacy-brand-green)",
+                          }}
+                        >
+                          ₹
+                          {discountedPrice % 1 === 0
+                            ? Math.floor(discountedPrice)
+                            : discountedPrice.toFixed(2)}
+                        </Typography>
+                        {item.discount > 0 && (
+                          <Typography
+                            sx={{
+                              fontFamily: "'Inter', sans-serif",
+                              fontWeight: 500,
+                              fontSize: isMobile ? "12px" : "14px",
+                              color: "var(--text-muted)",
+                              textDecoration: "line-through",
+                            }}
+                          >
+                            ₹{item.price}
+                          </Typography>
+                        )}
+                      </Box>
+
+                      {/* ✅ renderAddButton handles out of stock internally */}
+                      {renderAddButton(item)}
                     </Box>
                   </Box>
+                </Grid>
+              );
+            })
+          )}
+        </Grid>
 
-                  <Typography
-                    sx={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontWeight: 600,
-                      fontSize: isMobile ? "14px" : "16px",
-                      color: "#000000",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {limitByChars(item.name || "Unnamed Product", 15)}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontWeight: 500,
-                      fontSize: isMobile ? "10px" : "12px",
-                      color: "#767676",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {unitLabel}
-                    {unitType}
-                  </Typography>
+        {/* ================= STORE SWITCH DIALOG ================= */}
+        <Dialog
+          open={storeSwitchOpen}
+          onClose={handleStoreSwitchCancel}
+          PaperProps={{
+            sx: {
+              borderRadius: { xs: "24px", sm: "28px" },
+              padding: { xs: "8px", sm: "12px" },
+              maxWidth: { xs: "92vw", sm: "420px" },
+              width: "100%",
+              mx: "auto",
+              backgroundColor: "var(--bg-card)",
+            },
+          }}
+        >
+          {/* Icon + Title */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              pt: { xs: 2.5, sm: 3 },
+              pb: 1,
+              px: { xs: 2, sm: 3 },
+            }}
+          >
+            {/* Warning Icon Circle */}
+            <Box
+              sx={{
+                width: { xs: 52, sm: 60 },
+                height: { xs: 52, sm: 60 },
+                borderRadius: "50%",
+                backgroundColor: "var(--warning-soft-bg)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mb: 2,
+                border: "2px solid var(--warning-soft-border)",
+              }}
+            >
+              <Typography sx={{ fontSize: { xs: 24, sm: 28 } }}>🛒</Typography>
+            </Box>
 
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: { xs: "17px", sm: "19px" },
+                color: "var(--text-primary)",
+                textAlign: "center",
+                lineHeight: 1.3,
+                mb: 0.5,
+              }}
+            >
+              Switch Store?
+            </Typography>
+
+            <Typography
+              sx={{
+                fontSize: { xs: "12px", sm: "13px" },
+                color: "var(--dialog-subtitle)",
+                textAlign: "center",
+              }}
+            >
+              Your cart has items from another store
+            </Typography>
+          </Box>
+
+          <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: 1.5 }}>
+            {/* Info Box */}
+            <Box
+              sx={{
+                backgroundColor: "var(--info-bg)",
+                border: "1px solid var(--info-border)",
+                borderRadius: "12px",
+                px: { xs: 1.8, sm: 2 },
+                py: { xs: 1.5, sm: 1.8 },
+                display: "flex",
+                gap: 1.2,
+                alignItems: "flex-start",
+              }}
+            >
+              <Typography sx={{ fontSize: { xs: 15, sm: 17 }, mt: "1px" }}>
+                ⚠️
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { xs: "12px", sm: "13px" },
+                  color: "var(--info-text)",
+                  lineHeight: 1.6,
+                }}
+              >
+                Adding this item will <strong>clear your current cart</strong>.
+                All previously added items from the other store will be removed.
+              </Typography>
+            </Box>
+
+            {/* Divider line */}
+            <Box
+              sx={{
+                mt: 2,
+                mb: 1.5,
+                borderTop: "1px dashed var(--border-dashed)",
+              }}
+            />
+
+            <Typography
+              sx={{
+                fontSize: { xs: "13px", sm: "14px" },
+                color: "var(--dialog-body)",
+                textAlign: "center",
+                fontWeight: 500,
+              }}
+            >
+              Do you want to clear the cart and add this item?
+            </Typography>
+          </DialogContent>
+
+          <DialogActions
+            sx={{
+              px: { xs: 2, sm: 3 },
+              pb: { xs: 2.5, sm: 3 },
+              pt: 1,
+              gap: { xs: 1, sm: 1.5 },
+              flexDirection: { xs: "column", sm: "row" },
+            }}
+          >
+            {/* Cancel Button */}
+            <Button
+              fullWidth
+              onClick={handleStoreSwitchCancel}
+              disabled={storeSwitchLoading}
+              sx={{
+                borderRadius: "12px",
+                textTransform: "none",
+                fontWeight: 600,
+                fontSize: { xs: "13px", sm: "14px" },
+                py: { xs: 1.3, sm: 1.4 },
+                border: "1.5px solid var(--cancel-border)",
+                color: "var(--cancel-text)",
+                backgroundColor: "var(--cancel-bg)",
+                order: { xs: 2, sm: 1 },
+                "&:hover": {
+                  backgroundColor: "var(--cancel-hover-bg)",
+                  borderColor: "var(--cancel-hover-border)",
+                },
+              }}
+            >
+              Keep Current Cart
+            </Button>
+
+            {/* Confirm Button */}
+            <Button
+              fullWidth
+              onClick={handleStoreSwitchConfirm}
+              disabled={storeSwitchLoading}
+              sx={{
+                borderRadius: "12px",
+                textTransform: "none",
+                fontWeight: 700,
+                fontSize: { xs: "13px", sm: "14px" },
+                py: { xs: 1.3, sm: 1.4 },
+                backgroundColor: "var(--pharmacy-cta-green)",
+                color: "var(--text-on-brand)",
+                order: { xs: 1, sm: 2 },
+                boxShadow: "0 4px 14px var(--pharmacy-cta-shadow)",
+                "&:hover": {
+                  backgroundColor: "var(--pharmacy-cta-green-hover)",
+                  boxShadow: "0 4px 18px var(--pharmacy-cta-shadow-hover)",
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: "var(--pharmacy-cta-green-disabled)",
+                  color: "var(--text-on-brand)",
+                },
+              }}
+            >
+              {storeSwitchLoading ? "Clearing..." : "Yes, Clear"}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Variation Modal */}
+        {variationModalOpen && variationProduct && (
+          <Dialog
+            open={variationModalOpen}
+            onClose={() => setVariationModalOpen(false)}
+            fullWidth
+            maxWidth="xs"
+            sx={{
+              width: "450px",
+              margin: "auto",
+              "& .MuiPaper-root": { borderRadius: "12px !important" },
+            }}
+          >
+            <DialogContent
+              dividers
+              sx={{
+                borderRadius: "12px !important",
+                backgroundColor: "var(--bg-card)",
+                border: "1px solid var(--border-variation)",
+              }}
+            >
+              <DialogTitle sx={{ paddingTop: 0, color: "var(--text-strong)" }}>
+                Select Variations
+              </DialogTitle>
+              {variationProduct?.variations?.map((variation, index) => {
+                const originalPrice = variation.price;
+                const discount = variationProduct.discount || 0;
+                const discountedPrice =
+                  discount > 0
+                    ? Math.round(originalPrice - (originalPrice * discount) / 100)
+                    : originalPrice;
+                return (
                   <Box
+                    key={index}
                     sx={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      mt: 0.8,
-                      pb: 0.5,
+                      mb: 1.5,
+                      p: 1,
+                      borderRadius: 1,
+                      border: "1px dashed var(--border-default)",
                     }}
                   >
-                    <Box sx={{ alignItems: "center", gap: 0.6 }}>
-                      <Typography
+                    <Box display="flex" alignItems="center" gap={1.5}>
+                      <Box
+                        component="img"
+                        src={variationProduct.image_full_url}
+                        alt={variation.type}
                         sx={{
-                          fontFamily: "'Inter', sans-serif",
-                          fontWeight: 600,
-                          fontSize: isMobile ? "14px" : "16px",
-                          color: "#1A914B",
+                          width: 48,
+                          height: 48,
+                          borderRadius: 1,
+                          objectFit: "cover",
                         }}
-                      >
-                        ₹
-                        {discountedPrice % 1 === 0
-                          ? Math.floor(discountedPrice)
-                          : discountedPrice.toFixed(2)}
-                      </Typography>
-                      {item.discount > 0 && (
+                      />
+                      <Box>
                         <Typography
-                          sx={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontWeight: 500,
-                            fontSize: isMobile ? "12px" : "14px",
-                            color: "#767676",
-                            textDecoration: "line-through",
-                          }}
+                          fontWeight={600}
+                          sx={{ color: "var(--text-strong)" }}
                         >
-                          ₹{item.price}
+                          {variation.type} {variationProduct.unit_type}
                         </Typography>
-                      )}
-                    </Box>
-
-                    {/* ✅ renderAddButton handles out of stock internally */}
-                    {renderAddButton(item)}
-                  </Box>
-                </Box>
-              </Grid>
-            );
-          })
-        )}
-      </Grid>
-
-      {/* ================= STORE SWITCH DIALOG ================= */}
-      <Dialog
-        open={storeSwitchOpen}
-        onClose={handleStoreSwitchCancel}
-        PaperProps={{
-          sx: {
-            borderRadius: { xs: "24px", sm: "28px" },
-            padding: { xs: "8px", sm: "12px" },
-            maxWidth: { xs: "92vw", sm: "420px" },
-            width: "100%",
-            mx: "auto",
-          },
-        }}
-      >
-        {/* Icon + Title */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            pt: { xs: 2.5, sm: 3 },
-            pb: 1,
-            px: { xs: 2, sm: 3 },
-          }}
-        >
-          {/* Warning Icon Circle */}
-          <Box
-            sx={{
-              width: { xs: 52, sm: 60 },
-              height: { xs: 52, sm: 60 },
-              borderRadius: "50%",
-              backgroundColor: "#fff7ed",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              mb: 2,
-              border: "2px solid #fed7aa",
-            }}
-          >
-            <Typography sx={{ fontSize: { xs: 24, sm: 28 } }}>🛒</Typography>
-          </Box>
-
-          <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: { xs: "17px", sm: "19px" },
-              color: "#111827",
-              textAlign: "center",
-              lineHeight: 1.3,
-              mb: 0.5,
-            }}
-          >
-            Switch Store?
-          </Typography>
-
-          <Typography
-            sx={{
-              fontSize: { xs: "12px", sm: "13px" },
-              color: "#6b7280",
-              textAlign: "center",
-            }}
-          >
-            Your cart has items from another store
-          </Typography>
-        </Box>
-
-        <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: 1.5 }}>
-          {/* Info Box */}
-          <Box
-            sx={{
-              backgroundColor: "#fef3c7",
-              border: "1px solid #fde68a",
-              borderRadius: "12px",
-              px: { xs: 1.8, sm: 2 },
-              py: { xs: 1.5, sm: 1.8 },
-              display: "flex",
-              gap: 1.2,
-              alignItems: "flex-start",
-            }}
-          >
-            <Typography sx={{ fontSize: { xs: 15, sm: 17 }, mt: "1px" }}>
-              ⚠️
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: { xs: "12px", sm: "13px" },
-                color: "#92400e",
-                lineHeight: 1.6,
-              }}
-            >
-              Adding this item will <strong>clear your current cart</strong>.
-              All previously added items from the other store will be removed.
-            </Typography>
-          </Box>
-
-          {/* Divider line */}
-          <Box
-            sx={{
-              mt: 2,
-              mb: 1.5,
-              borderTop: "1px dashed #e5e7eb",
-            }}
-          />
-
-          <Typography
-            sx={{
-              fontSize: { xs: "13px", sm: "14px" },
-              color: "#374151",
-              textAlign: "center",
-              fontWeight: 500,
-            }}
-          >
-            Do you want to clear the cart and add this item?
-          </Typography>
-        </DialogContent>
-
-        <DialogActions
-          sx={{
-            px: { xs: 2, sm: 3 },
-            pb: { xs: 2.5, sm: 3 },
-            pt: 1,
-            gap: { xs: 1, sm: 1.5 },
-            flexDirection: { xs: "column", sm: "row" },
-          }}
-        >
-          {/* Cancel Button */}
-          <Button
-            fullWidth
-            onClick={handleStoreSwitchCancel}
-            disabled={storeSwitchLoading}
-            sx={{
-              borderRadius: "12px",
-              textTransform: "none",
-              fontWeight: 600,
-              fontSize: { xs: "13px", sm: "14px" },
-              py: { xs: 1.3, sm: 1.4 },
-              border: "1.5px solid #e5e7eb",
-              color: "#374151",
-              backgroundColor: "#fff",
-              order: { xs: 2, sm: 1 },
-              "&:hover": {
-                backgroundColor: "#f9fafb",
-                borderColor: "#d1d5db",
-              },
-            }}
-          >
-            Keep Current Cart
-          </Button>
-
-          {/* Confirm Button */}
-          <Button
-            fullWidth
-            onClick={handleStoreSwitchConfirm}
-            disabled={storeSwitchLoading}
-            sx={{
-              borderRadius: "12px",
-              textTransform: "none",
-              fontWeight: 700,
-              fontSize: { xs: "13px", sm: "14px" },
-              py: { xs: 1.3, sm: 1.4 },
-              backgroundColor: "#16a34a",
-              color: "#fff",
-              order: { xs: 1, sm: 2 },
-              boxShadow: "0 4px 14px rgba(22,163,74,0.25)",
-              "&:hover": {
-                backgroundColor: "#15803d",
-                boxShadow: "0 4px 18px rgba(22,163,74,0.35)",
-              },
-              "&.Mui-disabled": {
-                backgroundColor: "#86efac",
-                color: "#fff",
-              },
-            }}
-          >
-            {storeSwitchLoading ? "Clearing..." : "Yes, Clear"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Variation Modal */}
-      {variationModalOpen && variationProduct && (
-        <Dialog
-          open={variationModalOpen}
-          onClose={() => setVariationModalOpen(false)}
-          fullWidth
-          maxWidth="xs"
-          sx={{
-            width: "450px",
-            margin: "auto",
-            "& .MuiPaper-root": { borderRadius: "12px !important" },
-          }}
-        >
-          <DialogContent
-            dividers
-            sx={{
-              borderRadius: "12px !important",
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #ccc6c6",
-            }}
-          >
-            <DialogTitle sx={{ paddingTop: 0 }}>Select Variations</DialogTitle>
-            {variationProduct?.variations?.map((variation, index) => {
-              const originalPrice = variation.price;
-              const discount = variationProduct.discount || 0;
-              const discountedPrice =
-                discount > 0
-                  ? Math.round(originalPrice - (originalPrice * discount) / 100)
-                  : originalPrice;
-              return (
-                <Box
-                  key={index}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    mb: 1.5,
-                    p: 1,
-                    borderRadius: 1,
-                    border: "1px dashed #e0e0e0",
-                  }}
-                >
-                  <Box display="flex" alignItems="center" gap={1.5}>
-                    <Box
-                      component="img"
-                      src={variationProduct.image_full_url}
-                      alt={variation.type}
-                      sx={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: 1,
-                        objectFit: "cover",
-                      }}
-                    />
-                    <Box>
-                      <Typography fontWeight={600}>
-                        {variation.type} {variationProduct.unit_type}
-                      </Typography>
-                      <Box display="flex" alignItems="center" gap={1}>
-                        <Typography fontWeight={600}>
-                          ₹{discountedPrice}
-                        </Typography>
-                        {discount > 0 && (
+                        <Box display="flex" alignItems="center" gap={1}>
                           <Typography
-                            sx={{
-                              textDecoration: "line-through",
-                              color: "#9e9e9e",
-                              fontSize: "13px",
-                            }}
+                            fontWeight={600}
+                            sx={{ color: "var(--text-strong)" }}
                           >
-                            ₹{originalPrice}
+                            ₹{discountedPrice}
                           </Typography>
-                        )}
+                          {discount > 0 && (
+                            <Typography
+                              sx={{
+                                textDecoration: "line-through",
+                                color: "var(--text-faint)",
+                                fontSize: "13px",
+                              }}
+                            >
+                              ₹{originalPrice}
+                            </Typography>
+                          )}
+                        </Box>
                       </Box>
                     </Box>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        color: "var(--pharmacy-brand-green)",
+                        fontWeight: 600,
+                        px: 2,
+                        borderColor: "var(--pharmacy-brand-green)",
+                        "&:hover": { borderColor: "var(--pharmacy-brand-green)" },
+                      }}
+                      onClick={() => {
+                        setVariationModalOpen(false);
+                        handleAddToCart(variationProduct, variation);
+                      }}
+                    >
+                      ADD
+                    </Button>
                   </Box>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      color: "#1A914b",
-                      fontWeight: 600,
-                      px: 2,
-                      borderColor: "#1A914b",
-                      "&:hover": { borderColor: "#1A914b" },
-                    }}
-                    onClick={() => {
-                      setVariationModalOpen(false);
-                      handleAddToCart(variationProduct, variation);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </Box>
-              );
-            })}
-          </DialogContent>
-        </Dialog>
-      )}
+                );
+              })}
+            </DialogContent>
+          </Dialog>
+        )}
 
-      {selectedProduct && (
-        <Perticular
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          product={selectedProduct}
-          isWishlisted={false}
-          addToWishlist={() => {}}
-          removeFromWishlist={() => {}}
-        />
-      )}
-    </CustomContainer>
+        {selectedProduct && (
+          <Perticular
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+            product={selectedProduct}
+            isWishlisted={false}
+            addToWishlist={() => {}}
+            removeFromWishlist={() => {}}
+          />
+        )}
+      </CustomContainer>
+    </div>
   );
 };
 

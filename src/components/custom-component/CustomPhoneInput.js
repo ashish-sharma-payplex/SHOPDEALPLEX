@@ -15,9 +15,37 @@ const CustomPhoneNumberInputStyled = styled(PhoneInput)(
     hideCountryDropdown,
     showBorder,
   }) => ({
-    // 🔹 Remove all borders and backgrounds
+    /* ============================================================
+       ✅ FIX #1 — VISIBLE INPUT BOX
+       Pehle border/background sirf `showBorder` prop true hone par
+       lagta tha — isliye jahan yeh prop pass nahi hoti thi (jaise
+       ForgotPasswordNumberForm), wahan poora ".react-tel-input"
+       wrapper bilkul invisible tha — sirf number tair raha tha,
+       koi box hi nahi dikhta tha.
+       Ab yeh border/background hamesha (unconditionally) lagta hai,
+       taaki har jagah ek proper visible input box dikhe. Jahan
+       `showBorder={true}` already pass ho raha tha (TrackOrderInput),
+       unka look bilkul same rahega — kuch nahi tootega, bas ab yeh
+       sab jagah by-default ON hai.
+
+       ✅ FIX #2 — DARK MODE
+       Saare hardcoded hex colors (#1a1a1a, #999, #ddd, #fafafa,
+       #1A914B, #fff, #000, #f5f5f5, #e8f5e9, #e7e7e7, #555) hata ke
+       globals.css wale CSS variables use kiye — ab yeh input
+       prefers-color-scheme ke sath khud switch hoga.
+       ============================================================ */
     "&.react-tel-input": {
       width: "100%",
+      border: "1px solid var(--border-default)",
+      borderRadius: borderRadius ? borderRadius : "8px",
+      overflow: "hidden",
+      backgroundColor: "var(--bg-subtle)",
+      transition: "border-color 0.2s ease, background-color 0.2s ease",
+    },
+
+    "&.react-tel-input:focus-within": {
+      borderColor: "var(--brand-green)",
+      backgroundColor: "var(--bg-card)",
     },
 
     // 🔹 Flag dropdown - hidden
@@ -52,8 +80,8 @@ const CustomPhoneNumberInputStyled = styled(PhoneInput)(
     "&.react-tel-input .form-control": {
       border: "none !important",
       backgroundColor: "transparent !important",
-      color: "#1a1a1a !important",
-      paddingLeft: "0 !important",
+      color: "var(--text-strong) !important",
+      paddingLeft: "12px !important",
       paddingRight: "12px !important",
       height: "100% !important",
       fontSize: "14px",
@@ -62,7 +90,7 @@ const CustomPhoneNumberInputStyled = styled(PhoneInput)(
       transition: "border-color 0.2s ease",
 
       "&::placeholder": {
-        color: "#999",
+        color: "var(--text-muted)",
         opacity: 1,
       },
 
@@ -74,7 +102,7 @@ const CustomPhoneNumberInputStyled = styled(PhoneInput)(
 
       "&:-webkit-autofill": {
         WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-        WebkitTextFillColor: "#1a1a1a !important",
+        WebkitTextFillColor: "var(--text-strong) !important",
       },
 
       ...(languageDirection === "rtl" && {
@@ -87,65 +115,46 @@ const CustomPhoneNumberInputStyled = styled(PhoneInput)(
     // 🔹 Country dropdown list
     "&.react-tel-input .country-list": {
       display: "none",
+      backgroundColor: "var(--bg-card)",
     },
 
     "&.react-tel-input .country-list .country": {
-      color: "#000",
+      color: "var(--text-strong)",
 
       "&:hover": {
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "var(--bg-subtle)",
       },
     },
 
     "&.react-tel-input .country-list .country.highlight": {
-      backgroundColor: "#e8f5e9",
-      color: "#000",
+      backgroundColor: "var(--brand-green-soft)",
+      color: "var(--text-strong)",
     },
 
     // 🔹 Country search input
     "&.react-tel-input .country-list .search": {
-      backgroundColor: "#fff",
-      borderBottom: "1px solid #e7e7e7",
+      backgroundColor: "var(--bg-card)",
+      borderBottom: "1px solid var(--border-subtle)",
     },
 
     "&.react-tel-input .country-list .search-box": {
       width: "100%",
       padding: "8px",
-      border: "none",
       outline: "none",
-      border: "1px solid #e7e7e7",
-      backgroundColor: "#fff !important",
-      color: "#000 !important",
+      border: "1px solid var(--border-subtle)",
+      backgroundColor: "var(--bg-card) !important",
+      color: "var(--text-strong) !important",
 
       "&::placeholder": {
-        color: "#555",
+        color: "var(--text-secondary)",
         opacity: 1,
       },
 
       "&:-webkit-autofill": {
-        WebkitBoxShadow: "0 0 0 1000px #fff inset !important",
-        WebkitTextFillColor: "#000 !important",
+        WebkitBoxShadow: "0 0 0 1000px var(--bg-card) inset !important",
+        WebkitTextFillColor: "var(--text-strong) !important",
       },
     },
-
-    // ✅ showBorder prop — sirf TrackOrderInput mein border aayegi
-    ...(showBorder && {
-      "&.react-tel-input": {
-        width: "100%",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        overflow: "hidden",
-        backgroundColor: "#fafafa",
-        transition: "border-color 0.2s, background-color 0.2s",
-      },
-      "&.react-tel-input:focus-within": {
-        borderColor: "#1A914B",
-        backgroundColor: "#fff",
-      },
-      "&.react-tel-input .form-control": {
-        paddingLeft: "12px !important",
-      },
-    }),
   }),
 );
 
@@ -162,7 +171,7 @@ const CustomPhoneInput = ({
   onCountryChange,
   showCountryCode,
   hideCountryDropdown,
-  showBorder, // ✅ naya prop
+  showBorder, // ✅ backward-compat ke liye prop yahin rehne diya (ab default hi border on hai, isliye is prop ka koi functional effect nahi, purana usage break nahi hoga)
 }) => {
   const { configData } = useSelector((state) => state.configData);
   const { t } = useTranslation();
@@ -219,7 +228,7 @@ const CustomPhoneInput = ({
             }}
             languageDirection={lanDirection}
             hideCountryDropdown={hideCountryDropdown || false}
-            showBorder={showBorder || false} // ✅ styled component ko pass karo
+            showBorder={showBorder || false}
             {...(configData?.country_picker_status !== 1 && {
               disableDropdown: true,
             })}
@@ -231,7 +240,3 @@ const CustomPhoneInput = ({
 };
 
 export default CustomPhoneInput;
-
-
-
-

@@ -12,6 +12,9 @@ import { Stack } from "@mui/system";
 import { t } from "i18next";
 import { getAmountWithSign } from "../../helper-functions/CardHelpers";
 import { cartItemsTotalAmount } from "../../utils/CustomFunctions";
+import cartStyles from "../../styles/Cart.module.css";
+
+
 export const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 4,
   marginTop: "3px",
@@ -48,8 +51,9 @@ const FreeDeliveryProgressBar = ({ configData, cartList }) => {
 
   return (
     <DeliveryProgressBarStack 
+    className={cartStyles.cartBgWhite} 
     sx={{
-    background: "#fff",
+    // background: "#fff",
     borderRadius: "16px",
     padding: "14px",
     my:"10px",
@@ -67,14 +71,14 @@ const FreeDeliveryProgressBar = ({ configData, cartList }) => {
       <CustomImageContainer src={"/deliveryperson.svg"} width="36px" height="36px" alt="icon" />
 
       <Stack spacing={0}>
-        <Typography fontSize="14px" fontWeight={600} color="#0B0B0C">
-          {t("Get a FREE delivery")}
-        </Typography>
+       <Typography fontSize="14px" fontWeight={600} className={cartStyles.cartText0B0B0C}>
+  {t("Get a FREE delivery")}
+</Typography>
 
         {reamingAmount > 0 ? (
           <Typography fontSize="13px" fontWeight={400} color="#6B7280">
             {t("Add products worth")}{" "}
-            <Typography component="span" fontWeight={600} color="#0B0B0C">
+           <Typography component="span" fontWeight={600} className={cartStyles.cartText0B0B0C}>
               {getAmountWithSign(reamingAmount)}
             </Typography>{" "}
             {t("more")}

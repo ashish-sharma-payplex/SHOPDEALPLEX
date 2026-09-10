@@ -76,6 +76,7 @@ const NewPassword = ({ data, goBack }) => {
                 name="password"
                 value={newPassFormik.values.password}
                 onChange={newPassFormik.handleChange}
+                onBlur={newPassFormik.handleBlur}
                 error={
                   newPassFormik.touched.password &&
                   Boolean(newPassFormik.errors.password)
@@ -99,7 +100,10 @@ const NewPassword = ({ data, goBack }) => {
                 }
                 label={t("Password")}
               />
-              {newPassFormik.errors.password && (
+              {/* ✅ FIX: touched check add kiya — ab error sirf tab dikhega jab
+                  user ne field ko touch kiya ho (blur/submit) AUR validation
+                  fail ho (password weak ho). Load hote hi nahi dikhega. */}
+              {newPassFormik.touched.password && newPassFormik.errors.password && (
                 <FormHelperText sx={{ color: "#FF686A" }}>
                   {newPassFormik.errors.password}
                 </FormHelperText>
@@ -116,6 +120,7 @@ const NewPassword = ({ data, goBack }) => {
                 name="confirm_password"
                 value={newPassFormik.values.confirm_password}
                 onChange={newPassFormik.handleChange}
+                onBlur={newPassFormik.handleBlur}
                 error={
                   newPassFormik.touched.confirm_password &&
                   Boolean(newPassFormik.errors.confirm_password)
@@ -141,7 +146,10 @@ const NewPassword = ({ data, goBack }) => {
                 }
                 label={t("Confirm Password")}
               />
-              {newPassFormik.errors.confirm_password && (
+              {/* ✅ FIX: touched check add kiya — ab error sirf tab dikhega jab
+                  user ne field ko touch kiya ho AUR password/confirm password
+                  match na kar rahe ho. Load hote hi nahi dikhega. */}
+              {newPassFormik.touched.confirm_password && newPassFormik.errors.confirm_password && (
                 <FormHelperText sx={{ color: "#FF686A" }}>
                   {newPassFormik.errors.confirm_password}
                 </FormHelperText>

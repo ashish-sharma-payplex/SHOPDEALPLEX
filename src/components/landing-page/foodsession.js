@@ -44,6 +44,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useTranslation } from "react-i18next";
 import ProductModal from "../home/module-wise-components/food/foodUpdateComp/popUpFood"; // Import the modal component
 import { zone_list } from "../../api-manage/ApiRoutes";
+import styles from "../../styles/Food.module.css"; // 👈 dark-theme CSS variables live here
 
 const fetchZoneId = async () => {
   try {
@@ -186,7 +187,7 @@ const FoodSessionModule5 = () => {
         sx={{
           fontSize: isMobile ? "14px" : "16px",
           fontWeight: 500,
-          color: "#6b7280",
+          color: "var(--text-secondary)",
         }}
       >
         {text}
@@ -428,11 +429,14 @@ const FoodSessionModule5 = () => {
     <RTL direction={lanDirection}>
       <Toaster position="top-center" />
       <Box
+        className={styles["food-module-root"]}
         sx={{
           py: 1,
           px: { xs: 2, sm: 4, md: 8 },
           maxWidth: "1320px",
           mx: "auto",
+          backgroundColor: "var(--bg-page)",
+          color: "var(--text-primary)",
         }}
       >
         {/* Header */}
@@ -450,7 +454,7 @@ const FoodSessionModule5 = () => {
               fontFamily: "Inter, sans-serif",
               fontWeight: 500,
               fontSize: isMobile ? "18px" : "24px",
-              color: "#000000",
+              color: "var(--text-strong)",
               whiteSpace: "nowrap",
             }}
           >
@@ -462,7 +466,7 @@ const FoodSessionModule5 = () => {
             onClick={() => router.push("/home?module=food")}
             underline="none"
             sx={{
-              color: "#1A914b",
+              color: "var(--food-cta-green)",
               fontWeight: 500,
               background: "none",
               cursor: "pointer",
@@ -499,7 +503,7 @@ const FoodSessionModule5 = () => {
                 variant="rectangular"
                 width="88%"
                 height={230}
-                sx={{ borderRadius: "16px" }}
+                sx={{ borderRadius: "16px", bgcolor: "var(--bg-muted)" }}
               />
             ))
           ) : !products.length ? (
@@ -522,8 +526,9 @@ const FoodSessionModule5 = () => {
                   transition={{ duration: 0.25 }}
                   className="rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all"
                   style={{
-                    border: "2px solid #e5e5e5",
+                    border: "2px solid var(--border-default)",
                     borderRadius: "16px",
+                    backgroundColor: "var(--bg-card)",
                   }}
                   onClick={() => handleProductClick(item)}
                 >
@@ -550,7 +555,7 @@ const FoodSessionModule5 = () => {
                         position: "absolute",
                         top: 6,
                         right: 6,
-                        backgroundColor: "rgba(255,255,255,0.8)",
+                        backgroundColor: "var(--food-overlay-80)",
                         zIndex: 10,
                       }}
                       onClick={(e) => {
@@ -559,10 +564,12 @@ const FoodSessionModule5 = () => {
                       }}
                     >
                       {wishlistedItems[item.id] ? (
-                        <FavoriteIcon sx={{ color: "red", fontSize: 18 }} />
+                        <FavoriteIcon
+                          sx={{ color: "var(--danger)", fontSize: 18 }}
+                        />
                       ) : (
                         <FavoriteBorderIcon
-                          sx={{ color: "grey", fontSize: 18 }}
+                          sx={{ color: "var(--wishlist-inactive)", fontSize: 18 }}
                         />
                       )}
                     </IconButton>
@@ -582,7 +589,7 @@ const FoodSessionModule5 = () => {
                           fontFamily: "'Inter', sans-serif",
                           fontWeight: 600,
                           fontSize: isMobile ? "14px" : "16px",
-                          color: "#000000",
+                          color: "var(--text-strong)",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -593,7 +600,7 @@ const FoodSessionModule5 = () => {
                         sx={{
                           display: "flex",
                           alignItems: "center",
-                          backgroundColor: "#1A914B",
+                          backgroundColor: "var(--food-cta-green)",
                           borderRadius: "6px",
                           px: 0.8,
                           py: 0.2,
@@ -602,7 +609,7 @@ const FoodSessionModule5 = () => {
                         <Typography
                           variant="caption"
                           sx={{
-                            color: "#fff",
+                            color: "var(--food-text-on-brand)",
                             fontWeight: 600,
                             fontSize: "12px",
                             mr: 0.3,
@@ -611,7 +618,9 @@ const FoodSessionModule5 = () => {
                           {item.avg_rating?.toFixed(1) || "0"}
                         </Typography>
 
-                        <StarIcon sx={{ color: "#fff", fontSize: "14px" }} />
+                        <StarIcon
+                          sx={{ color: "var(--food-text-on-brand)", fontSize: "14px" }}
+                        />
                       </Box>
                     </Box>
 
@@ -620,7 +629,7 @@ const FoodSessionModule5 = () => {
                         fontFamily: "'Inter', sans-serif",
                         fontWeight: 400,
                         fontSize: isMobile ? "12px" : "12px",
-                        color: "#767676",
+                        color: "var(--text-muted)",
                         whiteSpace: "nowrap",
                         mb: 1,
                       }}
@@ -642,7 +651,7 @@ const FoodSessionModule5 = () => {
                         <AccessTimeIcon
                           sx={{
                             fontSize: isMobile ? "13px" : "14px",
-                            color: "#767676",
+                            color: "var(--text-muted)",
                           }}
                         />
                         <Typography
@@ -650,7 +659,7 @@ const FoodSessionModule5 = () => {
                             fontFamily: "'Inter', sans-serif",
                             fontWeight: 400,
                             fontSize: isMobile ? "12px" : "12px",
-                            color: "#767676",
+                            color: "var(--text-muted)",
                           }}
                         >
                           {item.delivery_time || "30–45 min"}
@@ -662,7 +671,7 @@ const FoodSessionModule5 = () => {
                           fontFamily: "'Inter', sans-serif",
                           fontWeight: 600,
                           fontSize: isMobile ? "12px" : "12px",
-                          color: "#1A914B",
+                          color: "var(--food-cta-green)",
                         }}
                       >
                         Starts at ₹{discountedPrice(item.price, item.discount)}
@@ -673,7 +682,7 @@ const FoodSessionModule5 = () => {
                       <Box sx={{ mt: 1.2 }}>
                         <Box
                           sx={{
-                            borderTop: "1px dashed #e5e7eb",
+                            borderTop: "1px dashed var(--border-subtle)",
                             width: "100%",
                             mb: 1,
                           }}
@@ -699,7 +708,7 @@ const FoodSessionModule5 = () => {
                               fontFamily: "'Inter', sans-serif",
                               fontWeight: 400,
                               fontSize: isMobile ? "12px" : "12px",
-                              color: "#767676",
+                              color: "var(--text-muted)",
                             }}
                           >
                             Upto {item.discount}% OFF on selected items
@@ -720,7 +729,7 @@ const FoodSessionModule5 = () => {
                 variant="rectangular"
                 width="88%"
                 height={230}
-                sx={{ borderRadius: "16px" }}
+                sx={{ borderRadius: "16px", bgcolor: "var(--bg-muted)" }}
               />
             ))}
         </Box>
@@ -738,7 +747,7 @@ const FoodSessionModule5 = () => {
                 <Skeleton
                   variant="rectangular"
                   height={230}
-                  sx={{ borderRadius: "16px" }}
+                  sx={{ borderRadius: "16px", bgcolor: "var(--bg-muted)" }}
                 />
               </Grid>
             ))
@@ -756,9 +765,10 @@ const FoodSessionModule5 = () => {
                   transition={{ duration: 0.25 }}
                   className="rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all"
                   style={{
-                    border: "1px solid #e5e5e5",
+                    border: "1px solid var(--border-default)",
                     borderRadius: "16px",
                     height: "325px",
+                    backgroundColor: "var(--bg-card)",
                   }}
                   onClick={() => handleProductClick(item)}
                 >
@@ -805,10 +815,12 @@ const FoodSessionModule5 = () => {
                       }}
                     >
                       {isWishlisted(item) ? (
-                        <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                        <FavoriteIcon
+                          sx={{ color: "var(--danger)", fontSize: 20 }}
+                        />
                       ) : (
                         <FavoriteBorderIcon
-                          sx={{ color: "#c4c2c2", fontSize: 20 }}
+                          sx={{ color: "var(--wishlist-inactive)", fontSize: 20 }}
                         />
                       )}
                     </Box>
@@ -828,7 +840,7 @@ const FoodSessionModule5 = () => {
                           fontFamily: "'Inter', sans-serif",
                           fontWeight: 600,
                           fontSize: isMobile ? "14px" : "16px",
-                          color: "#000000",
+                          color: "var(--text-strong)",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -839,7 +851,7 @@ const FoodSessionModule5 = () => {
                         sx={{
                           display: "flex",
                           alignItems: "center",
-                          backgroundColor: "#1A914B",
+                          backgroundColor: "var(--food-cta-green)",
                           borderRadius: "6px",
                           px: 0.8,
                           py: 0.2,
@@ -848,7 +860,7 @@ const FoodSessionModule5 = () => {
                         <Typography
                           variant="caption"
                           sx={{
-                            color: "#fff",
+                            color: "var(--food-text-on-brand)",
                             fontWeight: 600,
                             fontSize: "12px",
                             mr: 0.3,
@@ -857,7 +869,9 @@ const FoodSessionModule5 = () => {
                           {item.avg_rating?.toFixed(1) || "0"}
                         </Typography>
 
-                        <StarIcon sx={{ color: "#fff", fontSize: "14px" }} />
+                        <StarIcon
+                          sx={{ color: "var(--food-text-on-brand)", fontSize: "14px" }}
+                        />
                       </Box>
                     </Box>
 
@@ -866,7 +880,7 @@ const FoodSessionModule5 = () => {
                         fontFamily: "'Inter', sans-serif",
                         fontWeight: 400,
                         fontSize: isMobile ? "10px" : "12px",
-                        color: "#767676",
+                        color: "var(--text-muted)",
                         whiteSpace: "nowrap",
                         mb: 1,
                       }}
@@ -888,7 +902,7 @@ const FoodSessionModule5 = () => {
                         <AccessTimeIcon
                           sx={{
                             fontSize: isMobile ? "12px" : "14px",
-                            color: "#767676",
+                            color: "var(--text-muted)",
                           }}
                         />
                         <Typography
@@ -896,7 +910,7 @@ const FoodSessionModule5 = () => {
                             fontFamily: "'Inter', sans-serif",
                             fontWeight: 400,
                             fontSize: isMobile ? "10px" : "12px",
-                            color: "#767676",
+                            color: "var(--text-muted)",
                           }}
                         >
                           {item.delivery_time || "30–45 min"}
@@ -908,7 +922,7 @@ const FoodSessionModule5 = () => {
                           fontFamily: "'Inter', sans-serif",
                           fontWeight: 600,
                           fontSize: isMobile ? "10px" : "12px",
-                          color: "#1A914B",
+                          color: "var(--food-cta-green)",
                         }}
                       >
                         Starts at ₹{discountedPrice(item.price, item.discount)}
@@ -919,7 +933,7 @@ const FoodSessionModule5 = () => {
                       <Box sx={{ mt: 1.2 }}>
                         <Box
                           sx={{
-                            borderTop: "1px dashed #e5e7eb",
+                            borderTop: "1px dashed var(--border-subtle)",
                             width: "100%",
                             mb: 1,
                           }}
@@ -945,7 +959,7 @@ const FoodSessionModule5 = () => {
                               fontFamily: "'Inter', sans-serif",
                               fontWeight: 400,
                               fontSize: isMobile ? "12px" : "12px",
-                              color: "#767676",
+                              color: "var(--text-muted)",
                             }}
                           >
                             Upto {item.discount}% OFF on selected items
@@ -965,7 +979,7 @@ const FoodSessionModule5 = () => {
                 <Skeleton
                   variant="rectangular"
                   height={230}
-                  sx={{ borderRadius: "16px" }}
+                  sx={{ borderRadius: "16px", bgcolor: "var(--bg-muted)" }}
                 />
               </Grid>
             ))}
@@ -992,6 +1006,8 @@ const FoodSessionModule5 = () => {
             maxWidth: { xs: "92vw", sm: "420px" },
             width: "100%",
             mx: "auto",
+            backgroundColor: "var(--bg-card)",
+            color: "var(--text-primary)",
           },
         }}
       >
@@ -1012,12 +1028,12 @@ const FoodSessionModule5 = () => {
               width: { xs: 52, sm: 60 },
               height: { xs: 52, sm: 60 },
               borderRadius: "50%",
-              backgroundColor: "#fff7ed",
+              backgroundColor: "var(--warning-bg)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               mb: 2,
-              border: "2px solid #fed7aa",
+              border: "2px solid var(--warning-border)",
             }}
           >
             <Typography sx={{ fontSize: { xs: 24, sm: 28 } }}>🛒</Typography>
@@ -1027,7 +1043,7 @@ const FoodSessionModule5 = () => {
             sx={{
               fontWeight: 700,
               fontSize: { xs: "17px", sm: "19px" },
-              color: "#111827",
+              color: "var(--text-primary)",
               textAlign: "center",
               lineHeight: 1.3,
               mb: 0.5,
@@ -1039,7 +1055,7 @@ const FoodSessionModule5 = () => {
           <Typography
             sx={{
               fontSize: { xs: "12px", sm: "13px" },
-              color: "#6b7280",
+              color: "var(--text-secondary)",
               textAlign: "center",
             }}
           >
@@ -1051,8 +1067,8 @@ const FoodSessionModule5 = () => {
           {/* Info Box */}
           <Box
             sx={{
-              backgroundColor: "#fef3c7",
-              border: "1px solid #fde68a",
+              backgroundColor: "var(--amber-bg)",
+              border: "1px solid var(--amber-border)",
               borderRadius: "12px",
               px: { xs: 1.8, sm: 2 },
               py: { xs: 1.5, sm: 1.8 },
@@ -1067,7 +1083,7 @@ const FoodSessionModule5 = () => {
             <Typography
               sx={{
                 fontSize: { xs: "12px", sm: "13px" },
-                color: "#92400e",
+                color: "var(--amber-text)",
                 lineHeight: 1.6,
               }}
             >
@@ -1081,14 +1097,14 @@ const FoodSessionModule5 = () => {
             sx={{
               mt: 2,
               mb: 1.5,
-              borderTop: "1px dashed #e5e7eb",
+              borderTop: "1px dashed var(--border-subtle)",
             }}
           />
 
           <Typography
             sx={{
               fontSize: { xs: "13px", sm: "14px" },
-              color: "#374151",
+              color: "var(--food-text-form)",
               textAlign: "center",
               fontWeight: 500,
             }}
@@ -1117,13 +1133,13 @@ const FoodSessionModule5 = () => {
               fontWeight: 600,
               fontSize: { xs: "13px", sm: "14px" },
               py: { xs: 1.3, sm: 1.4 },
-              border: "1.5px solid #e5e7eb",
-              color: "#374151",
-              backgroundColor: "#fff",
+              border: "1.5px solid var(--border-subtle)",
+              color: "var(--food-text-form)",
+              backgroundColor: "var(--bg-card)",
               order: { xs: 2, sm: 1 },
               "&:hover": {
-                backgroundColor: "#f9fafb",
-                borderColor: "#d1d5db",
+                backgroundColor: "var(--bg-subtle)",
+                borderColor: "var(--food-form-border)",
               },
             }}
           >
@@ -1141,17 +1157,17 @@ const FoodSessionModule5 = () => {
               fontWeight: 700,
               fontSize: { xs: "13px", sm: "14px" },
               py: { xs: 1.3, sm: 1.4 },
-              backgroundColor: "#16a34a",
-              color: "#fff",
+              backgroundColor: "var(--brand-green)",
+              color: "var(--food-text-on-brand)",
               order: { xs: 1, sm: 2 },
-              boxShadow: "0 4px 14px rgba(22,163,74,0.25)",
+              boxShadow: "var(--shadow-btn)",
               "&:hover": {
-                backgroundColor: "#15803d",
-                boxShadow: "0 4px 18px rgba(22,163,74,0.35)",
+                backgroundColor: "var(--brand-green-hover)",
+                boxShadow: "var(--shadow-btn-hover)",
               },
               "&.Mui-disabled": {
-                backgroundColor: "#86efac",
-                color: "#fff",
+                backgroundColor: "var(--brand-green-disabled)",
+                color: "var(--food-text-on-brand)",
               },
             }}
           >

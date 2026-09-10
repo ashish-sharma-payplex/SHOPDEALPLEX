@@ -21,6 +21,8 @@ import FlightIcon from "@mui/icons-material/Flight";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import HotelIcon from "@mui/icons-material/Hotel";
 
+import styles from "../../../src/styles/Grocery.module.css"; 
+
 import flight from "../../../public/deal images/flightNew.png";
 import bus from "../../../public/deal images/bus.png";
 import hotel from "../../../public/deal images/hotel.png";
@@ -43,7 +45,6 @@ export default function TravelsWithUs() {
       ],
       button: "Book Flights Now",
       img: flight.src,
-      // bgGradient: "linear-gradient(180deg, #E3F2FD 0%, #ffffff 100%)",
       link: "#",
     },
     buses: {
@@ -57,7 +58,6 @@ export default function TravelsWithUs() {
       ],
       button: "Book Bus Now",
       img: bus.src,
-      // bgGradient: "linear-gradient(180deg, #fafafa 0%, #ffffff 100%)",
       link: "#",
     },
     hotels: {
@@ -71,8 +71,6 @@ export default function TravelsWithUs() {
       ],
       button: "Book Hotel Now",
       img: hotel.src,
-      // bgGradient: "linear-gradient(180deg, #f7fdf7 0%, #ffffff 100%)",
-      // link: "https://travelmytrip.com/hotel/",
       link: "#",
     },
   };
@@ -80,34 +78,32 @@ export default function TravelsWithUs() {
   const { title, subtitle, features, button, img, bgGradient, link } = data[tab];
 
   return (
-    <Box sx={{ bgcolor: "#fff", py: { md: 1 } }}>
+    // ✅ groceryThemeVars class add ki — sirf variables provide karti hai, koi visual change nahi
+    <Box className={styles.groceryThemeVars} sx={{ bgcolor: "var(--bg-page)", py: { md: 1 } }}>
 
-      {/* ⬇️ Reduced width from lg → md */}
-      <Container maxWidth="lg" sx={{ py: { md: 3 }, px: { xs: 2, sm: 3, md: 6 } }} >
+      <Container maxWidth="lg" sx={{ py: { md: 3 }, px: { xs: 2, sm: 3, md: 6 } }}>
 
         {/* Header */}
-
         <Typography sx={{
           fontFamily: "Inter, sans-serif",
           fontWeight: 500,
           fontSize: isMobile ? "18px" : "24px",
           paddingBottom: isMobile ? "14px" : "0px",
           paddingTop: isMobile ? "20px" : "0px",
-          color: "#000000",
+          color: "var(--text-strong)", // ✅ #000000 -> theme var
           whiteSpace: "nowrap",
         }}>
           Travels With Us
         </Typography>
 
-        {/* Subtitle Hidden */}
         <Typography sx={{ display: "none" }}></Typography>
 
-        {/* Tabs */}
+        {/* ================= TABS — UNCHANGED, as requested ================= */}
         <Box sx={{ display: "flex", justifyContent: "center", mb: { xs: 4, sm: 5, md: 6 } }}>
           <Box
             sx={{
               backgroundColor: "#FFF9E6",
-              padding: { xs: "6px 10px", sm: "7px 12px", md: "8px 14px" }, // ✅ visibly taller
+              padding: { xs: "6px 10px", sm: "7px 12px", md: "8px 14px" },
               borderRadius: "12px",
               display: "flex",
               alignItems: "center",
@@ -120,18 +116,16 @@ export default function TravelsWithUs() {
               sx={{
                 minHeight: "38px !important",
                 height: "38px",
-
                 "& .MuiTabs-flexContainer": {
                   height: "100%",
                   alignItems: "center",
                 },
-
                 "& .MuiTab-root": {
                   textTransform: "none",
                   fontWeight: 600,
                   borderRadius: "8px",
                   minWidth: { xs: 70, sm: 85, md: 100 },
-                  minHeight: "34px !important", // ✅ force height
+                  minHeight: "34px !important",
                   height: "34px",
                   padding: { xs: "4px 10px", sm: "4px 11px", md: "5px 14px" },
                   fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.9rem" },
@@ -139,13 +133,11 @@ export default function TravelsWithUs() {
                   lineHeight: 1.2,
                   display: "flex",
                   alignItems: "center",
-
                   "& svg": {
                     fontSize: { xs: "14px", sm: "16px", md: "17px" },
                     marginRight: "6px",
                   },
                 },
-
                 "& .Mui-selected": {
                   backgroundColor: "#ffffff",
                   color: "#2F3A3A !important",
@@ -163,11 +155,7 @@ export default function TravelsWithUs() {
             </Tabs>
           </Box>
         </Box>
-
-
-
-
-
+        {/* ================= /TABS ================= */}
 
         {/* Main Content */}
         <Grid
@@ -186,7 +174,7 @@ export default function TravelsWithUs() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                background: bgGradient,
+                background: bgGradient || "var(--bg-card)", // ✅ dark mode me card bg
                 p: { xs: 2, sm: 3, md: 0 },
               }}
             >
@@ -215,21 +203,20 @@ export default function TravelsWithUs() {
               sx={{
                 mb: 1.5,
                 fontSize: { xs: "1.3rem", md: "1.4rem" },
-                color: "#1A1A1A",
+                color: "var(--text-primary)", // ✅ #1A1A1A -> theme var
               }}
             >
               {title}
             </Typography>
 
             <Typography
-              color="text.secondary"
               fontFamily="Inter, sans-serif"
               fontWeight={400}
               sx={{
                 mb: 2,
                 maxWidth: "90%",
                 fontSize: { xs: "0.9rem", md: "1rem" },
-                color: "#808080"
+                color: "var(--text-secondary)", // ✅ #808080 -> theme var
               }}
             >
               {subtitle}
@@ -239,7 +226,7 @@ export default function TravelsWithUs() {
               {features.map((item, i) => (
                 <ListItem key={i} disablePadding sx={{ mb: 1 }}>
                   <ListItemIcon sx={{ minWidth: 36 }}>
-                    <CheckCircleIcon sx={{ color: "#1A914b" }} />
+                    <CheckCircleIcon sx={{ color: "var(--brand-green)" }} />
                   </ListItemIcon>
 
                   <ListItemText
@@ -248,7 +235,7 @@ export default function TravelsWithUs() {
                     fontWeight={400}
                     primaryTypographyProps={{
                       fontSize: { xs: "0.9rem", md: "1rem" },
-                      color: "#1a1a1a",   // ✅ yaha lagana hai
+                      color: "var(--text-primary)", // ✅ #1a1a1a -> theme var
                     }}
                   />
                 </ListItem>
@@ -269,12 +256,12 @@ export default function TravelsWithUs() {
                 fontWeight: 600,
                 fontSize: { xs: "0.9rem", md: "1rem" },
                 textTransform: "none",
-                backgroundColor: "#1A914b",
+                backgroundColor: "var(--brand-green)", // fixed color, theme se match
                 color: "#ffffff",
                 "&:hover": {
-                  backgroundColor: "#1C5B27",
+                  backgroundColor: "var(--brand-green-hover)",
                   boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 },
               }}
             >

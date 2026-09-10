@@ -90,7 +90,7 @@ const CarRental = () => {
             fontFamily: "Inter, sans-serif",
             fontWeight: 500,
             fontSize: isMobile ? "18px" : "24px",
-            color: "#000000",
+            color: (theme) => theme.palette.text.primary,
             whiteSpace: "nowrap",
           }}>
             Car Rentals & Vehicles

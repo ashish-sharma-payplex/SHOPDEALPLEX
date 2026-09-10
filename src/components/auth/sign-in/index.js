@@ -560,7 +560,7 @@ const SignIn = ({
                   position: "absolute",
                   top: 6,
                   left: 6,
-                  backgroundColor: (theme) => theme.palette.neutral[100],
+                  // backgroundColor: (theme) => theme.palette.neutral[100],
                   borderRadius: "50%",
                   [theme.breakpoints.down("sm")]: {
                     top: 0,

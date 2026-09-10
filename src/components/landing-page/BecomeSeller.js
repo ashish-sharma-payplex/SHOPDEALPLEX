@@ -53,7 +53,7 @@ const BusinessOwnerSection = () => {
           fontFamily: "Inter, sans-serif",
           fontWeight: 600,
           fontSize: isMobile ? "18px" : "24px",
-          color: "#1A1A1A",
+          color: "var(--text-primary)",
           lineHeight: 1
 
         }}>
@@ -90,7 +90,7 @@ const BusinessOwnerSection = () => {
             fontFamily: "Inter, sans-serif",
             fontWeight: 400,
             fontSize: isMobile ? "14px" : "16px",
-            color: "#808080",
+            color: "var(--text-secondary)",
             padding: "14px 0px"
           }}
         >
@@ -130,7 +130,7 @@ const BusinessOwnerSection = () => {
                   width: 24,
                   height: 24,
                   borderRadius: "50%",
-                  backgroundColor: "#1A914B",
+                  backgroundColor: "var(--brand-green)",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -149,7 +149,7 @@ const BusinessOwnerSection = () => {
               <Typography
                 sx={{
                   fontFamily: "Inter, sans-serif",
-                  color: "#1A1A1A",
+                  color: "var(--text-primary)",
                   fontWeight: 600,
                   fontSize: { xs: "16px", md: "18px" },
                 }}
@@ -182,14 +182,14 @@ const BusinessOwnerSection = () => {
                 fontSize: { xs: '14px', sm: '1rem' },
                 fontWeight: 600,
                 borderRadius: '8px',
-                backgroundColor: '#1A914B',
+                backgroundColor: 'var(--brand-green)',
                 color: "#ffffff",
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '6px',
                 whiteSpace: 'nowrap',
-                '&:hover': { backgroundColor: '#1C5B27' },
+                '&:hover': { backgroundColor: 'var(--brand-green-hover)' },
                 '&:hover .arrow-icon': { transform: 'translateX(4px)' },
               }}
             >
@@ -212,15 +212,15 @@ const BusinessOwnerSection = () => {
                 fontSize: { xs: '14px', sm: '1rem' },
                 fontWeight: 600,
                 borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-                color: '#1A914B',
-                border: '1px solid #1A914B',
+                backgroundColor: 'var(--bg-card)',
+                color: 'var(--brand-green)',
+                border: '1px solid var(--brand-green)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '6px',
                 whiteSpace: 'nowrap',
-                '&:hover': { backgroundColor: '#F3FBF6', borderColor: '#1A914B' },
+                '&:hover': { backgroundColor: 'var(--brand-green-light-bg)', borderColor: 'var(--brand-green)' },
                 '&:hover .arrow-icon': { transform: 'translateX(4px)' },
               }}
             >

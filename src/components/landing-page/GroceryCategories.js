@@ -184,7 +184,7 @@ const GroceryCategories = () => {
   // ── CategoryCard unchanged ─────────────────────────────────────────
 
   const CategoryCard = ({ cat }) => (
-    <Card sx={{ borderRadius: 4, width: "130px", minWidth: "130px", backgroundColor: "var(--bg-card)", boxShadow: "none", overflow: "hidden", cursor: "pointer", transition: "transform 0.2s", "&:hover": { transform: "scale(1.03)" }, display: "flex", flexDirection: "column" }}>
+    <Card sx={{ borderRadius: 4, width: "130px", minWidth: "130px",  boxShadow: "none", overflow: "hidden", cursor: "pointer", transition: "transform 0.2s", "&:hover": { transform: "scale(1.03)" }, display: "flex", flexDirection: "column" }}>
       <Box sx={{ width: "100%", aspectRatio: "1 / 1", backgroundColor: "var(--bg-muted)", display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden", borderRadius: "12px" }}>
         <img src={cat.image_full_url || cat.image || "/placeholder.png"} alt={cat.name} title={cat.name} style={{ width: "180px", height: "170px", objectFit: "contain" }} />
       </Box>

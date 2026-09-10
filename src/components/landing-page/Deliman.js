@@ -54,7 +54,7 @@ const DeliveryPartnerSection = () => {
             fontFamily: "Inter, sans-serif",
             fontWeight: 600,
             fontSize: isMobile ? "18px" : "24px",
-            color: "#1A1A1A",
+            color: "var(--text-primary)",
             lineHeight: 1
 
           }}>
@@ -91,7 +91,7 @@ const DeliveryPartnerSection = () => {
               fontFamily: "Inter, sans-serif",
               fontWeight: 400,
               fontSize: isMobile ? "14px" : "16px",
-              color: "#808080",
+              color: "var(--text-secondary)",
               padding: "14px 0px"
             }}
           >
@@ -126,7 +126,7 @@ const DeliveryPartnerSection = () => {
                     width: 24,
                     height: 24,
                     borderRadius: "50%",
-                    backgroundColor: "#1A914B",
+                    backgroundColor: "var(--brand-green)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -145,7 +145,7 @@ const DeliveryPartnerSection = () => {
                 <Typography
                   sx={{
                     fontFamily: "Inter, sans-serif",
-                    color: "#1A1A1A",
+                    color: "var(--text-primary)",
                     fontWeight: 600,
                     fontSize: { xs: "16px", md: "18px" },
                   }}
@@ -180,13 +180,13 @@ const DeliveryPartnerSection = () => {
                   fontSize: '1rem',
                   fontWeight: 600,
                   borderRadius: '8px',
-                  backgroundColor: '#1A914B',
+                  backgroundColor: 'var(--brand-green)',
                   color: "#ffffff",
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  '&:hover': { backgroundColor: '#1C5B27' },
+                  '&:hover': { backgroundColor: 'var(--brand-green-hover)' },
                   '&:hover .arrow-icon': { transform: 'translateX(4px)' },
                 }}
               >

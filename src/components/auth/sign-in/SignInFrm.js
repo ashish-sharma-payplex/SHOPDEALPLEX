@@ -193,6 +193,9 @@ const SignInFrm = (props) => {
           style: { boxShadow: "none", WebkitBoxShadow: "none", MozBoxShadow: "none" },
         }}
       />
+      {/* ✅ DARK MODE FIX — hardcoded #ffffff/#000000/#f5f5f5/red hata ke
+          globals.css wale CSS variables use kiye hain, taaki yeh screen
+          bhi prefers-color-scheme ke sath khud switch ho jaaye. */}
       <Box
         sx={{
           width: "100%",
@@ -204,7 +207,8 @@ const SignInFrm = (props) => {
           padding: isMobile ? "10px" : "15px",
           boxSizing: "border-box",
           overflow: "hidden",
-          backgroundColor: "#ffffff",
+          // backgroundColor: "var(--bg-card)",
+          // transition: "background-color 0.2s ease",
         }}
       >
         <Dialog
@@ -213,7 +217,7 @@ const SignInFrm = (props) => {
           maxWidth="xs"
           fullWidth
           PaperProps={{
-            sx: { borderRadius: "16px", overflow: "hidden", maxWidth: "360px", width: "100%", mx: "auto" },
+            sx: { borderRadius: "16px", overflow: "hidden", maxWidth: "560px", width: "100%", mx: "auto" },
           }}
         >
           <DialogContent sx={{ position: "relative", p: "20px" }}>
@@ -221,8 +225,8 @@ const SignInFrm = (props) => {
               onClick={() => setForgotPasswordOpen(false)}
               sx={{
                 position: "absolute", top: 8, right: 8, zIndex: 10,
-                backgroundColor: "#f5f5f5", width: 28, height: 28,
-                "&:hover": { backgroundColor: "#e0e0e0" },
+                backgroundColor: "var(--bg-subtle)", width: 28, height: 28,
+                "&:hover": { backgroundColor: "var(--bg-muted)" },
               }}
             >
               <CloseIcon sx={{ fontSize: "16px" }} />
@@ -245,7 +249,7 @@ const SignInFrm = (props) => {
             sx={{
               fontSize: { sm: "0.7rem", md: "1rem" },
               fontWeight: 400, fontFamily: "Montserrat",
-              textAlign: "center", pb: 2, color: "#000000",
+              textAlign: "center", pb: 2, color: "var(--text-strong)",
             }}
           >
             WELCOME BACK
@@ -302,7 +306,7 @@ const SignInFrm = (props) => {
                   </Box>
 
                   {emailOrPhoneError && (
-                    <Typography sx={{ color: "red", fontSize: "12px", mt: "4px" }}>
+                    <Typography sx={{ color: "var(--danger)", fontSize: "12px", mt: "4px" }}>
                       {emailOrPhoneError}
                     </Typography>
                   )}
@@ -325,7 +329,7 @@ const SignInFrm = (props) => {
                     }
                   />
                   {passwordError && (
-                    <Typography sx={{ color: "red", fontSize: "12px", mt: "4px" }}>
+                    <Typography sx={{ color: "var(--danger)", fontSize: "12px", mt: "4px" }}>
                       {passwordError}
                     </Typography>
                   )}
@@ -337,7 +341,7 @@ const SignInFrm = (props) => {
                   <FormControlLabel
                     control={<Checkbox checked={rememberMe} onChange={handleRememberMeChange} />}
                     label={
-                      <CustomTypography fontSize="13px" sx={{ color: "#000000" }}>
+                      <CustomTypography fontSize="13px" sx={{ color: "var(--text-strong)" }}>
                         {t("Remember me")}
                       </CustomTypography>
                     }
@@ -368,7 +372,7 @@ const SignInFrm = (props) => {
                   variant="contained"
                   loading={isLoading}
                   disabled={!tandc}
-                  sx={{ backgroundColor: "#1A914B", color: textColor }}
+                  sx={{ backgroundColor: "var(--brand-green)", color: textColor }}
                 >
                   {t("Sign In")}
                 </LoadingButton>

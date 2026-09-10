@@ -29,22 +29,22 @@ const theme = useTheme();
 
   const features = [
     {
-      icon: <AppsIcon sx={{ color: "#1A914b", fontSize: 32 }} />,
+      icon: <AppsIcon sx={{ color: "var(--brand-green)", fontSize: 32 }} />,
       title: "All Service, One App",
       desc: "Groceries, parcels, travel, food, and home services all unified in a single app. Stop juggling services.",
     },
     {
-      icon: <ShieldIcon sx={{ color: "#1A914b", fontSize: 32 }} />,
+      icon: <ShieldIcon sx={{ color: "var(--brand-green)", fontSize: 32 }} />,
       title: "Verified Professional",
       desc: "Every provider is thoroughly vetted and reviewed, ensuring high quality and reliable service every time.",
     },
     {
-      icon: <CheckCircleIcon sx={{ color: "#1A914b", fontSize: 32 }} />,
+      icon: <CheckCircleIcon sx={{ color: "var(--brand-green)", fontSize: 32 }} />,
       title: "Transparent Pricing",
       desc: "See clear, competitive prices before you book. No hidden fees, no surprises.",
     },
     {
-      icon: <SupportAgentIcon sx={{ color: "#1A914b", fontSize: 32 }} />,
+      icon: <SupportAgentIcon sx={{ color: "var(--brand-green)", fontSize: 32 }} />,
       title: "Dedicated Support",
       desc: "Enjoy an intuitive interface and dedicated 24/7 support across all service categories.",
     },
@@ -69,11 +69,11 @@ const theme = useTheme();
         pt: { xs: 3, md: 4 },
         px: { xs: 2, md: 8 },
         textAlign: "center",
-        backgroundColor: "#fff",
+        backgroundColor: "var(--bg-page)",
         width: "100%",  // Set width to 100% to make it responsive
       }}
     >
-      <Typography fontWeight={500} sx={{ fontSize: { xs: '18px', sm: '30px', md: '24px' }, color: "#000000", fontFamily: "Inter, sans-serif", }}>
+      <Typography fontWeight={500} sx={{ fontSize: { xs: '18px', sm: '30px', md: '24px' }, color: "var(--text-strong)", fontFamily: "Inter, sans-serif", }}>
         Why Choose Us
       </Typography>
 
@@ -82,12 +82,12 @@ const theme = useTheme();
         margin={"auto"}
         fontFamily="Inter, sans-serif"
         fontWeight={500}
-        color="text.secondary"
         mb={{ xs: 3, md: 6 }}
         sx={{
           fontSize: isMobile ? "14px" : "16px",
           lineHeight: { xs: 2, sm: 1.5, md: 1.6 },
-          pb: "10px"
+          pb: "10px",
+          color: "var(--text-secondary)",
         }}
       >
         Dealplex unites all your local needs in one app from repairs to food delivery.
@@ -212,7 +212,7 @@ const theme = useTheme();
                       fontFamily="Inter, sans-serif"
                       fontWeight="600"
                       variant="h6"
-                      sx={{ textAlign: "left", color: "#000000", fontSize: { xs: '18px', sm: '22px', md: '22px' } }}
+                      sx={{ textAlign: "left", color: "var(--text-strong)", fontSize: { xs: '18px', sm: '22px', md: '22px' } }}
                     >
                       {item.title}
                     </Typography>
@@ -220,8 +220,7 @@ const theme = useTheme();
                     <Typography
                       fontFamily="Inter, sans-serif"
                       fontWeight="400"
-                      color="#767676"
-                      sx={{ lineHeight: 1.8, textAlign: "left", fontSize: { xs: '12px', sm: '12px', md: '14px' } }}
+                      sx={{ lineHeight: 1.8, textAlign: "left", fontSize: { xs: '12px', sm: '12px', md: '14px' }, color: "var(--text-muted)" }}
                     >
                       {item.desc}
                     </Typography>

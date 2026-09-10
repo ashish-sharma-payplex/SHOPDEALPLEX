@@ -37,7 +37,7 @@ import {
   getTotalVariationsPrice,
   handleTotalAmountWithAddons,
 } from "utils/CustomFunctions";
-
+import cartStyles from "../../styles/Cart.module.css";
 /* =====================================================================================
       🚀 CART CONTENT COMPONENT WITH DEBUGGING + CLEAN INCREMENT/DECREMENT LOGIC
 ===================================================================================== */
@@ -272,17 +272,16 @@ const CartContent = (props) => {
 
         <CustomStackFullWidth
           direction="row"
-          sx={{
-            width: "100%",
-            // padding: "0.2rem 0.3rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            backgroundColor: "#fff",
-
-            gap: 1,
-          }}
+  className={cartStyles.cartBgWhite}   
+  sx={{
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+    // backgroundColor: "#fff",  
+    gap: 1,
+  }}
         >
           {/* ================= Image Section ================= */}
           <Stack
@@ -319,7 +318,7 @@ const CartContent = (props) => {
 
             <Typography
               fontWeight={600}
-              color={"#000000"}
+               className={cartStyles.cartTextBlack} 
               fontSize={{ xs: "10px", sm: "12px" }}
               noWrap
               title={cartItem?.name}
