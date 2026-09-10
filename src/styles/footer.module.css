@@ -19,9 +19,9 @@
 }
 
 :global([data-theme="dark"]) .footerThemeVars {
-  --footer-bg: #111827;
+  --footer-bg: #1a1a1a ;
   --footer-bg-strip: #0b0f19;
-  --footer-border: #2d3748;
+  --footer-border: #2e2e2e;
   --footer-text: #f3f4f6;
   --footer-text-muted: #9ca3af;
   --footer-icon: #f3f4f6;

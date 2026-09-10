@@ -26,8 +26,8 @@
 }
 
 :global([data-theme="dark"]) .navbarThemeVars {
-  --nav-bg: #111827;
-  --nav-border: #2d3748;
+  --nav-bg: #1a1a1a ;
+  --nav-border: #2e2e2e;
   --nav-text: #f3f4f6;
   --nav-text-muted: #9ca3af;
   --nav-icon: #f3f4f6;
