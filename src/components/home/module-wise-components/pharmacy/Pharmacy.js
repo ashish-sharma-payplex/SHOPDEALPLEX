@@ -33,6 +33,7 @@ import { maxWidth } from "@mui/system";
 import Lottie from "lottie-react";
 import loaderAnimation from "../../../../../public/Pharmacy.json";
 import LocationScreen from "components/landing-page/LocationScreen";
+import pharmacyStyles from "../../../../styles/Pharmacy.module.css";
 
 const menus = ["All", "New", "Baby Care", "Womans Care", "Mens"];
 
@@ -254,7 +255,8 @@ const Pharmacy = ({ configData }) => {
   return (
     <>
       <CustomStackFullWidth
-        sx={{ width: "100%", alignItems: "center", bgcolor: "#ffffff" }}
+        className={`${pharmacyStyles.pharmacyThemeVars} ${pharmacyStyles["pharmacy-module-root"]}`}
+        sx={{ width: "100%", alignItems: "center", bgcolor: "var(--bg-page)" }}
       >
         <Grid
           item
@@ -359,14 +361,11 @@ const Pharmacy = ({ configData }) => {
           </CustomContainer>
         </Grid> */}
 
-
-
             {/* <Grid item xs={12}>
               <CustomContainer>
                 <Banners />
               </CustomContainer>
             </Grid> */}
-
 
             {/* <Grid item xs={12}>
               <CustomContainer>

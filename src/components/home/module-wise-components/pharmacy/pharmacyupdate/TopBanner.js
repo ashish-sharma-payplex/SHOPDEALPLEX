@@ -2,16 +2,16 @@ import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 // Define the breakpoint where the layout *changes* from side-by-side to stacked (typically phone size)
-const SM_BREAKPOINT = '600px';
-const TABLET_AND_BELOW = '899px';
+const SM_BREAKPOINT = "600px";
+const TABLET_AND_BELOW = "899px";
 
 const BannerContainer = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  borderRadius:"12px",
+  borderRadius: "12px",
   padding: "20px 0",
-  backgroundColor: "#F6FAFF", // Full width background color maintained
+  backgroundColor: "var(--pharmacy-hero-bg)", // Full width background color maintained
   width: "100% !important",
   height: "474px", // Default desktop/tablet height (side-by-side)
 
@@ -41,7 +41,7 @@ const ContentWrapper = styled(Box)(() => ({
 }));
 
 const BannerTextContainer = styled(Box)(() => ({
-  color: "#333",
+  color: "var(--text-primary)",
   flex: "1", // Text container is flexible and shares space
   paddingRight: "20px", // Adds space between text and image
   zIndex: 2,
@@ -57,19 +57,19 @@ const BannerTextContainer = styled(Box)(() => ({
 }));
 
 const BannerButton = styled(Button)(() => ({
-  backgroundColor: "#4CAF50",
-  color: "#fff",
+  backgroundColor: "var(--pharmacy-brand-green)",
+  color: "var(--text-on-brand)",
   padding: "10px 20px",
   borderRadius: "8px",
   "&:hover": {
-    backgroundColor: "#45a049",
+    backgroundColor: "var(--pharmacy-cta-green-hover)",
   },
 }));
 
 const TitleText = styled(Typography)(() => ({
   fontWeight: "bold",
   fontSize: "2rem", // Default Desktop Size
-  color: "#1e7d2e",
+  color: "var(--pharmacy-hero-title)",
 
   // Tablet and Below adjustments (Font size reduction)
   [`@media (max-width: ${TABLET_AND_BELOW})`]: {
@@ -84,7 +84,7 @@ const TitleText = styled(Typography)(() => ({
 const OfferText = styled(Typography)(() => ({
   fontWeight: "bold",
   fontSize: "3rem", // Default Desktop Size
-  color: "#f8b600",
+  color: "var(--pharmacy-hero-offer)",
   marginBottom: "16px",
 
   // Tablet and Below adjustments (Font size reduction)
@@ -101,7 +101,7 @@ const OfferText = styled(Typography)(() => ({
 
 const DescriptionText = styled(Typography)(() => ({
   fontSize: "1.125rem", // Default Desktop Size
-  color: "#666",
+  color: "var(--text-secondary)",
   marginBottom: "20px",
 
   // Tablet and Below adjustments (Font size reduction)
@@ -136,13 +136,17 @@ const PharmacyBanner = () => {
           <DescriptionText variant="body1">
             Fast, Trusted, And Pharmacist-Verified Delivery Right To Your Home.
           </DescriptionText>
-          <BannerButton variant="contained"
-             onClick={() => {
-                document.getElementById("order-section")?.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
-              sx={{borderRadius:"8px", backgroundColor:"#1A914B"}}
+          <BannerButton
+            variant="contained"
+            onClick={() => {
+              document.getElementById("order-section")?.scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
+            sx={{
+              borderRadius: "8px",
+              backgroundColor: "var(--pharmacy-brand-green)",
+            }}
           >
             Order Now
           </BannerButton>

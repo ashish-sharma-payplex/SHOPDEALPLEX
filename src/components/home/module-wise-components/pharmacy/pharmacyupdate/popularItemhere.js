@@ -42,7 +42,8 @@ const CARD_GAP = 15;
 
 // ─── Pure-div shimmer (MUI theme se independent) ─────────────────────────────
 const shimmerStyle = {
-  background: "linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%)",
+  background:
+    "linear-gradient(90deg, var(--pharmacy-shimmer-base) 25%, var(--pharmacy-shimmer-highlight) 50%, var(--pharmacy-shimmer-base) 75%)",
   backgroundSize: "200% 100%",
   animation: "shimmer 1.5s infinite",
 };
@@ -67,8 +68,8 @@ const CardSkeleton = () => (
       width: CARD_WIDTH,
       height: 230,
       borderRadius: "8px",
-      border: "1px solid #E3E8EE",
-      backgroundColor: "#ffffff",
+      border: "1px solid var(--pharmacy-card-outline)",
+      backgroundColor: "var(--bg-card)",
       padding: "8px",
       boxSizing: "border-box",
     }}
@@ -76,7 +77,13 @@ const CardSkeleton = () => (
     <GrayBox height={130} borderRadius="8px" />
     <GrayBox width="70%" height={18} mt={8} />
     <GrayBox width="40%" height={14} mt={4} />
-    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: "8px",
+      }}
+    >
       <GrayBox width="40%" height={18} />
       <GrayBox width="45px" height={28} borderRadius="6px" />
     </div>
@@ -118,7 +125,10 @@ const fetchZoneId = async () => {
     const res = await MainApi.get(zoneId_api, { params: { lat, lng } });
     const data = res.data;
     const zones =
-      data?.zone_ids || data?.data?.zone_ids || data?.zone_id || data?.data?.zone_id;
+      data?.zone_ids ||
+      data?.data?.zone_ids ||
+      data?.zone_id ||
+      data?.data?.zone_id;
     if (!zones) throw new Error("Zone not found in API response");
     const zoneArray = Array.isArray(zones) ? zones : [zones];
     localStorage.setItem("zoneid", zoneArray);
@@ -159,7 +169,9 @@ const fetchPopularItems = async () => {
       },
     });
     if (!response.ok)
-      throw new Error(`Failed to fetch popular items, status: ${response.status}`);
+      throw new Error(
+        `Failed to fetch popular items, status: ${response.status}`,
+      );
     return await response.json();
   } catch (error) {
     // console.error("Error fetching popular items:", error.message);
@@ -215,9 +227,15 @@ export default function PharmacyPopular() {
   }, [data]);
 
   const scrollLeft = () =>
-    scrollRef.current?.scrollBy({ left: -(CARD_WIDTH + CARD_GAP) * 2, behavior: "smooth" });
+    scrollRef.current?.scrollBy({
+      left: -(CARD_WIDTH + CARD_GAP) * 2,
+      behavior: "smooth",
+    });
   const scrollRight = () =>
-    scrollRef.current?.scrollBy({ left: (CARD_WIDTH + CARD_GAP) * 2, behavior: "smooth" });
+    scrollRef.current?.scrollBy({
+      left: (CARD_WIDTH + CARD_GAP) * 2,
+      behavior: "smooth",
+    });
 
   // ─── Data fetch ─────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -239,14 +257,17 @@ export default function PharmacyPopular() {
 
   const products = useMemo(
     () => (data ? data.items || data.products || [] : []),
-    [data]
+    [data],
   );
 
-  const { addToWishlist, removeFromWishlist, isWishlisted } = useWishlistHandler(t);
+  const { addToWishlist, removeFromWishlist, isWishlisted } =
+    useWishlistHandler(t);
 
   useEffect(() => {
     const qtyMap = {};
-    cartList.forEach((item) => { qtyMap[item.id] = item.quantity || 0; });
+    cartList.forEach((item) => {
+      qtyMap[item.id] = item.quantity || 0;
+    });
     setQuantities(qtyMap);
   }, [cartList]);
 
@@ -267,7 +288,8 @@ export default function PharmacyPopular() {
   };
 
   const getEffectiveStock = (product, selectedVar = null) => {
-    const variationStock = selectedVar?.stock ?? product?.variations?.[0]?.stock;
+    const variationStock =
+      selectedVar?.stock ?? product?.variations?.[0]?.stock;
     const productStock = product?.stock;
     if (variationStock != null && variationStock > 0) return variationStock;
     if (productStock != null && productStock > 0) return productStock;
@@ -301,13 +323,21 @@ export default function PharmacyPopular() {
         return;
       }
 
-      if (!zoneId || (Array.isArray(zoneId) && zoneId.length === 1 && zoneId[0] === 0)) {
+      if (
+        !zoneId ||
+        (Array.isArray(zoneId) && zoneId.length === 1 && zoneId[0] === 0)
+      ) {
         toast.error("Service is not available in your current zone");
         return;
       }
 
-      if (Array.isArray(product?.variations) && product.variations.length > 0 && !selectedVar) {
-        if (product.variations.length === 1) selectedVar = product.variations[0];
+      if (
+        Array.isArray(product?.variations) &&
+        product.variations.length > 0 &&
+        !selectedVar
+      ) {
+        if (product.variations.length === 1)
+          selectedVar = product.variations[0];
         else {
           setVariationProduct(product);
           setVariationModalOpen(true);
@@ -328,7 +358,9 @@ export default function PharmacyPopular() {
       const existingQty = existingCartItem?.quantity ?? 0;
 
       if (existingQty + 1 > maxQty) {
-        toast.error(`Only ${maxQty} items allowed. You already have ${existingQty} in cart.`);
+        toast.error(
+          `Only ${maxQty} items allowed. You already have ${existingQty} in cart.`,
+        );
         return;
       }
 
@@ -347,7 +379,7 @@ export default function PharmacyPopular() {
         { ...product, selectedOption: selectedVar ? [selectedVar] : [] },
         1,
         finalPrice,
-        userId
+        userId,
       );
 
       addCartMutation.mutate(payload, {
@@ -362,7 +394,7 @@ export default function PharmacyPopular() {
         },
       });
     },
-    [dispatch, addCartMutation, cartList]
+    [dispatch, addCartMutation, cartList],
   );
 
   // ✅ Store switch confirm — cart clear karke retry
@@ -407,17 +439,27 @@ export default function PharmacyPopular() {
       const cartLimit = cartItem?.maximum_cart_quantity ?? Infinity;
       const maxQty = Math.min(effectiveStock, cartLimit);
 
-      if (effectiveStock <= 0) { toast.error("This item is out of stock."); return; }
+      if (effectiveStock <= 0) {
+        toast.error("This item is out of stock.");
+        return;
+      }
       if (cartItem.quantity >= maxQty) {
         toast.error(`Only ${maxQty} items allowed.`, { id: "max-qty-toast" });
         return;
       }
 
       const newQty = cartItem.quantity + 1;
-      dispatch(setIncrementToCartItem({ ...cartItem, quantity: newQty, totalPrice: getUpdatedPrice(cartItem, newQty), userId }));
+      dispatch(
+        setIncrementToCartItem({
+          ...cartItem,
+          quantity: newQty,
+          totalPrice: getUpdatedPrice(cartItem, newQty),
+          userId,
+        }),
+      );
       setTimeout(() => dispatch(fetchCartFromApi()), 300);
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleDecrement = useCallback(
@@ -425,19 +467,38 @@ export default function PharmacyPopular() {
       const userId = getUserIdentifier();
       const newQty = cartItem.quantity - 1;
       if (newQty <= 0) {
-        dispatch(setRemoveItemFromCart({ cartItemKey: cartItem.cartItemKey, cartItemId: cartItem.cartItemId, userId }));
+        dispatch(
+          setRemoveItemFromCart({
+            cartItemKey: cartItem.cartItemKey,
+            cartItemId: cartItem.cartItemId,
+            userId,
+          }),
+        );
         toast.success(`${cartItem.name} removed from cart`);
         setTimeout(() => dispatch(fetchCartFromApi()), 300);
         return;
       }
-      dispatch(setDecrementToCartItem({ ...cartItem, quantity: newQty, totalPrice: getUpdatedPrice(cartItem, newQty), userId }));
+      dispatch(
+        setDecrementToCartItem({
+          ...cartItem,
+          quantity: newQty,
+          totalPrice: getUpdatedPrice(cartItem, newQty),
+          userId,
+        }),
+      );
       setTimeout(() => dispatch(fetchCartFromApi()), 300);
     },
-    [dispatch]
+    [dispatch],
   );
 
-  const handleProductPreview = (product) => { setSelectedProduct(product); setOpenModal(true); };
-  const handleModalClose = () => { setOpenModal(false); setSelectedProduct(null); };
+  const handleProductPreview = (product) => {
+    setSelectedProduct(product);
+    setOpenModal(true);
+  };
+  const handleModalClose = () => {
+    setOpenModal(false);
+    setSelectedProduct(null);
+  };
 
   // ─── Add / +/- button ───────────────────────────────────────────────────────
   const renderAddButton = (item) => {
@@ -468,8 +529,8 @@ export default function PharmacyPopular() {
             borderRadius: "8px",
             fontSize: "10px",
             width: buttonWidth,
-            color: "#e53935 !important",
-            border: "1.8px solid #e53935 !important",
+            color: "var(--danger) !important",
+            border: "1.8px solid var(--danger) !important",
             padding: "5px 0px",
             opacity: 0.7,
           }}
@@ -486,13 +547,16 @@ export default function PharmacyPopular() {
           variant="outlined"
           size="small"
           disabled={addingProductId === item.id}
-          onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAddToCart(item);
+          }}
           sx={{
             borderRadius: "8px",
             fontSize: "12px",
             width: buttonWidth,
-            color: "#16A34A",
-            border: "1.8px solid #16A34A",
+            color: "var(--pharmacy-cta-green)",
+            border: "1.8px solid var(--pharmacy-cta-green)",
             padding: "5px",
           }}
         >
@@ -511,18 +575,35 @@ export default function PharmacyPopular() {
           justifyContent: "space-between",
           width: buttonWidth,
           height: "32px",
-          border: "1.8px solid #16A34A",
+          border: "1.8px solid var(--pharmacy-cta-green)",
           borderRadius: "6px",
         }}
       >
         <Box
-          onClick={(e) => { e.stopPropagation(); handleDecrement(cartItem); }}
-          sx={{ width: "20px", height: "20px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f1f1f1", borderRadius: "4px", cursor: "pointer" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDecrement(cartItem);
+          }}
+          sx={{
+            width: "20px",
+            height: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "var(--qty-btn-bg)",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
         >
-          <Typography sx={{ fontSize: "14px", color: "#000000" }}>−</Typography>
+          <Typography sx={{ fontSize: "14px", color: "var(--text-strong)" }}>
+            −
+          </Typography>
         </Box>
 
-        <Typography fontWeight={600} sx={{ fontSize: "14px", color: "#000000" }}>
+        <Typography
+          fontWeight={600}
+          sx={{ fontSize: "14px", color: "var(--text-strong)" }}
+        >
           {cartItem.quantity}
         </Typography>
 
@@ -530,11 +611,33 @@ export default function PharmacyPopular() {
           onClick={(e) => {
             e.stopPropagation();
             if (!isMaxReached) handleIncrement(cartItem);
-            else toast.error(`Only ${maxQty} items allowed.`, { id: "max-qty" });
+            else
+              toast.error(`Only ${maxQty} items allowed.`, { id: "max-qty" });
           }}
-          sx={{ width: "20px", height: "20px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: isMaxReached ? "#e0e0e0" : "#f1f1f1", borderRadius: "4px", cursor: isMaxReached ? "not-allowed" : "pointer", opacity: isMaxReached ? 0.5 : 1 }}
+          sx={{
+            width: "20px",
+            height: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: isMaxReached
+              ? "var(--qty-btn-bg-disabled)"
+              : "var(--qty-btn-bg)",
+            borderRadius: "4px",
+            cursor: isMaxReached ? "not-allowed" : "pointer",
+            opacity: isMaxReached ? 0.5 : 1,
+          }}
         >
-          <Typography sx={{ fontSize: "14px", color: isMaxReached ? "#aaa" : "#000000" }}>+</Typography>
+          <Typography
+            sx={{
+              fontSize: "14px",
+              color: isMaxReached
+                ? "var(--text-disabled)"
+                : "var(--text-strong)",
+            }}
+          >
+            +
+          </Typography>
         </Box>
       </Box>
     );
@@ -568,7 +671,10 @@ export default function PharmacyPopular() {
           {isLoading ? (
             <TitleSkeleton />
           ) : (
-            <Typography fontWeight={700} sx={{ fontSize: "24px", color: "#000000" }}>
+            <Typography
+              fontWeight={700}
+              sx={{ fontSize: "24px", color: "var(--text-strong)" }}
+            >
               Popular Items
             </Typography>
           )}
@@ -576,8 +682,17 @@ export default function PharmacyPopular() {
 
         {/* Shimmer skeleton */}
         {isLoading && (
-          <div style={{ display: "flex", gap: `${CARD_GAP}px`, overflowX: "auto", paddingBottom: "8px" }}>
-            {[...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
+          <div
+            style={{
+              display: "flex",
+              gap: `${CARD_GAP}px`,
+              overflowX: "auto",
+              paddingBottom: "8px",
+            }}
+          >
+            {[...Array(6)].map((_, i) => (
+              <CardSkeleton key={i} />
+            ))}
           </div>
         )}
 
@@ -601,11 +716,11 @@ export default function PharmacyPopular() {
                   top: "50%",
                   transform: "translateY(-50%)",
                   zIndex: 20,
-                  backgroundColor: "#fff",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                  backgroundColor: "var(--bg-card)",
+                  boxShadow: "0 2px 8px var(--shadow-review-color)",
                   width: "36px",
                   height: "36px",
-                  "&:hover": { backgroundColor: "#f0f0f0" },
+                  "&:hover": { backgroundColor: "var(--bg-subtle)" },
                 }}
               >
                 <ArrowBackIosNewIcon sx={{ fontSize: "16px" }} />
@@ -622,11 +737,11 @@ export default function PharmacyPopular() {
                   top: "50%",
                   transform: "translateY(-50%)",
                   zIndex: 20,
-                  backgroundColor: "#fff",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                  backgroundColor: "var(--bg-card)",
+                  boxShadow: "0 2px 8px var(--shadow-review-color)",
                   width: "36px",
                   height: "36px",
-                  "&:hover": { backgroundColor: "#f0f0f0" },
+                  "&:hover": { backgroundColor: "var(--bg-subtle)" },
                 }}
               >
                 <ArrowForwardIosIcon sx={{ fontSize: "16px" }} />
@@ -650,7 +765,8 @@ export default function PharmacyPopular() {
                 const unitLabel = variation?.type || "";
                 const unitType = item?.unit_type || item?.unit?.unit || "";
                 const isNum = /^\d+(\.\d+)?$/.test(unitLabel);
-                const discountedPrice = item.price - (item.price * item.discount) / 100;
+                const discountedPrice =
+                  item.price - (item.price * item.discount) / 100;
 
                 return (
                   <Box
@@ -660,8 +776,8 @@ export default function PharmacyPopular() {
                       width: CARD_WIDTH,
                       minHeight: 230,
                       borderRadius: "8px",
-                      border: "1px solid #E3E8EE",
-                      backgroundColor: "#ffffff",
+                      border: "1px solid var(--pharmacy-card-outline)",
+                      backgroundColor: "var(--bg-card)",
                       p: 1,
                       display: "flex",
                       flexDirection: "column",
@@ -678,15 +794,15 @@ export default function PharmacyPopular() {
                           position: "absolute",
                           top: 0,
                           left: 8,
-                          background: "#1A914B",
-                          color: "#fff",
+                          background: "var(--pharmacy-brand-green)",
+                          color: "var(--text-on-brand)",
                           fontWeight: 700,
                           fontSize: "0.5rem",
                           padding: "6px 8px",
                           width: "30px",
                           textAlign: "center",
                           clipPath: `polygon(0 0,100% 0,100% 85%,90% 100%,80% 85%,70% 100%,60% 85%,50% 100%,40% 85%,30% 100%,20% 85%,10% 100%,0 85%)`,
-                          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                          boxShadow: "0 2px 6px var(--shadow-review-color)",
                           zIndex: 5,
                         }}
                       >
@@ -710,7 +826,12 @@ export default function PharmacyPopular() {
                         src={item.image_full_url}
                         alt={item.name}
                         title={item.name}
-                        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px" }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
                       />
                     </Box>
 
@@ -736,9 +857,16 @@ export default function PharmacyPopular() {
                       }}
                     >
                       {isWishlisted(item) ? (
-                        <FavoriteIcon sx={{ color: "#E53935", fontSize: 20 }} />
+                        <FavoriteIcon
+                          sx={{ color: "var(--danger)", fontSize: 20 }}
+                        />
                       ) : (
-                        <FavoriteBorderIcon sx={{ color: "#c4c2c2", fontSize: 20 }} />
+                        <FavoriteBorderIcon
+                          sx={{
+                            color: "var(--wishlist-inactive)",
+                            fontSize: 20,
+                          }}
+                        />
                       )}
                     </Box>
 
@@ -746,24 +874,58 @@ export default function PharmacyPopular() {
                     <Box sx={{ mt: 0.8, textAlign: "left", px: 1 }}>
                       <Typography
                         fontWeight={600}
-                        sx={{ fontSize: "0.8rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: "#000000" }}
+                        sx={{
+                          fontSize: "0.8rem",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          color: "var(--text-primary)",
+                        }}
                       >
                         {item.name}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.7rem" }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontSize: "0.7rem" }}
+                      >
                         {unitLabel}
                         {isNum && unitType ? ` ${unitType}` : unitType}
                       </Typography>
                     </Box>
 
                     {/* Price + Button */}
-                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 0.8, px: 1, pb: 0.5 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mt: 0.8,
+                        px: 1,
+                        pb: 0.5,
+                      }}
+                    >
                       <Box>
-                        <Typography fontWeight="bold" sx={{ fontSize: "0.75rem", color: "#1A914B" }}>
-                          ₹{discountedPrice % 1 === 0 ? Math.floor(discountedPrice) : discountedPrice.toFixed(2)}
+                        <Typography
+                          fontWeight="bold"
+                          sx={{
+                            fontSize: "0.75rem",
+                            color: "var(--pharmacy-brand-green)",
+                          }}
+                        >
+                          ₹
+                          {discountedPrice % 1 === 0
+                            ? Math.floor(discountedPrice)
+                            : discountedPrice.toFixed(2)}
                         </Typography>
                         {item.discount > 0 && (
-                          <Typography sx={{ textDecoration: "line-through", fontSize: "0.65rem", color: "#000000" }}>
+                          <Typography
+                            sx={{
+                              textDecoration: "line-through",
+                              fontSize: "0.65rem",
+                              color: "var(--text-strong)",
+                            }}
+                          >
                             ₹{item.price}
                           </Typography>
                         )}
@@ -790,24 +952,44 @@ export default function PharmacyPopular() {
             onClose={() => setVariationModalOpen(false)}
             fullWidth
             maxWidth="xs"
-            sx={{ width: "450px", margin: "auto", "& .MuiPaper-root": { borderRadius: "12px !important" } }}
+            sx={{
+              width: "450px",
+              margin: "auto",
+              "& .MuiPaper-root": { borderRadius: "12px !important" },
+            }}
           >
             <DialogContent
               dividers
-              sx={{ borderRadius: "12px !important", backgroundColor: "#FFFFFF", border: "1px solid #ccc6c6" }}
+              sx={{
+                borderRadius: "12px !important",
+                backgroundColor: "var(--bg-card)",
+                border: "1px solid var(--border-variation)",
+              }}
             >
-              <DialogTitle sx={{ paddingTop: 0 }}>Select Variations</DialogTitle>
+              <DialogTitle sx={{ paddingTop: 0 }}>
+                Select Variations
+              </DialogTitle>
               {variationProduct?.variations?.map((variation, index) => {
                 const originalPrice = variation.price;
                 const discount = variationProduct.discount || 0;
                 const discountedPrice =
                   discount > 0
-                    ? Math.round(originalPrice - (originalPrice * discount) / 100)
+                    ? Math.round(
+                        originalPrice - (originalPrice * discount) / 100,
+                      )
                     : originalPrice;
                 return (
                   <Box
                     key={index}
-                    sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5, p: 1, borderRadius: 1, border: "1px dashed #e0e0e0" }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mb: 1.5,
+                      p: 1,
+                      borderRadius: 1,
+                      border: "1px dashed var(--border-default)",
+                    }}
                   >
                     <Box display="flex" alignItems="center" gap={1.5}>
                       <Box
@@ -815,16 +997,29 @@ export default function PharmacyPopular() {
                         src={variationProduct.image_full_url}
                         alt={variation.type}
                         title={variation.type}
-                        sx={{ width: 48, height: 48, borderRadius: 1, objectFit: "cover" }}
+                        sx={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: 1,
+                          objectFit: "cover",
+                        }}
                       />
                       <Box>
                         <Typography fontWeight={600}>
                           {variation.type} {variationProduct.unit_type}
                         </Typography>
                         <Box display="flex" alignItems="center" gap={1}>
-                          <Typography fontWeight={600}>₹{discountedPrice}</Typography>
+                          <Typography fontWeight={600}>
+                            ₹{discountedPrice}
+                          </Typography>
                           {discount > 0 && (
-                            <Typography sx={{ textDecoration: "line-through", color: "#9e9e9e", fontSize: "13px" }}>
+                            <Typography
+                              sx={{
+                                textDecoration: "line-through",
+                                color: "var(--text-faint)",
+                                fontSize: "13px",
+                              }}
+                            >
                               ₹{originalPrice}
                             </Typography>
                           )}
@@ -834,8 +1029,19 @@ export default function PharmacyPopular() {
                     <Button
                       variant="outlined"
                       size="small"
-                      sx={{ color: "#1A914b", fontWeight: 600, px: 2, borderColor: "#1A914b", "&:hover": { borderColor: "#1A914b" } }}
-                      onClick={() => { setVariationModalOpen(false); handleAddToCart(variationProduct, variation); }}
+                      sx={{
+                        color: "var(--pharmacy-brand-green)",
+                        fontWeight: 600,
+                        px: 2,
+                        borderColor: "var(--pharmacy-brand-green)",
+                        "&:hover": {
+                          borderColor: "var(--pharmacy-brand-green)",
+                        },
+                      }}
+                      onClick={() => {
+                        setVariationModalOpen(false);
+                        handleAddToCart(variationProduct, variation);
+                      }}
                     >
                       ADD
                     </Button>
@@ -875,12 +1081,12 @@ export default function PharmacyPopular() {
                 width: { xs: 52, sm: 60 },
                 height: { xs: 52, sm: 60 },
                 borderRadius: "50%",
-                backgroundColor: "#fff7ed",
+                backgroundColor: "var(--warning-soft-bg)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 mb: 2,
-                border: "2px solid #fed7aa",
+                border: "2px solid var(--warning-soft-border)",
               }}
             >
               <Typography sx={{ fontSize: { xs: 24, sm: 28 } }}>🛒</Typography>
@@ -890,7 +1096,7 @@ export default function PharmacyPopular() {
               sx={{
                 fontWeight: 700,
                 fontSize: { xs: "17px", sm: "19px" },
-                color: "#111827",
+                color: "var(--text-primary)",
                 textAlign: "center",
                 lineHeight: 1.3,
                 mb: 0.5,
@@ -902,7 +1108,7 @@ export default function PharmacyPopular() {
             <Typography
               sx={{
                 fontSize: { xs: "12px", sm: "13px" },
-                color: "#6b7280",
+                color: "var(--text-secondary)",
                 textAlign: "center",
               }}
             >
@@ -913,8 +1119,8 @@ export default function PharmacyPopular() {
           <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: 1.5 }}>
             <Box
               sx={{
-                backgroundColor: "#fef3c7",
-                border: "1px solid #fde68a",
+                backgroundColor: "var(--info-bg)",
+                border: "1px solid var(--info-border)",
                 borderRadius: "12px",
                 px: { xs: 1.8, sm: 2 },
                 py: { xs: 1.5, sm: 1.8 },
@@ -929,7 +1135,7 @@ export default function PharmacyPopular() {
               <Typography
                 sx={{
                   fontSize: { xs: "12px", sm: "13px" },
-                  color: "#92400e",
+                  color: "var(--info-text)",
                   lineHeight: 1.6,
                 }}
               >
@@ -942,14 +1148,14 @@ export default function PharmacyPopular() {
               sx={{
                 mt: 2,
                 mb: 1.5,
-                borderTop: "1px dashed #e5e7eb",
+                borderTop: "1px dashed var(--border-dashed)",
               }}
             />
 
             <Typography
               sx={{
                 fontSize: { xs: "13px", sm: "14px" },
-                color: "#374151",
+                color: "var(--dialog-body)",
                 textAlign: "center",
                 fontWeight: 500,
               }}
@@ -977,13 +1183,13 @@ export default function PharmacyPopular() {
                 fontWeight: 600,
                 fontSize: { xs: "13px", sm: "14px" },
                 py: { xs: 1.3, sm: 1.4 },
-                border: "1.5px solid #e5e7eb",
-                color: "#374151",
-                backgroundColor: "#fff",
+                border: "1.5px solid var(--cancel-border)",
+                color: "var(--cancel-text)",
+                backgroundColor: "var(--cancel-bg)",
                 order: { xs: 2, sm: 1 },
                 "&:hover": {
-                  backgroundColor: "#f9fafb",
-                  borderColor: "#d1d5db",
+                  backgroundColor: "var(--cancel-hover-bg)",
+                  borderColor: "var(--cancel-hover-border)",
                 },
               }}
             >
@@ -1000,17 +1206,17 @@ export default function PharmacyPopular() {
                 fontWeight: 700,
                 fontSize: { xs: "13px", sm: "14px" },
                 py: { xs: 1.3, sm: 1.4 },
-                backgroundColor: "#16a34a",
-                color: "#fff",
+                backgroundColor: "var(--pharmacy-cta-green)",
+                color: "var(--text-on-brand)",
                 order: { xs: 1, sm: 2 },
-                boxShadow: "0 4px 14px rgba(22,163,74,0.25)",
+                boxShadow: "0 4px 14px var(--pharmacy-cta-shadow)",
                 "&:hover": {
-                  backgroundColor: "#15803d",
-                  boxShadow: "0 4px 18px rgba(22,163,74,0.35)",
+                  backgroundColor: "var(--pharmacy-cta-green-hover)",
+                  boxShadow: "0 4px 18px var(--pharmacy-cta-shadow-hover)",
                 },
                 "&.Mui-disabled": {
-                  backgroundColor: "#86efac",
-                  color: "#fff",
+                  backgroundColor: "var(--pharmacy-cta-green-disabled)",
+                  color: "var(--text-on-brand)",
                 },
               }}
             >
@@ -1020,7 +1226,11 @@ export default function PharmacyPopular() {
         </Dialog>
 
         {selectedProduct && (
-          <Perticular open={openModal} onClose={handleModalClose} product={selectedProduct} />
+          <Perticular
+            open={openModal}
+            onClose={handleModalClose}
+            product={selectedProduct}
+          />
         )}
       </Box>
     </>

@@ -92,7 +92,13 @@ const SubCategoryGridSkeleton = ({ count = 8 }) => (
   <Grid container spacing={2} sx={{ pb: 3, justifyContent: "center" }}>
     {Array.from({ length: count }).map((_, i) => (
       <Grid item key={i} xs={6} sm={4} md={3} lg={3} xl={3}>
-        <Box sx={{ border: "1px solid #f0f0f0", borderRadius: 1, p: 2 }}>
+        <Box
+          sx={{
+            border: "1px solid var(--border-subtle)",
+            borderRadius: 1,
+            p: 2,
+          }}
+        >
           <Skeleton
             variant="rectangular"
             width="100%"
@@ -373,9 +379,9 @@ const ExploreCategories = () => {
           sx={{
             px: 0,
             width: "100%",
-            border: "1px solid #e0e0e0",
+            border: "1px solid var(--border-default)",
             borderRadius: "8px !important",
-            backgroundColor: "white",
+            backgroundColor: "var(--bg-card)",
             overflow: "hidden",
           }}
         >
@@ -384,7 +390,7 @@ const ExploreCategories = () => {
             <Box
               sx={{
                 width: LEFT_BAR_WIDTH,
-                borderRight: "1px solid #f0f0f0",
+                borderRight: "1px solid var(--border-subtle)",
                 paddingTop: "10px",
                 height: "100%",
                 overflowY: "auto",
@@ -409,11 +415,11 @@ const ExploreCategories = () => {
                         alignItems: "center",
                         backgroundColor:
                           selectedCategory?.id === category.id
-                            ? "#e6f4f1"
+                            ? "var(--pharmacy-selected-bg)"
                             : "transparent",
                         borderLeft:
                           selectedCategory?.id === category.id
-                            ? "4px solid #10b981"
+                            ? "4px solid var(--pharmacy-selected-accent)"
                             : "none",
                         borderTopLeftRadius:
                           selectedCategory?.id === category.id ? "8px" : "0",
@@ -428,8 +434,8 @@ const ExploreCategories = () => {
                         "&:hover": {
                           backgroundColor:
                             selectedCategory?.id === category.id
-                              ? "#e6f4f1"
-                              : "#f5f5f5",
+                              ? "var(--pharmacy-selected-bg)"
+                              : "var(--bg-subtle)",
                         },
                       }}
                     >
@@ -504,7 +510,7 @@ const ExploreCategories = () => {
                     sx={{
                       textTransform: "none",
                       fontWeight: "bold",
-                      color: "#10b981",
+                      color: "var(--pharmacy-selected-accent)",
                     }}
                   >
                     View All
@@ -521,10 +527,12 @@ const ExploreCategories = () => {
                   pr: 1.5,
                   "&::-webkit-scrollbar": { width: "8px" },
                   "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: "#ccc",
+                    backgroundColor: "var(--border-default)",
                     borderRadius: "4px",
                   },
-                  "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: "var(--bg-subtle)",
+                  },
                 }}
               >
                 {loading || subLoading ? (
@@ -559,7 +567,7 @@ const ExploreCategories = () => {
                             flexDirection: "column",
                             alignItems: "center",
                             cursor: "pointer",
-                            border: "1px solid #f0f0f0",
+                            border: "1px solid var(--border-subtle)",
                             padding: 2,
                             borderRadius: 1,
                             width: "100%",
@@ -625,7 +633,7 @@ const ExploreCategories = () => {
         width: "100%",
         border: "none",
         borderRadius: "0",
-        backgroundColor: "white",
+        backgroundColor: "var(--bg-card)",
         overflow: "hidden",
         pb: 2,
       }}
@@ -676,8 +684,8 @@ const ExploreCategories = () => {
                       borderRadius: "50%",
                       border:
                         selectedCategory?.id === category.id
-                          ? "2px solid #10b981"
-                          : "1px solid #f0f0f0",
+                          ? "2px solid var(--pharmacy-selected-accent)"
+                          : "1px solid var(--border-subtle)",
                       overflow: "hidden",
                       position: "relative",
                       mb: 1,
@@ -702,7 +710,7 @@ const ExploreCategories = () => {
                           : "normal",
                       color:
                         selectedCategory?.id === category.id
-                          ? "#10b981"
+                          ? "var(--pharmacy-selected-accent)"
                           : "text.primary",
                       whiteSpace: "normal",
                       overflow: "hidden",
@@ -768,7 +776,7 @@ const ExploreCategories = () => {
                     flexDirection: "column",
                     alignItems: "center",
                     cursor: "pointer",
-                    border: "1px solid #f0f0f0",
+                    border: "1px solid var(--border-subtle)",
                     padding: 2,
                     height: "200px",
                     width: "100%",

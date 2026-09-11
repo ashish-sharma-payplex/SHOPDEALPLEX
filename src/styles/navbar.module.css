@@ -1,17 +1,6 @@
 /* =========================================================================
    navbar.module.css
-   Theme-aware colours for the header / navbar (logo bar + category row +
-   bottom mobile nav). Switches with the app's own dark-mode toggle via
-   the [data-theme="dark"] attribute set on <html> by SettingsProvider
-   (src/contexts/settings-context.js) — NOT via prefers-color-scheme, so
-   it always matches whatever the user picked in-app.
-
-   Written the same way as Parcel.module.css: every selector has a
-   locally-scoped class, so this compiles as a real CSS Module. A bare
-   :root selector isn't allowed here — CSS Modules requires every
-   top-level selector to contain a locally-scoped class or id — so the
-   variables live on .navbarThemeVars instead, applied once near the top
-   of the app in pages/_app.js so it cascades everywhere.
+   
    ========================================================================= */
 
 .navbarThemeVars {

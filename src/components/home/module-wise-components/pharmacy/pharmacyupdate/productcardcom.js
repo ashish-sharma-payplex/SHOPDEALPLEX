@@ -1,10 +1,12 @@
-import React from 'react';
-import { Box, Card, CardContent, Typography, Button } from '@mui/material';
+import React from "react";
+import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import CustomImageContainer from "../../../../../components/CustomImageContainer"; // Assuming you have this component
 
 const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
-  const finalPrice = product.discount > 0 ? product.price - product.discount : product.price;
-  const outOfStock = product.stock === 0 || product.stock === null || product.in_stock === false;
+  const finalPrice =
+    product.discount > 0 ? product.price - product.discount : product.price;
+  const outOfStock =
+    product.stock === 0 || product.stock === null || product.in_stock === false;
 
   const handleAddToCartClick = (e) => {
     e.stopPropagation(); // Prevent card click from triggering
@@ -24,9 +26,9 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
         maxWidth: 180,
         height: 240,
         borderRadius: "12px !important",
-        background: "#fff",
-        border: "1px solid #f0f0f0",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border-subtle)",
+        boxShadow: "0 2px 6px var(--shadow-review-color)",
         p: 1.5,
         display: "flex",
         flexDirection: "column",
@@ -34,7 +36,7 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
         position: "relative",
         transition: "0.3s",
         "&:hover": {
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          boxShadow: "0 4px 12px var(--shadow-review-color)",
           transform: "translateY(-3px)",
         },
       }}
@@ -83,7 +85,7 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
             width: "100%",
             height: 120,
             borderRadius: "10px",
-            bgcolor: "#f8f8f8",
+            bgcolor: "var(--bg-subtle)",
             mb: 1,
             overflow: "hidden",
             display: "flex",
@@ -109,7 +111,7 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
             fontSize: "14px",
             mb: 0.5,
             textAlign: "left",
-            color: "#333",
+            color: "var(--text-primary)",
           }}
         >
           {product.name}
@@ -118,7 +120,12 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
         {/* UNIT */}
         <Typography
           variant="caption"
-          sx={{ color: "#777", mb: 1, display: "block", textAlign: "left" }}
+          sx={{
+            color: "var(--text-secondary)",
+            mb: 1,
+            display: "block",
+            textAlign: "left",
+          }}
         >
           {product.unit_type || "1 pack"}
         </Typography>
@@ -129,7 +136,7 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
             sx={{
               fontSize: "13px",
               fontWeight: 700,
-              color: "#d32f2f",
+              color: "var(--danger)",
               mt: 1,
               textAlign: "left",
             }}
@@ -148,7 +155,13 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <Typography sx={{ fontWeight: 700, fontSize: "14px", color: "#16A34A" }}>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    color: "var(--pharmacy-cta-green)",
+                  }}
+                >
                   ₹{finalPrice}
                 </Typography>
 
@@ -157,7 +170,7 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
                     sx={{
                       textDecoration: "line-through",
                       fontSize: "12px",
-                      color: "#9e9e9e",
+                      color: "var(--text-faint)",
                     }}
                   >
                     ₹{product.price}
@@ -177,11 +190,11 @@ const ProductCard = ({ product, onAddToCart, isAdding, onPreviewProduct }) => {
                   px: 1.5,
                   height: "28px",
                   borderRadius: "6px",
-                  color: "#16A34A",
-                  borderColor: "#16A34A",
+                  color: "var(--pharmacy-cta-green)",
+                  borderColor: "var(--pharmacy-cta-green)",
                   "&:hover": {
-                    backgroundColor: "#E9F9EE",
-                    borderColor: "#15803d",
+                    backgroundColor: "var(--pharmacy-add-btn-hover-bg)",
+                    borderColor: "var(--pharmacy-cta-green-hover)",
                   },
                 }}
               >

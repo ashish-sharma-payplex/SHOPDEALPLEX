@@ -27,8 +27,8 @@ const CustomTypography = styled(Typography)(({ theme }) => ({
 const BgContainer = styled(CustomStackFullWidth)(({ theme, pink }) => ({
   background:
     pink === "true"
-      ? "linear-gradient(90deg, #FDD8E9 0%, #FFEFF7 102.8%)"
-      : "linear-gradient(89.86deg, #B7F9FD -11.92%, #DCF7FF 101.4%)",
+      ? "linear-gradient(90deg, var(--pharmacy-banner-pink-start) 0%, var(--pharmacy-banner-pink-end) 102.8%)"
+      : "linear-gradient(89.86deg, var(--pharmacy-banner-cyan-start) -11.92%, var(--pharmacy-banner-cyan-end) 101.4%)",
   padding: "1.875rem",
   borderRadius: "10px",
 }));
@@ -97,7 +97,7 @@ const PharmacyStaticBanners = (props) => {
         query: { id: `${banner?.id}`, module_id: `${getModuleId()}` },
       },
       undefined,
-      { shallow: true }
+      { shallow: true },
     );
   };
 

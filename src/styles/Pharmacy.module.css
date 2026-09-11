@@ -2,18 +2,6 @@
    Pharmacy.module.css
    Global theme tokens + shared classes for the Pharmacy module.
 
-   Same pattern as Grocery.module.css — .pharmacyThemeVars pe variables,
-   dark selector me sirf wahi tokens override hote hain jo dark me badalne
-   chahiye. CTA greens aur text-on-brand yahaan bilkul override nahi kiye
-   gaye, isliye wo dono modes me fixed rahenge.
-
-   ✅ Compatibility aliases (neeche "SHARED MODAL COMPAT" section) — Perticular
-   modal (product-details popup) grocery-named variables use karta hai
-   (--brand-green, --grocery-cta-green, --grocery-star-gold, etc.). Wahi
-   modal Pharmacy se bhi khulta hai (same component reused), isliye un
-   naamon ko yahaan Pharmacy ke apne tokens ki taraf alias kar diya — is
-   se Perticular.jsx ko chhedna nahi pada, wo Pharmacy ke andar khulte hi
-   apne aap Pharmacy ka green/branding use karega.
    ========================================================================= */
 
 .pharmacyThemeVars {
@@ -69,6 +57,19 @@
   --pharmacy-cta-shadow: rgba(22, 163, 74, 0.25);
   --pharmacy-cta-shadow-hover: rgba(22, 163, 74, 0.35);
   --text-on-brand: #ffffff;
+  --pharmacy-active-tab: #00b859;
+  --pharmacy-heading-accent: #d72a00;
+  --pharmacy-banner-pink-start: #fdd8e9;
+  --pharmacy-banner-pink-end: #ffeff7;
+  --pharmacy-banner-cyan-start: #b7f9fd;
+  --pharmacy-banner-cyan-end: #dcf7ff;
+  --pharmacy-hero-bg: #f6faff;
+  --pharmacy-hero-title: #1e7d2e;
+  --pharmacy-hero-offer: #f8b600;
+  --pharmacy-add-btn-bg: #f8fff9;
+  --pharmacy-add-btn-hover-bg: #e9f9ee;
+  --pharmacy-selected-bg: #e6f4f1;
+  --pharmacy-selected-accent: #10b981;
 
   --pharmacy-star-gold: #faaf00;
   --pharmacy-discount-bg: #f5e5e5;
@@ -82,6 +83,13 @@
   /* ---------- Qty stepper buttons ---------- */
   --qty-btn-bg: #f1f1f1;
   --qty-btn-bg-disabled: #e0e0e0;
+
+  /* ---------- Skeleton / shimmer loaders ---------- */
+  --pharmacy-shimmer-base: #e8e8e8;
+  --pharmacy-shimmer-highlight: #f5f5f5;
+
+  /* ---------- Loading / outline card (new-arrival style cards) ---------- */
+  --pharmacy-card-outline: #E3E8EE;
 
   /* ---------- Cancel / neutral dialog button ---------- */
   --cancel-border: #e5e7eb;
@@ -112,6 +120,111 @@
   --grocery-overlay-70: var(--pharmacy-overlay-70);
 }
 
+/* ---------- Automatic dark mode (browser/OS controlled) ----------
+   Same pattern as Grocery.module.css: this media query makes dark
+   mode switch on its own the instant the OS/browser is set to dark,
+   with no toggle/JS required. The [data-theme="dark"] block further
+   below is kept as-is for backward compatibility with any manual
+   toggle, using the exact same values. */
+@media (prefers-color-scheme: dark) {
+  .pharmacyThemeVars {
+    /* ---------- Backgrounds ---------- */
+    --bg-page: #121212;
+    --bg-card: #1a1a1a;
+    --bg-subtle: #232323;
+    --bg-muted: #262626;
+    --bg-disabled: #333333;
+
+    /* ---------- Borders ---------- */
+    --border-default: #2e2e2e;
+    --border-subtle: #333333;
+    --border-dashed: #3a3a3a;
+    --border-variation: #3a3a3a;
+    --border-image: #3a3a3a;
+
+    /* ---------- Text ---------- */
+    --text-primary: #f3f4f6;
+    --text-strong: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #a1a1aa;
+    --text-faint: #71717a;
+    --text-disabled: #666666;
+    --dialog-subtitle: #9ca3af;
+    --dialog-body: #d1d5db;
+
+    /* ---------- Status ---------- */
+    --danger: #f87171;
+    --wishlist-inactive: #52525b;
+
+    /* ---------- Shadows / overlays ---------- */
+    --shadow-review: 0 1px 6px rgba(0, 0, 0, 0.4);
+    --shadow-review-color: rgba(0, 0, 0, 0.4);
+    --bg-overlay: rgba(0, 0, 0, 0.6);
+
+    /* ---------- Warning / Info boxes ---------- */
+    --warning-soft-bg: rgba(251, 146, 60, 0.12);
+    --warning-soft-border: rgba(251, 146, 60, 0.35);
+    --info-bg: rgba(250, 204, 21, 0.12);
+    --info-border: rgba(250, 204, 21, 0.3);
+    --info-text: #fbbf24;
+
+    /* ✅ CTA greens (--pharmacy-brand-green, --pharmacy-cta-green,
+       --pharmacy-cta-green-hover, --pharmacy-cta-green-disabled,
+       --text-on-brand) yahaan jaan-boojh kar redefine NAHI kiye —
+       ye light mode wali value se hi fallback lenge, isliye
+       buttons/price/badge/modal ke CTAs dark mode me bhi bilkul
+       same green dikhenge, jaisa manga tha */
+
+    /* ---------- Non-brand modal accents (dark-adaptive) ---------- */
+    --pharmacy-star-gold: #fbbf24;
+    --pharmacy-heading-accent: #ff7043;
+    --pharmacy-banner-pink-start: rgba(253, 216, 233, 0.16);
+    --pharmacy-banner-pink-end: rgba(255, 239, 247, 0.08);
+    --pharmacy-banner-cyan-start: rgba(183, 249, 253, 0.16);
+    --pharmacy-banner-cyan-end: rgba(220, 247, 255, 0.08);
+    --pharmacy-hero-bg: #17201c;
+    --pharmacy-hero-title: #4ade80;
+    --pharmacy-add-btn-bg: rgba(22, 163, 74, 0.08);
+    --pharmacy-add-btn-hover-bg: rgba(22, 163, 74, 0.16);
+    --pharmacy-selected-bg: rgba(16, 185, 129, 0.14);
+    /* --pharmacy-selected-accent : NOT redeclared — stays fixed, same as light mode */
+    /* --pharmacy-hero-offer : NOT redeclared — stays fixed, same as light mode */
+    --pharmacy-discount-bg: rgba(234, 75, 72, 0.18);
+    --pharmacy-discount-text: #f47c78;
+    --pharmacy-border-mint: rgba(74, 222, 128, 0.35);
+    --pharmacy-border-lightgray: #3a3a3a;
+    --pharmacy-blue-info: #60a5fa;
+    --pharmacy-text-body: #d1d5db;
+    --pharmacy-overlay-70: rgba(26, 26, 26, 0.7);
+
+    /* ---------- Qty stepper buttons ---------- */
+    --qty-btn-bg: #262626;
+    --qty-btn-bg-disabled: #333333;
+
+    /* ---------- Skeleton / shimmer loaders ---------- */
+    --pharmacy-shimmer-base: #2a2a2a;
+    --pharmacy-shimmer-highlight: #3a3a3a;
+
+    /* ---------- Loading / outline card (new-arrival style cards) ---------- */
+    --pharmacy-card-outline: #3a3a3a;
+
+    /* ---------- Cancel / neutral dialog button ---------- */
+    --cancel-border: #333333;
+    --cancel-text: #d1d5db;
+    --cancel-bg: #1a1a1a;
+    --cancel-hover-bg: #232323;
+    --cancel-hover-border: #3a3a3a;
+
+    /* SHARED MODAL COMPAT aliases carry over automatically since they
+       just reference the (now-updated) tokens above — no redefinition
+       needed here. */
+  }
+}
+
+/* ---------- Manual override (optional) ----------
+   Kept for backward compatibility with a manual light/dark toggle
+   that sets data-theme="dark" on <html> or <body>. Same values as
+   the automatic media query above, so it overrides consistently. */
 :global([data-theme="dark"]) .pharmacyThemeVars {
   /* ---------- Backgrounds ---------- */
   --bg-page: #121212;
@@ -153,15 +266,20 @@
   --info-border: rgba(250, 204, 21, 0.3);
   --info-text: #fbbf24;
 
-  /* ✅ CTA greens (--pharmacy-brand-green, --pharmacy-cta-green,
-     --pharmacy-cta-green-hover, --pharmacy-cta-green-disabled,
-     --text-on-brand) yahaan jaan-boojh kar redefine NAHI kiye —
-     ye light mode wali value se hi fallback lenge, isliye
-     buttons/price/badge/modal ke CTAs dark mode me bhi bilkul
-     same green dikhenge, jaisa manga tha */
+  /* ✅ CTA greens: NOT redefined — stay fixed, same as light mode */
 
   /* ---------- Non-brand modal accents (dark-adaptive) ---------- */
   --pharmacy-star-gold: #fbbf24;
+  --pharmacy-heading-accent: #ff7043;
+  --pharmacy-banner-pink-start: rgba(253, 216, 233, 0.16);
+  --pharmacy-banner-pink-end: rgba(255, 239, 247, 0.08);
+  --pharmacy-banner-cyan-start: rgba(183, 249, 253, 0.16);
+  --pharmacy-banner-cyan-end: rgba(220, 247, 255, 0.08);
+  --pharmacy-hero-bg: #17201c;
+  --pharmacy-hero-title: #4ade80;
+  --pharmacy-add-btn-bg: rgba(22, 163, 74, 0.08);
+  --pharmacy-add-btn-hover-bg: rgba(22, 163, 74, 0.16);
+  --pharmacy-selected-bg: rgba(16, 185, 129, 0.14);
   --pharmacy-discount-bg: rgba(234, 75, 72, 0.18);
   --pharmacy-discount-text: #f47c78;
   --pharmacy-border-mint: rgba(74, 222, 128, 0.35);
@@ -173,6 +291,13 @@
   /* ---------- Qty stepper buttons ---------- */
   --qty-btn-bg: #262626;
   --qty-btn-bg-disabled: #333333;
+
+  /* ---------- Skeleton / shimmer loaders ---------- */
+  --pharmacy-shimmer-base: #2a2a2a;
+  --pharmacy-shimmer-highlight: #3a3a3a;
+
+  /* ---------- Loading / outline card (new-arrival style cards) ---------- */
+  --pharmacy-card-outline: #3a3a3a;
 
   /* ---------- Cancel / neutral dialog button ---------- */
   --cancel-border: #333333;

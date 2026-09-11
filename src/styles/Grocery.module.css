@@ -2,23 +2,6 @@
    Grocery.module.css
    Global theme tokens + shared classes for the Grocery module.
 
-   IMPORTANT: CSS Modules does not allow a bare `:root` or `:global(:root)`
-   selector on its own — it must contain at least one locally-scoped
-   class/id. That's why ALL theme variables (including the tabs/text-tab
-   ones that used to live in a separate `:root` block) now live inside
-   `.groceryThemeVars`. Apply `.groceryThemeVars` once near the top of the
-   app (e.g. in pages/_app.js on a wrapping element, or on the component
-   root) so the variables cascade everywhere, same as :root did before.
-
-   DARK MODE — automatic:
-   - `@media (prefers-color-scheme: dark)` switches everything on its own
-     the moment the browser/OS is set to dark. No JS/toggle needed.
-   - The old `[data-theme="dark"]` selector is kept too, so if you ever
-     add a manual toggle later, it still works and can override the
-     automatic detection.
-   - Brand green (--brand-green*, --grocery-cta-green*) is intentionally
-     the SAME value in both the light and dark blocks below, so it never
-     changes shade in dark mode, as requested.
    ========================================================================= */
 
 .groceryThemeVars {

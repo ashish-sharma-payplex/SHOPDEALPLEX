@@ -1,12 +1,6 @@
 /* =========================================================================
    footer.module.css
-   Theme-aware colours for the footer (top/middle/bottom sections).
-   Same [data-theme="dark"] mechanism as navbar.module.css / Food.module.css.
-
-   Written the same way as Parcel.module.css: every selector has a
-   locally-scoped class. Variables live on .footerThemeVars instead of a
-   bare :root, applied once near the top of the app in pages/_app.js.
-   ========================================================================= */
+  ======================================================================== */
 
 .footerThemeVars {
   --footer-bg: #ffffff;

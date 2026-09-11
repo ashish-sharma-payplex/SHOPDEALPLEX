@@ -2,12 +2,6 @@
    Food.module.css
    Global theme tokens + shared classes for the Food module.
 
-   Written the same way as Parcel.module.css: every selector has a
-   locally-scoped class. Variables live on .foodThemeVars instead of a
-   bare :root / :global(:root) — both of those fail CSS Modules' purity
-   check because they contain zero locally-scoped class/id tokens.
-   .foodThemeVars is applied once near the top of the app in
-   pages/_app.js so the variables cascade everywhere, same as :root did.
    ========================================================================= */
 
 .foodThemeVars {

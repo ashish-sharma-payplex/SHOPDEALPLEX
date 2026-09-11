@@ -1,15 +1,7 @@
 /* =========================================================================
    Parcel.module.css
    Hardcoded DARK MODE styles for the Parcel module ONLY.
-   -------------------------------------------------------------------------
-   - Colors are written as literal hex codes (no theme.js lookup), the same
-     way Grocery / Food home dark mode is hardcoded.
-   - Nothing here touches light mode — every class below is only applied
-     from JS when theme.palette.mode === "dark". Light mode keeps using
-     the original inline sx colors exactly as they are today.
-   - Palette is kept consistent with the app-wide dark theme
-     (src/theme/dark-theme-options.js) so Parcel doesn't look "off" next
-     to Food/Grocery/Pharmacy when the whole app is switched to dark.
+  
    ========================================================================= */
 
 /* ---------- Base surfaces ---------- */

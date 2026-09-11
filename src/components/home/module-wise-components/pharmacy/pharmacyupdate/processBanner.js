@@ -15,7 +15,7 @@ const Step = ({ icon, label, isMobile, isTablet, isLaptop }) => (
       sx={{
         width: isMobile ? 60 : isTablet || isLaptop ? 56 : 56, // Adjust size for mobile/tablet/laptop
         height: isMobile ? 60 : isTablet || isLaptop ? 56 : 56, // Adjust size for mobile/tablet/laptop
-        backgroundColor: "#E2F2EB",
+        backgroundColor: "var(--pharmacy-selected-bg)",
         borderRadius: "50%",
         display: "flex",
         justifyContent: "center",
@@ -24,7 +24,10 @@ const Step = ({ icon, label, isMobile, isTablet, isLaptop }) => (
       }}
     >
       {React.cloneElement(icon, {
-        sx: { fontSize: isMobile ? 30 : isTablet || isLaptop ? 28 : 30, color: "#292D32" }, // Adjust icon size for mobile/tablet/laptop
+        sx: {
+          fontSize: isMobile ? 30 : isTablet || isLaptop ? 28 : 30,
+          color: "var(--text-primary)",
+        }, // Adjust icon size for mobile/tablet/laptop
       })}
     </Box>
 
@@ -32,7 +35,7 @@ const Step = ({ icon, label, isMobile, isTablet, isLaptop }) => (
       sx={{
         mt: 1.2,
         fontSize: isMobile ? "18px" : isTablet || isLaptop ? "16px" : "16px", // Adjust text size for mobile/tablet/laptop
-        color: "#1B1B1B",
+        color: "var(--text-strong)",
         maxWidth: "160px",
         margin: "6px auto",
         lineHeight: 1.3,
@@ -69,8 +72,8 @@ const Connector = ({ isMobile, isTablet, isLaptop }) => (
         right: isMobile ? "auto" : "18px",
         width: isMobile ? "0px" : "auto",
         height: isMobile ? "35px" : "auto", // Adjusted for mobile/tablet/laptop
-        borderLeft: isMobile ? "3px dotted #9E9E9E" : "none", // Increased dot size
-        borderBottom: isMobile ? "none" : "3px dotted #9E9E9E", // Increased dot size
+        borderLeft: isMobile ? "3px dotted var(--text-faint)" : "none", // Increased dot size
+        borderBottom: isMobile ? "none" : "3px dotted var(--text-faint)", // Increased dot size
         transform: isMobile ? "translateX(-50%)" : "translateY(-50%)",
       }}
     />
@@ -85,7 +88,7 @@ const Connector = ({ isMobile, isTablet, isLaptop }) => (
           ? "translateX(50%) rotate(90deg)" // down arrow on mobile
           : "translateY(50%) rotate(0deg)", // right arrow on desktop/tablet/laptop
         fontSize: isMobile ? 24 : isTablet || isLaptop ? 18 : 14, // Adjusted font size for mobile/tablet/laptop
-        color: "#9E9E9E",
+        color: "var(--text-faint)",
       }}
     />
   </Box>
@@ -144,10 +147,18 @@ const Steps = () => {
           <Step icon={<ShoppingCart />} label="Add medicine to cart" isTablet />
           <Connector isTablet />
 
-          <Step icon={<Upload />} label="Upload Prescription at checkout" isTablet />
+          <Step
+            icon={<Upload />}
+            label="Upload Prescription at checkout"
+            isTablet
+          />
           <Connector isTablet />
 
-          <Step icon={<CheckCircle />} label="Reviewed by Our Expert" isTablet />
+          <Step
+            icon={<CheckCircle />}
+            label="Reviewed by Our Expert"
+            isTablet
+          />
           <Connector isTablet />
 
           <Step
