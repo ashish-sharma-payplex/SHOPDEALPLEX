@@ -49,7 +49,8 @@ const CARD_GAP = 15;
 
 // ✅ Pure div skeleton - MUI theme se bilkul independent
 const shimmerStyle = {
-  background: "linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%)",
+  background:
+    "linear-gradient(90deg, var(--grocery-shimmer-base) 25%, var(--grocery-shimmer-highlight) 50%, var(--grocery-shimmer-base) 75%)",
   backgroundSize: "200% 100%",
   animation: "shimmer 1.5s infinite",
 };
@@ -74,8 +75,8 @@ const CardSkeleton = () => (
       width: CARD_WIDTH,
       height: 235,
       borderRadius: "8px",
-      border: "1px solid #E3E8EE",
-      backgroundColor: "#ffffff",
+      border: "1px solid var(--border-default)",
+      backgroundColor: "var(--bg-card)",
       padding: "8px",
       boxSizing: "border-box",
     }}
@@ -249,11 +250,11 @@ const ProductScrollRow = ({
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
-            backgroundColor: "#fff",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            backgroundColor: "var(--bg-card)",
+            boxShadow: "var(--shadow-review)",
             width: "36px",
             height: "36px",
-            "&:hover": { backgroundColor: "#f0f0f0" },
+            "&:hover": { backgroundColor: "var(--bg-muted)" },
           }}
         >
           <ArrowBackIosNewIcon sx={{ fontSize: "16px" }} />
@@ -268,11 +269,11 @@ const ProductScrollRow = ({
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
-            backgroundColor: "#fff",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            backgroundColor: "var(--bg-card)",
+            boxShadow: "var(--shadow-review)",
             width: "36px",
             height: "36px",
-            "&:hover": { backgroundColor: "#f0f0f0" },
+            "&:hover": { backgroundColor: "var(--bg-muted)" },
           }}
         >
           <ArrowForwardIosIcon sx={{ fontSize: "16px" }} />
@@ -312,10 +313,10 @@ const ProductScrollRow = ({
                       width: CARD_WIDTH,
                       height: 238,
                       borderRadius: "8px !important ",
-                      border: "1px solid #E3E8EE",
+                      border: "1px solid var(--border-default)",
                       p: 1,
                       cursor: "pointer",
-                      backgroundColor: "#ffffff",
+                      backgroundColor: "var(--bg-card)",
                     }}
                     onClick={() => handleProductPreview(p)}
                   >
@@ -342,7 +343,11 @@ const ProductScrollRow = ({
                       <Typography
                         fontWeight={600}
                         noWrap
-                        sx={{ fontSize: "0.75rem", mt: 1, color: "#000" }}
+                        sx={{
+                          fontSize: "0.75rem",
+                          mt: 1,
+                          color: "var(--text-strong)",
+                        }}
                       >
                         {name}
                       </Typography>
@@ -364,7 +369,10 @@ const ProductScrollRow = ({
                         <Box>
                           <Typography
                             fontWeight="bold"
-                            sx={{ fontSize: "0.75rem", color: "#1A914B" }}
+                            sx={{
+                              fontSize: "0.75rem",
+                              color: "var(--grocery-cta-green)",
+                            }}
                           >
                             ₹
                             {discountedPrice % 1 === 0
@@ -376,7 +384,7 @@ const ProductScrollRow = ({
                               sx={{
                                 textDecoration: "line-through",
                                 fontSize: "0.65rem",
-                                color: "#000",
+                                color: "var(--text-muted)",
                               }}
                             >
                               ₹{price}
@@ -786,8 +794,8 @@ export default function GroceryDynamicUI() {
             borderRadius: "8px",
             fontSize: "10px",
             width: buttonWidth,
-            color: "#e53935 !important",
-            border: "1.8px solid #e53935 !important",
+            color: "var(--danger) !important",
+            border: "1.8px solid var(--danger) !important",
             padding: "5px 0px",
             opacity: 0.7,
           }}
@@ -811,8 +819,8 @@ export default function GroceryDynamicUI() {
             borderRadius: "8px",
             fontSize: "12px",
             width: buttonWidth,
-            color: "#16A34A",
-            border: "1.8px solid #16A34A",
+            color: "var(--grocery-accent-green)",
+            border: "1.8px solid var(--grocery-accent-green)",
             padding: "5px",
           }}
         >
@@ -831,7 +839,7 @@ export default function GroceryDynamicUI() {
           justifyContent: "space-between",
           width: buttonWidth,
           height: "32px",
-          border: "1.8px solid #16A34A",
+          border: "1.8px solid var(--grocery-accent-green)",
           borderRadius: "6px",
         }}
       >
@@ -846,15 +854,20 @@ export default function GroceryDynamicUI() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#f1f1f1",
+            backgroundColor: "var(--bg-muted)",
             borderRadius: "4px",
             cursor: "pointer",
           }}
         >
-          <Typography sx={{ fontSize: "14px", color: "#000" }}>−</Typography>
+          <Typography sx={{ fontSize: "14px", color: "var(--text-strong)" }}>
+            −
+          </Typography>
         </Box>
 
-        <Typography fontWeight={600} sx={{ fontSize: "14px", color: "#000" }}>
+        <Typography
+          fontWeight={600}
+          sx={{ fontSize: "14px", color: "var(--text-strong)" }}
+        >
           {cartItem.quantity}
         </Typography>
 
@@ -872,14 +885,21 @@ export default function GroceryDynamicUI() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: isMaxReached ? "#e0e0e0" : "#f1f1f1",
+            backgroundColor: isMaxReached
+              ? "var(--bg-disabled)"
+              : "var(--bg-muted)",
             borderRadius: "4px",
             cursor: isMaxReached ? "not-allowed" : "pointer",
             opacity: isMaxReached ? 0.5 : 1,
           }}
         >
           <Typography
-            sx={{ fontSize: "14px", color: isMaxReached ? "#aaa" : "#000" }}
+            sx={{
+              fontSize: "14px",
+              color: isMaxReached
+                ? "var(--text-disabled)"
+                : "var(--text-strong)",
+            }}
           >
             +
           </Typography>
@@ -936,7 +956,7 @@ export default function GroceryDynamicUI() {
                   >
                     <Typography
                       fontWeight={700}
-                      sx={{ fontSize: "24px", color: "#000000" }}
+                      sx={{ fontSize: "24px", color: "var(--text-strong)" }}
                     >
                       {cat.name}
                     </Typography>
@@ -974,19 +994,19 @@ export default function GroceryDynamicUI() {
                             fontWeight: activeId === sub.id ? 600 : 400,
                             backgroundColor:
                               activeId === sub.id
-                                ? "#1A914B !important"
-                                : "#ffffff !important",
+                                ? "var(--grocery-cta-green) !important"
+                                : "var(--bg-card) !important",
                             color:
                               activeId === sub.id
-                                ? "#ffffff !important"
-                                : "#000000",
-                            border: "1px solid #1A914B",
+                                ? "var(--grocery-text-on-brand) !important"
+                                : "var(--text-primary)",
+                            border: "1px solid var(--grocery-cta-green)",
                             borderRadius: "8px",
                             "&:hover": {
                               backgroundColor:
                                 activeId === sub.id
-                                  ? "#1A914B"
-                                  : "#f0faf4 !important",
+                                  ? "var(--grocery-cta-green)"
+                                  : "var(--brand-green-soft) !important",
                             },
                           }}
                         />
@@ -1020,8 +1040,8 @@ export default function GroceryDynamicUI() {
               dividers
               sx={{
                 borderRadius: "12px !important",
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #ccc6c6",
+                backgroundColor: "var(--bg-card)",
+                border: "1px solid var(--border-default)",
               }}
             >
               <DialogTitle sx={{ paddingTop: 0 }}>
@@ -1046,7 +1066,7 @@ export default function GroceryDynamicUI() {
                       mb: 1.5,
                       p: 1,
                       borderRadius: 1,
-                      border: "1px dashed #e0e0e0",
+                      border: "1px dashed var(--border-default)",
                     }}
                   >
                     <Box display="flex" alignItems="center" gap={1.5}>
@@ -1074,7 +1094,7 @@ export default function GroceryDynamicUI() {
                             <Typography
                               sx={{
                                 textDecoration: "line-through",
-                                color: "#9e9e9e",
+                                color: "var(--text-faint)",
                                 fontSize: "13px",
                               }}
                             >
@@ -1087,11 +1107,11 @@ export default function GroceryDynamicUI() {
                     <Button
                       variant="outlined"
                       sx={{
-                        color: "#1A914b",
+                        color: "var(--grocery-cta-green)",
                         fontWeight: 600,
                         px: 2,
-                        borderColor: "#1A914b",
-                        "&:hover": { borderColor: "#1A914b" },
+                        borderColor: "var(--grocery-cta-green)",
+                        "&:hover": { borderColor: "var(--grocery-cta-green)" },
                       }}
                       size="small"
                       onClick={() => {
@@ -1137,12 +1157,12 @@ export default function GroceryDynamicUI() {
                 width: { xs: 52, sm: 60 },
                 height: { xs: 52, sm: 60 },
                 borderRadius: "50%",
-                backgroundColor: "#fff7ed",
+                backgroundColor: "var(--grocery-icon-circle-bg)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 mb: 2,
-                border: "2px solid #fed7aa",
+                border: "2px solid var(--grocery-icon-circle-border)",
               }}
             >
               <Typography sx={{ fontSize: { xs: 24, sm: 28 } }}>🛒</Typography>
@@ -1152,7 +1172,7 @@ export default function GroceryDynamicUI() {
               sx={{
                 fontWeight: 700,
                 fontSize: { xs: "17px", sm: "19px" },
-                color: "#111827",
+                color: "var(--text-primary)",
                 textAlign: "center",
                 lineHeight: 1.3,
                 mb: 0.5,
@@ -1164,7 +1184,7 @@ export default function GroceryDynamicUI() {
             <Typography
               sx={{
                 fontSize: { xs: "12px", sm: "13px" },
-                color: "#6b7280",
+                color: "var(--text-secondary)",
                 textAlign: "center",
               }}
             >
@@ -1175,8 +1195,8 @@ export default function GroceryDynamicUI() {
           <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: 1.5 }}>
             <Box
               sx={{
-                backgroundColor: "#fef3c7",
-                border: "1px solid #fde68a",
+                backgroundColor: "var(--grocery-warning-bg)",
+                border: "1px solid var(--grocery-warning-border)",
                 borderRadius: "12px",
                 px: { xs: 1.8, sm: 2 },
                 py: { xs: 1.5, sm: 1.8 },
@@ -1191,7 +1211,7 @@ export default function GroceryDynamicUI() {
               <Typography
                 sx={{
                   fontSize: { xs: "12px", sm: "13px" },
-                  color: "#92400e",
+                  color: "var(--grocery-warning-text)",
                   lineHeight: 1.6,
                 }}
               >
@@ -1204,14 +1224,14 @@ export default function GroceryDynamicUI() {
               sx={{
                 mt: 2,
                 mb: 1.5,
-                borderTop: "1px dashed #e5e7eb",
+                borderTop: "1px dashed var(--border-default)",
               }}
             />
 
             <Typography
               sx={{
                 fontSize: { xs: "13px", sm: "14px" },
-                color: "#374151",
+                color: "var(--text-primary)",
                 textAlign: "center",
                 fontWeight: 500,
               }}
@@ -1239,13 +1259,13 @@ export default function GroceryDynamicUI() {
                 fontWeight: 600,
                 fontSize: { xs: "13px", sm: "14px" },
                 py: { xs: 1.3, sm: 1.4 },
-                border: "1.5px solid #e5e7eb",
-                color: "#374151",
-                backgroundColor: "#fff",
+                border: "1.5px solid var(--border-default)",
+                color: "var(--text-primary)",
+                backgroundColor: "var(--bg-card)",
                 order: { xs: 2, sm: 1 },
                 "&:hover": {
-                  backgroundColor: "#f9fafb",
-                  borderColor: "#d1d5db",
+                  backgroundColor: "var(--bg-subtle)",
+                  borderColor: "var(--border-default)",
                 },
               }}
             >
@@ -1262,17 +1282,18 @@ export default function GroceryDynamicUI() {
                 fontWeight: 700,
                 fontSize: { xs: "13px", sm: "14px" },
                 py: { xs: 1.3, sm: 1.4 },
-                backgroundColor: "#16a34a",
-                color: "#fff",
+                backgroundColor: "var(--grocery-accent-green)",
+                color: "var(--grocery-text-on-brand)",
                 order: { xs: 1, sm: 2 },
-                boxShadow: "0 4px 14px rgba(22,163,74,0.25)",
+                boxShadow: "0 4px 14px var(--grocery-accent-green-shadow)",
                 "&:hover": {
-                  backgroundColor: "#15803d",
-                  boxShadow: "0 4px 18px rgba(22,163,74,0.35)",
+                  backgroundColor: "var(--grocery-accent-green-hover)",
+                  boxShadow:
+                    "0 4px 18px var(--grocery-accent-green-shadow-hover)",
                 },
                 "&.Mui-disabled": {
-                  backgroundColor: "#86efac",
-                  color: "#fff",
+                  backgroundColor: "var(--grocery-accent-green-disabled)",
+                  color: "var(--grocery-text-on-brand)",
                 },
               }}
             >

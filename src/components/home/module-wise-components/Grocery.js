@@ -27,6 +27,7 @@ import VisitAgain from "../visit-again";
 import PharmacyStaticBanners from "./pharmacy/pharmacy-banners/PharmacyStaticBanners";
 import TopOffersNearMe from "../top-offers-nearme";
 import { CustomStackFullWidth } from "styled-components/CustomStyles.style";
+import groceryStyles from "../../../styles/Grocery.module.css";
 import CategoryBanners from "../../../components/home/module-wise-components/Grocerysubcomponent/subBanner";
 import HotDeals from "./Grocerysubcomponent/hotDeals";
 import AllCategories from "./Grocerysubcomponent/AllCategory";
@@ -252,13 +253,14 @@ const Grocery = (props) => {
   return (
     <>
       <CustomStackFullWidth
+        className={`${groceryStyles.groceryThemeVars} ${groceryStyles["grocery-module-root"]}`}
         sx={{
           width: "100%",
           px: "5%",
           alignItems: "center !important",
           justifyContent: "center !important",
           alignContent: "center !important",
-          bgcolor: "#ffffff",
+          bgcolor: "var(--bg-page)",
         }}
       >
         <Grid
@@ -383,9 +385,6 @@ const Grocery = (props) => {
         </CustomContainer>
       </Grid> */}
 
-
-
-
               {/* <Grid item xs={12}>
                 <CustomContainer>
                   <LoveItem />
@@ -401,9 +400,6 @@ const Grocery = (props) => {
                   </CustomContainer>
                 )}
               </Grid> */}
-
-
-
 
               {/* <Grid item xs={12}>
         <CustomContainer>

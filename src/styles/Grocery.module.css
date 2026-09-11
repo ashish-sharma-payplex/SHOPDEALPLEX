@@ -82,6 +82,37 @@
   --grocery-text-body: #444444;
 
   --grocery-overlay-70: rgba(255, 255, 255, 0.7);
+
+  /* ---------- Skeleton / shimmer loaders ---------- */
+  --grocery-shimmer-base: #e8e8e8;
+  --grocery-shimmer-highlight: #f5f5f5;
+
+  /* ---------- Soft warning / alert (amber) ---------- */
+  --grocery-warning-bg: #fef3c7;
+  --grocery-warning-border: #fde68a;
+  --grocery-warning-text: #92400e;
+
+  /* ---------- Soft icon circle (orange) ---------- */
+  --grocery-icon-circle-bg: #fff7ed;
+  --grocery-icon-circle-border: #fed7aa;
+
+  /* Fixed accent green used on Add/Confirm CTAs — same in light & dark */
+  --grocery-accent-green: #16a34a;
+  --grocery-accent-green-hover: #15803d;
+  --grocery-accent-green-shadow: rgba(22, 163, 74, 0.25);
+  --grocery-accent-green-shadow-hover: rgba(22, 163, 74, 0.35);
+  --grocery-accent-green-disabled: #86efac;
+
+  /* ---------- Grocery hero/promo banner (cream + dark-green + yellow) ---------- */
+  --grocery-banner-bg-start: #f7f5f3;
+  --grocery-banner-bg-end: #eae9e4;
+  --grocery-banner-heading: #0f3d1e;
+  --grocery-banner-subtext: #555555;
+
+  /* Fixed accent yellow + on-yellow text — same in light & dark */
+  --grocery-banner-accent: #ffcd00;
+  --grocery-banner-button-bg: #ffd233;
+  --grocery-banner-button-text: #000000;
 }
 
 /* ---------- Automatic dark mode (browser/OS controlled) ---------- */
@@ -140,6 +171,31 @@
     --grocery-text-body: #d1d5db;
 
     --grocery-overlay-70: rgba(26, 26, 26, 0.7);
+
+    /* ---------- Skeleton / shimmer loaders ---------- */
+    --grocery-shimmer-base: #2a2a2a;
+    --grocery-shimmer-highlight: #3a3a3a;
+
+    /* ---------- Soft warning / alert (amber) ---------- */
+    --grocery-warning-bg: rgba(251, 191, 36, 0.15);
+    --grocery-warning-border: rgba(251, 191, 36, 0.35);
+    --grocery-warning-text: #fbbf24;
+
+    /* ---------- Soft icon circle (orange) ---------- */
+    --grocery-icon-circle-bg: rgba(251, 146, 60, 0.14);
+    --grocery-icon-circle-border: rgba(251, 146, 60, 0.4);
+
+    /* --grocery-accent-green* : NOT redeclared — stays fixed, same as light mode */
+
+    /* ---------- Grocery hero/promo banner (dark) ---------- */
+    --grocery-banner-bg-start: #1b2420;
+    --grocery-banner-bg-end: #12180f;
+    --grocery-banner-heading: #6ee7a0;
+    --grocery-banner-subtext: #b8bdb9;
+
+    /* --grocery-banner-accent / --grocery-banner-button-bg / --grocery-banner-button-text:
+       NOT redeclared — stay fixed (bright yellow button with black text reads fine
+       on any background, same as light mode) */
   }
 }
 
@@ -188,6 +244,23 @@
   --grocery-text-body: #d1d5db;
 
   --grocery-overlay-70: rgba(26, 26, 26, 0.7);
+
+  --grocery-shimmer-base: #2a2a2a;
+  --grocery-shimmer-highlight: #3a3a3a;
+
+  --grocery-warning-bg: rgba(251, 191, 36, 0.15);
+  --grocery-warning-border: rgba(251, 191, 36, 0.35);
+  --grocery-warning-text: #fbbf24;
+
+  --grocery-icon-circle-bg: rgba(251, 146, 60, 0.14);
+  --grocery-icon-circle-border: rgba(251, 146, 60, 0.4);
+
+  /* --grocery-accent-green* : NOT redeclared — stays fixed, same as light mode */
+
+  --grocery-banner-bg-start: #1b2420;
+  --grocery-banner-bg-end: #12180f;
+  --grocery-banner-heading: #6ee7a0;
+  --grocery-banner-subtext: #b8bdb9;
 }
 
 /* Grocery module root background/text so plain page area also switches */

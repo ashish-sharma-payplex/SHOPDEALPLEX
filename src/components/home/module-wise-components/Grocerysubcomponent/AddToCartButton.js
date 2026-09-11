@@ -4,7 +4,14 @@ import React from "react";
 import { Button, Box, Typography } from "@mui/material";
 
 // AddToCartButton handles Add, Increment, and Decrement actions
-const AddToCartButton = ({ item, cartItem, addingProductId, onAdd, onIncrement, onDecrement }) => {
+const AddToCartButton = ({
+  item,
+  cartItem,
+  addingProductId,
+  onAdd,
+  onIncrement,
+  onDecrement,
+}) => {
   if (!cartItem) {
     return (
       <Button
@@ -19,9 +26,10 @@ const AddToCartButton = ({ item, cartItem, addingProductId, onAdd, onIncrement, 
           borderRadius: "4px",
           fontSize: "13px",
           minWidth: "58px",
-          color: "#16A34A",
-          border: "1.8px solid #16A34A",
-        }}x 
+          color: "var(--grocery-accent-green)",
+          border: "1.8px solid var(--grocery-accent-green)",
+        }}
+        x
       >
         {addingProductId === item.id ? "..." : "ADD"}
       </Button>
@@ -37,7 +45,7 @@ const AddToCartButton = ({ item, cartItem, addingProductId, onAdd, onIncrement, 
         justifyContent: "space-between",
         width: "100px",
         height: "34px",
-        border: "1.8px solid #16A34A",
+        border: "1.8px solid var(--grocery-accent-green)",
         borderRadius: "6px",
       }}
     >

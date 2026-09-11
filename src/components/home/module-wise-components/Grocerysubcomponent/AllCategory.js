@@ -70,7 +70,7 @@ const GroceryCategories = () => {
         sx={{
           fontSize: isMobile ? "14px" : "16px",
           fontWeight: 500,
-          color: "#6b7280",
+          color: "var(--text-secondary)",
         }}
       >
         {text}
@@ -196,7 +196,7 @@ const GroceryCategories = () => {
     return (
       <Box
         sx={{
-          backgroundColor: "#fff",
+          backgroundColor: "var(--bg-card)",
           borderRadius: "12px",
           px: 3,
           py: 3,
@@ -216,7 +216,7 @@ const GroceryCategories = () => {
                 borderRadius: "16px",
                 width: "130px",
                 minWidth: "130px",
-                backgroundColor: "#fff",
+                backgroundColor: "var(--bg-card)",
                 boxShadow: "none",
                 overflow: "hidden",
               }}
@@ -241,7 +241,7 @@ const GroceryCategories = () => {
         borderRadius: 4,
         width: "130px",
         minWidth: "130px",
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--bg-card)",
         boxShadow: "none",
         overflow: "hidden",
         cursor: "pointer",
@@ -255,7 +255,7 @@ const GroceryCategories = () => {
         sx={{
           width: "100%",
           aspectRatio: "1 / 1",
-          backgroundColor: "#f3f4f6",
+          backgroundColor: "var(--bg-muted)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -272,7 +272,7 @@ const GroceryCategories = () => {
       </Box>
       <Box
         sx={{
-          backgroundColor: "#ffffff",
+          backgroundColor: "var(--bg-card)",
           px: 1,
           py: 1.2,
           textAlign: "center",
@@ -292,7 +292,7 @@ const GroceryCategories = () => {
               sm: "12px", // tablet 📲
               md: "13px", // laptop 💻
             },
-            color: "#111827",
+            color: "var(--text-primary)",
             lineHeight: "1.3",
             display: "-webkit-box",
             WebkitLineClamp: 2,
@@ -309,7 +309,7 @@ const GroceryCategories = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--bg-card)",
         borderRadius: "12px",
         px: 2,
         py: 3,
@@ -337,7 +337,7 @@ const GroceryCategories = () => {
               sm: "20px",
               md: "24px",
             },
-            color: "#111827",
+            color: "var(--text-primary)",
           }}
         >
           Shop by Categories
@@ -374,8 +374,8 @@ const GroceryCategories = () => {
                     top: "40%",
                     transform: "translateY(-50%)",
                     zIndex: 20,
-                    backgroundColor: "#fff",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                    backgroundColor: "var(--bg-card)",
+                    boxShadow: "var(--shadow-review)",
                     width: "30px",
                     height: "30px",
                   }}
@@ -394,8 +394,8 @@ const GroceryCategories = () => {
                     top: "40%",
                     transform: "translateY(-50%)",
                     zIndex: 20,
-                    backgroundColor: "#fff",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                    backgroundColor: "var(--bg-card)",
+                    boxShadow: "var(--shadow-review)",
                     width: "30px",
                     height: "30px",
                   }}

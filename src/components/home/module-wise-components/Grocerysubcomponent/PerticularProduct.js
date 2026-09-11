@@ -572,7 +572,9 @@ const Perticular = ({ open, onClose, product }) => {
                   }}
                 >
                   {isWishlisted(product) ? (
-                    <FavoriteIcon sx={{ color: "var(--danger)", fontSize: 22 }} />
+                    <FavoriteIcon
+                      sx={{ color: "var(--danger)", fontSize: 22 }}
+                    />
                   ) : (
                     <FavoriteBorderIcon
                       sx={{ color: "var(--wishlist-inactive)", fontSize: 22 }}
@@ -672,7 +674,7 @@ const Perticular = ({ open, onClose, product }) => {
                       fontSize: "0.7rem",
                       ml: 1,
                       mt: "2px",
-                      color: "#fff",
+                      color: "var(--grocery-text-on-brand)",
                       flexShrink: 0,
                     }}
                   />
@@ -815,7 +817,10 @@ const Perticular = ({ open, onClose, product }) => {
                     </Typography>
 
                     {/* ── Stock display — 3 rules applied ── */}
-                    <Typography variant="caption" sx={{ color: "var(--text-muted)" }}>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "var(--text-muted)" }}
+                    >
                       Stock:{" "}
                       <b
                         style={{
@@ -843,7 +848,9 @@ const Perticular = ({ open, onClose, product }) => {
                         fontSize: "20px",
                         fontWeight: 700,
                         p: 0,
-                        "&:hover": { backgroundColor: "var(--brand-green-soft)" },
+                        "&:hover": {
+                          backgroundColor: "var(--brand-green-soft)",
+                        },
                         "&.Mui-disabled": {
                           borderColor: "var(--grocery-border-lightgray)",
                           color: "var(--text-disabled)",
@@ -875,7 +882,9 @@ const Perticular = ({ open, onClose, product }) => {
                         fontSize: "20px",
                         fontWeight: 700,
                         p: 0,
-                        "&:hover": { backgroundColor: "var(--brand-green-soft)" },
+                        "&:hover": {
+                          backgroundColor: "var(--brand-green-soft)",
+                        },
                         "&.Mui-disabled": {
                           borderColor: "var(--grocery-border-lightgray)",
                           color: "var(--text-disabled)",
@@ -1013,13 +1022,13 @@ const Perticular = ({ open, onClose, product }) => {
                           py: { xs: 1, sm: 1.2 },
                           fontSize: { xs: "0.8rem", sm: "0.875rem" },
                           // 🔒 fixed brand CTA green — does NOT change with theme
-                          color: "#188444",
-                          borderColor: "#188444",
+                          color: "var(--grocery-cta-green)",
+                          borderColor: "var(--grocery-cta-green)",
                           whiteSpace: "nowrap",
                           "&:hover": {
                             backgroundColor: "transparent",
-                            borderColor: "#166d39",
-                            color: "#166d39",
+                            borderColor: "var(--grocery-cta-green-hover)",
+                            color: "var(--grocery-cta-green-hover)",
                           },
                         }}
                       >
@@ -1037,10 +1046,12 @@ const Perticular = ({ open, onClose, product }) => {
                         py: { xs: 1, sm: 1.2 },
                         fontSize: { xs: "0.8rem", sm: "0.875rem" },
                         // 🔒 fixed brand CTA green — does NOT change with theme
-                        color: "white",
-                        backgroundColor: "#188444",
+                        color: "var(--grocery-text-on-brand)",
+                        backgroundColor: "var(--grocery-cta-green)",
                         whiteSpace: "nowrap",
-                        "&:hover": { backgroundColor: "#166d39" },
+                        "&:hover": {
+                          backgroundColor: "var(--grocery-cta-green-hover)",
+                        },
                       }}
                     >
                       {cartItem ? "Update Cart" : "Add to Cart"}
@@ -1130,7 +1141,9 @@ const Perticular = ({ open, onClose, product }) => {
                     <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
                       {review.customer?.f_name ?? "Unknown User"}
                     </Typography>
-                    <Typography sx={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>
+                    <Typography
+                      sx={{ fontSize: "0.7rem", color: "var(--text-muted)" }}
+                    >
                       {new Date(review.created_at).toLocaleDateString()}
                     </Typography>
                   </Box>
@@ -1141,7 +1154,12 @@ const Perticular = ({ open, onClose, product }) => {
                     precision={0.5}
                   />
                 </Box>
-                <Typography sx={{ fontSize: "0.85rem", color: "var(--grocery-text-body)" }}>
+                <Typography
+                  sx={{
+                    fontSize: "0.85rem",
+                    color: "var(--grocery-text-body)",
+                  }}
+                >
                   {review.comment}
                 </Typography>
               </Box>

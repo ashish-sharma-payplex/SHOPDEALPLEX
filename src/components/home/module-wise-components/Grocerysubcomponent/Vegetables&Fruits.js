@@ -27,7 +27,7 @@ export default function CategoriesPage() {
 
         // Find "Vegetables & Fruits" category
         const vegCategory = data.find(
-          (cat) => cat.name === "Vegetables & Fruits"
+          (cat) => cat.name === "Vegetables & Fruits",
         );
 
         if (vegCategory && vegCategory.childes) {
@@ -39,7 +39,7 @@ export default function CategoriesPage() {
                   `https://dealplex.in/api/v1/products?category_id=${sub.id}`,
                   {
                     headers: { moduleId: "2" },
-                  }
+                  },
                 );
                 const prodData = await prodRes.json();
 
@@ -62,7 +62,7 @@ export default function CategoriesPage() {
                     "https://dealplex.in/storage/app/public/category/def.png",
                 };
               }
-            })
+            }),
           );
 
           setCategories(enrichedChildes);
@@ -112,7 +112,7 @@ export default function CategoriesPage() {
                     alignItems: "center",
                     height: 150,
                     width: "100%",
-                    backgroundColor: "#f9f9f9",
+                    backgroundColor: "var(--bg-subtle)",
                     borderTopLeftRadius: 12,
                     borderTopRightRadius: 12,
                     overflow: "hidden", // prevents zoom overflow
