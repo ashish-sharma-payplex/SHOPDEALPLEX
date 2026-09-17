@@ -1,6 +1,6 @@
 // src\components\header\second-navbar\SecondNavbar.js
 import React, { useEffect, useState, useRef } from "react";
-import { NoSsr, Toolbar } from "@mui/material";
+import { Box, NoSsr, Toolbar } from "@mui/material";
 import { CustomBoxFullWidth } from "styled-components/CustomStyles.style";
 import styles from "styles/navbar.module.css";
 import { useTheme } from "@mui/material/styles";
@@ -137,9 +137,8 @@ const SecondNavBar = ({ configData, isBlog = false }) => {
      ✅ USER DATA EXTRACTION - PROJECT 1 SPECIFIC
      ============================================================ */
   const userId = reduxProfile?.id || reduxProfile?.user_id;
-  const userName = `${reduxProfile?.f_name || ""} ${
-    reduxProfile?.l_name || ""
-  }`.trim();
+  const userName = `${reduxProfile?.f_name || ""} ${reduxProfile?.l_name || ""
+    }`.trim();
   const userImage = reduxProfile?.image_full_url || reduxProfile?.image || "";
 
   /* ============================================================
@@ -257,60 +256,68 @@ const SecondNavBar = ({ configData, isBlog = false }) => {
       }}
     >
       <NoSsr>
-        <CustomContainer>
-          <Toolbar disableGutters>
-            <TopHeaderBar
-              configData={configData}
-              isBlog={isBlog}
-              placeholder={placeholder}
-              t={t}
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "1280px",
+            margin: "0 auto",
+          }}
+        >
+          <CustomContainer>
+            <Toolbar disableGutters>
+              <TopHeaderBar
+                configData={configData}
+                isBlog={isBlog}
+                placeholder={placeholder}
+                t={t}
+                router={router}
+                moduleType={moduleType}
+                token={token}
+                profileInfo={userInfo}
+                anchorRef={anchorRef}
+                handleOpenPopover={handleOpenPopover}
+                dispatch={dispatch}
+                setSignInModalOpen={setSignInModalOpen}
+                cartList={cartList}
+                bookingLists={bookingLists}
+                bookingListsIsLoading={bookingListsIsLoading}
+                handleTrackOrder={handleTrackOrder}
+                sideDrawerOpen={sideDrawerOpen}
+                handleCartOpen={handleCartOpen}
+                handleCartClose={handleCartClose}
+                openCategoryMenu={openCategoryMenu}
+                setOpenCategoryMenu={setOpenCategoryMenu}
+              />
+            </Toolbar>
+
+            <CategoryNavbar
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               router={router}
-              moduleType={moduleType}
-              token={token}
-              profileInfo={userInfo}
-              anchorRef={anchorRef}
-              handleOpenPopover={handleOpenPopover}
-              dispatch={dispatch}
-              setSignInModalOpen={setSignInModalOpen}
-              cartList={cartList}
-              bookingLists={bookingLists}
-              bookingListsIsLoading={bookingListsIsLoading}
-              handleTrackOrder={handleTrackOrder}
-              sideDrawerOpen={sideDrawerOpen}
-              handleCartOpen={handleCartOpen}
-              handleCartClose={handleCartClose}
+              categoryRoutes={categoryRoutes}
               openCategoryMenu={openCategoryMenu}
               setOpenCategoryMenu={setOpenCategoryMenu}
+              onTravelsClick={handleTravelsClick}
             />
-          </Toolbar>
 
-          <CategoryNavbar
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            router={router}
-            categoryRoutes={categoryRoutes}
-            openCategoryMenu={openCategoryMenu}
-            setOpenCategoryMenu={setOpenCategoryMenu}
-            onTravelsClick={handleTravelsClick}
-          />
+            {token && (
+              <AccountPopover
+                anchorEl={anchorRef.current}
+                open={modalFor === "profile"}
+                onClose={() => dispatch(setModalFor(null))}
+                cartListRefetch={() => { }}
+                openCartDrawer={handleCartOpen}
+              />
+            )}
 
-          {token && (
-            <AccountPopover
-              anchorEl={anchorRef.current}
-              open={modalFor === "profile"}
-              onClose={() => dispatch(setModalFor(null))}
-              cartListRefetch={() => {}}
-              openCartDrawer={handleCartOpen}
+            <AuthModal
+              modalFor={modalFor}
+              setModalFor={(v) => dispatch(setModalFor(v))}
+              open={signInModalOpen}
+              handleClose={() => dispatch(setSignInModalOpen(false))}
             />
-          )}
-
-          <AuthModal
-            modalFor={modalFor}
-            setModalFor={(v) => dispatch(setModalFor(v))}
-            open={signInModalOpen}
-            handleClose={() => dispatch(setSignInModalOpen(false))}
-          />
-        </CustomContainer>
+          </CustomContainer>
+        </Box>
       </NoSsr>
     </CustomBoxFullWidth>
   );

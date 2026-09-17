@@ -58,6 +58,7 @@ const LOCATION_MODAL_HIDDEN_PATHS = [
   "/refund-policy",
   "/contactus",
   "/terms-and-conditions",
+  "/faqs",
 ];
 
 function WishlistLoader({ children }) {

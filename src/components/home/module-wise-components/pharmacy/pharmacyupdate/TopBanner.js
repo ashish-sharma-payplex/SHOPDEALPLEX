@@ -131,8 +131,12 @@ const PharmacyBanner = () => {
       <ContentWrapper>
         {/* Left side content (Text and Button) */}
         <BannerTextContainer>
-          <TitleText variant="h2">Get Your Medicines</TitleText>
-          <OfferText variant="h">Delivered Safely to Your Doorstep</OfferText>
+                   <TitleText variant="h2" component="h2">
+            Get Your Medicines
+          </TitleText>
+          <OfferText variant="h3" component="p">
+            Delivered Safely to Your Doorstep
+          </OfferText>
           <DescriptionText variant="body1">
             Fast, Trusted, And Pharmacist-Verified Delivery Right To Your Home.
           </DescriptionText>

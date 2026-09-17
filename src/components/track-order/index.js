@@ -1,11 +1,12 @@
 // src\components\track-order\index.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import useGetTrackOrderData from "../../api-manage/hooks/react-query/order/useGetTrackOrderData";
-import { useSelector } from "react-redux"; // ✅ Add this
-import { connectSocket, getSocket } from "../../services/socketService"; // ✅ Add this
-import { getGuestId } from "helper-functions/getToken"; // ✅ Add this
+import { useSelector } from "react-redux";
+import { subscribeToOrderStatus } from "../../services/socketService";
+import { ORDER_FINAL_STATUSES, isOrderStatusFinal } from "../../services/orderStatusConstants";
+import { getGuestId } from "helper-functions/getToken";
 import {
   CustomPaperBigCard,
   CustomStackFullWidth,
@@ -52,7 +53,6 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { useGeolocated } from "react-geolocated";
 import TrackOrderMap from "components/track-order/TrackOrderMap";
 
-// ✅ STYLED COMPONENTS (yaha pe the original code se)
 const CustomStepperLabels = styled(Stepper)(({ theme }) => ({
   "& .MuiStepLabel-label.MuiStepLabel-alternativeLabel": {
     marginTop: "-90px",
@@ -133,19 +133,11 @@ function QontoStepIcon(props) {
   );
 }
 
-// ✅ NAYA: TopDetails.js jaisa hi status-set, terminal (non-linear) statuses
-// jo stepper me progress ki tarah nahi, alag banner ki tarah dikhaye jaate hain
-const TERMINAL_STATUSES = [
-  "canceled",
-  "cancelled",
-  "failed",
-  "refund_requested",
-  "refund_request_canceled",
-  "refunded",
-];
+// FIX: ab yeh local array nahi, shared ORDER_FINAL_STATUSES hai
+// (services/orderStatusConstants.js) — pehle yahan alag spelling wala
+// array tha jo doosri files ke array se match nahi karta tha.
+const TERMINAL_STATUSES = ORDER_FINAL_STATUSES;
 
-// ✅ NAYA: TopDetails.js ki tarah hi color mapping — same colors use kiye taaki
-// TrackOrder page aur Order Details page dono me consistent dikhe
 const getStatusColor = (theme, order_status) => {
   if (order_status === "pending") return theme.palette.info.main;
   if (order_status === "confirmed") return theme.palette.footer.inputButtonHover;
@@ -186,19 +178,21 @@ const TrackOrder = ({ configData, trackOrderData }) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
-  // ✅ SOCKET - Required variables
   const guestId = getGuestId();
   const { guestUserInfo } = useSelector((state) => state.guestUserInfo);
   const phone = guestUserInfo?.contact_person_number;
   const router = useRouter();
   const orderId = router.query.id || trackOrderData?.id;
 
-  // ✅ Direct hook call for refetch capability
   const { refetch: refetchTrackOrder } = useGetTrackOrderData(
     orderId,
     phone,
     guestId
   );
+
+  // is ref me current order-status subscription ka unsubscribe function
+  // store hota hai taaki final status milte hi turant clean-up kar sakein
+  const unsubscribeStatusRef = useRef(null);
 
   let currentLatLng = undefined;
   if (typeof window !== "undefined") {
@@ -212,10 +206,6 @@ const TrackOrder = ({ configData, trackOrderData }) => {
     });
   }, [trackOrderData?.delivery_address?.latitude, trackOrderData?.delivery_address?.longitude]);
 
-  // ✅ NAYA: poora status-driven step list — TopDetails.js jaise hi delivery-man
-  // statuses (accepted, arrived_at_pickup, drop_arrived, drop_verified waghera)
-  // include kiye. Har status ka apna step hai taaki jaise hi socket se naya
-  // status aaye, yeh stepper bhi turant sahi jagah pe progress dikhaye.
   const steps = [
     {
       key: "confirmed",
@@ -223,14 +213,6 @@ const TrackOrder = ({ configData, trackOrderData }) => {
       time: trackOrderData?.confirmed,
       img: orderConfirmImage.src,
     },
-    // {
-    //   key: "processing",
-    //   label: `Preparing ${
-    //     trackOrderData?.module?.module_type === "food" ? "foods" : "items"
-    //   }`,
-    //   time: trackOrderData?.processing,
-    //   img: shippedImage.src,
-    // },
     {
       key: "accepted",
       label: "Delivery Man Accepted",
@@ -271,8 +253,6 @@ const TrackOrder = ({ configData, trackOrderData }) => {
     },
   ];
 
-  // ✅ NAYA: order_status ke hisaab se active step index (TopDetails jaisa hi
-  // status-set match karta hai, bas yaha progression order me hai)
   const handleStepper = () => {
     const status = trackOrderData?.order_status;
 
@@ -304,11 +284,11 @@ const TrackOrder = ({ configData, trackOrderData }) => {
         break;
       case "delivered":
       case "completed":
-        setActStep(steps.length + 1); // sab steps complete
+        setActStep(steps.length + 1);
         break;
       default:
-        // canceled/failed/refunded waghera — stepper progress freeze rehta hai
-        // jaha tak pahuncha tha, banner alag se dikhega neeche
+        // canceled/failed/refunded waghera — stepper progress freeze
+        // rehta hai jaha tak pahuncha tha, banner alag se dikhega neeche
         break;
     }
   };
@@ -317,82 +297,49 @@ const TrackOrder = ({ configData, trackOrderData }) => {
     handleStepper();
   }, [trackOrderData?.order_status]);
 
-  // ✅ SOCKET CONNECTION - Room join + continuous listen
+  // ---- SINGLE order-status subscription point ----
+  // FIX: pehle yahan manual socket.on/off tha, aur kahi
+  // "socket.off('order_status_update')" bina handler ke call hota tha —
+  // jo is event ke SAARE listeners hata deta tha (OrderDetails page ka
+  // listener bhi). Ab hum sirf socketService.subscribeToOrderStatus()
+  // use karte hain jo apna khud ka specific handler register/cleanup
+  // karta hai, aur join/leave dono consistent payload bhejte hain.
   useEffect(() => {
     if (!orderId) return;
 
-    const socket = connectSocket();
-
     const handleOrderUpdate = (payload) => {
-      // console.log("📦 Order update received:", payload);
-
-      // Refresh data
       refetchTrackOrder();
 
-      // Auto leave room when order finishes
-      const finalStatuses = [
-        "delivered",
-        "completed",
-        "cancelled",
-        "failed",
-        "refunded",
-      ];
-
-      if (finalStatuses.includes(payload?.status)) {
-        socket.emit("leave_order_room", {
-          order_id: orderId,
-        });
-
-        socket.off("order_status_update", handleOrderUpdate);
-
-        // console.log("🚪 Left room:", orderId);
+      if (isOrderStatusFinal(payload?.status)) {
+        if (unsubscribeStatusRef.current) {
+          unsubscribeStatusRef.current();
+          unsubscribeStatusRef.current = null;
+        }
       }
     };
 
-    // Join room
-    socket.emit("join_order_room", {
-      order_id: orderId,
-    });
-
-    // console.log("🚪 Joined room:", orderId);
-
-    // Remove old listener
-    socket.off("order_status_update", handleOrderUpdate);
-
-    // Add listener
-    socket.on("order_status_update", handleOrderUpdate);
+    unsubscribeStatusRef.current = subscribeToOrderStatus(orderId, handleOrderUpdate);
 
     return () => {
-      // console.log("🚪 Leaving room:", orderId);
-
-      socket.emit("leave_order_room", {
-        order_id: orderId,
-      });
-
-      socket.off("order_status_update", handleOrderUpdate);
+      if (unsubscribeStatusRef.current) {
+        unsubscribeStatusRef.current();
+        unsubscribeStatusRef.current = null;
+      }
     };
   }, [orderId, refetchTrackOrder]);
 
-  // ✅ CLEANUP - Order complete hone par
+  // Safety-net: agar fetched data khud hi final status dikhaye (page load
+  // pe hi order already terminal nikla), turant subscription band karo
   useEffect(() => {
     if (!trackOrderData) return;
 
-    const finalStatuses = ["delivered", "canceled", "failed", "refunded"];
-
-    if (finalStatuses.includes(trackOrderData?.order_status)) {
-      const socket = getSocket();
-      if (socket) {
-        // console.log(
-        //   "✅ Order complete — leaving room & stopping listeners:",
-        //   trackOrderData?.order_status
-        // );
-        socket.emit("leave_order_room", { order_id: orderId });
-        socket.off("order_status_update");
-        socket.off("delivery_man_updated");
-        socket.off("order_updated");
+    if (isOrderStatusFinal(trackOrderData?.order_status)) {
+      if (unsubscribeStatusRef.current) {
+        unsubscribeStatusRef.current();
+        unsubscribeStatusRef.current = null;
       }
     }
-  }, [trackOrderData?.order_status, orderId]);
+  }, [trackOrderData?.order_status]);
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
     useGeolocated({
@@ -417,9 +364,6 @@ const TrackOrder = ({ configData, trackOrderData }) => {
       alignItems={isSmall ? "center" : "initial"}
       spacing={4}
     >
-      {/* ✅ NAYA: agar order cancel/failed/refunded hai toh stepper ki jagah
-          TopDetails jaisa hi status banner dikhao — linear progress in cases
-          me confusing hota hai */}
       {isTerminalStatus ? (
         <Typography
           fontSize={{ xs: "12px", md: "14px" }}
@@ -450,12 +394,6 @@ const TrackOrder = ({ configData, trackOrderData }) => {
                   gap={{ xs: "3px", md: "4px" }}
                   marginBottom="10px"
                 >
-                  {/* <CustomImageContainer
-                    src={labels.img}
-                    width="29px"
-                    height="29px"
-                    alt={labels.label}
-                  /> */}
                   {t(labels?.label)}
                   {labels?.time && (
                     <Typography mt="4px" variant="body2" textAlign="center">

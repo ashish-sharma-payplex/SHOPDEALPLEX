@@ -60,37 +60,31 @@ export default function GroceryBanner() {
           </>
         ) : (
           <>
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 700,
-                color: "var(--grocery-banner-heading)",
-                lineHeight: 1.2,
-              }}
-            >
-              Get Your Groceries
-            </Typography>
+           <Typography
+  component="h2"
+  variant="h3"
+  sx={{
+    fontWeight: 700,
+    color: "var(--grocery-banner-heading)",
+    lineHeight: 1.2,
+  }}
+>
+  Fresh Grocery Delivery
+  <br />
+  Near You: Fast & Reliable.
+</Typography>
 
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 700,
-                mt: 1,
-                color: "var(--grocery-banner-accent)",
-              }}
-            >
-              in 10 min
-            </Typography>
 
-            <Typography
-              sx={{
-                mt: 2,
-                color: "var(--grocery-banner-subtext)",
-                lineHeight: 1.6,
-              }}
-            >
-              Stop Juggling Apps. Get Everything Local In One Simple Tap
-            </Typography>
+
+<Typography
+  sx={{
+    mt: 2,
+    color: "var(--grocery-banner-subtext)",
+    lineHeight: 1.6,
+  }}
+>
+  Stop Juggling Apps. Get Everything Local In One Simple Tap
+</Typography>
 
             <Button
               variant="contained"

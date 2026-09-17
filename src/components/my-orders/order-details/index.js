@@ -1,6 +1,6 @@
 // src/components/my-orders/order-details/index.js
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useGetOrderDetails from "../../../api-manage/hooks/react-query/order/useGetOrderDetails";
 import useGetTrackOrderData from "../../../api-manage/hooks/react-query/order/useGetTrackOrderData";
 import OtherOrder from "./other-order";
@@ -8,10 +8,10 @@ import { getGuestId } from "helper-functions/getToken";
 import { useSelector } from "react-redux";
 import PushNotificationLayout from "../../PushNotificationLayout";
 import {
-  connectSocket,
-  getSocket,
   subscribeToDriverTracking,
+  subscribeToOrderStatus,
 } from "../../../services/socketService";
+import { isOrderStatusFinal } from "../../../services/orderStatusConstants";
 
 const OrderDetails = ({ configData, id, page }) => {
   const router = useRouter();
@@ -31,63 +31,61 @@ const OrderDetails = ({ configData, id, page }) => {
 
   const driverId = trackOrderData?.delivery_man?.id;
 
-  // 👇 socket se aane wala driver location data yahan store hoga (UI me dikhane ke liye)
+  // socket se aane wala driver location data yahan store hoga (UI me dikhane ke liye)
   const [driverLocation, setDriverLocation] = useState(null);
+
+  // is ref me current order-status subscription ka "unsubscribe" function
+  // store rehta hai, taaki final status milte hi hum khud ise call karke
+  // turant listener band kar sakein (na ki wait karein component unmount ka)
+  const unsubscribeStatusRef = useRef(null);
 
   useEffect(() => {
     refetch();
     refetchTrackOrder();
   }, [id]);
 
+  // ---- SINGLE order-status subscription point ----
+  // FIX: pehle yahan manual socket.on/off likha jata tha, aur kahi
+  // "socket.off('order_status_update')" bina handler pass kiye call hota
+  // tha — jo is event ke SAARE listeners hata deta tha (TrackOrder page
+  // ka listener bhi), isliye status updates achanak aana band ho jate the.
+  // Ab hum sirf socketService.subscribeToOrderStatus() use karte hain,
+  // jo apna hi specific handler register/cleanup karta hai.
   useEffect(() => {
     if (!id) return;
 
-    const socket = connectSocket();
-
     const handleOrderUpdate = (payload) => {
-      // 👇 BAS YEH DEKHO CONSOLE MEIN
-       console.log("🔴 RAW PAYLOAD:", JSON.stringify(payload));
-      console.log("📦 Socket payload:", payload);
-      console.log("📌 Socket status:", payload?.status);
+      console.log("Socket payload:", payload);
+      console.log("Socket status:", payload?.status);
 
       refetch();
       refetchTrackOrder();
 
-      const finalStatuses = [
-        "delivered",
-        "completed",
-        "cancelled",
-        "failed",
-        "refunded",
-      ];
-
-      if (finalStatuses.includes(payload?.status)) {
-        socket.emit("leave_order_room", { order_id: id });
-        socket.off("order_status_update", handleOrderUpdate);
-        // console.log("🚪 Left room:", id);
+      if (isOrderStatusFinal(payload?.status)) {
+        // final status aate hi turant unsubscribe kar do
+        if (unsubscribeStatusRef.current) {
+          unsubscribeStatusRef.current();
+          unsubscribeStatusRef.current = null;
+        }
       }
     };
 
-    socket.emit("join_order_room", { order_id: id });
-    // console.log("🚪 Joined room:", id);
-
-    socket.off("order_status_update", handleOrderUpdate);
-    socket.on("order_status_update", handleOrderUpdate);
+    unsubscribeStatusRef.current = subscribeToOrderStatus(id, handleOrderUpdate);
 
     return () => {
-      // console.log("🚪 Leaving room:", id);
-      socket.emit("leave_order_room", { order_id: id });
-      socket.off("order_status_update", handleOrderUpdate);
+      if (unsubscribeStatusRef.current) {
+        unsubscribeStatusRef.current();
+        unsubscribeStatusRef.current = null;
+      }
     };
   }, [id]);
 
-  // 🟢 Driver live location tracking — sirf jab delivery man assign ho
+  // ---- Driver live location tracking — sirf jab delivery man assign ho ----
   useEffect(() => {
     if (!id || !driverId) return;
 
     const handleLocationUpdate = (data) => {
-      // console.log("📍 Driver Location:", data);
-      setDriverLocation(data); // 👈 UI me dikhane ke liye state update
+      setDriverLocation(data);
     };
 
     const cleanup = subscribeToDriverTracking(id, driverId, handleLocationUpdate);
@@ -97,58 +95,19 @@ const OrderDetails = ({ configData, id, page }) => {
     };
   }, [id, driverId]);
 
+  // ---- Safety-net cleanup agar fetched data khud final status dikhaye ----
+  // (e.g. page load pe hi order already delivered/cancelled nikla, socket
+  // event ka wait kiye bina hi hume subscription band karni chahiye)
   useEffect(() => {
     if (!data) return;
 
-    const finalStatuses = ["delivered", "canceled", "failed", "refunded"];
-
-    if (finalStatuses.includes(data?.order_status)) {
-      const socket = getSocket();
-      if (socket) {
-        // console.log(
-        //   "✅ Order complete — leaving room & stopping listeners:",
-        //   data?.order_status
-        // );
-        socket.emit("leave_order_room", { order_id: id });
-        socket.off("order_status_update");
-        socket.off("delivery_man_updated");
-        socket.off("order_updated");
+    if (isOrderStatusFinal(data?.order_status)) {
+      if (unsubscribeStatusRef.current) {
+        unsubscribeStatusRef.current();
+        unsubscribeStatusRef.current = null;
       }
     }
   }, [data?.order_status]);
-
-  useEffect(() => {
-    if (!data) return;
-
-    // console.log("📦 Full Order Data:", data);
-
-    const orderStatus = data?.order_status;
-    // console.log("📌 Current Order Status:", orderStatus);
-
-    const finalStatuses = [
-      "delivered",
-      "completed",
-      "cancelled",
-      "canceled",
-      "failed",
-      "refunded",
-    ];
-
-    if (finalStatuses.includes(orderStatus?.toLowerCase?.())) {
-      // console.log(
-      //   `✅ Order complete — leaving room & stopping listeners: ${orderStatus}`
-      // );
-
-      const socket = getSocket();
-
-      if (socket) {
-        socket.emit("leave_order_room", { order_id: id });
-        socket.off("order_status_update");
-        socket.off("delivery_man_updated");
-        socket.off("order_updated");
-      }
-    }
-  }, [data, id]);
 
   return (
     <div>

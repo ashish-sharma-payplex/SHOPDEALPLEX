@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Card, Typography } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
-const DeliveryAssignedSection = ({data} ) => {
-  const driver = data?.driver_details;
-  const vehicle = data?.vehicle_details;
+const DeliveryAssignedSection = ({ data }) => {
+  const driver = data?.deliveryman_details;
+
   return (
     <Box
       sx={{
@@ -84,23 +84,20 @@ const DeliveryAssignedSection = ({data} ) => {
           Your delivery partner is on the way to pick up your parcel.
         </Typography>
 
-        {/* --- EXACT PARTNER CARD AREA START --- */}
-        {/* --- CENTERED PARTNER CARD AREA --- */}
-        {/* --- CENTERED CONTENT PARTNER CARD (IMAGE SIDE-BY-SIDE) --- */}
+        {/* Partner Card */}
         <Box
           sx={{
             display: "flex",
-            alignItems: "center", // Vertical center (Image aur text ek line mein)
-            justifyContent: "center", // Horizontal center (Pura group card ke beech mein)
+            alignItems: "center",
+            justifyContent: "center",
             p: "20px 24px",
             borderRadius: "20px",
             border: "1px solid #eef2f6",
             bgcolor: (theme) => theme.palette.background.paper,
             mb: 4,
-            gap: 3, // Image aur text ke beech ka gap
+            gap: 3,
           }}
         >
-          {/* Scooter Image - Side mein hi hai */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <img
               src="/parcelScooter.png"
@@ -113,7 +110,6 @@ const DeliveryAssignedSection = ({data} ) => {
             />
           </Box>
 
-          {/* Texts - Centered alignment inside the flex block */}
           <Box sx={{ textAlign: "left" }}>
             <Typography
               sx={{
@@ -123,8 +119,7 @@ const DeliveryAssignedSection = ({data} ) => {
                 lineHeight: 1.2,
               }}
             >
-                   {vehicle?.vehicle_type} • {driver?.driver_name}
-
+              {driver?.driver_name}
             </Typography>
             <Typography
               sx={{
@@ -134,13 +129,10 @@ const DeliveryAssignedSection = ({data} ) => {
                 mt: 0.5,
               }}
             >
-               {vehicle?.vehicle_no}
+              {driver?.vehicle_number}
             </Typography>
           </Box>
         </Box>
-        {/* --- END --- */}
-        {/* --- END --- */}
-        {/* --- EXACT PARTNER CARD AREA END --- */}
 
         <Typography sx={{ color: "#9aa6b8", fontSize: "0.95rem" }}>
           Taking you to live tracking...

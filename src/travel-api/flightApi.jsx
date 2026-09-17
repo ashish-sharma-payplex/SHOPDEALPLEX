@@ -15,15 +15,12 @@ export const FLIGHT_ENDPOINTS = {
   BOOKING_DETAILS: "/api/flightv2/booking-details/",
 };
 
-// 🔥 NAYA — har flightFetch request ke saath ye fixed "source" header jayega
 const SOURCE_HEADER_VALUE =
   "DKIyHAyntH2wuDLbU5W9HrSFBgqVOkYZvjsfWvFZOg3UoIbSFN7AxzVzb4P5JM";
 
 let sessionAlertShown = false;
 
-// ✅ FIX — login/logout ke baad TRAVEL_USER_UPDATED event fire hote hi
-// flag reset kar do, taaki stale state kabhi galat alert na trigger kare
-// aur genuine future session-expiry pe alert dobara dikh sake.
+
 if (typeof window !== "undefined") {
   window.addEventListener("TRAVEL_USER_UPDATED", () => {
     sessionAlertShown = false;

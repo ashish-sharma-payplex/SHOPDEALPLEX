@@ -53,7 +53,7 @@ const CategoryNavbar = ({
       }
     }
 
-    if (isMobile) setOpenCategoryMenu(false); // auto-close menu
+    if (isMobile) setOpenCategoryMenu(false); 
   };
 
   return (

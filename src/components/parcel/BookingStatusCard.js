@@ -15,7 +15,6 @@ import styles from "styles/Parcel.module.css";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
-import MainApi from "api-manage/MainApi";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -28,6 +27,9 @@ import useParcelCancelBooking from "api-manage/hooks/react-query/percel/useParce
 import DeliveryAssignedSection from "./DeliveryPartnerAssigned";
 import toast from "react-hot-toast";
 import LiveTrackingLayout from "./LiveTrackingCheckout";
+
+// 👇 apna correct relative path daalna (jahan socket.js rakha hai)
+import { subscribeToOrderStatus, getSocket } from "../../../src/services/socketService";
 
 const BookingStatusCard = ({
   bookingId,
@@ -43,7 +45,7 @@ const BookingStatusCard = ({
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
-  const TOTAL_TIME = 10 * 60;
+  const TOTAL_TIME = 5 * 60;
 
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const [status, setStatus] = useState(null);
@@ -53,6 +55,10 @@ const BookingStatusCard = ({
   const [driverData, setDriverData] = useState(null);
   const [stage, setStage] = useState("searching");
   // "searching" | "success" | "tracking"
+
+  // 👇 naya: live socket connection status (OTP ke niche dikhane ke liye)
+  const [socketStatus, setSocketStatus] = useState("connecting");
+  // possible values: "connecting" | "connected" | "reconnecting" | "disconnected" | "error"
 
   const cancelBookingMutation = useParcelCancelBooking(parcelId);
   const { data: cancelReasons = [], isLoading } =
@@ -86,41 +92,94 @@ const BookingStatusCard = ({
     );
   };
 
-  // console.log("OTP from parcel", otp);
-
-  // ── Polling for delivery partner ─────────────────────────────────────────────
+  // ── Socket: Order Status Updates (driver assign, delivered, pickup etc.) ────
+  // NOTE: Old "find-deliverypartner" polling API REMOVED as requested.
   useEffect(() => {
-    if (isCancelled) return;
+    if (isCancelled || !bookingId) return;
 
-    const interval = setInterval(async () => {
-      // console.log("⏱️ Polling chal rahi hai...");
-      try {
-        const res = await MainApi.post(
-          `/api/v1/customer/parcelapi/${parcelId}/find-deliverypartner`,
-          { parcel_id: parcelId },
-        );
-        // console.log("📡 Response aaya:", res?.data);
-        if (res?.data?.status === true) {
-          // console.log("✅ STATUS TRUE MIL GAYA", res.data);
-          setDriverData(res.data);
-          setStage("success");
-          clearInterval(interval);
-        }
-      } catch (err) {
-        // console.log("❌ Polling error", err);
-      }
+    console.log(
+      "🔌 [Socket] Subscribing to order status, orderId:",
+      bookingId
+    );
+
+    // Log current socket state right after subscribing
+    const s = getSocket();
+    console.log("🔍 [Socket] Current state at subscribe time:", {
+      exists: !!s,
+      connected: s?.connected,
+      id: s?.id,
+    });
+
+    // 👇 naya: initial socket status + live listeners
+    setSocketStatus(s?.connected ? "connected" : "connecting");
+
+    const handleConnect = () => setSocketStatus("connected");
+    const handleDisconnect = () => setSocketStatus("disconnected");
+    const handleConnectError = () => setSocketStatus("error");
+    const handleReconnectAttempt = () => setSocketStatus("reconnecting");
+
+    if (s) {
+      s.on("connect", handleConnect);
+      s.on("disconnect", handleDisconnect);
+      s.on("connect_error", handleConnectError);
+      s.io.on("reconnect_attempt", handleReconnectAttempt);
+      s.io.on("reconnect", handleConnect);
+    }
+
+   const unsubscribe = subscribeToOrderStatus(bookingId, (data) => {
+  console.log("📩 [Socket] order_status_update aaya:", data);
+
+  if (data?.status === "assigned") {
+    console.log(
+      "✅ [Socket] Driver assign ho gaya, stage -> success",
+      data
+    );
+    setDriverData(data);
+    setStage("success");
+  } else {
+    console.log(
+      "ℹ️ [Socket] Event aaya but condition match nahi hui, status:",
+      data?.status
+    );
+  }
+});
+
+    // Poll socket connection state every 5s just for debugging visibility
+    const debugInterval = setInterval(() => {
+      const cur = getSocket();
+      console.log("🩺 [Socket] Health check:", {
+        exists: !!cur,
+        connected: cur?.connected,
+        id: cur?.id,
+      });
     }, 5000);
 
-    return () => clearInterval(interval);
-  }, [parcelId, isCancelled]);
+    return () => {
+      console.log(
+        "🔌 [Socket] Unsubscribing order status, orderId:",
+        bookingId
+      );
+      clearInterval(debugInterval);
+      if (unsubscribe) unsubscribe();
+
+      // 👇 naya: status listeners cleanup
+      if (s) {
+        s.off("connect", handleConnect);
+        s.off("disconnect", handleDisconnect);
+        s.off("connect_error", handleConnectError);
+        s.io.off("reconnect_attempt", handleReconnectAttempt);
+        s.io.off("reconnect", handleConnect);
+      }
+    };
+  }, [bookingId, isCancelled]);
 
   // ── Auto-move to tracking after success screen ───────────────────────────────
-  useEffect(() => {
-    if (stage === "success") {
-      const timer = setTimeout(() => setStage("tracking"), 8000);
-      return () => clearTimeout(timer);
-    }
-  }, [stage]);
+ useEffect(() => {
+  if (stage === "success") {
+    const timer = setTimeout(() => setStage("tracking"), 10 * 60 * 1000); // 10 minute
+    return () => clearTimeout(timer);
+  }
+}, [stage]);
 
   // ── Countdown timer ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -132,9 +191,14 @@ const BookingStatusCard = ({
     return () => clearInterval(timer);
   }, [timeLeft]);
 
+  // 👇 hours-safe formatTime (ab 3600 sec tak jaayega)
   const formatTime = (sec) => {
-    const m = Math.floor(sec / 60);
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
     const s = sec % 60;
+    if (h > 0) {
+      return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    }
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
@@ -208,8 +272,6 @@ const BookingStatusCard = ({
       </Box>
     );
   }
-
-  // console.log("BOOKING ID:", bookingId);
 
   // ── Main searching screen ────────────────────────────────────────────────────
   return (
@@ -295,6 +357,32 @@ const BookingStatusCard = ({
             </Box>
           )}
 
+          {/* ── Socket status — OTP ke niche ── */}
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0.75, mb: 3 }}>
+            <Box
+              sx={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                bgcolor:
+                  socketStatus === "connected"
+                    ? "#27a458"
+                    : socketStatus === "reconnecting"
+                    ? "#f5a623"
+                    : socketStatus === "connecting"
+                    ? "#9aa5b1"
+                    : "#ff4d4f", // disconnected / error
+              }}
+            />
+            <Typography sx={{ fontSize: "0.8rem", color: "#7e8ba0", fontFamily: "Inter" }}>
+              {socketStatus === "connected" && "Live tracking connected"}
+              {socketStatus === "connecting" && "Connecting to live tracking..."}
+              {socketStatus === "reconnecting" && "Reconnecting..."}
+              {socketStatus === "disconnected" && "Connection lost — retrying"}
+              {socketStatus === "error" && "Connection error — retrying"}
+            </Typography>
+          </Box>
+
           {/* ── Status Text ── */}
           <Box sx={{ mb: 4 }}>
             <Typography
@@ -313,7 +401,7 @@ const BookingStatusCard = ({
                 fontVariantNumeric: "tabular-nums",
               }}
             >
-              We expect to find a partner within {formatTime(timeLeft)} mins
+              We expect to find a partner within {formatTime(timeLeft)}
             </Typography>
           </Box>
 

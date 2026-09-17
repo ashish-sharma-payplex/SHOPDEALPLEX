@@ -2,6 +2,13 @@ import { ACTIONS } from "components/auth/state";
 
 export const getActiveLoginStatus = (state, loginDispatch) => {
   const { otp, manual, social } = state.activeLoginType;
+
+  console.log("🟡 [getActiveLoginStatus] activeLoginType:", {
+    otp,
+    manual,
+    social,
+  });
+
   let newStatus = "";
 
   switch (true) {
@@ -27,8 +34,11 @@ export const getActiveLoginStatus = (state, loginDispatch) => {
       newStatus = "social";
       break;
     default:
-      newStatus = "manual";
+      newStatus = "";
   }
+
+  console.log("🟣 [getActiveLoginStatus] Final status decided:", newStatus);
+
   loginDispatch({
     type: ACTIONS.setStatus,
     payload: newStatus,
@@ -42,7 +52,7 @@ export const getLoginUserCheck = (
   setOtpData,
   setMainToken,
   sendOTP,
-  configData
+  configData,
 ) => {
   const isPhoneVerified = Number.parseInt(response?.is_phone_verified) === 1;
   const isEmailVerified = Number.parseInt(response?.is_email_verified) === 1;

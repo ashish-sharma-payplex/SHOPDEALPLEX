@@ -305,7 +305,7 @@ const TopHeaderBar = ({
           width: "100%",
           padding: "12px 30px",
           backgroundColor: "var(--nav-bg)",
-          borderBottom: "1px solid var(--nav-border)",
+          // borderBottom: "1px solid var(--nav-border)",
         }}
       >
         <Grid item xs="auto">

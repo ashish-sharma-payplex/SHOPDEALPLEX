@@ -83,7 +83,8 @@ const MainForm = () => {
     clearAllParcelStorage();
     setBookingResponse(res);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => setShowUnavailable(true), 35000);
+    // 👇 35000 (35 sec) → 1 hour, taaki searching/socket-status screen jaldi na ude
+    setTimeout(() => setShowUnavailable(true), 60 * 60 * 1000);
   };
 
   if (!sessionLoaded) {
@@ -145,4 +146,3 @@ const MainForm = () => {
 };
 
 export default MainForm;
-
