@@ -246,7 +246,7 @@ const ProductScrollRow = ({
           onClick={scrollLeft}
           sx={{
             position: "absolute",
-            left: { xs: "2px", sm: "-18px" },
+            left: { xs: "-4px", sm: "-18px" },
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
@@ -265,7 +265,7 @@ const ProductScrollRow = ({
           onClick={scrollRight}
           sx={{
             position: "absolute",
-            right: { xs: "2px", sm: "-18px" },
+            right: { xs: "-4px", sm: "-18px" },
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
@@ -289,6 +289,7 @@ const ProductScrollRow = ({
           scrollbarWidth: "none",
           "&::-webkit-scrollbar": { display: "none" },
           pb: 1,
+          px: { xs: canScrollLeft || canScrollRight ? "34px" : 0, sm: 0 },
         }}
       >
         {isProductLoading

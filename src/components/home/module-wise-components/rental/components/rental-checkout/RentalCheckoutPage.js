@@ -380,7 +380,7 @@ const RentalCheckoutPage = () => {
                 color="#000"
                 whiteSpace="nowrap"
               >
-                Vehicle Listt
+                Vehicle List
               </Typography>
               <Stack
                 flex={1}

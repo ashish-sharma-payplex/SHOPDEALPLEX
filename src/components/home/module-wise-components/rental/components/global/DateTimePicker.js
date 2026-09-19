@@ -8,23 +8,6 @@ import dayjs from "dayjs";
 const BasicDateTimePicker = ({ value, handleDateChange, label, sx }) => {
   const [open, setOpen] = useState(false);
 
-  // Close the calendar popup on a genuine user scroll so it doesn't stay
-  // open and overlap the header / top section — no matter whether the
-  // page itself scrolls (window) or the picker sits inside a nested
-  // scrollable container (a sticky search bar, a modal, etc.).
-  //
-  // We attach the listener on `window` with capture:true. Scroll events
-  // don't bubble, but they DO pass through the capture phase, so a
-  // capture listener on window still fires for scrolling on any
-  // descendant element — this is what lets it work for nested
-  // containers, not just window.scrollY.
-  //
-  // NOTE: opening the popup itself can shift the layout (a scrollbar
-  // appearing, content height changing), which can fire a synthetic
-  // scroll event immediately. Reacting to that instantly caused the
-  // calendar to flicker open/close in a loop, so we wait a short
-  // moment after opening before we start listening, giving the popup's
-  // own layout shift time to settle.
   useEffect(() => {
     if (!open) return undefined;
 
@@ -33,8 +16,18 @@ const BasicDateTimePicker = ({ value, handleDateChange, label, sx }) => {
       active = true;
     }, 150);
 
-    const handleScroll = () => {
+    const handleScroll = (event) => {
       if (!active) return;
+
+      const target = event.target;
+      if (
+        target &&
+        typeof target.closest === "function" &&
+        target.closest(".MuiPickersPopper-root, .MuiPickersLayout-root")
+      ) {
+        return;
+      }
+
       setOpen(false);
     };
 

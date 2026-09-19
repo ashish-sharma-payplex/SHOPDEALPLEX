@@ -28,7 +28,12 @@ export const fTime = (selectedDate) => {
     .replace(/(\d+)\/(\d+)\/(\d+),\s(\d+:\d+\s[AP]M)/, "$3-$1-$2 $4");
 };
 
-const RentalCarFilterSection = ({ isSticky, api_endpoint,categoryId, allCategory  }) => {
+const RentalCarFilterSection = ({
+  isSticky,
+  api_endpoint,
+  categoryId,
+  allCategory,
+}) => {
   const router = useRouter();
   const scrolling = useScrollTrigger();
 
@@ -57,7 +62,7 @@ const RentalCarFilterSection = ({ isSticky, api_endpoint,categoryId, allCategory
 
   // ✅ FIX — Local state so filter lagane par all_category override na ho
   const [activeAllCategory, setActiveAllCategory] = useState(
-    all_category === "1" ? "1" : null
+    all_category === "1" ? "1" : null,
   );
 
   const rentalSearch = useSelector(
@@ -78,12 +83,12 @@ const RentalCarFilterSection = ({ isSticky, api_endpoint,categoryId, allCategory
 
   // ✅ FIX — rentalCategories bhi dependency mein daali
   useEffect(() => {
-  if (all_category === "1" && rentalCategories?.length > 0) {
-    const ids = rentalCategories.map((item) => item?.id);
-    setSelectedCategoryIds(ids);
-    setActiveAllCategory("1");
-  }
-}, [all_category, rentalCategories]);
+    if (all_category === "1" && rentalCategories?.length > 0) {
+      const ids = rentalCategories.map((item) => item?.id);
+      setSelectedCategoryIds(ids);
+      setActiveAllCategory("1");
+    }
+  }, [all_category, rentalCategories]);
 
   const closeHandler = () => {
     setSideDrawerOpen(false);
@@ -290,12 +295,13 @@ const RentalCarFilterSection = ({ isSticky, api_endpoint,categoryId, allCategory
         <Box sx={{ flex: 1 }} ref={scrollRef}>
           <RentalCarSidebarData
             minMax={minMax}
-            setMinMax={handleSetMinMax}                           // ✅ wrapper
+            setMinMax={handleSetMinMax} // ✅ wrapper
             setSelectedCategoryIds={handleSetSelectedCategoryIds} // ✅ wrapper
-            setSelectedBrandIds={handleSetSelectedBrandIds}       // ✅ wrapper
-            setSelectedSeats={handleSetSelectedSeats}             // ✅ wrapper
-            setAirCondition={handleSetAirCondition}               // ✅ wrapper
-            setNoAirCondition={handleSetNoAirCondition}           // ✅ wrapper
+            selectedCategoryIds={selectedCategoryIds}
+            setSelectedBrandIds={handleSetSelectedBrandIds} // ✅ wrapper
+            setSelectedSeats={handleSetSelectedSeats} // ✅ wrapper
+            setAirCondition={handleSetAirCondition} // ✅ wrapper
+            setNoAirCondition={handleSetNoAirCondition} // ✅ wrapper
             data={normalizedData}
             isFetching={isFetching}
             setInViewport={setInViewport}
@@ -325,12 +331,13 @@ const RentalCarFilterSection = ({ isSticky, api_endpoint,categoryId, allCategory
 
           <RentalFilter
             minMax={minMax}
-            setMinMax={handleSetMinMax}                           // ✅ wrapper
+            setMinMax={handleSetMinMax} // ✅ wrapper
             setSelectedCategoryIds={handleSetSelectedCategoryIds} // ✅ wrapper
-            setSelectedBrandIds={handleSetSelectedBrandIds}       // ✅ wrapper
-            setSelectedSeats={handleSetSelectedSeats}             // ✅ wrapper
-            setNoAirCondition={handleSetNoAirCondition}           // ✅ wrapper
-            setAirCondition={handleSetAirCondition}               // ✅ wrapper
+            selectedCategoryIds={selectedCategoryIds}
+            setSelectedBrandIds={handleSetSelectedBrandIds} // ✅ wrapper
+            setSelectedSeats={handleSetSelectedSeats} // ✅ wrapper
+            setNoAirCondition={handleSetNoAirCondition} // ✅ wrapper
+            setAirCondition={handleSetAirCondition} // ✅ wrapper
             rentalPriceFilterRange={rentalPriceFilterRange}
           />
         </CustomStackFullWidth>

@@ -629,7 +629,10 @@ const VehicleCard = ({
                 zIndex: 5,
               }}
             >
-              {data?.discount_type === "percent"
+              {String(data?.discount_type)
+                .trim()
+                .toLowerCase()
+                .startsWith("percent")
                 ? `${data?.discount_price}% OFF`
                 : `${getAmountWithSign(data?.discount_price)} OFF`}
             </Box>

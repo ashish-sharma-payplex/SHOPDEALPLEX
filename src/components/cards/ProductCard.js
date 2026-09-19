@@ -9,7 +9,14 @@ import {
   Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { borderRadius, Box, fontSize, fontWeight, Stack, style } from "@mui/system";
+import {
+  borderRadius,
+  Box,
+  fontSize,
+  fontWeight,
+  Stack,
+  style,
+} from "@mui/system";
 import { getAmountWithSign } from "helper-functions/CardHelpers";
 import { useRouter } from "next/router";
 import React, { useEffect, useReducer, useState } from "react";
@@ -103,7 +110,6 @@ export const CardWrapper = styled(Card)(
     flexDirection: "column",
     alignItems: "center",
     alignContent: "center",
-    
 
     // Padding and container spacing
     padding: horizontalcard !== "true" ? "" : "",
@@ -128,12 +134,7 @@ export const CardWrapper = styled(Card)(
     height: cardheight || "220px",
 
     // Margin handling
-    margin:
-      wishlistcard === "true"
-        ? "0"
-        : nomargin === "true"
-        ? "0"
-        : "0",
+    margin: wishlistcard === "true" ? "0" : nomargin === "true" ? "0" : "0",
     marginBottom: pharmaCommon ? "20px !important" : undefined,
 
     // Highlight border for food module
@@ -175,7 +176,7 @@ export const CardWrapper = styled(Card)(
       fontSize: "12px",
       fontWeight: 600,
     },
-  })
+  }),
 );
 
 export const CustomCardMedia = styled(CardMedia)(
@@ -183,11 +184,7 @@ export const CustomCardMedia = styled(CardMedia)(
     position: "relative",
     margin: "px",
     padding:
-      loveItem === "true"
-        ? "px"
-        : horizontalcard === "true"
-        ? "0rem"
-        : "0rem",
+      loveItem === "true" ? "px" : horizontalcard === "true" ? "0rem" : "0rem",
     display: "flex",
     justifyContent: "center",
     overflow: "hidden",
@@ -215,7 +212,7 @@ export const CustomCardMedia = styled(CardMedia)(
       height: horizontalcard === "true" ? "120px" : "110px",
       width: horizontalcard === "true" ? "160px" : "100%",
     },
-  })
+  }),
 );
 
 export const CustomCardButton = styled(CustomButtonPrimary)(
@@ -230,61 +227,61 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
     "&:hover": {
       background: theme.palette.secondary.main,
     },
-  })
+  }),
 );
 
+const ProductCard = (props) => {
+  const {
+    loveItem,
+    item,
+    cardheight,
+    horizontalcard,
+    changed_bg,
+    wishlistcard,
+    deleteWishlistItem,
+    cardFor,
+    noMargin,
+    cardType,
+    specialCard,
+    cardWidth,
+    sold,
+    stock,
+    pharmaCommon,
+    noRecommended,
+  } = props;
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openLocationAlert, setOpenLocationAlert] = useState(false);
+  const { configData } = useSelector((state) => state.configData);
+  const imageBaseUrl = configData?.base_urls?.item_image_url;
+  const router = useRouter();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const reduxDispatch = useDispatch();
+  const { cartList: aliasCartList } = useSelector((state) => state.cart);
+  const cartList = getCartListModuleWise(aliasCartList);
+  const classes = textWithEllipsis();
+  const { t } = useTranslation();
+  const p_off = t("%");
+  const { wishLists } = useSelector((state) => state.wishList);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { mutate: addFavoriteMutation } = useAddToWishlist();
+  const { mutate } = useWishListDelete();
+  const [isProductExist, setIsProductExist] = useState(false);
+  const [count, setCount] = useState(0);
+  const { mutate: addToMutate, isLoading } = useAddCartItem();
+  const { mutate: updateMutate, isLoading: updateLoading } =
+    useCartItemUpdate();
+  const { mutate: cartItemRemoveMutate } = useDeleteCartItem();
 
-  const ProductCard = (props) => {
-    const {
-      loveItem,
-      item,
-      cardheight,
-      horizontalcard,
-      changed_bg,
-      wishlistcard,
-      deleteWishlistItem,
-      cardFor,
-      noMargin,
-      cardType,
-      specialCard,
-      cardWidth,
-      sold,
-      stock,
-      pharmaCommon,
-      noRecommended,
-    } = props;
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const [openModal, setOpenModal] = React.useState(false);
-    const [openLocationAlert, setOpenLocationAlert] = useState(false);
-    const { configData } = useSelector((state) => state.configData);
-    const imageBaseUrl = configData?.base_urls?.item_image_url;
-    const router = useRouter();
-    const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-    const reduxDispatch = useDispatch();
-    const { cartList: aliasCartList } = useSelector((state) => state.cart);
-    const cartList = getCartListModuleWise(aliasCartList);
-    const classes = textWithEllipsis();
-    const { t } = useTranslation();
-    const p_off = t("%");
-    const { wishLists } = useSelector((state) => state.wishList);
-    const [isWishlisted, setIsWishlisted] = useState(false);
-    const { mutate: addFavoriteMutation } = useAddToWishlist();
-    const { mutate } = useWishListDelete();
-    const [isProductExist, setIsProductExist] = useState(false);
-    const [count, setCount] = useState(0);
-    const { mutate: addToMutate, isLoading } = useAddCartItem();
-    const { mutate: updateMutate, isLoading: updateLoading } =
-      useCartItemUpdate();
-    const { mutate: cartItemRemoveMutate } = useDeleteCartItem();
-
-    const { data: fullItemDetails, isLoading: fullItemLoading } = useGetItemDetails({
+  const { data: fullItemDetails, isLoading: fullItemLoading } =
+    useGetItemDetails({
       itemId: item?.id,
       moduleId: item?.module_id,
       enabled: cardFor === "list-view" && !!item?.id,
     });
 
-    const displayItem = cardFor === "list-view" ? fullItemDetails || item : item;
+  const displayItem = cardFor === "list-view" ? fullItemDetails || item : item;
   useEffect(() => {
     const isInCart = getItemFromCartlist();
     if (isInCart) {
@@ -335,105 +332,110 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
       dispatch({ type: ACTION.setClearCartModal, payload: false });
     }
   };
-  
-    const handleBadge = () => {
-      const offerRibbonStyle = {
-        borderRadius:'0 !important',
-        mx:'0 !important',
-        px:'0important',
-        position: 'absolute',
-        top: '0',
-        left: '6px',
-        background: 'linear-gradient(135deg, #ff5f6d, #ffc371)', // gradient color
-        color: '#fff',
-        fontWeight: '800 !important',
-        // fontSize: '1px !important', // Adjusted font size to be smaller
-       
-        
-        padding: '8px 3px', // Adjusted padding to fit the smaller text
-        width: '25px',
-        textAlign: 'center',
-        clipPath: 'polygon(0 0, 100% 0, 100% 85%, 90% 100%, 80% 85%, 70% 100%, 60% 85%, 50% 100%, 40% 85%, 30% 100%, 20% 85%, 10% 100%, 0 85%)', // No top radius applied
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
-        zIndex: 10,
-         '& .MuiTypography-root': {
-    fontSize: '10px !important',  // Added specific targeting for Typography component
-    fontWeight:'700',
-  },
-      };
 
-      if (Number.parseInt(item?.store_discount) === 0) {
-        if (Number.parseInt(item?.discount) > 0) {
-          if (item?.discount_type === "percent") {
-            return (
-              <Box sx={offerRibbonStyle}>
-                <Typography>{`${item?.discount}${p_off}`}</Typography>
-              </Box>
-            );
-          } else {
-            return (
-              <Box sx={offerRibbonStyle}>
-                <Typography>{getAmountWithSign(item?.discount, item?.discount % 1 ? true : false)}</Typography>
-              </Box>
-            );
-          }
-        }
-      } else {
-        if (Number.parseInt(item?.store_discount) > 0) {
+  const handleBadge = () => {
+    const offerRibbonStyle = {
+      borderRadius: "0 !important",
+      mx: "0 !important",
+      px: "0important",
+      position: "absolute",
+      top: "0",
+      left: "6px",
+      background: "linear-gradient(135deg, #ff5f6d, #ffc371)", // gradient color
+      color: "#fff",
+      fontWeight: "800 !important",
+      // fontSize: '1px !important', // Adjusted font size to be smaller
+
+      padding: "8px 3px", // Adjusted padding to fit the smaller text
+      width: "25px",
+      textAlign: "center",
+      clipPath:
+        "polygon(0 0, 100% 0, 100% 85%, 90% 100%, 80% 85%, 70% 100%, 60% 85%, 50% 100%, 40% 85%, 30% 100%, 20% 85%, 10% 100%, 0 85%)", // No top radius applied
+      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
+      zIndex: 10,
+      "& .MuiTypography-root": {
+        fontSize: "10px !important", // Added specific targeting for Typography component
+        fontWeight: "700",
+      },
+    };
+
+    if (Number.parseInt(item?.store_discount) === 0) {
+      if (Number.parseInt(item?.discount) > 0) {
+        if (item?.discount_type === "percent") {
           return (
             <Box sx={offerRibbonStyle}>
-              <Typography>{`${item?.store_discount}${p_off}`}</Typography>
+              <Typography>{`${item?.discount}${p_off}`}</Typography>
+            </Box>
+          );
+        } else {
+          return (
+            <Box sx={offerRibbonStyle}>
+              <Typography>
+                {getAmountWithSign(
+                  item?.discount,
+                  item?.discount % 1 ? true : false,
+                )}
+              </Typography>
             </Box>
           );
         }
       }
-    };
+    } else {
+      if (Number.parseInt(item?.store_discount) > 0) {
+        return (
+          <Box sx={offerRibbonStyle}>
+            <Typography>{`${item?.store_discount}${p_off}`}</Typography>
+          </Box>
+        );
+      }
+    }
+  };
 
-      const handleClick = () => {
-        if (item?.module_type === "ecommerce") {
-          router.push({
-            pathname: "/product/[id]",
-            query: {
-              id: `${item?.slug ? item?.slug : item?.id}`,
-              module_id: `${getModuleId()}`,
-            },
-          });
-        } else {
-          dispatch({ type: ACTION.setOpenModal, payload: true });
-        }
-      };
+  const handleClick = () => {
+    if (item?.module_type === "ecommerce") {
+      router.push({
+        pathname: "/product/[id]",
+        query: {
+          id: `${item?.slug ? item?.slug : item?.id}`,
+          module_id: `${getModuleId()}`,
+        },
+      });
+    } else {
+      dispatch({ type: ACTION.setOpenModal, payload: true });
+    }
+  };
 
-      useEffect(() => {
-        if (displayItem) {
-          dispatch({
-            type: ACTION.setModalData,
-            payload: {
-              ...displayItem,
-              quantity: 1,
-              price: displayItem?.price || item?.price,
-              totalPrice: (displayItem?.price || item?.price),
-            },
-          });
-        }
-      }, [displayItem, item]);
-      const isInCart = cartList?.find((things) => things.id === item?.id);
-      const handleSuccess = (res) => {
-        if (res) {
-          let product = {};
-          res?.forEach((item) => {
-            product = {
-              ...item?.item,
-              cartItemId: item?.id,
-              quantity: item?.quantity,
-              totalPrice: item?.price,
-              selectedOption: [],
-            };
-          });
-          reduxDispatch(setCart(product));
-          toast.success(t("Item added to cart"));
-          dispatch({ type: ACTION.setClearCartModal, payload: false });
-        }
-      };
+  useEffect(() => {
+    if (displayItem) {
+      dispatch({
+        type: ACTION.setModalData,
+        payload: {
+          ...displayItem,
+          quantity: 1,
+          price: displayItem?.price || item?.price,
+          totalPrice: displayItem?.price || item?.price,
+        },
+      });
+    }
+  }, [displayItem, item]);
+  const isInCart = cartList?.find((things) => things.id === item?.id);
+  const handleSuccess = (res) => {
+    if (res) {
+      let product = {};
+      res?.forEach((item) => {
+        product = {
+          ...item?.item,
+          cartItemId: item?.id,
+          quantity: item?.quantity,
+          totalPrice: item?.price,
+          selectedOption: [],
+        };
+      });
+      reduxDispatch(setCart(product));
+      toast.success(t("Item added to cart"));
+      dispatch({ type: ACTION.setClearCartModal, payload: false });
+    }
+  };
 
   const addToCartHandler = () => {
     const currentModuleType = getCurrentModuleType();
@@ -462,7 +464,7 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
 
     if (cartList.length > 0) {
       const isStoreExist = cartList.find(
-        (item) => item?.store_id === state?.modalData[0]?.store_id
+        (item) => item?.store_id === state?.modalData[0]?.store_id,
       );
 
       if (isStoreExist) {
@@ -605,7 +607,7 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
       isInCart,
       updateQuantity,
       getPriceAfterQuantityChange(isInCart, updateQuantity),
-      getGuestId()
+      getGuestId(),
     );
     if (isExisted) {
       if (getCurrentModuleType() === "food") {
@@ -674,7 +676,7 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
         isInCart,
         updateQuantity,
         getPriceAfterQuantityChange(isInCart, updateQuantity),
-        getGuestId()
+        getGuestId(),
       );
       updateMutate(itemObject, {
         onSuccess: cartUpdateHandleSuccessDecrement,
@@ -688,8 +690,11 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
       <CustomStackFullWidth
         justifyContent="center"
         alignItems="flex-start"
-
-        sx={{ position: "relative", padding: "13px 16px 16px 13px", background:" rgb(255, 243, 224)" }}
+        sx={{
+          position: "relative",
+          padding: "13px 16px 16px 13px",
+          background: " rgb(255, 243, 224)",
+        }}
       >
         {isWishlisted && (
           <Box
@@ -710,7 +715,7 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
             sx={{
               lineHeight: "45px",
               textAlign: lanDirection === "rtl" && "end",
-              color:red,
+              color: red,
               fontSize: { xs: "13px", sm: "inherit" },
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -794,7 +799,11 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
           </Box>
         )}
 
-        <PrimaryToolTip text={displayItem?.name} placement="bottom" arrow="false">
+        <PrimaryToolTip
+          text={displayItem?.name}
+          placement="bottom"
+          arrow="false"
+        >
           <H3 text={displayItem?.name} component="h3" />
         </PrimaryToolTip>
         <CustomBoxFullWidth>
@@ -809,7 +818,10 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
               {displayItem?.generic_name?.[0] || displayItem?.generic_name}
             </Typography>
           ) : (
-            <Body2 text={displayItem?.store_name || displayItem?.store?.name} component="h4" />
+            <Body2
+              text={displayItem?.store_name || displayItem?.store?.name}
+              component="h4"
+            />
           )}
         </CustomBoxFullWidth>
         {displayItem?.unit_type ? (
@@ -830,15 +842,15 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
           </Typography>
         )}
 
-       <CustomStackFullWidth
-  direction="column"
-  spacing={0.5}
-  alignItems="flex-start"
-  sx={{ width: "100%" }}
->
-  <AmountWithDiscountedAmount item={item} />
+        <CustomStackFullWidth
+          direction="column"
+          spacing={0.5}
+          alignItems="flex-start"
+          sx={{ width: "100%" }}
+        >
+          <AmountWithDiscountedAmount item={item} />
 
-  {/* <Button
+          {/* <Button
     variant="outlined"
     color="primary"
     onClick={() => handleAddToCart(item)}
@@ -852,8 +864,7 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
   >
     Add
   </Button> */}
-</CustomStackFullWidth>
-
+        </CustomStackFullWidth>
       </CustomStackFullWidth>
     );
   };
@@ -862,7 +873,10 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
       <CustomStackFullWidth
         justifyContent="center"
         alignItems="flex-start"
-        sx={{ position: "relative", padding: "13px 16px 16px 13px",background:" rgb(255, 243, 224)"
+        sx={{
+          position: "relative",
+          padding: "13px 16px 16px 13px",
+          background: " rgb(255, 243, 224)",
         }}
       >
         {isWishlisted && (
@@ -872,7 +886,7 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
               position: "absolute",
               top: 20,
               right: 10,
-              background:"#FF6600",
+              background: "#FF6600",
             }}
           >
             <FavoriteIcon sx={{ fontSize: "15px" }} />
@@ -886,28 +900,28 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
           spacing={0.8}
         >
           <PrimaryToolTip text={item?.name} placement="bottom" arrow="false">
-        <Typography
-          variant={horizontalcard === "true" ? "subtitle2" : "h6"}
-          marginBottom="4px"
-          sx={{
-            color: (theme) => theme.palette.text.custom,
-            fontSize: { xs: "13px", sm: "inherit" },
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            display: "-webkit-box",
-            WebkitLineClamp: "2",
-            WebkitBoxOrient: "vertical",
-            lineHeight: "1.2", // Adjust this value to control line height
-            mt: "5px",
-            "&:hover": {
-              color: "#FF6600",
-            },
-          }}
-          className="name"
-          component="h3"
-        >
-          {item?.name}
-        </Typography>
+            <Typography
+              variant={horizontalcard === "true" ? "subtitle2" : "h6"}
+              marginBottom="4px"
+              sx={{
+                color: (theme) => theme.palette.text.custom,
+                fontSize: { xs: "13px", sm: "inherit" },
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+                lineHeight: "1.2", // Adjust this value to control line height
+                mt: "5px",
+                "&:hover": {
+                  color: "#FF6600",
+                },
+              }}
+              className="name"
+              component="h3"
+            >
+              {item?.name}
+            </Typography>
           </PrimaryToolTip>
           {configData?.toggle_veg_non_veg ? (
             <FoodVegNonVegFlag veg={item?.veg === 0 ? "false" : "true"} />
@@ -965,185 +979,189 @@ export const CustomCardButton = styled(CustomButtonPrimary)(
   const [addingProductId, setAddingProductId] = useState(null);
   const addCartMutation = useAddCartItem();
 
-// const handleAddToCart = (item) => {
-//   setAddingProductId(item?.id); // Set the ID of the product being added to the cart
-//   const guestId = getGuestId(); // Retrieve the guest ID (likely used for anonymous users)
-//   const itemData = getItemDataForAddToCart(item, 1, item?.price, guestId); // Prepare data for the API call
+  // const handleAddToCart = (item) => {
+  //   setAddingProductId(item?.id); // Set the ID of the product being added to the cart
+  //   const guestId = getGuestId(); // Retrieve the guest ID (likely used for anonymous users)
+  //   const itemData = getItemDataForAddToCart(item, 1, item?.price, guestId); // Prepare data for the API call
 
-//   // Log cartList before optimistic update
-//   console.log('Cart before optimistic update:', cartList);
+  //   // Log cartList before optimistic update
+  //   console.log('Cart before optimistic update:', cartList);
 
-//   // Optimistically update the cart by immediately adding the item to the cart in the UI
-//   const optimisticCart = [
-//     ...cartList, // Assuming cartList is the current state of the cart
-//     { 
-//       ...item, 
-//       cartItemId: item?.id, 
-//       quantity: 1, 
-//       totalPrice: item?.price,
-//       selectedOption: [],
-//     }
-//   ];
-//   console.log('Optimistic Cart:', optimisticCart);
+  //   // Optimistically update the cart by immediately adding the item to the cart in the UI
+  //   const optimisticCart = [
+  //     ...cartList, // Assuming cartList is the current state of the cart
+  //     {
+  //       ...item,
+  //       cartItemId: item?.id,
+  //       quantity: 1,
+  //       totalPrice: item?.price,
+  //       selectedOption: [],
+  //     }
+  //   ];
+  //   console.log('Optimistic Cart:', optimisticCart);
 
-//   dispatch(setCartList(optimisticCart)); // Optimistically update the Redux store
+  //   dispatch(setCartList(optimisticCart)); // Optimistically update the Redux store
 
-//   // Log cartList after dispatching action
-//   console.log('Cart after optimistic update:', optimisticCart);
+  //   // Log cartList after dispatching action
+  //   console.log('Cart after optimistic update:', optimisticCart);
 
-//   // Trigger the API call to add the item to the cart
-//   addCartMutation.mutate(itemData, {
-//     onSuccess: (res) => {
-//       setAddingProductId(null); // Clear the addingProductId once the item has been added
-//       if (res && res.length > 0) {
-//         // Log response from API
-//         console.log('API response for adding to cart:', res);
+  //   // Trigger the API call to add the item to the cart
+  //   addCartMutation.mutate(itemData, {
+  //     onSuccess: (res) => {
+  //       setAddingProductId(null); // Clear the addingProductId once the item has been added
+  //       if (res && res.length > 0) {
+  //         // Log response from API
+  //         console.log('API response for adding to cart:', res);
 
-//         // Update the Redux store with the new cart items
-//         dispatch(
-//           setCartList(
-//             res.map((item) => ({
-//               ...item.item,
-//               cartItemId: item.id,
-//               quantity: item.quantity,
-//               totalPrice: item.price,
-//               selectedOption: [],
-//             }))
-//           )
-//         );
-//         toast.success(`${item.name} added to cart`); // Show success notification
-//       }
-//     },
-//     onError: () => {
-//       setAddingProductId(null); // Clear addingProductId on error
-//       toast.error('Failed to add to cart'); // Show error notification
+  //         // Update the Redux store with the new cart items
+  //         dispatch(
+  //           setCartList(
+  //             res.map((item) => ({
+  //               ...item.item,
+  //               cartItemId: item.id,
+  //               quantity: item.quantity,
+  //               totalPrice: item.price,
+  //               selectedOption: [],
+  //             }))
+  //           )
+  //         );
+  //         toast.success(`${item.name} added to cart`); // Show success notification
+  //       }
+  //     },
+  //     onError: () => {
+  //       setAddingProductId(null); // Clear addingProductId on error
+  //       toast.error('Failed to add to cart'); // Show error notification
 
-//       // Rollback to previous cart state if the mutation fails
-//       dispatch(setCartList(cartList)); // Restore old cart state if error occurs
-//     },
-//   });
-// };
+  //       // Rollback to previous cart state if the mutation fails
+  //       dispatch(setCartList(cartList)); // Restore old cart state if error occurs
+  //     },
+  //   });
+  // };
 
-const handleAddToCart = (item) => {
-  setAddingProductId(item?.id); // Set the ID of the product being added to the cart
-  const guestId = getGuestId(); // Retrieve the guest ID (likely used for anonymous users)
-  const itemData = getItemDataForAddToCart(item, 1, item?.price, guestId); // Prepare data for the API call
+  const handleAddToCart = (item) => {
+    setAddingProductId(item?.id); // Set the ID of the product being added to the cart
+    const guestId = getGuestId(); // Retrieve the guest ID (likely used for anonymous users)
+    const itemData = getItemDataForAddToCart(item, 1, item?.price, guestId); // Prepare data for the API call
 
-  // Log cartList before optimistic update
-  // console.log('Cart before optimistic update:', aliasCartList);
+    // Log cartList before optimistic update
+    // console.log('Cart before optimistic update:', aliasCartList);
 
-  // Optimistically update the cart by immediately adding the item to the cart in the UI
-  const optimisticCart = [
-    ...aliasCartList, // Copy the current cartList state
-    { 
-      ...item, 
-      cartItemId: item?.id, 
-      quantity: 1, 
-      totalPrice: item?.price,
-      selectedOption: [],
-    }
-  ];
-  // console.log('Optimistic Cart:', optimisticCart);
+    // Optimistically update the cart by immediately adding the item to the cart in the UI
+    const optimisticCart = [
+      ...aliasCartList, // Copy the current cartList state
+      {
+        ...item,
+        cartItemId: item?.id,
+        quantity: 1,
+        totalPrice: item?.price,
+        selectedOption: [],
+      },
+    ];
+    // console.log('Optimistic Cart:', optimisticCart);
 
-  // Optimistically update the Redux store
-  dispatch(setCartList(optimisticCart));
+    // Optimistically update the Redux store
+    dispatch(setCartList(optimisticCart));
 
-  // Log cartList after dispatching action
-  // console.log('Cart after optimistic update:', optimisticCart);
+    // Log cartList after dispatching action
+    // console.log('Cart after optimistic update:', optimisticCart);
 
-  // Trigger the API call to add the item to the cart
-  addCartMutation.mutate(itemData, {
-    onSuccess: (res) => {
-      setAddingProductId(null); // Clear the addingProductId once the item has been added
-      if (res && res.length > 0) {
-        // Log response from API
-        // console.log('API response for adding to cart:', res);
+    // Trigger the API call to add the item to the cart
+    addCartMutation.mutate(itemData, {
+      onSuccess: (res) => {
+        setAddingProductId(null); // Clear the addingProductId once the item has been added
+        if (res && res.length > 0) {
+          // Log response from API
+          // console.log('API response for adding to cart:', res);
 
-        // Update the Redux store with the new cart items (from the API response)
-        dispatch(
-          setCartList(
-            res.map((item) => ({
-              ...item.item,
-              cartItemId: item.id,
-              quantity: item.quantity,
-              totalPrice: item.price,
-              selectedOption: [],
-            }))
-          )
-        );
-        toast.success(`${item.name} added to cart`); // Show success notification
-      }
-    },
-    onError: () => {
-      setAddingProductId(null); // Clear addingProductId on error
-      toast.error('Failed to add to cart'); // Show error notification
+          // Update the Redux store with the new cart items (from the API response)
+          dispatch(
+            setCartList(
+              res.map((item) => ({
+                ...item.item,
+                cartItemId: item.id,
+                quantity: item.quantity,
+                totalPrice: item.price,
+                selectedOption: [],
+              })),
+            ),
+          );
+          toast.success(`${item.name} added to cart`); // Show success notification
+        }
+      },
+      onError: () => {
+        setAddingProductId(null); // Clear addingProductId on error
+        toast.error("Failed to add to cart"); // Show error notification
 
-      // Rollback to previous cart state if the mutation fails
-      dispatch(setCartList(aliasCartList)); // Restore old cart state if error occurs
-    },
-  });
-};
-// Define the verticalCardUi function
-const verticalCardUi = () => {
-  return (
-    <CustomStackFullWidth
-      justifyContent="center"
-      alignItems=""
-      spacing={0.6}
-      p={item?.module_type === 'pharmacy' ? '5px 16px 16px 16px' : '1rem'}
-    >
-      {item?.module_type === 'pharmacy' ? (
-        <Typography
-          sx={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: '1',
-            WebkitBoxOrient: 'vertical',
-            width: '100%',
-            paddingTop: '3px',
-            maxWidth: '200px',
-            wordWrap: 'break-word',
-          }}
-          variant="body2"
-          color="#93A2AE"
-          textAlign="center"
-          component="h4"
-        >
-          {item?.generic_name[0]}
-        </Typography>
-      ) : (
-        <Body2 text={item?.store_name} component="h4" />
-      )}
-
-      <PrimaryToolTip text={item?.name} placement="bottom" arrow="false">
-        <Typography
-          className={classes.singleLineEllipsis}
-          fontSize={{ xs: '12px', md: '14px' }}
-          fontWeight="500"
-          component="h3"
-        >
-          {item?.name}
-        </Typography>
-      </PrimaryToolTip>
-
-      <CustomStackFullWidth justifyContent="center" alignItems="" spacing={0.5}>
-        {cardType === 'vertical-type' ? (
-          <Typography>{item?.unit_type}</Typography>
+        // Rollback to previous cart state if the mutation fails
+        dispatch(setCartList(aliasCartList)); // Restore old cart state if error occurs
+      },
+    });
+  };
+  // Define the verticalCardUi function
+  const verticalCardUi = () => {
+    return (
+      <CustomStackFullWidth
+        justifyContent="center"
+        alignItems=""
+        spacing={0.6}
+        p={item?.module_type === "pharmacy" ? "5px 16px 16px 16px" : "1rem"}
+      >
+        {item?.module_type === "pharmacy" ? (
+          <Typography
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "1",
+              WebkitBoxOrient: "vertical",
+              width: "100%",
+              paddingTop: "3px",
+              maxWidth: "200px",
+              wordWrap: "break-word",
+            }}
+            variant="body2"
+            color="#93A2AE"
+            textAlign="center"
+            component="h4"
+          >
+            {item?.generic_name[0]}
+          </Typography>
         ) : (
-          <CustomMultipleRatings rating={4.5} withCount />
+          <Body2 text={item?.store_name} component="h4" />
         )}
 
-        {/* Add button in front of old and new price */}
-      <CustomStackFullWidth
-  direction="column"
-  spacing={0.5}
-  alignItems="flex-start"
-  sx={{ width: "100%" }}
->
-  <AmountWithDiscountedAmount item={item} />
+        <PrimaryToolTip text={item?.name} placement="bottom" arrow="false">
+          <Typography
+            className={classes.singleLineEllipsis}
+            fontSize={{ xs: "12px", md: "14px" }}
+            fontWeight="500"
+            component="h3"
+          >
+            {item?.name}
+          </Typography>
+        </PrimaryToolTip>
 
-  {/* <Button
+        <CustomStackFullWidth
+          justifyContent="center"
+          alignItems=""
+          spacing={0.5}
+        >
+          {cardType === "vertical-type" ? (
+            <Typography>{item?.unit_type}</Typography>
+          ) : (
+            <CustomMultipleRatings rating={4.5} withCount />
+          )}
+
+          {/* Add button in front of old and new price */}
+          <CustomStackFullWidth
+            direction="column"
+            spacing={0.5}
+            alignItems="flex-start"
+            sx={{ width: "100%" }}
+          >
+            <AmountWithDiscountedAmount item={item} />
+
+            {/* <Button
     variant="outlined"
     color="primary"
     onClick={() => handleAddToCart(item)}
@@ -1157,14 +1175,11 @@ const verticalCardUi = () => {
   >
     Add
   </Button> */}
-</CustomStackFullWidth>
-
+          </CustomStackFullWidth>
+        </CustomStackFullWidth>
       </CustomStackFullWidth>
-    </CustomStackFullWidth>
-  );
-};
-
-
+    );
+  };
 
   const verticalCardFlashUi = () => {
     return (

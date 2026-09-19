@@ -25,6 +25,7 @@ const RentalCarSidebarData = ({
   minMax,
   setMinMax,
   setSelectedCategoryIds,
+  selectedCategoryIds,
   setSelectedBrandIds,
   setSelectedSeats,
   setAirCondition,
@@ -53,10 +54,11 @@ const RentalCarSidebarData = ({
   if (vehicles.length > 0) prevVehiclesRef.current = vehicles;
   const prevVehicles = prevVehiclesRef.current;
 
-  const isFirstLoad     = isFetching && prevVehicles.length === 0;
-  const isRefetching    = isFetching && prevVehicles.length > 0;
+  const isFirstLoad = isFetching && prevVehicles.length === 0;
+  const isRefetching = isFetching && prevVehicles.length > 0;
   const displayVehicles = vehicles.length > 0 ? vehicles : prevVehicles;
-  const isEmpty         = !isFetching && vehicles.length === 0 && prevVehicles.length === 0;
+  const isEmpty =
+    !isFetching && vehicles.length === 0 && prevVehicles.length === 0;
 
   // Grid breakpoints — skeleton aur real cards dono ke liye same
   const gridItemProps = {
@@ -75,7 +77,6 @@ const RentalCarSidebarData = ({
           gap: "24px",
         }}
       >
-
         {/* ============================================================
             LEFT SIDEBAR — FIXED 260px
             width + minWidth + flexShrink:0 = kuch bhi ho, yeh nahi dabega
@@ -92,6 +93,7 @@ const RentalCarSidebarData = ({
             minMax={minMax}
             setMinMax={setMinMax}
             setSelectedCategoryIds={setSelectedCategoryIds}
+            selectedCategoryIds={selectedCategoryIds}
             setSelectedBrandIds={setSelectedBrandIds}
             setSelectedSeats={setSelectedSeats}
             setNoAirCondition={setNoAirCondition}
@@ -107,7 +109,6 @@ const RentalCarSidebarData = ({
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Stack sx={{ paddingBottom: "40px", px: 1 }}>
             <Grid container spacing={3}>
-
               {/* --------------------------------------------------
                   CASE 1 — PEHLI BAAR LOAD
                   Skeleton cards dikhao — real card jaisi FIXED height
@@ -119,8 +120,7 @@ const RentalCarSidebarData = ({
                     {/* ✅ Wrapper se skeleton exact real card jaisi height leta hai */}
                     <VehicleCardSkeleton />
                   </Grid>
-                ))
-              }
+                ))}
 
               {/* --------------------------------------------------
                   CASE 2 — FILTER REFETCH (purana data dimmed)
@@ -128,34 +128,32 @@ const RentalCarSidebarData = ({
                   Dono mein same cards, sirf opacity badlti hai
                   Layout kabhi nahi dabega
                   -------------------------------------------------- */}
-              {!isFirstLoad && displayVehicles.map((vehicle) => (
-                <Grid key={vehicle.id} item {...gridItemProps}>
-                  <Box
-                    sx={{
-                      opacity: isRefetching ? 0.4 : 1,
-                      transition: "opacity 0.25s ease",
-                      pointerEvents: isRefetching ? "none" : "auto",
-                    }}
-                  >
-                    <VehicleCard data={vehicle} from={from} />
-                  </Box>
-                </Grid>
-              ))}
+              {!isFirstLoad &&
+                displayVehicles.map((vehicle) => (
+                  <Grid key={vehicle.id} item {...gridItemProps}>
+                    <Box
+                      sx={{
+                        opacity: isRefetching ? 0.4 : 1,
+                        transition: "opacity 0.25s ease",
+                        pointerEvents: isRefetching ? "none" : "auto",
+                      }}
+                    >
+                      <VehicleCard data={vehicle} from={from} />
+                    </Box>
+                  </Grid>
+                ))}
 
-          
               {isEmpty && (
                 <Grid item xs={12}>
                   <EmptySearchResults isRental text="Rental Car Not Found!" />
                 </Grid>
               )}
-
-            </Grid> 
+            </Grid>
           </Stack>
 
           {/* Infinite scroll trigger */}
           <Stack alignItems="center" ref={ref} />
         </Box>
-
       </Box>
     </CustomBoxFullWidth>
   );
