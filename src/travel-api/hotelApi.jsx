@@ -2,7 +2,7 @@
 import Swal from "sweetalert2";
 import { getUserId } from "components/travel-config/userConfig";
 
-export const API_BASE_URL = "https://uat.travelmytrip.com";
+export const API_BASE_URL = "https://travelmytrip.com";
 
 // Yeh existing ENDPOINTS object me add karo:
 export const ENDPOINTS = {
@@ -92,8 +92,8 @@ export async function hotelFetch(
 
   const headers = {
     "Content-Type": "application/json",
-    // "x-api-key": "phbA-DvwrvTf9WD-uvQ_7mVFD0NNMMhEMVkqX9gycws",
-    "x-api-key": "ft4xaqQzYscsEfWAqrl-iLqq67xzrHqGPxVHRXzm_NI",
+    "x-api-key": "phbA-DvwrvTf9WD-uvQ_7mVFD0NNMMhEMVkqX9gycws",
+    // "x-api-key": "ft4xaqQzYscsEfWAqrl-iLqq67xzrHqGPxVHRXzm_NI",
     "x-user-id": userId,
     source: SOURCE_HEADER_VALUE, // 🔥 NAYA — har request ke saath fixed source header
   };
