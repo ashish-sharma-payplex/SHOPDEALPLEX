@@ -30,9 +30,8 @@ import HotelDetailsPage from "components/travel-components/hotels/HotelDetailsPa
 import { useHotelDetails } from "components/travel-hooks/hotels/useHotelDetails";
 import Lottie from "lottie-react";
 
-
-const GREEN = "#16a34a";
-const BORDER = "#e5e7eb";
+const GREEN = "var(--ht-brand)";
+const BORDER = "var(--ht-border)";
 
 const CATEGORIES = [
   {
@@ -71,7 +70,6 @@ function formatDate(date) {
   });
 }
 
-
 // ─── Full-screen Search Loader (Lottie) ───
 const HotelSearchLoader = ({ open }) => {
   if (!open) return null;
@@ -80,7 +78,7 @@ const HotelSearchLoader = ({ open }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        bgcolor: "rgba(255,255,255,0.92)",
+        bgcolor: "var(--ht-surface-glass)",
         zIndex: 2000,
         display: "flex",
         flexDirection: "column",
@@ -94,11 +92,16 @@ const HotelSearchLoader = ({ open }) => {
       </Box>
       <Box sx={{ textAlign: "center" }}>
         <Typography
-          sx={{ fontSize: 18, fontWeight: 700, color: "#111827", mb: 0.5 }}
+          sx={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: "var(--ht-text-strong)",
+            mb: 0.5,
+          }}
         >
           Searching Best Hotels...
         </Typography>
-        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
+        <Typography sx={{ fontSize: 14, color: "var(--ht-text-muted)" }}>
           Checking availability across properties
         </Typography>
       </Box>
@@ -116,8 +119,8 @@ const TopNavbar = () => {
   return (
     <Box
       sx={{
-        bgcolor: "#ffffff",
-        borderBottom: "1px solid #e8e8e8",
+        bgcolor: "var(--ht-surface)",
+        borderBottom: "1px solid var(--ht-border)",
         px: { xs: 2, md: 4 },
         display: "flex",
         alignItems: "center",
@@ -155,7 +158,7 @@ const TopNavbar = () => {
                   cursor: "pointer",
                   borderRadius: "10px",
                   transition: "background 0.15s",
-                  "&:hover": { bgcolor: "#f5f5f5" },
+                  "&:hover": { bgcolor: "var(--ht-surface-muted)" },
                 }}
               >
                 <Box
@@ -171,7 +174,9 @@ const TopNavbar = () => {
                   sx={{
                     fontSize: 13,
                     fontWeight: isActive ? 700 : 500,
-                    color: isActive ? GREEN : "#444",
+                    color: isActive
+                      ? "var(--ht-brand-text)"
+                      : "var(--ht-text-body)",
                     lineHeight: 1,
                     whiteSpace: "nowrap",
                   }}
@@ -190,13 +195,17 @@ const TopNavbar = () => {
           {[
             {
               icon: (
-                <LocalOfferOutlinedIcon sx={{ fontSize: 20, color: "#555" }} />
+                <LocalOfferOutlinedIcon
+                  sx={{ fontSize: 20, color: "var(--ht-text-neutral)" }}
+                />
               ),
               label: "Offers",
             },
             {
               icon: (
-                <HeadsetMicOutlinedIcon sx={{ fontSize: 20, color: "#555" }} />
+                <HeadsetMicOutlinedIcon
+                  sx={{ fontSize: 20, color: "var(--ht-text-neutral)" }}
+                />
               ),
               label: "Support",
             },
@@ -211,11 +220,17 @@ const TopNavbar = () => {
                 py: 0.8,
                 cursor: "pointer",
                 borderRadius: "8px",
-                "&:hover": { bgcolor: "#f5f5f5" },
+                "&:hover": { bgcolor: "var(--ht-surface-muted)" },
               }}
             >
               {item.icon}
-              <Typography sx={{ fontSize: 13, fontWeight: 500, color: "#333" }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "var(--ht-text-strong)",
+                }}
+              >
                 {item.label}
               </Typography>
             </Box>
@@ -229,10 +244,12 @@ const TopNavbar = () => {
               py: 0.8,
               cursor: "pointer",
               borderRadius: "8px",
-              "&:hover": { bgcolor: "#f5f5f5" },
+              "&:hover": { bgcolor: "var(--ht-surface-muted)" },
             }}
           >
-            <LuggageOutlinedIcon sx={{ fontSize: 20, color: "#555" }} />
+            <LuggageOutlinedIcon
+              sx={{ fontSize: 20, color: "var(--ht-text-neutral)" }}
+            />
             <Box>
               <Typography
                 sx={{
@@ -249,7 +266,7 @@ const TopNavbar = () => {
                 sx={{
                   fontSize: 13,
                   fontWeight: 500,
-                  color: "#333",
+                  color: "var(--ht-text-strong)",
                   lineHeight: 1,
                 }}
               >
@@ -271,7 +288,10 @@ const TopNavbar = () => {
               px: 2,
               py: 0.9,
               whiteSpace: "nowrap",
-              "&:hover": { borderColor: "#15803d", bgcolor: "#f0fdf4" },
+              "&:hover": {
+                borderColor: "var(--ht-brand-strong-line)",
+                bgcolor: "var(--ht-success-bg)",
+              },
             }}
           >
             Login / Signup
@@ -279,7 +299,7 @@ const TopNavbar = () => {
         </Box>
       )}
       {isMobile && (
-        <IconButton sx={{ color: "#333", ml: "auto" }}>
+        <IconButton sx={{ color: "var(--ht-text-strong)", ml: "auto" }}>
           <MenuIcon />
         </IconButton>
       )}
@@ -431,7 +451,9 @@ const DetailsSearchBar = ({
       id: "location",
       label: "Location",
       value: selectedCity.name,
-      icon: <LocationOnIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <LocationOnIcon sx={{ color: "var(--ht-brand-text)", fontSize: 19 }} />
+      ),
       ref: locationRef,
       onClick: () => setLocationOpen((o) => !o),
     },
@@ -439,7 +461,11 @@ const DetailsSearchBar = ({
       id: "checkin",
       label: "Check In",
       value: checkIn ? formatDate(checkIn) : "Select date",
-      icon: <CalendarTodayIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <CalendarTodayIcon
+          sx={{ color: "var(--ht-brand-text)", fontSize: 19 }}
+        />
+      ),
       ref: checkinRef,
       onClick: () => openCalendar("checkin"),
     },
@@ -447,7 +473,11 @@ const DetailsSearchBar = ({
       id: "checkout",
       label: "Check Out",
       value: checkOut ? formatDate(checkOut) : "Select date",
-      icon: <CalendarTodayIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <CalendarTodayIcon
+          sx={{ color: "var(--ht-brand-text)", fontSize: 19 }}
+        />
+      ),
       ref: checkoutRef,
       onClick: () => openCalendar("checkout"),
     },
@@ -455,7 +485,9 @@ const DetailsSearchBar = ({
       id: "guests",
       label: "Rooms & Guests",
       value: guestsLabel,
-      icon: <PeopleAltIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <PeopleAltIcon sx={{ color: "var(--ht-brand-text)", fontSize: 19 }} />
+      ),
       ref: guestsRef,
       onClick: () => setGuestsOpen((o) => !o),
     },
@@ -463,33 +495,32 @@ const DetailsSearchBar = ({
 
   return (
     <>
-
-        <HotelSearchLoader open={hotelLoading} />
+      <HotelSearchLoader open={hotelLoading} />
 
       {/* placeholder — original position record karne ke liye */}
       <Box ref={placeholderRef} sx={{ height: 0 }} />
 
-     <Box
-  ref={headerBoxRef}
-  sx={{
-    ...(isFixed
-      ? {
-          position: "fixed",
-          top: 60,          // hamesha 60px se fix hoga scroll pe
-          left: 0,
-          right: 0,
-        }
-      : {
-          position: "relative",
-        }),
-    zIndex: 1100,
-    bgcolor: "#fff",
-    px: { xs: 2, md: 4 },
-    py: { xs: 1.5, md: 2 },
-    mt: isFixed ? 0 : "60px",   // consistent top offset both states
-    transition: "box-shadow 0.15s",
-  }}
->
+      <Box
+        ref={headerBoxRef}
+        sx={{
+          ...(isFixed
+            ? {
+                position: "fixed",
+                top: 60, // hamesha 60px se fix hoga scroll pe
+                left: 0,
+                right: 0,
+              }
+            : {
+                position: "relative",
+              }),
+          zIndex: 1100,
+          bgcolor: "var(--ht-surface)",
+          px: { xs: 2, md: 4 },
+          py: { xs: 1.5, md: 2 },
+          mt: isFixed ? 0 : "60px", // consistent top offset both states
+          transition: "box-shadow 0.15s",
+        }}
+      >
         <Paper
           elevation={0}
           sx={{
@@ -497,6 +528,8 @@ const DetailsSearchBar = ({
             maxWidth: 1100,
             mx: "auto",
             overflow: "visible",
+            bgcolor: "var(--ht-surface)",
+            backgroundImage: "none",
           }}
         >
           <Box
@@ -541,7 +574,9 @@ const DetailsSearchBar = ({
                     gap: "5px",
                     minWidth: 0,
                     transition: "background 0.15s",
-                    bgcolor: isActive ? "#f0fdf4" : "transparent",
+                    bgcolor: isActive
+                      ? "var(--ht-brand-soft-bg)"
+                      : "transparent",
                     borderRadius: isActive
                       ? index === 0
                         ? "11px 0 0 11px"
@@ -549,14 +584,16 @@ const DetailsSearchBar = ({
                         ? "0 11px 11px 0"
                         : "0"
                       : "0",
-                    "&:hover": { background: "#f9fafb" },
+                    "&:hover": { background: "var(--ht-surface-subtle)" },
                   }}
                 >
                   <Typography
                     sx={{
                       fontSize: "0.68rem",
                       fontWeight: 600,
-                      color: isActive ? GREEN : "#6b7280",
+                      color: isActive
+                        ? "var(--ht-brand-text)"
+                        : "var(--ht-text-muted)",
                       letterSpacing: "0.15px",
                     }}
                   >
@@ -573,8 +610,8 @@ const DetailsSearchBar = ({
                         color:
                           field.value === "Select date" ||
                           field.value === "Select Location"
-                            ? "#9ca3af"
-                            : "#111827",
+                            ? "var(--ht-text-faint)"
+                            : "var(--ht-text-strong)",
                         flex: 1,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
@@ -585,7 +622,9 @@ const DetailsSearchBar = ({
                     </Typography>
                     <KeyboardArrowDownIcon
                       sx={{
-                        color: isActive ? GREEN : "#6b7280",
+                        color: isActive
+                          ? "var(--ht-brand-text)"
+                          : "var(--ht-text-muted)",
                         fontSize: 18,
                         flexShrink: 0,
                         transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
@@ -602,7 +641,7 @@ const DetailsSearchBar = ({
                 alignItems: "center",
                 px: { xs: 1.5, md: 1.2 },
                 py: { xs: 1.2, md: 1 },
-                bgcolor: "#fff",
+                bgcolor: "var(--ht-surface)",
                 flexShrink: 0,
                 borderRadius: "0 11px 11px 0",
               }}
@@ -613,7 +652,7 @@ const DetailsSearchBar = ({
                 startIcon={<SearchIcon sx={{ fontSize: "19px !important" }} />}
                 sx={{
                   background: GREEN,
-                  color: "#fff",
+                  color: "var(--ht-text-on-brand)",
                   fontWeight: 700,
                   fontSize: "0.95rem",
                   textTransform: "none",
@@ -622,9 +661,12 @@ const DetailsSearchBar = ({
                   py: 1.4,
                   width: { xs: "100%", md: "auto" },
                   minWidth: { xs: 0, md: 155 },
-                  "&:hover": { background: "#15803d" },
+                  "&:hover": { background: "var(--ht-brand-hover)" },
                   "&:active": { transform: "scale(0.97)" },
-                  "&.Mui-disabled": { background: "#86efac", color: "#fff" },
+                  "&.Mui-disabled": {
+                    background: "var(--ht-success-border)",
+                    color: "var(--ht-text-on-brand)",
+                  },
                   transition: "background 0.2s, transform 0.1s",
                 }}
               >
@@ -722,11 +764,16 @@ const HotelDetailsPageWrapper = ({ scrolled }) => {
       <Box sx={{ textAlign: "center", py: 10 }}>
         <Typography sx={{ fontSize: 40, mb: 2 }}>🏨</Typography>
         <Typography
-          sx={{ fontSize: 18, fontWeight: 600, color: "#374151", mb: 1 }}
+          sx={{
+            fontSize: 18,
+            fontWeight: 600,
+            color: "var(--ht-text-body)",
+            mb: 1,
+          }}
         >
           Hotel not found
         </Typography>
-        <Typography sx={{ fontSize: 14, color: "#9ca3af", mb: 3 }}>
+        <Typography sx={{ fontSize: 14, color: "var(--ht-text-faint)", mb: 3 }}>
           Please search and select a hotel
         </Typography>
         <Button
@@ -736,13 +783,13 @@ const HotelDetailsPageWrapper = ({ scrolled }) => {
           disableElevation
           sx={{
             bgcolor: GREEN,
-            color: "#fff",
+            color: "var(--ht-text-on-brand)",
             fontWeight: 600,
             textTransform: "none",
             borderRadius: "8px",
             px: 3,
             py: 1.2,
-            "&:hover": { bgcolor: "#15803d" },
+            "&:hover": { bgcolor: "var(--ht-brand-hover)" },
           }}
         >
           Back to Search
@@ -758,14 +805,20 @@ const HotelDetailsPageWrapper = ({ scrolled }) => {
         toastOptions={{
           style: {
             borderRadius: "12px",
-            background: "#1f2937",
-            color: "#fff",
+            background: "var(--ht-toast-bg)",
+            color: "var(--ht-text-on-brand)",
             fontSize: "14px",
             padding: "12px 18px",
           },
-          success: { style: { background: "#166534", color: "#fff" } },
-          error: { style: { background: "#991b1b", color: "#fff" } },
-          loading: { style: { background: "#166534", color: "#fff" } },
+          success: {
+            style: { background: "#166534", color: "var(--ht-text-on-brand)" },
+          },
+          error: {
+            style: { background: "#991b1b", color: "var(--ht-text-on-brand)" },
+          },
+          loading: {
+            style: { background: "#166534", color: "var(--ht-text-on-brand)" },
+          },
         }}
       />
 

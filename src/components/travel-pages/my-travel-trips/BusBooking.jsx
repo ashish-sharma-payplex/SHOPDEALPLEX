@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Skeleton } from "@mui/material";
 import Swal from "sweetalert2";
-import { getBusBookingList, getBusBookingDetails, cancelBusBooking } from "travel-api/busApi";
+import {
+  getBusBookingList,
+  getBusBookingDetails,
+  cancelBusBooking,
+} from "travel-api/busApi";
 import BusBookingCard from "./BusBookingCard";
 import BusBookingDetailsDialog from "./BusBookingDialog";
 
@@ -41,7 +45,10 @@ const BusBooking = () => {
     setDetailsLoading(true);
     setBookingDetails(null);
     try {
-      const response = await getBusBookingDetails(booking?.trace_id, booking?.bus_id);
+      const response = await getBusBookingDetails(
+        booking?.trace_id,
+        booking?.bus_id,
+      );
       setBookingDetails(response);
     } catch (error) {
       // console.log("Bus Booking Details Error :", error);
@@ -91,7 +98,9 @@ const BusBooking = () => {
       Swal.fire({
         icon: "success",
         title: "Booking Cancelled",
-        text: response?.message || "Your bus booking has been cancelled successfully.",
+        text:
+          response?.message ||
+          "Your bus booking has been cancelled successfully.",
         confirmButtonText: "OK",
       });
 
@@ -146,7 +155,11 @@ const BusBooking = () => {
           }}
         >
           {busBookings.map((booking) => (
-            <BusBookingCard key={booking.id} booking={booking} onClick={handleCardClick} />
+            <BusBookingCard
+              key={booking.id}
+              booking={booking}
+              onClick={handleCardClick}
+            />
           ))}
         </Box>
       ) : (
@@ -180,7 +193,7 @@ const BusBooking = () => {
               lineHeight: "24px",
               letterSpacing: 0,
               textAlign: "center",
-              color: "#4B5563",
+              color: "var(--bs-text-muted)",
               mx: "auto",
             }}
           >

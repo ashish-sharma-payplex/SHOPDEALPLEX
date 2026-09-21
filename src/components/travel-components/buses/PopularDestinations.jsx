@@ -21,18 +21,58 @@ const CONTENT_MAX_WIDTH = 1280;
 
 // Images from public folder
 const routes = [
-  { city: "Bengaluru", to: "Hyderabad, Mumbai, Goa, Chennai, Pune", img: "/bengaluru.svg" },
-  { city: "Hyderabad", to: "Bengaluru, Mumbai, Goa, Chennai, Pune", img: "/hyderabad.svg" },
-  { city: "Pune", to: "Mumbai, Bengaluru, Goa, Indore, Hyderabad", img: "/pune.svg" },
-  { city: "Chennai", to: "Bengaluru, Coimbatore, Hyderabad, Madurai", img: "/chennai.svg" },
-  { city: "Delhi", to: "Manali, Jaipur, Amritsar, Lucknow, Shimla", img: "/delhi.svg" },
+  {
+    city: "Bengaluru",
+    to: "Hyderabad, Mumbai, Goa, Chennai, Pune",
+    img: "/bengaluru.svg",
+  },
+  {
+    city: "Hyderabad",
+    to: "Bengaluru, Mumbai, Goa, Chennai, Pune",
+    img: "/hyderabad.svg",
+  },
+  {
+    city: "Pune",
+    to: "Mumbai, Bengaluru, Goa, Indore, Hyderabad",
+    img: "/pune.svg",
+  },
+  {
+    city: "Chennai",
+    to: "Bengaluru, Coimbatore, Hyderabad, Madurai",
+    img: "/chennai.svg",
+  },
+  {
+    city: "Delhi",
+    to: "Manali, Jaipur, Amritsar, Lucknow, Shimla",
+    img: "/delhi.svg",
+  },
   { city: "Mumbai", to: "Bengaluru, Goa, Hyderabad", img: "/mumbai.svg" },
   { city: "Jaipur", to: "Delhi, Luknow, Jodhpur", img: "/jaipur.svg" },
-  { city: "Goa", to: "Hyderabad, Bengaluru, Pune, Mumbai, Kolhapur", img: "/goa.svg" },
-  { city: "Ahmedabad", to: "Porbandar, Jamnagar, Udaipur, Indore, Rajkot", img: "/ahmedabad.svg" },
-  { city: "Coimbatore", to: "Chennai, Bengaluru, Hyderabad, Sivakasi", img: "/coimbatore.svg" },
-  { city: "Indore", to: "Mumbai, Pune, Nagpur, Ahmedabad, Ahmednagar", img: "/indore.svg" },
-  { city: "Nagpur", to: "Mumbai, Bengaluru, Goa, Indore, Hyderabad", img: "/nagpur.svg" },
+  {
+    city: "Goa",
+    to: "Hyderabad, Bengaluru, Pune, Mumbai, Kolhapur",
+    img: "/goa.svg",
+  },
+  {
+    city: "Ahmedabad",
+    to: "Porbandar, Jamnagar, Udaipur, Indore, Rajkot",
+    img: "/ahmedabad.svg",
+  },
+  {
+    city: "Coimbatore",
+    to: "Chennai, Bengaluru, Hyderabad, Sivakasi",
+    img: "/coimbatore.svg",
+  },
+  {
+    city: "Indore",
+    to: "Mumbai, Pune, Nagpur, Ahmedabad, Ahmednagar",
+    img: "/indore.svg",
+  },
+  {
+    city: "Nagpur",
+    to: "Mumbai, Bengaluru, Goa, Indore, Hyderabad",
+    img: "/nagpur.svg",
+  },
 ];
 
 // ─── Agar "popular routes" wala naam aur bus-API wala naam alag ho, yahan alias daalo
@@ -56,14 +96,18 @@ async function fetchBusCityByName(cityName) {
     const results = data?.data?.results ?? data?.results ?? [];
     const target = searchTerm.trim().toLowerCase();
     const match =
-      results.find((c) => (c.CityName || "").toLowerCase().startsWith(target)) ||
-      results[0];
+      results.find((c) =>
+        (c.CityName || "").toLowerCase().startsWith(target),
+      ) || results[0];
 
     if (!match) return null;
 
     return { id: match.CityId, name: match.CityName };
   } catch (err) {
-    console.error(`Bus city search failed for "${cityName}" (query: "${searchTerm}"):`, err);
+    console.error(
+      `Bus city search failed for "${cityName}" (query: "${searchTerm}"):`,
+      err,
+    );
     return null;
   }
 }
@@ -107,14 +151,25 @@ const PopularDestinations = () => {
           wrapper diya hai — ab dono EXACT SAME width pe cap honge aur
           EXACT SAME jagah center honge, chahe screen kitni bhi wide ho. */}
       <Box sx={{ maxWidth: CONTENT_MAX_WIDTH, mx: "auto" }}>
-        <Typography sx={{ fontSize: { xs: 20, sm: 22, md: 24 }, fontWeight: 600, mb: 3, fontFamily: "Inter, sans-serif" }}>
+        <Typography
+          sx={{
+            fontSize: { xs: 20, sm: 22, md: 24 },
+            fontWeight: 600,
+            mb: 3,
+            fontFamily: "Inter, sans-serif",
+          }}
+        >
           Popular Routes🔥
         </Typography>
 
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+            },
             gap: { xs: 2, sm: 3, md: 4 },
           }}
         >
@@ -134,11 +189,23 @@ const PopularDestinations = () => {
                   component="img"
                   src={route.img}
                   alt={route.city}
-                  sx={{ width: 70, height: 70, borderRadius: 2, objectFit: "cover" }}
+                  sx={{
+                    width: 70,
+                    height: 70,
+                    borderRadius: 2,
+                    objectFit: "cover",
+                  }}
                 />
                 <Box>
                   {/* Main city — clickable NAHI, sirf display text */}
-                  <Typography sx={{ fontSize: { xs: 16, sm: 18, md: 20 }, fontWeight: 500, fontFamily: "Inter, sans-serif", lineHeight: "28px" }}>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: 16, sm: 18, md: 20 },
+                      fontWeight: 500,
+                      fontFamily: "Inter, sans-serif",
+                      lineHeight: "28px",
+                    }}
+                  >
                     {route.city}
                   </Typography>
                   <Typography
@@ -148,7 +215,7 @@ const PopularDestinations = () => {
                       fontWeight: 400,
                       fontFamily: "Inter, sans-serif",
                       lineHeight: "19px",
-                      color: "#5E5E5E",
+                      color: "var(--bs-text-neutral)",
                     }}
                   >
                     <Box component="span">To: </Box>
@@ -161,9 +228,18 @@ const PopularDestinations = () => {
                           component="span"
                           onClick={() => handleRouteClick(route.city, toCity)}
                           sx={{
-                            cursor: loadingRoute ? (isLoading ? "wait" : "default") : "pointer",
+                            cursor: loadingRoute
+                              ? isLoading
+                                ? "wait"
+                                : "default"
+                              : "pointer",
                             opacity: loadingRoute && !isLoading ? 0.5 : 1,
-                            "&:hover": !loadingRoute ? { color: "#2e7d32", textDecoration: "underline" } : {},
+                            "&:hover": !loadingRoute
+                              ? {
+                                  color: "var(--bs-brand-strong-text)",
+                                  textDecoration: "underline",
+                                }
+                              : {},
                           }}
                         >
                           {isLoading ? "Loading..." : toCity}

@@ -7,7 +7,7 @@ import QRPaymentPage from "components/travel-components/buses/BusPaymentQRModal"
 import { useBusPayment } from "components/travel-hooks/bus/useBusPayment";
 import { useBusBook } from "components/travel-hooks/bus/useBusBook";
 
-const GREEN = "#16a34a";
+const GREEN = "var(--bs-brand)";
 
 const BusPaymentPage = () => {
   const navigate = useNavigate();
@@ -120,7 +120,10 @@ const BusPaymentPage = () => {
         Swal.fire({
           icon: "error",
           title: "Payment Init Failed",
-          text: res?.error?.message || res?.message || "Could not initiate payment.",
+          text:
+            res?.error?.message ||
+            res?.message ||
+            "Could not initiate payment.",
           confirmButtonColor: GREEN,
         });
       }

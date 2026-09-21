@@ -148,8 +148,8 @@ const StickyNavbar = ({
           left: 0,
           right: 0,
           zIndex: 1150,
-          bgcolor: "#ffffff",
-          borderBottom: "1px solid #e0e0e0",
+          bgcolor: "var(--fl-surface)",
+          borderBottom: "1px solid var(--fl-border)",
           // boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
         }}
       >
@@ -204,7 +204,7 @@ const StickyNavbar = ({
                       cursor: "pointer",
                       borderRadius: "8px",
                       transition: "background 0.15s",
-                      "&:hover": { bgcolor: "#f5f5f5" },
+                      "&:hover": { bgcolor: "var(--fl-surface-muted)" },
                     }}
                   >
                     <Box
@@ -220,7 +220,7 @@ const StickyNavbar = ({
                       sx={{
                         fontSize: 13,
                         fontWeight: isActive ? 700 : 500,
-                        color: isActive ? GREEN : "#444",
+                        color: isActive ? GREEN : "var(--fl-text-body)",
                         whiteSpace: "nowrap",
                       }}
                     >
@@ -254,15 +254,17 @@ const StickyNavbar = ({
                     cursor: "pointer",
                     borderRadius: "8px",
                     transition: "background 0.15s",
-                    "&:hover": { bgcolor: "#f5f5f5" },
+                    "&:hover": { bgcolor: "var(--fl-surface-muted)" },
                   }}
                 >
-                  <Box sx={{ color: "#555" }}>{item.icon}</Box>
+                  <Box sx={{ color: "var(--fl-text-neutral)" }}>
+                    {item.icon}
+                  </Box>
                   <Typography
                     sx={{
                       fontSize: 13,
                       fontWeight: 500,
-                      color: "#333",
+                      color: "var(--fl-text-body)",
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -289,8 +291,8 @@ const StickyNavbar = ({
                       py: 0.7,
                       whiteSpace: "nowrap",
                       "&:hover": {
-                        borderColor: "#15803d",
-                        bgcolor: "#f0fdf4",
+                        borderColor: "var(--fl-brand-strong-line)",
+                        bgcolor: "var(--fl-success-bg)",
                       },
                     }}
                   >
@@ -308,7 +310,7 @@ const StickyNavbar = ({
                       px: 1,
                       py: 0.5,
                       borderRadius: "8px",
-                      "&:hover": { bgcolor: "#f5f5f5" },
+                      "&:hover": { bgcolor: "var(--fl-surface-muted)" },
                     }}
                   >
                     <Avatar size={26} fontSize={12} />
@@ -316,7 +318,7 @@ const StickyNavbar = ({
                       sx={{
                         fontSize: 13,
                         fontWeight: 600,
-                        color: "#333",
+                        color: "var(--fl-text-body)",
                         whiteSpace: "nowrap",
                       }}
                     >
@@ -330,7 +332,7 @@ const StickyNavbar = ({
           {isMobile && (
             <IconButton
               onClick={() => setDrawer(true)}
-              sx={{ color: "#333" }}
+              sx={{ color: "var(--fl-text-body)" }}
               aria-label="Open menu"
             >
               <MenuIcon />
@@ -369,7 +371,9 @@ const StickyNavbar = ({
                       }}
                       sx={{
                         gap: 1.5,
-                        bgcolor: isActive ? "#f0fdf4" : "transparent",
+                        bgcolor: isActive
+                          ? "var(--fl-success-bg)"
+                          : "transparent",
                       }}
                     >
                       <Box
@@ -386,7 +390,7 @@ const StickyNavbar = ({
                         primaryTypographyProps={{
                           fontSize: 14,
                           fontWeight: isActive ? 700 : 500,
-                          color: isActive ? GREEN : "#333",
+                          color: isActive ? GREEN : "var(--fl-text-body)",
                         }}
                       />
                     </ListItemButton>
@@ -408,13 +412,15 @@ const StickyNavbar = ({
                   }}
                   sx={{ gap: 1.5 }}
                 >
-                  <Box sx={{ color: "#555" }}>{item.icon}</Box>
+                  <Box sx={{ color: "var(--fl-text-neutral)" }}>
+                    {item.icon}
+                  </Box>
                   <ListItemText
                     primary={item.label}
                     primaryTypographyProps={{
                       fontSize: 14,
                       fontWeight: 500,
-                      color: "#333",
+                      color: "var(--fl-text-body)",
                     }}
                   />
                 </ListItemButton>
@@ -442,8 +448,8 @@ const StickyNavbar = ({
                     fontWeight: 600,
                     textTransform: "none",
                     "&:hover": {
-                      borderColor: "#15803d",
-                      bgcolor: "#f0fdf4",
+                      borderColor: "var(--fl-brand-strong-line)",
+                      bgcolor: "var(--fl-success-bg)",
                     },
                   }}
                 >
@@ -460,13 +466,19 @@ const StickyNavbar = ({
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Avatar size={32} fontSize={13} />
                     <Typography
-                      sx={{ fontSize: 14, fontWeight: 600, color: "#333" }}
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 600,
+                        color: "var(--fl-text-body)",
+                      }}
                     >
                       {userName || "Account"}
                     </Typography>
                   </Box>
                   <IconButton onClick={handleLogout} title="Logout">
-                    <LogoutOutlinedIcon sx={{ fontSize: 20, color: "#888" }} />
+                    <LogoutOutlinedIcon
+                      sx={{ fontSize: 20, color: "var(--fl-text-soft)" }}
+                    />
                   </IconButton>
                 </Box>
               )}

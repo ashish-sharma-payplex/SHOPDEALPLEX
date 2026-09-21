@@ -1,0 +1,372 @@
+/* =========================================================================
+   bus.module.css
+   Light / dark colour tokens (--bs-*) for the Travel -> Bus module.
+   ========================================================================= */
+
+/* --------------------------- LIGHT (original colours) -------------------- */
+.busThemeVars {
+  color-scheme: light;
+
+  /* ---------- Surfaces ---------- */
+  --bs-page: #f5f7fa;
+  --bs-page-blue: #f0f4fa;
+  --bs-page-slate: #f1f5f9;
+  --bs-page-subtle: #f9fafb;
+  --bs-surface: #ffffff;
+  --bs-surface-subtle: #f9fafb;
+  --bs-surface-muted: #f3f4f6;
+  --bs-surface-strong: #d1d5db;
+  --bs-surface-glass: rgba(255, 255, 255, 0.92);
+  --bs-surface-glass-hover: rgba(255, 255, 255, 0.6);
+  --bs-shimmer: rgba(255, 255, 255, 0.7);
+  --bs-overlay: rgba(0, 0, 0, 0.5);
+  --bs-toast-bg: #111827;
+  --bs-logo-bg: #ffffff; /* operator-logo tiles stay white in both modes */
+  --bs-image-bg: #f3f4f6; /* placeholder behind bus / operator photos */
+  --bs-route-bg-opacity: 0.18; /* decorative art behind My-Trips bus cards */
+  --bs-footer-bg: #f8f8f8;
+  --bs-sticky-bg: #ffffff; /* solid strip behind the fixed search header */
+  --bs-swap-ring: #ffffff; /* ring around the From <-> To swap button */
+  --bs-scrollbar: #d1d5db;
+
+  /* ---------- Form fields (passenger form etc.) ---------- */
+  --bs-input-bg: #ffffff;
+  --bs-input-border: #e5e7eb;
+
+  /* ---------- Neutral / disabled buttons ---------- */
+  --bs-btn-neutral: #374151; /* e.g. "Hide seats" */
+  --bs-btn-disabled-bg: #e5e7eb;
+  --bs-btn-disabled-text: #9ca3af;
+
+  /* ---------- Borders ---------- */
+  --bs-border: #e5e7eb;
+  --bs-border-soft: #f3f4f6;
+  --bs-border-strong: #d1d5db;
+
+  /* ---------- Text ---------- */
+  --bs-text-strong: #111827;
+  --bs-text-body: #374151;
+  --bs-text-neutral: #555555;
+  --bs-text-muted: #6b7280;
+  --bs-text-soft: #888888;
+  --bs-text-faint: #9ca3af;
+  --bs-text-disabled: #d1d5db;
+  --bs-text-on-brand: #ffffff; /* text sitting on a filled green button */
+
+  /* ---------- Brand green ---------- */
+  --bs-brand: #16a34a;
+  --bs-brand2: #1a914b;
+  --bs-brand-hover: #15803d;
+  --bs-brand-text: #16a34a;
+  --bs-brand2-text: #1a914b;
+  --bs-brand-strong-text: #15803d;
+  --bs-brand-line: #16a34a;
+  --bs-brand2-line: #1a914b;
+  --bs-brand-strong-line: #15803d;
+  --bs-brand-soft-bg: #f0fdf4;
+
+  /* ---------- Navy / blue accent ---------- */
+  --bs-navy: #16305a;
+  --bs-navy-hover: #0f2340;
+  --bs-navy-text: #16305a;
+  --bs-blue-accent: #2563eb;
+  --bs-blue-accent-bg: #eef2ff;
+
+  /* ---------- Rating / star gold (bus operator ratings) ---------- */
+  --bs-star: #f5a623;
+  --bs-star-empty: #d1d5db;
+  --bs-rating-bg: #f0fdf4;
+  --bs-rating-text: #15803d;
+
+  /* ---------- Success ---------- */
+  --bs-success-bg: #f0fdf4;
+  --bs-success-bg-strong: #dcfce7;
+  --bs-success-border: #bbf7d0;
+  --bs-success-text: #166534;
+
+  /* ---------- Danger ---------- */
+  --bs-danger-text: #dc2626;
+  --bs-danger-strong-text: #991b1b;
+  --bs-danger-line: #dc2626;
+  --bs-danger-bg: #fef2f2;
+  --bs-danger-bg-strong: #fee2e2;
+  --bs-danger-border: #fecaca;
+
+  /* ---------- Info (blue) ---------- */
+  --bs-info-text: #1d4ed8;
+  --bs-info-bg: #eff6ff;
+  --bs-info-bg-strong: #dbeafe;
+  --bs-info-border: #bfdbfe;
+
+  /* ---------- Warning (amber) ---------- */
+  --bs-warn-text: #92400e;
+  --bs-warn-strong-text: #d97706;
+  --bs-warn-bg: #fef3c7;
+  --bs-warn-bg-soft: #fffbeb;
+  --bs-warn-border: #fde68a;
+
+
+  /* ---------- Seat map (BusSeatSelection) ---------- */
+  --bs-seat-available-bg: #ffffff;
+  --bs-seat-available-border: #d1d5db;
+  --bs-seat-available-text: #374151;
+  --bs-seat-selected-bg: #16a34a;
+  --bs-seat-selected-border: #15803d;
+  --bs-seat-selected-text: #ffffff;
+  --bs-seat-booked-bg: #f3f4f6;
+  --bs-seat-booked-border: #e5e7eb;
+  --bs-seat-booked-text: #9ca3af;
+  --bs-seat-ladies-bg: #fdf2f8;
+  --bs-seat-ladies-border: #f9a8d4;
+  --bs-seat-ladies-text: #be185d;
+  --bs-deck-bg: #f9fafb;
+  --bs-deck-border: #e5e7eb;
+
+  /* ---------- Teal (lower-deck seat chip) ---------- */
+  --bs-teal-text: #0f766e;
+  --bs-teal-bg: #f0fdfa;
+  --bs-teal-border: #99f6e4;
+
+  /* ---------- Purple ---------- */
+  --bs-purple-text: #6d28d9;
+  --bs-purple-bg: #ede9fe;
+  --bs-purple-border: #c084fc;
+}
+
+/* ------------------------------- DARK ------------------------------------ */
+:global([data-theme="dark"]) .busThemeVars {
+  color-scheme: dark;
+
+  /* ---------- Surfaces ---------- */
+  --bs-page: #131313; /* = MUI dark theme background.default */
+  --bs-page-blue: #131313;
+  --bs-page-slate: #131313;
+  --bs-page-subtle: #131313;
+  --bs-surface: #1a1a1a;
+  --bs-surface-subtle: #202020;
+  --bs-surface-muted: #2a2a2a;
+  --bs-surface-strong: #3f3f46;
+  --bs-surface-glass: rgba(26, 26, 26, 0.92);
+  --bs-surface-glass-hover: rgba(255, 255, 255, 0.08);
+  --bs-shimmer: rgba(255, 255, 255, 0.08);
+  --bs-overlay: rgba(0, 0, 0, 0.7);
+  --bs-toast-bg: #2b3040;
+  --bs-logo-bg: #ffffff;
+  --bs-image-bg: #202020;
+  --bs-route-bg-opacity: 0.07;
+  --bs-footer-bg: #131313;
+  --bs-sticky-bg: #131313;
+  --bs-swap-ring: #131313;
+  --bs-scrollbar: #3f3f46;
+
+  /* ---------- Form fields ---------- */
+  --bs-input-bg: #202020;
+  --bs-input-border: #3f3f46;
+
+  /* ---------- Neutral / disabled buttons ---------- */
+  --bs-btn-neutral: #52525b;
+  --bs-btn-disabled-bg: #2a2a2a;
+  --bs-btn-disabled-text: #6b7280;
+
+  /* ---------- Borders ---------- */
+  --bs-border: #2e2e2e;
+  --bs-border-soft: #262626;
+  --bs-border-strong: #3f3f46;
+
+  /* ---------- Text ---------- */
+  --bs-text-strong: #f3f4f6;
+  --bs-text-body: #d1d5db;
+  --bs-text-neutral: #b4b9c2;
+  --bs-text-muted: #9ca3af;
+  --bs-text-soft: #8b929e;
+  --bs-text-faint: #7b8494;
+  --bs-text-disabled: #4b5563;
+  --bs-text-on-brand: #ffffff;
+
+  /* ---------- Brand green ----------
+     Button backgrounds keep the same green so white label text stays readable.
+     Text / outlines move to a lighter green so they stay visible on dark. */
+  --bs-brand: #16a34a;
+  --bs-brand2: #1a914b;
+  --bs-brand-hover: #15803d;
+  --bs-brand-text: #22c55e;
+  --bs-brand2-text: #22c55e;
+  --bs-brand-strong-text: #4ade80;
+  --bs-brand-line: #22c55e;
+  --bs-brand2-line: #22c55e;
+  --bs-brand-strong-line: #15803d;
+  --bs-brand-soft-bg: rgba(34, 197, 94, 0.12);
+
+  /* ---------- Navy / blue accent ---------- */
+  --bs-navy: #234a86;
+  --bs-navy-hover: #2c5a9e;
+  --bs-navy-text: #93c5fd;
+  --bs-blue-accent: #60a5fa;
+  --bs-blue-accent-bg: rgba(99, 102, 241, 0.16);
+
+  /* ---------- Rating / star gold ---------- */
+  --bs-star: #fbbf24;
+  --bs-star-empty: #4b5563;
+  --bs-rating-bg: rgba(34, 197, 94, 0.14);
+  --bs-rating-text: #4ade80;
+
+  /* ---------- Success ---------- */
+  --bs-success-bg: rgba(34, 197, 94, 0.12);
+  --bs-success-bg-strong: rgba(34, 197, 94, 0.22);
+  --bs-success-border: rgba(34, 197, 94, 0.4);
+  --bs-success-text: #4ade80;
+
+  /* ---------- Danger ---------- */
+  --bs-danger-text: #f87171;
+  --bs-danger-strong-text: #fca5a5;
+  --bs-danger-line: #f87171;
+  --bs-danger-bg: rgba(248, 113, 113, 0.12);
+  --bs-danger-bg-strong: rgba(248, 113, 113, 0.2);
+  --bs-danger-border: rgba(248, 113, 113, 0.4);
+
+  /* ---------- Info (blue) ---------- */
+  --bs-info-text: #93c5fd;
+  --bs-info-bg: rgba(59, 130, 246, 0.14);
+  --bs-info-bg-strong: rgba(59, 130, 246, 0.24);
+  --bs-info-border: rgba(96, 165, 250, 0.45);
+
+  /* ---------- Warning (amber) ---------- */
+  --bs-warn-text: #fbbf24;
+  --bs-warn-strong-text: #fcd34d;
+  --bs-warn-bg: rgba(245, 158, 11, 0.14);
+  --bs-warn-bg-soft: rgba(245, 158, 11, 0.09);
+  --bs-warn-border: rgba(245, 158, 11, 0.45);
+
+
+  /* ---------- Seat map (BusSeatSelection) ---------- */
+  --bs-seat-available-bg: #1f1f1f;
+  --bs-seat-available-border: #3f3f46;
+  --bs-seat-available-text: #d1d5db;
+  --bs-seat-selected-bg: #16a34a;
+  --bs-seat-selected-border: #22c55e;
+  --bs-seat-selected-text: #ffffff;
+  --bs-seat-booked-bg: #262626;
+  --bs-seat-booked-border: #2e2e2e;
+  --bs-seat-booked-text: #6b7280;
+  --bs-seat-ladies-bg: rgba(236, 72, 153, 0.14);
+  --bs-seat-ladies-border: rgba(244, 114, 182, 0.5);
+  --bs-seat-ladies-text: #f9a8d4;
+  --bs-deck-bg: #1a1a1a;
+  --bs-deck-border: #2e2e2e;
+
+  /* ---------- Teal (lower-deck seat chip) ---------- */
+  --bs-teal-text: #5eead4;
+  --bs-teal-bg: rgba(45, 212, 191, 0.14);
+  --bs-teal-border: rgba(45, 212, 191, 0.45);
+
+  /* ---------- Purple ---------- */
+  --bs-purple-text: #d8b4fe;
+  --bs-purple-bg: rgba(192, 132, 252, 0.14);
+  --bs-purple-border: rgba(192, 132, 252, 0.5);
+}
+
+/* ---------------------- SweetAlert2 popups (Swal.fire) -------------------
+   Swal renders in <body>, outside React's tree, with its own light styles.
+   Because <body> carries .busThemeVars while the travel app is mounted,
+   these descendant rules re-skin every Swal popup opened from bus pages.
+   ------------------------------------------------------------------------ */
+.busThemeVars :global(.swal2-popup) {
+  background: var(--bs-surface);
+  color: var(--bs-text-body);
+}
+.busThemeVars :global(.swal2-title) {
+  color: var(--bs-text-strong);
+}
+.busThemeVars :global(.swal2-html-container) {
+  color: var(--bs-text-body);
+}
+.busThemeVars :global(.swal2-input),
+.busThemeVars :global(.swal2-textarea),
+.busThemeVars :global(.swal2-select) {
+  background: var(--bs-surface-subtle);
+  color: var(--bs-text-strong);
+  border-color: var(--bs-border-strong);
+}
+.busThemeVars :global(.swal2-timer-progress-bar) {
+  background: var(--bs-brand);
+}
+.busThemeVars :global(.swal2-success-circular-line-left),
+.busThemeVars :global(.swal2-success-circular-line-right),
+.busThemeVars :global(.swal2-success-fix) {
+  background: transparent !important;
+}
+
+/* ---------------------- react-date-range calendar ------------------------
+   The bus journey-date picker ships its own light-only stylesheet.
+   These rules repaint it from the tokens above.
+   ------------------------------------------------------------------------ */
+.busThemeVars :global(.rdrCalendarWrapper),
+.busThemeVars :global(.rdrDateRangeWrapper),
+.busThemeVars :global(.rdrMonthAndYearWrapper),
+.busThemeVars :global(.rdrMonth) {
+  background: var(--bs-surface);
+  color: var(--bs-text-body);
+}
+.busThemeVars :global(.rdrDayNumber span),
+.busThemeVars :global(.rdrWeekDay),
+.busThemeVars :global(.rdrMonthAndYearPickers select) {
+  color: var(--bs-text-body);
+}
+.busThemeVars :global(.rdrDayPassive .rdrDayNumber span),
+.busThemeVars :global(.rdrDayDisabled .rdrDayNumber span) {
+  color: var(--bs-text-disabled);
+}
+.busThemeVars :global(.rdrDayDisabled) {
+  background: var(--bs-surface-muted);
+}
+.busThemeVars :global(.rdrNextPrevButton) {
+  background: var(--bs-surface-muted);
+}
+.busThemeVars :global(.rdrDayToday .rdrDayNumber span:after) {
+  background: var(--bs-brand);
+}
+
+/* ---------------------- Leaflet map (boarding / dropping points) --------------------- */
+.busThemeVars :global(.leaflet-popup-content-wrapper),
+.busThemeVars :global(.leaflet-popup-tip) {
+  background: var(--bs-surface);
+  color: var(--bs-text-body);
+}
+.busThemeVars :global(.leaflet-control-zoom a) {
+  background: var(--bs-surface);
+  color: var(--bs-text-strong);
+  border-color: var(--bs-border);
+}
+
+/* ---------------------- Native form controls -----------------------------
+   MUI does not reach plain <input>/<select>/<textarea>, and Chrome paints
+   autofilled fields with its own near-white background + dark blue text,
+   which is what made the search-form values unreadable in dark mode.
+   ------------------------------------------------------------------------ */
+.busThemeVars
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]),
+.busThemeVars select,
+.busThemeVars textarea {
+  color: var(--bs-text-strong);
+  background-color: var(--bs-input-bg);
+}
+.busThemeVars input::placeholder,
+.busThemeVars textarea::placeholder {
+  color: var(--bs-text-faint);
+  opacity: 1;
+}
+.busThemeVars select option {
+  background: var(--bs-surface);
+  color: var(--bs-text-strong);
+}
+.busThemeVars input:-webkit-autofill,
+.busThemeVars input:-webkit-autofill:hover,
+.busThemeVars input:-webkit-autofill:focus,
+.busThemeVars textarea:-webkit-autofill,
+.busThemeVars select:-webkit-autofill {
+  -webkit-text-fill-color: var(--bs-text-strong);
+  -webkit-box-shadow: 0 0 0 1000px var(--bs-input-bg) inset;
+  box-shadow: 0 0 0 1000px var(--bs-input-bg) inset;
+  caret-color: var(--bs-text-strong);
+  transition: background-color 9999s ease-in-out 0s;
+}

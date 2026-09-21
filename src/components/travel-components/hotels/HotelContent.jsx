@@ -1,12 +1,17 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const GREEN = "#16a34a";
+const GREEN = "var(--ht-brand)";
 const FONT = "'Inter', sans-serif";
 
 function Divider() {
   return (
-    <Box sx={{ borderBottom: "1px solid #e5e7eb", my: { xs: 2.5, md: 3 } }} />
+    <Box
+      sx={{
+        borderBottom: "1px solid var(--ht-border)",
+        my: { xs: 2.5, md: 3 },
+      }}
+    />
   );
 }
 
@@ -16,7 +21,7 @@ function SectionHeading({ children }) {
       sx={{
         fontSize: { xs: "1.1rem", md: "1.2rem" },
         fontWeight: 700,
-        color: "#111827",
+        color: "var(--ht-text-strong)",
         mb: 1,
         textAlign: "left",
         fontFamily: FONT,
@@ -32,7 +37,7 @@ function BodyText({ children, sx = {} }) {
     <Typography
       sx={{
         fontSize: { xs: "0.84rem", md: "0.875rem" },
-        color: "#4b5563",
+        color: "var(--ht-text-muted)",
         lineHeight: 1.75,
         textAlign: "left",
         fontFamily: FONT,
@@ -50,7 +55,7 @@ function BulletItem({ bold, children }) {
       component="li"
       sx={{
         fontSize: { xs: "0.84rem", md: "0.875rem" },
-        color: "#4b5563",
+        color: "var(--ht-text-muted)",
         lineHeight: 1.75,
         mb: 0.4,
         pl: 0.5,
@@ -61,7 +66,11 @@ function BulletItem({ bold, children }) {
       {bold && (
         <Box
           component="span"
-          sx={{ fontWeight: 700, color: "#111827", fontFamily: FONT }}
+          sx={{
+            fontWeight: 700,
+            color: "var(--ht-text-strong)",
+            fontFamily: FONT,
+          }}
         >
           {bold}{" "}
         </Box>
@@ -74,8 +83,8 @@ function BulletItem({ bold, children }) {
 export default function HotelSEOContent() {
   return (
     <Box
-       sx={{
-        background: "#fff",
+      sx={{
+        background: "var(--ht-surface)",
         textAlign: "left",
         maxWidth: 1300,
         mx: "auto",
@@ -110,7 +119,7 @@ export default function HotelSEOContent() {
           sx={{
             fontSize: { xs: "1.15rem", md: "1.3rem" },
             fontWeight: 700,
-            color: "#111827",
+            color: "var(--ht-text-strong)",
             mb: 1.2,
             lineHeight: 1.35,
             textAlign: "left",
@@ -122,13 +131,16 @@ export default function HotelSEOContent() {
 
         <BodyText>
           Looking for the perfect hotel for your next trip?{" "}
-          <Box component="span" sx={{ color: GREEN, fontWeight: 600, fontFamily: FONT }}>
+          <Box
+            component="span"
+            sx={{ color: GREEN, fontWeight: 600, fontFamily: FONT }}
+          >
             Dealplex
           </Box>{" "}
           makes hotel booking simple, fast, and stress-free so you can focus on
-          planning your journey, not managing logistics. Whether you're travelling
-          for business, leisure, or a quick weekend getaway, Dealplex offers a
-          wide range of hotels to suit every budget and travel style.
+          planning your journey, not managing logistics. Whether you're
+          travelling for business, leisure, or a quick weekend getaway, Dealplex
+          offers a wide range of hotels to suit every budget and travel style.
         </BodyText>
 
         <BodyText sx={{ mt: 0.5 }}>
@@ -142,7 +154,8 @@ export default function HotelSEOContent() {
         {/* Section 2 */}
         <SectionHeading>Explore Hotel Options on Dealplex</SectionHeading>
         <BodyText sx={{ mb: 0.8 }}>
-          Dealplex brings you carefully curated stays to match every travel need:
+          Dealplex brings you carefully curated stays to match every travel
+          need:
         </BodyText>
         <Box component="ul" sx={{ m: 0, pl: "22px", textAlign: "left" }}>
           <BulletItem bold="Luxury Hotels">
@@ -180,13 +193,13 @@ export default function HotelSEOContent() {
           </BulletItem>
           <BulletItem bold="Strong Network, Local Expertise">
             Whether you're travelling within your city or exploring new
-            destinations, Dealplex combines extensive coverage with local insights
-            to help you choose the best stay.
+            destinations, Dealplex combines extensive coverage with local
+            insights to help you choose the best stay.
           </BulletItem>
           <BulletItem bold="Best Deals & Exclusive Savings">
             Unlock special offers, seasonal discounts, cashback deals, and
-            value-added benefits like free meals or airport transfers on selected
-            hotels.
+            value-added benefits like free meals or airport transfers on
+            selected hotels.
           </BulletItem>
           <BulletItem bold="Verified Guest Reviews">
             Make confident decisions with genuine reviews from verified guests,

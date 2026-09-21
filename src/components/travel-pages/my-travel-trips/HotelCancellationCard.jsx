@@ -23,8 +23,12 @@ const HotelCancellationCard = ({ booking }) => {
         html: `
           <div style="text-align:left;font-size:14px;line-height:1.8">
             <b>Change Request ID:</b> ${data.changeRequestId ?? "-"}<br/>
-            <b>Status:</b> <span style="color:${latest.color};font-weight:600">${latest.label}</span><br/>
-            <b>Refunded Amount:</b> ${data.refundedAmount ?? "Not yet refunded"}<br/>
+            <b>Status:</b> <span style="color:${
+              latest.color
+            };font-weight:600">${latest.label}</span><br/>
+            <b>Refunded Amount:</b> ${
+              data.refundedAmount ?? "Not yet refunded"
+            }<br/>
             <b>Credit Note No:</b> ${data.creditNoteNo ?? "-"}
           </div>
         `,
@@ -44,14 +48,23 @@ const HotelCancellationCard = ({ booking }) => {
   return (
     <Box
       sx={{
-        border: "1px solid #e8e8e8",
+        border: "1px solid var(--ht-border)",
         borderRadius: "14px",
         p: 2.2,
-        bgcolor: "#fff",
+        bgcolor: "var(--ht-surface)",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
-        <Typography sx={{ fontWeight: 700, fontSize: 15, color: "#1a1a1a" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          mb: 1,
+        }}
+      >
+        <Typography
+          sx={{ fontWeight: 700, fontSize: 15, color: "var(--ht-text-strong)" }}
+        >
           Booking #{booking.booking_id}
         </Typography>
         <Chip
@@ -66,16 +79,27 @@ const HotelCancellationCard = ({ booking }) => {
         />
       </Box>
 
-      <Typography sx={{ fontSize: 13, color: "#666", mb: 0.5 }}>
+      <Typography
+        sx={{ fontSize: 13, color: "var(--ht-text-neutral)", mb: 0.5 }}
+      >
         Change Request ID: {booking.changeRequestId}
       </Typography>
 
-      <Typography sx={{ fontSize: 13, color: "#666", mb: 0.5 }}>
+      <Typography
+        sx={{ fontSize: 13, color: "var(--ht-text-neutral)", mb: 0.5 }}
+      >
         Requested on: {new Date(booking.created_at).toLocaleString("en-IN")}
       </Typography>
 
       {booking.refunded_amount != null && (
-        <Typography sx={{ fontSize: 13, color: "#16a34a", fontWeight: 600, mb: 1 }}>
+        <Typography
+          sx={{
+            fontSize: 13,
+            color: "var(--ht-brand-text)",
+            fontWeight: 600,
+            mb: 1,
+          }}
+        >
           Refunded: ₹{booking.refunded_amount}
         </Typography>
       )}
@@ -91,10 +115,14 @@ const HotelCancellationCard = ({ booking }) => {
           fontWeight: 600,
           borderColor: GREEN,
           color: GREEN,
-          "&:hover": { borderColor: GREEN, bgcolor: "#f0fdf4" },
+          "&:hover": { borderColor: GREEN, bgcolor: "var(--ht-success-bg)" },
         }}
       >
-        {checking ? <CircularProgress size={16} sx={{ color: GREEN }} /> : "Check Status"}
+        {checking ? (
+          <CircularProgress size={16} sx={{ color: GREEN }} />
+        ) : (
+          "Check Status"
+        )}
       </Button>
     </Box>
   );

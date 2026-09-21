@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { useBusSeatLayout } from "components/travel-hooks/bus/useBusSeatLayout";
 import { useBusBoardingPoints } from "components/travel-hooks/bus/useBusBoardingPoints";
 
-const GREEN = "#16a34a";
-const GREEN_LIGHT = "#f0fdf4";
-const GREEN_BORDER = "#bbf7d0";
+const GREEN = "var(--bs-brand)";
+const GREEN_LIGHT = "var(--bs-success-bg)";
+const GREEN_BORDER = "var(--bs-success-border)";
 
 const GLOBAL_CSS = `
   .bss-layout {
     display: flex;
     align-items: flex-start;
-    background: #ffffff;
+    background: var(--bs-surface);
     max-width: 1300px;
     margin: 10px auto;
   }
@@ -36,17 +36,17 @@ const GLOBAL_CSS = `
   .bss-mobile-sheet {
     display: none;
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 999;
-    background: #fff;
+    background: var(--bs-surface);
     border-radius: 20px 20px 0 0;
     max-height: 88vh;
     overflow-y: auto;
     padding: 0 0 24px 0;
     animation: bssSheetUp 0.3s cubic-bezier(0.34,1.2,0.64,1);
     scrollbar-width: thin;
-    scrollbar-color: #d1d5db transparent;
+    scrollbar-color: var(--bs-scrollbar) transparent;
   }
   .bss-mobile-sheet::-webkit-scrollbar { width: 4px; }
-  .bss-mobile-sheet::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+  .bss-mobile-sheet::-webkit-scrollbar-thumb { background: var(--bs-surface-strong); border-radius: 4px; }
   @keyframes bssSheetUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   @keyframes bssBackdropIn { from { opacity: 0 } to { opacity: 1 } }
   .bss-filter-fab {
@@ -55,7 +55,7 @@ const GLOBAL_CSS = `
     bottom: 20px; left: 50%; transform: translateX(-50%);
     z-index: 900;
     background: ${GREEN};
-    color: #fff;
+    color: var(--bs-text-on-brand);
     border: none;
     border-radius: 50px;
     padding: 12px 24px;
@@ -317,7 +317,7 @@ const LegendItem = ({ status, label, isSleeper = false }) => {
       <span
         style={{
           fontSize: 10,
-          color: "#6b7280",
+          color: "var(--bs-text-muted)",
           textAlign: "center",
           lineHeight: 1.3,
           maxWidth: 48,
@@ -332,7 +332,7 @@ const LegendItem = ({ status, label, isSleeper = false }) => {
 const RealSeatMap = ({ seats, selectedSeatNames, onSeatToggle }) => {
   if (!seats?.length)
     return (
-      <div style={{ color: "#9ca3af", fontSize: 13, padding: 16 }}>
+      <div style={{ color: "var(--bs-text-faint)", fontSize: 13, padding: 16 }}>
         No seat data available.
       </div>
     );
@@ -379,7 +379,7 @@ const RealSeatMap = ({ seats, selectedSeatNames, onSeatToggle }) => {
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: "#6b7280",
+            color: "var(--bs-text-muted)",
             letterSpacing: 1,
             textTransform: "uppercase",
             marginBottom: 10,
@@ -389,10 +389,10 @@ const RealSeatMap = ({ seats, selectedSeatNames, onSeatToggle }) => {
         </div>
         <div
           style={{
-            border: "1px solid #e5e7eb",
+            border: "1px solid var(--bs-border)",
             borderRadius: 10,
             padding: "16px 14px",
-            background: "#fafafa",
+            background: "var(--bs-surface-subtle)",
             overflowX: "auto",
             display: "inline-block",
             minWidth: "100%",
@@ -489,7 +489,8 @@ const RealSeatMap = ({ seats, selectedSeatNames, onSeatToggle }) => {
 };
 
 const shimmerBase = {
-  background: "linear-gradient(90deg,#f3f4f6 25%,#e5e7eb 50%,#f3f4f6 75%)",
+  background:
+    "linear-gradient(90deg,var(--bs-surface-muted) 25%,var(--bs-surface-strong) 50%,var(--bs-surface-muted) 75%)",
   backgroundSize: "600px 100%",
   animation: "bssShin 1.4s infinite linear",
   borderRadius: 6,
@@ -506,10 +507,10 @@ const SeatMapSkeleton = () => (
         />
         <div
           style={{
-            border: "1px solid #e5e7eb",
+            border: "1px solid var(--bs-border)",
             borderRadius: 10,
             padding: "18px 12px",
-            background: "#fafafa",
+            background: "var(--bs-surface-subtle)",
             display: "block",
             width: "100%",
           }}
@@ -607,12 +608,12 @@ const BoardingDroppingFlow = ({
     !pointSearch
       ? points
       : (points || []).filter(
-        (pt) =>
-          (pt.name || "").toLowerCase().includes(pointSearch.toLowerCase()) ||
-          (pt.subLabel || "")
-            .toLowerCase()
-            .includes(pointSearch.toLowerCase()),
-      );
+          (pt) =>
+            (pt.name || "").toLowerCase().includes(pointSearch.toLowerCase()) ||
+            (pt.subLabel || "")
+              .toLowerCase()
+              .includes(pointSearch.toLowerCase()),
+        );
 
   const PointSearchBar = ({ placeholder }) => (
     <div
@@ -620,10 +621,10 @@ const BoardingDroppingFlow = ({
         display: "flex",
         alignItems: "center",
         gap: 6,
-        border: "1px solid #e5e7eb",
+        border: "1px solid var(--bs-border)",
         borderRadius: 8,
         padding: "8px 10px",
-        background: "#fff",
+        background: "var(--bs-surface)",
         marginBottom: 10,
       }}
     >
@@ -632,7 +633,7 @@ const BoardingDroppingFlow = ({
         height="14"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#9ca3af"
+        stroke="var(--bs-text-faint)"
         strokeWidth="2"
         strokeLinecap="round"
       >
@@ -649,7 +650,7 @@ const BoardingDroppingFlow = ({
           outline: "none",
           fontSize: 13,
           fontFamily: "Inter, sans-serif",
-          color: "#111",
+          color: "var(--bs-text-strong)",
           width: "100%",
           background: "transparent",
         }}
@@ -659,7 +660,7 @@ const BoardingDroppingFlow = ({
           onClick={() => setPointSearch("")}
           style={{
             cursor: "pointer",
-            color: "#9ca3af",
+            color: "var(--bs-text-faint)",
             fontSize: 16,
             lineHeight: 1,
           }}
@@ -672,18 +673,18 @@ const BoardingDroppingFlow = ({
 
   const animStyle = !animating
     ? {
-      opacity: 1,
-      transform: "translateX(0)",
-      transition: "opacity 0.28s ease, transform 0.28s ease",
-    }
+        opacity: 1,
+        transform: "translateX(0)",
+        transition: "opacity 0.28s ease, transform 0.28s ease",
+      }
     : slideDir === "out"
-      ? {
+    ? {
         opacity: 0,
         transform:
           step === "boarding" ? "translateX(-20px)" : "translateX(20px)",
         transition: "opacity 0.26s ease, transform 0.26s ease",
       }
-      : {
+    : {
         opacity: 0,
         transform:
           step === "dropping" ? "translateX(20px)" : "translateX(-20px)",
@@ -707,8 +708,10 @@ const BoardingDroppingFlow = ({
                 padding: "10px 12px",
                 borderRadius: 8,
                 cursor: "pointer",
-                background: isSel ? GREEN_LIGHT : "#fff",
-                border: isSel ? `1px solid ${GREEN}` : "1px solid #f3f4f6",
+                background: isSel ? GREEN_LIGHT : "var(--bs-surface)",
+                border: isSel
+                  ? `1px solid ${GREEN}`
+                  : "1px solid var(--bs-border-soft)",
                 transition: "all 0.15s",
               }}
             >
@@ -718,7 +721,9 @@ const BoardingDroppingFlow = ({
                     width: 18,
                     height: 18,
                     borderRadius: "50%",
-                    border: `2px solid ${isSel ? GREEN : "#d1d5db"}`,
+                    border: `2px solid ${
+                      isSel ? GREEN : "var(--bs-border-strong)"
+                    }`,
                     background: isSel ? GREEN : "transparent",
                     flexShrink: 0,
                     display: "flex",
@@ -732,16 +737,22 @@ const BoardingDroppingFlow = ({
                         width: 6,
                         height: 6,
                         borderRadius: "50%",
-                        background: "#fff",
+                        background: "var(--bs-surface)",
                       }}
                     />
                   )}
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#111" }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: "var(--bs-text-strong)",
+                    }}
+                  >
                     {pt.name}
                   </div>
-                  <div style={{ fontSize: 12, color: "#9ca3af" }}>
+                  <div style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
                     {pt.subLabel}
                   </div>
                 </div>
@@ -750,7 +761,7 @@ const BoardingDroppingFlow = ({
                 style={{
                   fontSize: 13,
                   fontWeight: 600,
-                  color: "#374151",
+                  color: "var(--bs-text-body)",
                   flexShrink: 0,
                 }}
               >
@@ -763,7 +774,7 @@ const BoardingDroppingFlow = ({
         <div
           style={{
             fontSize: 13,
-            color: "#9ca3af",
+            color: "var(--bs-text-faint)",
             textAlign: "center",
             padding: "12px 0",
           }}
@@ -785,20 +796,38 @@ const BoardingDroppingFlow = ({
         }}
       >
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: "var(--bs-text-strong)",
+            }}
+          >
             {point.name}
           </div>
-          <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
+          <div
+            style={{
+              fontSize: 12,
+              color: "var(--bs-text-faint)",
+              marginTop: 2,
+            }}
+          >
             {point.subLabel}
           </div>
-          <div style={{ fontSize: 12, color: "#6b7280", marginTop: 1 }}>
+          <div
+            style={{
+              fontSize: 12,
+              color: "var(--bs-text-muted)",
+              marginTop: 1,
+            }}
+          >
             {point.time}
           </div>
         </div>
         <button
           onClick={onChangeClick}
           style={{
-            background: "#fff",
+            background: "var(--bs-surface)",
             border: `1.5px solid ${GREEN}`,
             borderRadius: 8,
             padding: "6px 18px",
@@ -816,10 +845,10 @@ const BoardingDroppingFlow = ({
       <div style={{ width: "100%" }}>
         <div
           style={{
-            border: "1px solid #e5e7eb",
+            border: "1px solid var(--bs-border)",
             borderRadius: 12,
             overflow: "hidden",
-            background: "#fff",
+            background: "var(--bs-surface)",
           }}
         >
           <CR
@@ -830,7 +859,13 @@ const BoardingDroppingFlow = ({
               setStep("boarding");
             }}
           />
-          <div style={{ height: 1, background: "#f3f4f6", margin: "0 16px" }} />
+          <div
+            style={{
+              height: 1,
+              background: "var(--bs-surface-muted)",
+              margin: "0 16px",
+            }}
+          />
           <CR
             point={selectedDroppingPoint}
             onChangeClick={() => {
@@ -852,7 +887,7 @@ const BoardingDroppingFlow = ({
               style={{
                 fontSize: 13,
                 fontWeight: 700,
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 marginBottom: 10,
               }}
             >
@@ -930,7 +965,7 @@ const BoardingDroppingFlow = ({
                   style={{
                     fontSize: 11,
                     fontWeight: 700,
-                    color: "#166534",
+                    color: "var(--bs-brand-strong-text)",
                     letterSpacing: 0.5,
                     textTransform: "uppercase",
                   }}
@@ -938,7 +973,11 @@ const BoardingDroppingFlow = ({
                   Boarding from
                 </div>
                 <div
-                  style={{ fontSize: 13, fontWeight: 600, color: "#14532d" }}
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "var(--bs-brand-strong-text)",
+                  }}
                 >
                   {selectedBoardingPoint?.name} · {selectedBoardingPoint?.time}
                 </div>
@@ -948,7 +987,7 @@ const BoardingDroppingFlow = ({
               style={{
                 fontSize: 13,
                 fontWeight: 700,
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 marginBottom: 10,
               }}
             >
@@ -969,7 +1008,7 @@ const BoardingDroppingFlow = ({
 
 /* ───────────────────────── Footer Accordion Panels (NEW) ───────────────────────── */
 
-const InfoAccordionIcon = ({ open, color = "#9ca3af" }) => (
+const InfoAccordionIcon = ({ open, color = "var(--bs-text-faint)" }) => (
   <svg
     width="14"
     height="14"
@@ -997,7 +1036,7 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: "#6b7280",
+          color: "var(--bs-text-muted)",
           letterSpacing: 0.5,
           textTransform: "uppercase",
           marginBottom: 8,
@@ -1015,14 +1054,22 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
               gap: 10,
               padding: "8px 0",
               borderBottom:
-                i !== boardingPoints.length - 1 ? "1px dashed #eee" : "none",
+                i !== boardingPoints.length - 1
+                  ? "1px dashed var(--bs-border-soft)"
+                  : "none",
             }}
           >
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#111" }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "var(--bs-text-strong)",
+                }}
+              >
                 {p.name}
               </div>
-              <div style={{ fontSize: 11.5, color: "#9ca3af" }}>
+              <div style={{ fontSize: 11.5, color: "var(--bs-text-faint)" }}>
                 {p.subLabel}
               </div>
             </div>
@@ -1030,7 +1077,7 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
               style={{
                 fontSize: 13,
                 fontWeight: 600,
-                color: "#374151",
+                color: "var(--bs-text-body)",
                 whiteSpace: "nowrap",
               }}
             >
@@ -1039,18 +1086,24 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
           </div>
         ))
       ) : (
-        <div style={{ fontSize: 12, color: "#9ca3af" }}>
+        <div style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
           No boarding points found.
         </div>
       )}
     </div>
-    <div style={{ width: 1, background: "#f0f0f0", alignSelf: "stretch" }} />
+    <div
+      style={{
+        width: 1,
+        background: "var(--bs-surface-muted)",
+        alignSelf: "stretch",
+      }}
+    />
     <div style={{ flex: 1, minWidth: 220 }}>
       <div
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: "#6b7280",
+          color: "var(--bs-text-muted)",
           letterSpacing: 0.5,
           textTransform: "uppercase",
           marginBottom: 8,
@@ -1068,14 +1121,22 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
               gap: 10,
               padding: "8px 0",
               borderBottom:
-                i !== droppingPoints.length - 1 ? "1px dashed #eee" : "none",
+                i !== droppingPoints.length - 1
+                  ? "1px dashed var(--bs-border-soft)"
+                  : "none",
             }}
           >
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#111" }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "var(--bs-text-strong)",
+                }}
+              >
                 {p.name}
               </div>
-              <div style={{ fontSize: 11.5, color: "#9ca3af" }}>
+              <div style={{ fontSize: 11.5, color: "var(--bs-text-faint)" }}>
                 {p.subLabel}
               </div>
             </div>
@@ -1083,7 +1144,7 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
               style={{
                 fontSize: 13,
                 fontWeight: 600,
-                color: "#374151",
+                color: "var(--bs-text-body)",
                 whiteSpace: "nowrap",
               }}
             >
@@ -1092,7 +1153,7 @@ const BoardingDroppingInfoPanel = ({ boardingPoints, droppingPoints }) => (
           </div>
         ))
       ) : (
-        <div style={{ fontSize: 12, color: "#9ca3af" }}>
+        <div style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
           No dropping points found.
         </div>
       )}
@@ -1114,10 +1175,12 @@ const CancellationPolicyPanel = ({ policies }) => (
               gap: 12,
               padding: "10px 0",
               borderBottom:
-                i !== policies.length - 1 ? "1px dashed #eee" : "none",
+                i !== policies.length - 1
+                  ? "1px dashed var(--bs-border-soft)"
+                  : "none",
             }}
           >
-            <div style={{ fontSize: 13, color: "#374151" }}>
+            <div style={{ fontSize: 13, color: "var(--bs-text-body)" }}>
               {p.policyString}
             </div>
             <div
@@ -1134,7 +1197,7 @@ const CancellationPolicyPanel = ({ policies }) => (
         ))}
       </div>
     ) : (
-      <div style={{ fontSize: 12, color: "#9ca3af" }}>
+      <div style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
         Cancellation policy not available for this bus.
       </div>
     )}
@@ -1142,7 +1205,7 @@ const CancellationPolicyPanel = ({ policies }) => (
 );
 
 /* ─── Facility Icons (SVG, no emojis) ─── */
-const FacilityIcon = ({ type, color = "#166534" }) => {
+const FacilityIcon = ({ type, color = "var(--bs-brand-strong-text)" }) => {
   const common = {
     width: 15,
     height: 15,
@@ -1160,7 +1223,10 @@ const FacilityIcon = ({ type, color = "#166534" }) => {
         <svg {...common}>
           <circle cx="12" cy="12" r="3" />
           <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
-          <path d="M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2" opacity="0.5" />
+          <path
+            d="M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"
+            opacity="0.5"
+          />
         </svg>
       );
     case "mTicket":
@@ -1224,15 +1290,15 @@ const BusFacilitiesPanel = ({ facilities }) => {
               padding: "7px 12px",
               fontSize: 12.5,
               fontWeight: 600,
-              color: "#166534",
+              color: "var(--bs-brand-strong-text)",
             }}
           >
-            <FacilityIcon type={key} color="#166534" />
+            <FacilityIcon type={key} color="var(--bs-brand-strong-text)" />
             {FACILITY_META[key]?.label}
           </div>
         ))
       ) : (
-        <div style={{ fontSize: 12, color: "#9ca3af" }}>
+        <div style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
           No additional info available.
         </div>
       )}
@@ -1299,7 +1365,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
           Swal.fire({
             icon: "warning",
             title: "Session Expired",
-            html: `<p style="color:#c2410c;font-size:14px;margin:0 0 8px 0;">${msg}</p><p style="color:#9ca3af;font-size:13px;margin:0;">Please go back and search again.</p>`,
+            html: `<p style="color:#c2410c;font-size:14px;margin:0 0 8px 0;">${msg}</p><p style="color:var(--bs-text-faint);font-size:13px;margin:0;">Please go back and search again.</p>`,
             confirmButtonText: "Go Back & Search",
             confirmButtonColor: GREEN,
             showCancelButton: false,
@@ -1315,10 +1381,10 @@ const BusCardExpanded = ({ bus, from, to }) => {
             subLabel: p.location || p.landmark || p.address || "",
             time: p.time
               ? new Date(p.time).toLocaleTimeString("en-IN", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              })
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })
               : "",
             contact: p.contact || "",
           });
@@ -1336,7 +1402,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
         Swal.fire({
           icon: "warning",
           title: "Session Expired",
-          html: `<p style="color:#c2410c;font-size:14px;margin:0 0 8px 0;">Something went wrong.</p><p style="color:#9ca3af;font-size:13px;margin:0;">Please go back and search again.</p>`,
+          html: `<p style="color:#c2410c;font-size:14px;margin:0 0 8px 0;">Something went wrong.</p><p style="color:var(--bs-text-faint);font-size:13px;margin:0;">Please go back and search again.</p>`,
           confirmButtonText: "Go Back & Search",
           confirmButtonColor: GREEN,
         });
@@ -1351,8 +1417,8 @@ const BusCardExpanded = ({ bus, from, to }) => {
         isSel
           ? objs.filter((o) => o.SeatName !== seatName)
           : objs.some((o) => o.SeatName === seatName)
-            ? objs
-            : [...objs, seatObj],
+          ? objs
+          : [...objs, seatObj],
       );
       return isSel ? prev.filter((n) => n !== seatName) : [...prev, seatName];
     });
@@ -1369,8 +1435,8 @@ const BusCardExpanded = ({ bus, from, to }) => {
     ? activePrice === "All"
       ? apiSeats
       : apiSeats.map((row) =>
-        row.filter((s) => s.SeatFare === Number(activePrice)),
-      )
+          row.filter((s) => s.SeatFare === Number(activePrice)),
+        )
     : null;
   const canContinue =
     selectedSeatNames.length > 0 &&
@@ -1391,8 +1457,8 @@ const BusCardExpanded = ({ bus, from, to }) => {
   return (
     <div
       style={{
-        background: "#fff",
-        border: "1px solid #e5e7eb",
+        background: "var(--bs-surface)",
+        border: "1px solid var(--bs-border)",
         borderRadius: 12,
         overflow: "hidden",
         fontFamily: "Inter, sans-serif",
@@ -1424,7 +1490,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
               style={{
                 fontSize: 16,
                 fontWeight: 700,
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
@@ -1432,7 +1498,13 @@ const BusCardExpanded = ({ bus, from, to }) => {
             >
               {bus.operatorName}
             </div>
-            <div style={{ fontSize: 13, color: "#6b7280", marginTop: 2 }}>
+            <div
+              style={{
+                fontSize: 13,
+                color: "var(--bs-text-muted)",
+                marginTop: 2,
+              }}
+            >
               {bus.busType}
             </div>
 
@@ -1449,7 +1521,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
                   style={{
                     fontSize: 19,
                     fontWeight: 700,
-                    color: "#111",
+                    color: "var(--bs-text-strong)",
                     lineHeight: 1,
                   }}
                 >
@@ -1458,7 +1530,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#9ca3af",
+                    color: "var(--bs-text-faint)",
                     marginTop: 4,
                     whiteSpace: "nowrap",
                   }}
@@ -1472,8 +1544,8 @@ const BusCardExpanded = ({ bus, from, to }) => {
                 style={{
                   alignSelf: "flex-start",
                   marginTop: 1,
-                  background: "#f3f4f6",
-                  color: "#6b7280",
+                  background: "var(--bs-surface-muted)",
+                  color: "var(--bs-text-muted)",
                   fontSize: 12,
                   fontWeight: 500,
                   padding: "3px 10px",
@@ -1489,7 +1561,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
                   style={{
                     fontSize: 19,
                     fontWeight: 700,
-                    color: "#111",
+                    color: "var(--bs-text-strong)",
                     lineHeight: 1,
                   }}
                 >
@@ -1498,7 +1570,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#9ca3af",
+                    color: "var(--bs-text-faint)",
                     marginTop: 4,
                     whiteSpace: "nowrap",
                   }}
@@ -1522,8 +1594,16 @@ const BusCardExpanded = ({ bus, from, to }) => {
             }}
           >
             <div style={{ textAlign: "right" }}>
-              <span style={{ fontSize: 12, color: "#9ca3af" }}>from </span>
-              <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>
+              <span style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
+                from{" "}
+              </span>
+              <span
+                style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: "var(--bs-text-strong)",
+                }}
+              >
                 ₹{bus.price?.toLocaleString("en-IN")}
               </span>
             </div>
@@ -1531,8 +1611,8 @@ const BusCardExpanded = ({ bus, from, to }) => {
               onClick={handleToggleExpand}
               disabled={seatLoading && !seatLayoutLoaded}
               style={{
-                background: expanded ? "#374151" : GREEN,
-                color: "#fff",
+                background: expanded ? "var(--bs-btn-neutral)" : GREEN,
+                color: "var(--bs-text-on-brand)",
                 border: "none",
                 borderRadius: 6,
                 padding: "6px 16px",
@@ -1546,11 +1626,15 @@ const BusCardExpanded = ({ bus, from, to }) => {
               {seatLoading && !seatLayoutLoaded
                 ? "Loading..."
                 : expanded
-                  ? "Hide seats"
-                  : "Select seats"}
+                ? "Hide seats"
+                : "Select seats"}
             </button>
             <div
-              style={{ fontSize: 12, color: "#6b7280", whiteSpace: "nowrap" }}
+              style={{
+                fontSize: 12,
+                color: "var(--bs-text-muted)",
+                whiteSpace: "nowrap",
+              }}
             >
               {bus.seatsAvailable} Seats Available
             </div>
@@ -1559,7 +1643,10 @@ const BusCardExpanded = ({ bus, from, to }) => {
 
         {/* Dashed divider */}
         <div
-          style={{ borderTop: "1px dashed #e5e7eb", margin: "14px 0 12px" }}
+          style={{
+            borderTop: "1px dashed var(--bs-border)",
+            margin: "14px 0 12px",
+          }}
         />
 
         {/* Inline info links — replaces the old separate footer strip */}
@@ -1585,7 +1672,8 @@ const BusCardExpanded = ({ bus, from, to }) => {
             <span
               style={{
                 fontSize: 13,
-                color: openInfoPanel === "boarding" ? GREEN : "#374151",
+                color:
+                  openInfoPanel === "boarding" ? GREEN : "var(--bs-text-body)",
                 fontWeight: 500,
               }}
             >
@@ -1593,7 +1681,9 @@ const BusCardExpanded = ({ bus, from, to }) => {
             </span>
             <InfoAccordionIcon
               open={openInfoPanel === "boarding"}
-              color={openInfoPanel === "boarding" ? GREEN : "#9ca3af"}
+              color={
+                openInfoPanel === "boarding" ? GREEN : "var(--bs-text-faint)"
+              }
             />
           </div>
 
@@ -1613,7 +1703,10 @@ const BusCardExpanded = ({ bus, from, to }) => {
             <span
               style={{
                 fontSize: 13,
-                color: openInfoPanel === "cancellation" ? GREEN : "#374151",
+                color:
+                  openInfoPanel === "cancellation"
+                    ? GREEN
+                    : "var(--bs-text-body)",
                 fontWeight: 500,
               }}
             >
@@ -1621,7 +1714,11 @@ const BusCardExpanded = ({ bus, from, to }) => {
             </span>
             <InfoAccordionIcon
               open={openInfoPanel === "cancellation"}
-              color={openInfoPanel === "cancellation" ? GREEN : "#9ca3af"}
+              color={
+                openInfoPanel === "cancellation"
+                  ? GREEN
+                  : "var(--bs-text-faint)"
+              }
             />
           </div>
 
@@ -1641,7 +1738,10 @@ const BusCardExpanded = ({ bus, from, to }) => {
             <span
               style={{
                 fontSize: 13,
-                color: openInfoPanel === "facilities" ? GREEN : "#374151",
+                color:
+                  openInfoPanel === "facilities"
+                    ? GREEN
+                    : "var(--bs-text-body)",
                 fontWeight: 500,
               }}
             >
@@ -1649,7 +1749,9 @@ const BusCardExpanded = ({ bus, from, to }) => {
             </span>
             <InfoAccordionIcon
               open={openInfoPanel === "facilities"}
-              color={openInfoPanel === "facilities" ? GREEN : "#9ca3af"}
+              color={
+                openInfoPanel === "facilities" ? GREEN : "var(--bs-text-faint)"
+              }
             />
           </div>
         </div>
@@ -1658,9 +1760,9 @@ const BusCardExpanded = ({ bus, from, to }) => {
           <div
             style={{
               marginTop: 12,
-              border: "1px solid #f3f4f6",
+              border: "1px solid var(--bs-border-soft)",
               borderRadius: 8,
-              background: "#fafafa",
+              background: "var(--bs-surface-subtle)",
             }}
           >
             <BoardingDroppingInfoPanel
@@ -1673,9 +1775,9 @@ const BusCardExpanded = ({ bus, from, to }) => {
           <div
             style={{
               marginTop: 12,
-              border: "1px solid #f3f4f6",
+              border: "1px solid var(--bs-border-soft)",
               borderRadius: 8,
-              background: "#fafafa",
+              background: "var(--bs-surface-subtle)",
             }}
           >
             <CancellationPolicyPanel policies={bus.cancellationPolicies} />
@@ -1685,9 +1787,9 @@ const BusCardExpanded = ({ bus, from, to }) => {
           <div
             style={{
               marginTop: 12,
-              border: "1px solid #f3f4f6",
+              border: "1px solid var(--bs-border-soft)",
               borderRadius: 8,
-              background: "#fafafa",
+              background: "var(--bs-surface-subtle)",
             }}
           >
             <BusFacilitiesPanel facilities={bus.busFacilities} />
@@ -1699,9 +1801,9 @@ const BusCardExpanded = ({ bus, from, to }) => {
       {expanded && (
         <div
           style={{
-            borderTop: "1px solid #f3f4f6",
+            borderTop: "1px solid var(--bs-border-soft)",
             padding: "14px 16px",
-            background: "#fdfdfd",
+            background: "var(--bs-surface)",
           }}
         >
           <div
@@ -1715,11 +1817,17 @@ const BusCardExpanded = ({ bus, from, to }) => {
             }}
           >
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--bs-text-strong)",
+                }}
+              >
                 {bus.seatsAvailable} seat{bus.seatsAvailable !== 1 ? "s" : ""}{" "}
                 available
               </div>
-              <div style={{ fontSize: 12, color: "#9ca3af" }}>
+              <div style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
                 Tap to select/deselect
               </div>
             </div>
@@ -1756,9 +1864,13 @@ const BusCardExpanded = ({ bus, from, to }) => {
                     border:
                       activePrice === tier
                         ? `1.5px solid ${GREEN}`
-                        : "1.5px solid #e5e7eb",
-                    background: activePrice === tier ? GREEN : "#fff",
-                    color: activePrice === tier ? "#fff" : "#374151",
+                        : "1.5px solid var(--bs-border)",
+                    background:
+                      activePrice === tier ? GREEN : "var(--bs-surface)",
+                    color:
+                      activePrice === tier
+                        ? "var(--bs-text-on-brand)"
+                        : "var(--bs-text-body)",
                     fontSize: 13,
                     fontWeight: 500,
                     transition: "all 0.15s",
@@ -1793,7 +1905,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
               ) : seatLayoutLoaded ? (
                 <div
                   style={{
-                    color: "#9ca3af",
+                    color: "var(--bs-text-faint)",
                     fontSize: 13,
                     padding: "24px 16px",
                   }}
@@ -1806,7 +1918,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
             <div
               style={{
                 width: 1,
-                background: "#f0f0f0",
+                background: "var(--bs-surface-muted)",
                 flexShrink: 0,
                 alignSelf: "stretch",
                 minHeight: 20,
@@ -1823,7 +1935,7 @@ const BusCardExpanded = ({ bus, from, to }) => {
                 maxHeight: seatMapHeight ? seatMapHeight : "none",
                 overflowY: "auto",
                 scrollbarWidth: "thin",
-                scrollbarColor: "#d1d5db transparent",
+                scrollbarColor: "var(--bs-scrollbar) transparent",
               }}
             >
               <div style={{ flex: 1 }}>
@@ -1845,19 +1957,21 @@ const BusCardExpanded = ({ bus, from, to }) => {
                   style={{
                     marginTop: "auto",
                     paddingTop: 14,
-                    borderTop: "1px solid #f3f4f6",
+                    borderTop: "1px solid var(--bs-border-soft)",
                   }}
                 >
                   <div style={{ display: "flex", gap: 16, marginBottom: 10 }}>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9ca3af" }}>
+                      <div
+                        style={{ fontSize: 11, color: "var(--bs-text-faint)" }}
+                      >
                         Seat Selected:
                       </div>
                       <div
                         style={{
                           fontSize: 13,
                           fontWeight: 600,
-                          color: "#111",
+                          color: "var(--bs-text-strong)",
                           wordBreak: "break-all",
                         }}
                       >
@@ -1867,11 +1981,17 @@ const BusCardExpanded = ({ bus, from, to }) => {
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9ca3af" }}>
+                      <div
+                        style={{ fontSize: 11, color: "var(--bs-text-faint)" }}
+                      >
                         Base Fare:
                       </div>
                       <div
-                        style={{ fontSize: 13, fontWeight: 600, color: "#111" }}
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 600,
+                          color: "var(--bs-text-strong)",
+                        }}
                       >
                         {totalFare > 0
                           ? `₹${totalFare.toLocaleString("en-IN")}`
@@ -1897,8 +2017,12 @@ const BusCardExpanded = ({ bus, from, to }) => {
                       });
                     }}
                     style={{
-                      background: canContinue ? GREEN : "#e5e7eb",
-                      color: canContinue ? "#fff" : "#9ca3af",
+                      background: canContinue
+                        ? GREEN
+                        : "var(--bs-btn-disabled-bg)",
+                      color: canContinue
+                        ? "var(--bs-text-on-brand)"
+                        : "var(--bs-btn-disabled-text)",
                       border: "none",
                       borderRadius: 8,
                       padding: "10px 0",
@@ -2037,7 +2161,13 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
   ];
 
   const Divider = () => (
-    <div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
+    <div
+      style={{
+        height: 1,
+        background: "var(--bs-surface-muted)",
+        margin: "14px 0",
+      }}
+    />
   );
   const SectionTitle = ({ children }) => (
     <div
@@ -2045,7 +2175,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
         fontSize: 12,
         fontWeight: 700,
         fontFamily: "Inter, sans-serif",
-        color: "#111",
+        color: "var(--bs-text-strong)",
         marginBottom: 8,
       }}
     >
@@ -2063,7 +2193,13 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           marginBottom: 14,
         }}
       >
-        <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            color: "var(--bs-text-strong)",
+          }}
+        >
           Filters
         </span>
         {hasActive && (
@@ -2092,10 +2228,10 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           display: "flex",
           alignItems: "center",
           gap: 6,
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--bs-border)",
           borderRadius: 8,
           padding: "7px 10px",
-          background: "#fff",
+          background: "var(--bs-surface)",
           marginBottom: 14,
         }}
       >
@@ -2104,7 +2240,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           height="14"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#9ca3af"
+          stroke="var(--bs-text-faint)"
           strokeWidth="2"
           strokeLinecap="round"
         >
@@ -2123,7 +2259,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             outline: "none",
             fontSize: 12,
             fontFamily: "Inter, sans-serif",
-            color: "#111",
+            color: "var(--bs-text-strong)",
             width: "100%",
             background: "transparent",
           }}
@@ -2133,7 +2269,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             onClick={() => setFilters((f) => ({ ...f, search: "" }))}
             style={{
               cursor: "pointer",
-              color: "#9ca3af",
+              color: "var(--bs-text-faint)",
               fontSize: 16,
               lineHeight: 1,
             }}
@@ -2157,7 +2293,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           style={{
             fontSize: 11,
             fontFamily: "Inter, sans-serif",
-            color: "#6b7280",
+            color: "var(--bs-text-muted)",
             fontWeight: 600,
           }}
         >
@@ -2167,7 +2303,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           style={{
             fontSize: 11,
             fontFamily: "Inter, sans-serif",
-            color: "#6b7280",
+            color: "var(--bs-text-muted)",
             fontWeight: 600,
           }}
         >
@@ -2189,7 +2325,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             left: 0,
             right: 0,
             height: 4,
-            background: "#e5e7eb",
+            background: "var(--bs-surface-strong)",
             fontFamily: "Inter, sans-serif",
             borderRadius: 2,
           }}
@@ -2198,11 +2334,14 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           const range = priceRange.max - priceRange.min || 1;
           const leftPct = Math.min(
             100,
-            Math.max(0, ((filters.minPrice - priceRange.min) / range) * 100)
+            Math.max(0, ((filters.minPrice - priceRange.min) / range) * 100),
           );
           const rightPct = Math.min(
             100,
-            Math.max(0, 100 - ((filters.maxPrice - priceRange.min) / range) * 100)
+            Math.max(
+              0,
+              100 - ((filters.maxPrice - priceRange.min) / range) * 100,
+            ),
           );
           return (
             <div
@@ -2263,7 +2402,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               style={{
                 fontSize: 10,
                 fontFamily: "Inter, sans-serif",
-                color: "#9ca3af",
+                color: "var(--bs-text-faint)",
                 marginBottom: 3,
               }}
             >
@@ -2289,12 +2428,12 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               }}
               style={{
                 width: "100%",
-                border: "1px solid #e5e7eb",
+                border: "1px solid var(--bs-border)",
                 borderRadius: 6,
                 padding: "4px 6px",
                 fontSize: 12,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 outline: "none",
                 boxSizing: "border-box",
               }}
@@ -2328,7 +2467,9 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             alt={slot.label}
             style={{ width: 18, height: 18, flexShrink: 0 }}
           />
-          <span style={{ fontSize: 13, color: "#374151" }}>{slot.label}</span>
+          <span style={{ fontSize: 13, color: "var(--bs-text-body)" }}>
+            {slot.label}
+          </span>
         </label>
       ))}
 
@@ -2352,7 +2493,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               height: 56,
               border: filters.busTypes[btn.key]
                 ? `1.5px solid ${GREEN}`
-                : "1px solid #E3E8EE",
+                : "1px solid var(--bs-border)",
               borderRadius: 8,
               paddingTop: 8,
               paddingRight: 16,
@@ -2364,7 +2505,9 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               justifyContent: "center",
               gap: 4,
               cursor: "pointer",
-              background: filters.busTypes[btn.key] ? GREEN_LIGHT : "#fff",
+              background: filters.busTypes[btn.key]
+                ? GREEN_LIGHT
+                : "var(--bs-surface)",
               transition: "all 0.15s",
               opacity: 1,
             }}
@@ -2377,7 +2520,9 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             <span
               style={{
                 fontSize: 11,
-                color: filters.busTypes[btn.key] ? GREEN : "#374151",
+                color: filters.busTypes[btn.key]
+                  ? GREEN
+                  : "var(--bs-text-body)",
                 fontWeight: filters.busTypes[btn.key] ? 700 : 400,
                 whiteSpace: "nowrap",
               }}
@@ -2396,11 +2541,11 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           display: "flex",
           alignItems: "center",
           gap: 6,
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--bs-border)",
           borderRadius: 8,
           padding: "7px 10px",
           marginBottom: 8,
-          background: "#fff",
+          background: "var(--bs-surface)",
         }}
       >
         <svg
@@ -2408,7 +2553,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           height="14"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#9ca3af"
+          stroke="var(--bs-text-faint)"
           strokeWidth="2"
           strokeLinecap="round"
         >
@@ -2425,7 +2570,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             outline: "none",
             fontSize: 12,
             fontFamily: "Inter, sans-serif",
-            color: "#111",
+            color: "var(--bs-text-strong)",
             width: "100%",
             background: "transparent",
           }}
@@ -2457,7 +2602,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             <span
               style={{
                 fontSize: 12,
-                color: "#374151",
+                color: "var(--bs-text-body)",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
@@ -2468,7 +2613,13 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           </label>
         ))
       ) : (
-        <div style={{ fontSize: 12, color: "#9ca3af", padding: "2px 0 4px" }}>
+        <div
+          style={{
+            fontSize: 12,
+            color: "var(--bs-text-faint)",
+            padding: "2px 0 4px",
+          }}
+        >
           No boarding points found
         </div>
       )}
@@ -2499,11 +2650,11 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           display: "flex",
           alignItems: "center",
           gap: 6,
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--bs-border)",
           borderRadius: 8,
           padding: "7px 10px",
           marginBottom: 8,
-          background: "#fff",
+          background: "var(--bs-surface)",
         }}
       >
         <svg
@@ -2511,7 +2662,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           height="14"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#9ca3af"
+          stroke="var(--bs-text-faint)"
           strokeWidth="2"
           strokeLinecap="round"
         >
@@ -2528,7 +2679,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             outline: "none",
             fontSize: 12,
             fontFamily: "Inter, sans-serif",
-            color: "#111",
+            color: "var(--bs-text-strong)",
             width: "100%",
             background: "transparent",
           }}
@@ -2560,7 +2711,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
             <span
               style={{
                 fontSize: 12,
-                color: "#374151",
+                color: "var(--bs-text-body)",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
@@ -2571,7 +2722,13 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
           </label>
         ))
       ) : (
-        <div style={{ fontSize: 12, color: "#9ca3af", padding: "2px 0 4px" }}>
+        <div
+          style={{
+            fontSize: 12,
+            color: "var(--bs-text-faint)",
+            padding: "2px 0 4px",
+          }}
+        >
           No dropping points found
         </div>
       )}
@@ -2617,9 +2774,10 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               border:
                 filters.minSeats === n
                   ? `1.5px solid ${GREEN}`
-                  : "1px solid #e5e7eb",
-              background: filters.minSeats === n ? GREEN_LIGHT : "#fff",
-              color: filters.minSeats === n ? GREEN : "#6b7280",
+                  : "1px solid var(--bs-border)",
+              background:
+                filters.minSeats === n ? GREEN_LIGHT : "var(--bs-surface)",
+              color: filters.minSeats === n ? GREEN : "var(--bs-text-muted)",
               fontSize: 12,
               fontWeight: filters.minSeats === n ? 700 : 400,
               cursor: "pointer",
@@ -2640,11 +2798,11 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               display: "flex",
               alignItems: "center",
               gap: 6,
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--bs-border)",
               borderRadius: 8,
               padding: "7px 10px",
               marginBottom: 8,
-              background: "#fff",
+              background: "var(--bs-surface)",
             }}
           >
             <svg
@@ -2652,7 +2810,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               height="14"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#9ca3af"
+              stroke="var(--bs-text-faint)"
               strokeWidth="2"
               strokeLinecap="round"
             >
@@ -2669,7 +2827,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
                 outline: "none",
                 fontSize: 12,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 width: "100%",
                 background: "transparent",
               }}
@@ -2700,7 +2858,7 @@ const FilterContent = ({ filters, setFilters, buses, priceRange }) => {
               <span
                 style={{
                   fontSize: 12,
-                  color: "#374151",
+                  color: "var(--bs-text-body)",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
@@ -2862,8 +3020,8 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
         <div className="bss-left">
           <div
             style={{
-              background: "#fff",
-              border: "1px solid #e5e7eb",
+              background: "var(--bs-surface)",
+              border: "1px solid var(--bs-border)",
               borderRadius: 12,
               paddingTop: 16,
               paddingBottom: 16,
@@ -2880,10 +3038,22 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
 
         <div className="bss-right">
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "#111" }}>
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "var(--bs-text-strong)",
+              }}
+            >
               {from && to ? `${from} → ${to}` : "Available Buses"}
             </div>
-            <div style={{ fontSize: 13, color: "#6b7280", marginTop: 2 }}>
+            <div
+              style={{
+                fontSize: 13,
+                color: "var(--bs-text-muted)",
+                marginTop: 2,
+              }}
+            >
               {filteredBuses.length} of {buses.length} buses
               {filteredBuses.length !== buses.length && (
                 <span style={{ marginLeft: 6, color: GREEN, fontWeight: 600 }}>
@@ -2899,18 +3069,28 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                 style={{
                   textAlign: "center",
                   padding: "64px 0",
-                  background: "#fff",
+                  background: "var(--bs-surface)",
                   borderRadius: 12,
-                  border: "1px solid #e5e7eb",
+                  border: "1px solid var(--bs-border)",
                 }}
               >
                 <div style={{ fontSize: 36, marginBottom: 12 }}>🔍</div>
                 <div
-                  style={{ fontSize: 15, fontWeight: 600, color: "#374151" }}
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: "var(--bs-text-body)",
+                  }}
                 >
                   No buses match your filters
                 </div>
-                <div style={{ fontSize: 13, color: "#9ca3af", marginTop: 6 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: "var(--bs-text-faint)",
+                    marginTop: 6,
+                  }}
+                >
                   Try adjusting or clearing your filters
                 </div>
               </div>
@@ -2936,11 +3116,23 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                 gap: 12,
               }}
             >
-              <div style={{ height: 1, width: 50, background: "#e5e7eb" }} />
-              <span style={{ fontSize: 12, color: "#9ca3af" }}>
+              <div
+                style={{
+                  height: 1,
+                  width: 50,
+                  background: "var(--bs-surface-strong)",
+                }}
+              />
+              <span style={{ fontSize: 12, color: "var(--bs-text-faint)" }}>
                 All buses loaded
               </span>
-              <div style={{ height: 1, width: 50, background: "#e5e7eb" }} />
+              <div
+                style={{
+                  height: 1,
+                  width: 50,
+                  background: "var(--bs-surface-strong)",
+                }}
+              />
             </div>
           )}
         </div>
@@ -2955,7 +3147,7 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
           height="16"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#fff"
+          stroke="var(--bs-text-on-brand)"
           strokeWidth="2.5"
           strokeLinecap="round"
         >
@@ -2967,7 +3159,7 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
         {activeFilterCount > 0 && (
           <span
             style={{
-              background: "#fff",
+              background: "var(--bs-surface)",
               color: GREEN,
               borderRadius: "50%",
               width: 20,
@@ -2996,9 +3188,9 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
               style={{
                 position: "sticky",
                 top: 0,
-                background: "#fff",
+                background: "var(--bs-surface)",
                 zIndex: 10,
-                borderBottom: "1px solid #f3f4f6",
+                borderBottom: "1px solid var(--bs-border-soft)",
                 padding: "12px 20px 12px",
               }}
             >
@@ -3006,7 +3198,7 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                 style={{
                   width: 40,
                   height: 4,
-                  background: "#e5e7eb",
+                  background: "var(--bs-surface-strong)",
                   borderRadius: 2,
                   margin: "0 auto 12px",
                 }}
@@ -3018,7 +3210,13 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                   alignItems: "center",
                 }}
               >
-                <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>
+                <span
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: "var(--bs-text-strong)",
+                  }}
+                >
                   Filters
                 </span>
                 <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -3060,7 +3258,7 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                   <button
                     onClick={() => setMobileFilterOpen(false)}
                     style={{
-                      background: "#f3f4f6",
+                      background: "var(--bs-surface-muted)",
                       border: "none",
                       borderRadius: 8,
                       width: 32,
@@ -3076,7 +3274,7 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                       height="14"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#374151"
+                      stroke="var(--bs-text-body)"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                     >
@@ -3099,9 +3297,9 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
               style={{
                 position: "sticky",
                 bottom: 0,
-                background: "#fff",
+                background: "var(--bs-surface)",
                 padding: "12px 20px",
-                borderTop: "1px solid #f3f4f6",
+                borderTop: "1px solid var(--bs-border-soft)",
               }}
             >
               <button
@@ -3109,7 +3307,7 @@ const BusSeatSelection = ({ buses = [], from = "", to = "" }) => {
                 style={{
                   width: "100%",
                   background: GREEN,
-                  color: "#fff",
+                  color: "var(--bs-text-on-brand)",
                   border: "none",
                   borderRadius: 10,
                   height: 48,

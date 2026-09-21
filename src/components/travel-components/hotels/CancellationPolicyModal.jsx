@@ -11,11 +11,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import EventBusyOutlinedIcon from "@mui/icons-material/EventBusyOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-const GREEN = "#16a34a";
-const RED = "#ef4444";
-const BORDER = "#e5e7eb";
-const LIGHT = "#6b7280";
-const DARK = "#111827";
+const GREEN = "var(--ht-brand)";
+const RED = "var(--ht-danger-text)";
+const BORDER = "var(--ht-border)";
+const LIGHT = "var(--ht-text-muted)";
+const DARK = "var(--ht-text-strong)";
 
 // Same safe date formatter used elsewhere — avoids `new Date()` timezone
 // shifting. Handles both "16-08-2026 00:00:00" (TBO format) and
@@ -41,7 +41,8 @@ const formatPolicyDate = (value) => {
 
 const formatCharge = (policy) => {
   if (!policy || policy.CancellationCharge === 0) return "Free";
-  if (policy.ChargeType === "Percentage") return `${policy.CancellationCharge}%`;
+  if (policy.ChargeType === "Percentage")
+    return `${policy.CancellationCharge}%`;
   return `₹${Number(policy.CancellationCharge).toLocaleString("en-IN")}`;
 };
 
@@ -104,7 +105,9 @@ const CancellationPolicyModal = ({
             px: 1.5,
             py: 0.6,
             borderRadius: "30px",
-            bgcolor: isRefundable ? "#dcfce7" : "#fef2f2",
+            bgcolor: isRefundable
+              ? "var(--ht-success-bg-strong)"
+              : "var(--ht-danger-bg)",
             mb: 2.5,
           }}
         >
@@ -166,7 +169,10 @@ const CancellationPolicyModal = ({
                         justifyContent: "space-between",
                         px: 2,
                         py: 1.5,
-                        bgcolor: i % 2 === 0 ? "#fff" : "#fafafa",
+                        bgcolor:
+                          i % 2 === 0
+                            ? "var(--ht-surface)"
+                            : "var(--ht-surface-subtle)",
                       }}
                     >
                       <Box>
@@ -218,9 +224,9 @@ const CancellationPolicyModal = ({
                 fontFamily: "Inter, sans-serif",
               }}
             >
-              Charges shown are deducted from your paid amount if you cancel
-              on or after the corresponding date. Times are as per hotel's
-              local check-in policy.
+              Charges shown are deducted from your paid amount if you cancel on
+              or after the corresponding date. Times are as per hotel's local
+              check-in policy.
             </Typography>
           </>
         )}

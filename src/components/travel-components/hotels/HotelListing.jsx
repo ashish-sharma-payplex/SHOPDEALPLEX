@@ -44,7 +44,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-const GREEN = "#16a34a";
+const GREEN = "var(--ht-brand)";
 const MAX_CITY_RADIUS_KM = 75;
 
 const STAR_ROWS = [
@@ -88,7 +88,7 @@ const hotelDotIcon = L.divIcon({
   className: "",
   html: `
     <div style="display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#dc2626">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="var(--ht-danger-text)">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
       </svg>
     </div>
@@ -103,7 +103,7 @@ const myLocationIcon = L.divIcon({
   html: `
     <div style="position:relative;width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
       <div style="position:absolute;width:24px;height:24px;border-radius:50%;background:rgba(37,99,235,0.25);animation:myloc-pulse 1.8s ease-out infinite;"></div>
-      <div style="width:12px;height:12px;border-radius:50%;background:#2563eb;border:2.5px solid #fff;box-shadow:0 1px 6px rgba(37,99,235,0.6);position:relative;z-index:1;"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#2563eb;border:2.5px solid var(--ht-surface);box-shadow:0 1px 6px rgba(37,99,235,0.6);position:relative;z-index:1;"></div>
     </div>
     <style>
       @keyframes myloc-pulse { 0%{transform:scale(0.5);opacity:1} 100%{transform:scale(2);opacity:0} }
@@ -195,7 +195,7 @@ function DraggableMarker({ position, setPosition }) {
 // ─── Skeleton Card ────────────────────────────
 const shimmerBg = {
   background:
-    "linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%)",
+    "linear-gradient(90deg, var(--ht-skeleton-b) 25%, var(--ht-skeleton-a) 50%, var(--ht-skeleton-b) 75%)",
   backgroundSize: "600px 100%",
   animation: "skeleton-shimmer 1.5s ease-in-out infinite", // ✅ CHANGED — pulse (blink) se shimmer (smooth sliding) pe switch kiya
 };
@@ -205,8 +205,8 @@ const SkeletonCard = () => (
     sx={{
       display: "flex",
       width: "100%",
-      bgcolor: "#fff",
-      border: "1px solid #e5e7eb",
+      bgcolor: "var(--ht-surface)",
+      border: "1px solid var(--ht-border)",
       borderRadius: "12px",
       overflow: "hidden",
       boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
@@ -225,7 +225,12 @@ const SkeletonCard = () => (
         }}
       />
       <Box
-        sx={{ width: 4, height: 4, borderRadius: "50%", bgcolor: "#d1d5db" }}
+        sx={{
+          width: 4,
+          height: 4,
+          borderRadius: "50%",
+          bgcolor: "var(--ht-surface-strong)",
+        }}
       />
       <Box
         sx={{
@@ -301,8 +306,8 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
       sx={{
         display: "flex",
         width: "100%",
-        bgcolor: "#fff",
-        border: "1px solid #e5e7eb",
+        bgcolor: "var(--ht-surface)",
+        border: "1px solid var(--ht-border)",
         borderRadius: "12px",
         overflow: "hidden",
         boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
@@ -330,7 +335,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ht-border)",
               borderRadius: "6px",
               px: "10px",
               py: "3px",
@@ -342,19 +347,19 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
                 fontSize: 13,
                 fontWeight: 600,
                 fontFamily: "Inter, sans-serif",
-                color: "#222",
+                color: "var(--ht-text-strong)",
               }}
             >
               {hotel.stars ?? hotel.HotelRating ?? ""}
             </Typography>
             {(hotel.stars || hotel.HotelRating) && (
-              <StarIcon sx={{ fontSize: 15, color: "#f5a623" }} />
+              <StarIcon sx={{ fontSize: 15, color: "var(--ht-star)" }} />
             )}
             <Typography
               sx={{
                 fontSize: 13,
                 fontFamily: "Inter, sans-serif",
-                color: "#aaa",
+                color: "var(--ht-text-faint)",
               }}
             >
               •
@@ -363,7 +368,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
               sx={{
                 fontSize: 13,
                 fontFamily: "Inter, sans-serif",
-                color: "#666",
+                color: "var(--ht-text-neutral)",
               }}
             >
               {hotel.type ?? hotel.HotelType ?? "Hotel"}
@@ -376,7 +381,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
             fontSize: { xs: 17, md: 21 },
             fontWeight: 700,
             fontFamily: "Inter, sans-serif",
-            color: "#111",
+            color: "var(--ht-text-strong)",
             lineHeight: 1.3,
           }}
         >
@@ -387,7 +392,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
           sx={{
             fontSize: 13,
             fontFamily: "Inter, sans-serif",
-            color: "#777",
+            color: "var(--ht-text-muted)",
           }}
         >
           {hotel.location ?? hotel.address ?? hotel.Address ?? ""}
@@ -408,7 +413,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
                   sx={{
                     fontSize: 13,
                     fontFamily: "Inter, sans-serif",
-                    color: "#374151",
+                    color: "var(--ht-text-body)",
                   }}
                 >
                   {amenity}
@@ -426,7 +431,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
                   sx={{
                     fontSize: 13,
                     fontFamily: "Inter, sans-serif",
-                    color: "#9ca3af",
+                    color: "var(--ht-text-faint)",
                     textDecoration: "line-through",
                   }}
                 >
@@ -438,7 +443,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
                   fontSize: 19,
                   fontWeight: 700,
                   fontFamily: "Inter, sans-serif",
-                  color: "#111",
+                  color: "var(--ht-text-strong)",
                 }}
               >
                 ₹{Number(hotel.price).toLocaleString("en-IN")}
@@ -449,7 +454,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
                 sx={{
                   fontSize: 12,
                   fontFamily: "Inter, sans-serif",
-                  color: "#9ca3af",
+                  color: "var(--ht-text-faint)",
                 }}
               >
                 +{Number(hotel.taxes).toLocaleString("en-IN")} taxes &amp; fees
@@ -459,7 +464,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
               sx={{
                 fontSize: 12,
                 fontFamily: "Inter, sans-serif",
-                color: "#9ca3af",
+                color: "var(--ht-text-faint)",
               }}
             >
               per night
@@ -490,7 +495,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
           sx={{
             flexShrink: 0,
             bgcolor: GREEN,
-            color: "#fff",
+            color: "var(--ht-text-on-brand)",
             fontWeight: 600,
             fontSize: "0.8rem",
             fontFamily: "Inter, sans-serif",
@@ -499,7 +504,7 @@ const HotelCard = React.memo(({ hotel, guestsData, searchParams = {} }) => {
             px: 2.5,
             py: 0.9,
             whiteSpace: "nowrap",
-            "&:hover": { bgcolor: "#15803d" },
+            "&:hover": { bgcolor: "var(--ht-brand-hover)" },
           }}
         >
           Book Now
@@ -522,7 +527,7 @@ const StarRatingRow = React.memo(({ starCount, label, checked, onChange }) => (
       px: "4px",
       borderRadius: "8px",
       transition: "background 0.15s",
-      "&:hover": { bgcolor: "#f9fafb" },
+      "&:hover": { bgcolor: "var(--ht-surface-subtle)" },
     }}
   >
     <Checkbox
@@ -532,7 +537,7 @@ const StarRatingRow = React.memo(({ starCount, label, checked, onChange }) => (
       onClick={(e) => e.stopPropagation()}
       sx={{
         p: 0,
-        color: "#d1d5db",
+        color: "var(--ht-text-disabled)",
         "&.Mui-checked": { color: GREEN },
         "& .MuiSvgIcon-root": { fontSize: 20 },
       }}
@@ -540,9 +545,12 @@ const StarRatingRow = React.memo(({ starCount, label, checked, onChange }) => (
     <Box sx={{ display: "flex", alignItems: "center", gap: "1px" }}>
       {[1, 2, 3, 4, 5].map((i) =>
         i <= starCount ? (
-          <StarIcon key={i} sx={{ fontSize: 17, color: "#f5a623" }} />
+          <StarIcon key={i} sx={{ fontSize: 17, color: "var(--ht-star)" }} />
         ) : (
-          <StarBorderIcon key={i} sx={{ fontSize: 17, color: "#d1d5db" }} />
+          <StarBorderIcon
+            key={i}
+            sx={{ fontSize: 17, color: "var(--ht-text-disabled)" }}
+          />
         ),
       )}
     </Box>
@@ -550,7 +558,7 @@ const StarRatingRow = React.memo(({ starCount, label, checked, onChange }) => (
       sx={{
         fontSize: 13,
         fontFamily: "Inter, sans-serif",
-        color: "#374151",
+        color: "var(--ht-text-body)",
         lineHeight: 1,
       }}
     >
@@ -694,9 +702,9 @@ const FilterPanel = React.memo(
         <Box
           sx={{
             width: "100%",
-            bgcolor: "#fff",
+            bgcolor: "var(--ht-surface)",
             borderRadius: "16px",
-            border: "1px solid #e5e7eb",
+            border: "1px solid var(--ht-border)",
             overflow: "hidden",
             boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
             ...(mapFullscreen && {
@@ -732,15 +740,19 @@ const FilterPanel = React.memo(
                   fontSize: 15,
                   fontWeight: 600,
                   fontFamily: "Inter, sans-serif",
-                  color: "#111",
+                  color: "var(--ht-text-strong)",
                 }}
               >
                 Search by Area
               </Typography>
               {geoOpen ? (
-                <ExpandLessIcon sx={{ color: "#555", fontSize: 20 }} />
+                <ExpandLessIcon
+                  sx={{ color: "var(--ht-text-neutral)", fontSize: 20 }}
+                />
               ) : (
-                <ExpandMoreIcon sx={{ color: "#555", fontSize: 20 }} />
+                <ExpandMoreIcon
+                  sx={{ color: "var(--ht-text-neutral)", fontSize: 20 }}
+                />
               )}
             </Box>
 
@@ -752,15 +764,15 @@ const FilterPanel = React.memo(
                       mb: 1.5,
                       px: 2,
                       py: 1,
-                      bgcolor: "#fef2f2",
-                      border: "1px solid #fecaca",
+                      bgcolor: "var(--ht-danger-bg)",
+                      border: "1px solid var(--ht-danger-border)",
                       borderRadius: "8px",
                     }}
                   >
                     <Typography
                       sx={{
                         fontSize: 12,
-                        color: "#dc2626",
+                        color: "var(--ht-danger-text)",
                         fontWeight: 500,
                         fontFamily: "Inter, sans-serif",
                       }}
@@ -777,7 +789,7 @@ const FilterPanel = React.memo(
                     height: mapHeight,
                     borderRadius: "10px",
                     overflow: "hidden",
-                    border: "1px solid #e5e7eb",
+                    border: "1px solid var(--ht-border)",
                     mb: 1.5,
                     transition: "height 0.3s ease",
                     position: "relative",
@@ -820,7 +832,7 @@ const FilterPanel = React.memo(
                               fontSize: 12,
                               display: "block",
                               marginBottom: 2,
-                              color: "#1d4ed8",
+                              color: "var(--ht-info-text)",
                             }}
                           >
                             Your Location
@@ -828,7 +840,7 @@ const FilterPanel = React.memo(
                           <span
                             style={{
                               fontSize: 11,
-                              color: "#555",
+                              color: "var(--ht-text-neutral)",
                               fontFamily: "monospace",
                             }}
                           >
@@ -842,13 +854,13 @@ const FilterPanel = React.memo(
                     {hotels.map((hotel) => {
                       const lat = parseFloat(
                         hotel?._raw?.Latitude ??
-                        hotel?.Latitude ??
-                        hotel?.latitude,
+                          hotel?.Latitude ??
+                          hotel?.latitude,
                       );
                       const lng = parseFloat(
                         hotel?._raw?.Longitude ??
-                        hotel?.Longitude ??
-                        hotel?.longitude,
+                          hotel?.Longitude ??
+                          hotel?.longitude,
                       );
                       if (isNaN(lat) || isNaN(lng)) return null;
                       return (
@@ -880,7 +892,7 @@ const FilterPanel = React.memo(
                               <span
                                 style={{
                                   fontSize: 11,
-                                  color: "#555",
+                                  color: "var(--ht-text-neutral)",
                                   fontFamily: "Inter, sans-serif",
                                 }}
                               >
@@ -900,7 +912,7 @@ const FilterPanel = React.memo(
                         inset: 0,
                         zIndex: 900,
                         borderRadius: "10px",
-                        bgcolor: "rgba(255,255,255,0.72)",
+                        bgcolor: "var(--ht-surface-glass)",
                         backdropFilter: "blur(2px)",
                         display: "flex",
                         flexDirection: "column",
@@ -945,7 +957,7 @@ const FilterPanel = React.memo(
                             height: 16,
                             borderRadius: "50%",
                             bgcolor: "#2563eb",
-                            border: "3px solid #fff",
+                            border: "3px solid var(--ht-surface)",
                             boxShadow: "0 2px 8px rgba(37,99,235,0.5)",
                             zIndex: 1,
                           }}
@@ -955,7 +967,7 @@ const FilterPanel = React.memo(
                         sx={{
                           fontSize: 12,
                           fontWeight: 600,
-                          color: "#1d4ed8",
+                          color: "var(--ht-info-text)",
                           fontFamily: "Inter, sans-serif",
                         }}
                       >
@@ -976,9 +988,10 @@ const FilterPanel = React.memo(
                               width: w,
                               height: 8,
                               borderRadius: 4,
-                              bgcolor: "#bfdbfe",
-                              animation: `maplocpulse ${1.2 + i * 0.2
-                                }s ease-in-out infinite`,
+                              bgcolor: "var(--ht-info-border)",
+                              animation: `maplocpulse ${
+                                1.2 + i * 0.2
+                              }s ease-in-out infinite`,
                             }}
                           />
                         ))}
@@ -998,8 +1011,8 @@ const FilterPanel = React.memo(
                       top: 8,
                       right: 8,
                       zIndex: 1000,
-                      bgcolor: "#fff",
-                      border: "1px solid #d1d5db",
+                      bgcolor: "var(--ht-surface)",
+                      border: "1px solid var(--ht-border-strong)",
                       borderRadius: "8px",
                       p: "4px 8px",
                       cursor: "pointer",
@@ -1007,19 +1020,28 @@ const FilterPanel = React.memo(
                       display: "flex",
                       alignItems: "center",
                       gap: "4px",
-                      "&:hover": { bgcolor: "#f0fdf4", borderColor: GREEN },
+                      "&:hover": {
+                        bgcolor: "var(--ht-success-bg)",
+                        borderColor: GREEN,
+                      },
                       transition: "all 0.15s",
                     }}
                   >
                     {mapFullscreen ? (
                       <FullscreenExitIcon
-                        sx={{ fontSize: 16, color: "#374151" }}
+                        sx={{ fontSize: 16, color: "var(--ht-text-body)" }}
                       />
                     ) : (
-                      <FullscreenIcon sx={{ fontSize: 16, color: "#374151" }} />
+                      <FullscreenIcon
+                        sx={{ fontSize: 16, color: "var(--ht-text-body)" }}
+                      />
                     )}
                     <Typography
-                      sx={{ fontSize: 11, color: "#374151", fontWeight: 500 }}
+                      sx={{
+                        fontSize: 11,
+                        color: "var(--ht-text-body)",
+                        fontWeight: 500,
+                      }}
                     >
                       {mapFullscreen ? "Exit" : "Expand"}
                     </Typography>
@@ -1070,16 +1092,23 @@ const FilterPanel = React.memo(
                       minWidth: 0,
                       px: 1.5,
                       py: 1,
-                      borderColor: locating ? GREEN : "#d1d5db",
+                      borderColor: locating ? GREEN : "var(--ht-border-strong)",
                       borderRadius: "8px",
-                      color: locating ? GREEN : "#555",
-                      bgcolor: locating ? "#f0fdf4" : "transparent",
+                      color: locating
+                        ? "var(--ht-brand-text)"
+                        : "var(--ht-text-neutral)",
+                      bgcolor: locating
+                        ? "var(--ht-brand-soft-bg)"
+                        : "transparent",
                       "&:hover": {
                         borderColor: GREEN,
                         color: GREEN,
-                        bgcolor: "#f0fdf4",
+                        bgcolor: "var(--ht-success-bg)",
                       },
-                      "&:disabled": { borderColor: GREEN, bgcolor: "#f0fdf4" },
+                      "&:disabled": {
+                        borderColor: GREEN,
+                        bgcolor: "var(--ht-success-bg)",
+                      },
                       transition: "all 0.2s",
                     }}
                     title="Use my location"
@@ -1098,22 +1127,25 @@ const FilterPanel = React.memo(
                   disabled={geoSearching}
                   sx={{
                     bgcolor: GREEN,
-                    color: "#fff",
+                    color: "var(--ht-text-on-brand)",
                     fontWeight: 600,
                     fontFamily: "Inter, sans-serif",
                     fontSize: "0.82rem",
                     textTransform: "none",
                     borderRadius: "8px",
                     py: 1,
-                    "&:hover": { bgcolor: "#15803d" },
-                    "&:disabled": { bgcolor: "#d1d5db", color: "#fff" },
+                    "&:hover": { bgcolor: "var(--ht-brand-hover)" },
+                    "&:disabled": {
+                      bgcolor: "var(--ht-surface-strong)",
+                      color: "var(--ht-text-on-brand)",
+                    },
                   }}
                 >
                   {geoSearching ? (
                     <>
                       <CircularProgress
                         size={14}
-                        sx={{ color: "#fff", mr: 1 }}
+                        sx={{ color: "var(--ht-text-on-brand)", mr: 1 }}
                       />
                       Searching...
                     </>
@@ -1125,7 +1157,7 @@ const FilterPanel = React.memo(
             )}
           </Box>
 
-          <Box sx={{ height: "1px", bgcolor: "#f3f4f6" }} />
+          <Box sx={{ height: "1px", bgcolor: "var(--ht-surface-muted)" }} />
 
           <Box
             sx={{
@@ -1142,7 +1174,7 @@ const FilterPanel = React.memo(
                 fontSize: 16,
                 fontWeight: 600,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--ht-text-strong)",
               }}
             >
               Filter by:
@@ -1153,7 +1185,7 @@ const FilterPanel = React.memo(
                 fontSize: 14,
                 fontWeight: 500,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--ht-text-strong)",
                 cursor: "pointer",
                 textDecoration: "underline",
                 "&:hover": { color: GREEN },
@@ -1164,7 +1196,9 @@ const FilterPanel = React.memo(
           </Box>
 
           <Box sx={{ px: 2.5, pb: 2.5 }}>
-            <Box sx={{ height: "1px", bgcolor: "#f3f4f6", mb: 2 }} />
+            <Box
+              sx={{ height: "1px", bgcolor: "var(--ht-surface-muted)", mb: 2 }}
+            />
 
             <Box
               sx={{
@@ -1181,15 +1215,19 @@ const FilterPanel = React.memo(
                   fontSize: 15,
                   fontWeight: 600,
                   fontFamily: "Inter, sans-serif",
-                  color: "#111",
+                  color: "var(--ht-text-strong)",
                 }}
               >
                 Star Rating
               </Typography>
               {ratingOpen ? (
-                <ExpandLessIcon sx={{ color: "#555", fontSize: 20 }} />
+                <ExpandLessIcon
+                  sx={{ color: "var(--ht-text-neutral)", fontSize: 20 }}
+                />
               ) : (
-                <ExpandMoreIcon sx={{ color: "#555", fontSize: 20 }} />
+                <ExpandMoreIcon
+                  sx={{ color: "var(--ht-text-neutral)", fontSize: 20 }}
+                />
               )}
             </Box>
 
@@ -1214,8 +1252,12 @@ const FilterPanel = React.memo(
               </Box>
             )}
 
-            <Box sx={{ height: "1px", bgcolor: "#f3f4f6", mb: 2 }} />
-            <Box sx={{ height: "1px", bgcolor: "#f3f4f6", my: 2 }} />
+            <Box
+              sx={{ height: "1px", bgcolor: "var(--ht-surface-muted)", mb: 2 }}
+            />
+            <Box
+              sx={{ height: "1px", bgcolor: "var(--ht-surface-muted)", my: 2 }}
+            />
           </Box>
         </Box>
       </>
@@ -1442,7 +1484,7 @@ const HotelListing = ({
                 fontSize: { xs: 16, md: 20 },
                 fontWeight: 700,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--ht-text-strong)",
               }}
             >
               {cityName
@@ -1453,7 +1495,7 @@ const HotelListing = ({
               sx={{
                 fontSize: 13,
                 fontFamily: "Inter, sans-serif",
-                color: "#6b7280",
+                color: "var(--ht-text-muted)",
                 mt: 0.3,
               }}
             >
@@ -1492,7 +1534,7 @@ const HotelListing = ({
               onChange={(e) => setSearchTerm(e.target.value)}
               size="small"
               sx={{
-                bgcolor: "#fff",
+                bgcolor: "var(--ht-surface)",
                 "& .MuiOutlinedInput-root": { borderRadius: "10px" },
               }}
             />
@@ -1504,9 +1546,9 @@ const HotelListing = ({
             sx={{
               textAlign: "center",
               py: 8,
-              bgcolor: "#fff",
+              bgcolor: "var(--ht-surface)",
               borderRadius: "12px",
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ht-border)",
             }}
           >
             <Typography sx={{ fontSize: 40, mb: 2 }}>🏨</Typography>
@@ -1515,7 +1557,7 @@ const HotelListing = ({
                 fontSize: 16,
                 fontWeight: 600,
                 fontFamily: "Inter, sans-serif",
-                color: "#374151",
+                color: "var(--ht-text-body)",
               }}
             >
               No hotels found
@@ -1524,7 +1566,7 @@ const HotelListing = ({
               sx={{
                 fontSize: 13,
                 fontFamily: "Inter, sans-serif",
-                color: "#9ca3af",
+                color: "var(--ht-text-faint)",
                 mt: 1,
               }}
             >
@@ -1545,14 +1587,14 @@ const HotelListing = ({
         ))}
 
         {/* Skeleton sirf infinite scroll ke liye — filter/search pe kabhi nahi */}
-        {loadingMore && !geoActive && !searchTerm.trim() && (  
+        {loadingMore && !geoActive && !searchTerm.trim() && (
           <>
             <SkeletonCard />
             <SkeletonCard />
           </>
         )}
 
-        {hasMore && !geoActive && !searchTerm.trim() && (       
+        {hasMore && !geoActive && !searchTerm.trim() && (
           <Box ref={sentinelRef} sx={{ height: 40 }} />
         )}
         {!hasMore && displayedHotels.length > 0 && !loadingMore && (
@@ -1565,11 +1607,23 @@ const HotelListing = ({
               gap: 1.5,
             }}
           >
-            <Box sx={{ height: "1px", width: 60, bgcolor: "#e5e7eb" }} />
-            <Typography sx={{ fontSize: 13, color: "#9ca3af" }}>
+            <Box
+              sx={{
+                height: "1px",
+                width: 60,
+                bgcolor: "var(--ht-surface-strong)",
+              }}
+            />
+            <Typography sx={{ fontSize: 13, color: "var(--ht-text-faint)" }}>
               All hotels loaded
             </Typography>
-            <Box sx={{ height: "1px", width: 60, bgcolor: "#e5e7eb" }} />
+            <Box
+              sx={{
+                height: "1px",
+                width: 60,
+                bgcolor: "var(--ht-surface-strong)",
+              }}
+            />
           </Box>
         )}
       </Box>

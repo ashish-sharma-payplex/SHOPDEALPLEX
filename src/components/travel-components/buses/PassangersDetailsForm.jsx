@@ -15,7 +15,7 @@ const STYLES = `
     padding: 24px;
     max-width: 1300px;
     margin: 0 auto;
-    // background: #f9fafb;
+    // background: var(--bs-surface-subtle);
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     box-sizing: border-box;
@@ -23,12 +23,12 @@ const STYLES = `
     margin-top: 60px; 
 
   }
-  .pdf-card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:20px; margin-bottom:16px; }
+  .pdf-card { background:var(--bs-surface); border:1px solid var(--bs-border); border-radius:12px; padding:20px; margin-bottom:16px; }
   .pdf-card:last-child { margin-bottom:0; }
   .pdf-fields-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
   .pdf-fields-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .pdf-billing-top { display:grid; grid-template-columns:1fr 140px; gap:12px; margin-bottom:12px; }
-  .pdf-summary { position:sticky; top:24px; background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:20px; }
+  .pdf-summary { position:sticky; top:24px; background:var(--bs-surface); border:1px solid var(--bs-border); border-radius:12px; padding:20px; }
   @media (max-width:860px) {
     .pdf-page { grid-template-columns:1fr; padding:16px; }
     .pdf-summary { position:static; order:999; }
@@ -55,11 +55,11 @@ const injectStyles = () => {
   }
 };
 
-const GREEN = "#16a34a";
-const GREEN_LIGHT = "#f0fdf4";
-const GREEN_BORDER = "#bbf7d0";
-const ERROR_COLOR = "#ef4444";
-const ERROR_LIGHT = "#fef2f2";
+const GREEN = "var(--bs-brand)";
+const GREEN_LIGHT = "var(--bs-success-bg)";
+const GREEN_BORDER = "var(--bs-success-border)";
+const ERROR_COLOR = "var(--bs-danger-text)";
+const ERROR_LIGHT = "var(--bs-danger-bg)";
 
 // Sleeper SeatType codes — mirrors the mapping used on the seat-selection
 // screen (BusSeatSelection.jsx) so "deck" only applies to sleeper buses.
@@ -74,9 +74,11 @@ const DeckBadge = ({ isUpper }) => (
       gap: 4,
       fontSize: 11,
       fontWeight: 700,
-      color: isUpper ? "#7c3aed" : "#0f766e",
-      background: isUpper ? "#f5f3ff" : "#f0fdfa",
-      border: `1px solid ${isUpper ? "#ddd6fe" : "#99f6e4"}`,
+      color: isUpper ? "var(--bs-purple-text)" : "var(--bs-teal-text)",
+      background: isUpper ? "var(--bs-purple-bg)" : "var(--bs-teal-bg)",
+      border: `1px solid ${
+        isUpper ? "var(--bs-purple-border)" : "var(--bs-teal-border)"
+      }`,
       borderRadius: 5,
       padding: "2px 7px",
       letterSpacing: 0.2,
@@ -179,18 +181,18 @@ const FocusInput = ({ style, error, ...props }) => {
         border: error
           ? `1.5px solid ${ERROR_COLOR}`
           : focused
-            ? `1.5px solid ${GREEN}`
-            : "1px solid #e5e7eb",
+          ? `1.5px solid ${GREEN}`
+          : "1px solid var(--bs-input-border)",
         borderRadius: 8,
         padding: "0 12px",
         fontSize: 13,
-        color: "#111",
-        background: error ? ERROR_LIGHT : "#fff",
+        color: "var(--bs-text-strong)",
+        background: error ? ERROR_LIGHT : "var(--bs-input-bg)",
         outline: "none",
         boxSizing: "border-box",
         boxShadow: focused
           ? error
-            ? "0 0 0 3px #fee2e2"
+            ? "0 0 0 3px var(--bs-danger-bg-strong)"
             : `0 0 0 3px ${GREEN_LIGHT}`
           : "none",
         transition: "border-color 0.15s, box-shadow 0.15s",
@@ -214,20 +216,20 @@ const FocusSelect = ({ style, children, error, ...props }) => {
           border: error
             ? `1.5px solid ${ERROR_COLOR}`
             : focused
-              ? `1.5px solid ${GREEN}`
-              : "1px solid #e5e7eb",
+            ? `1.5px solid ${GREEN}`
+            : "1px solid var(--bs-input-border)",
           borderRadius: 8,
           padding: "0 32px 0 12px",
           fontSize: 13,
-          color: "#111",
-          background: error ? ERROR_LIGHT : "#fff",
+          color: "var(--bs-text-strong)",
+          background: error ? ERROR_LIGHT : "var(--bs-input-bg)",
           outline: "none",
           boxSizing: "border-box",
           appearance: "none",
           cursor: "pointer",
           boxShadow: focused
             ? error
-              ? "0 0 0 3px #fee2e2"
+              ? "0 0 0 3px var(--bs-danger-bg-strong)"
               : `0 0 0 3px ${GREEN_LIGHT}`
             : "none",
           transition: "border-color 0.15s, box-shadow 0.15s",
@@ -253,7 +255,7 @@ const FocusSelect = ({ style, children, error, ...props }) => {
       >
         <path
           d="M1 1L6 7L11 1"
-          stroke="#9ca3af"
+          stroke="var(--bs-text-faint)"
           strokeWidth="1.5"
           strokeLinecap="round"
         />
@@ -268,7 +270,7 @@ const Field = ({ label, required, error, children }) => (
       style={{
         display: "block",
         fontSize: 12,
-        color: "#6b7280",
+        color: "var(--bs-text-muted)",
         marginBottom: 5,
         fontWeight: 500,
       }}
@@ -314,7 +316,7 @@ const PassengerBlock = ({ index, seat, isLead, form, errors, onChange }) => (
       gap: 12,
       paddingBottom: 16,
       marginBottom: 16,
-      borderBottom: "1px solid #f3f4f6",
+      borderBottom: "1px solid var(--bs-border-soft)",
     }}
   >
     <div
@@ -322,8 +324,8 @@ const PassengerBlock = ({ index, seat, isLead, form, errors, onChange }) => (
         width: 38,
         height: 38,
         borderRadius: "50%",
-        background: "#f3f4f6",
-        border: "1px solid #e5e7eb",
+        background: "var(--bs-surface-muted)",
+        border: "1px solid var(--bs-border)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -336,7 +338,7 @@ const PassengerBlock = ({ index, seat, isLead, form, errors, onChange }) => (
         height="18"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#9ca3af"
+        stroke="var(--bs-text-faint)"
         strokeWidth="1.8"
       >
         <circle cx="12" cy="7" r="4" />
@@ -357,7 +359,7 @@ const PassengerBlock = ({ index, seat, isLead, form, errors, onChange }) => (
             fontSize: 14,
             fontFamily: "Inter, sans-serif",
             fontWeight: 600,
-            color: "#111",
+            color: "var(--bs-text-strong)",
           }}
         >
           Passenger {index}
@@ -391,14 +393,21 @@ const PassengerBlock = ({ index, seat, isLead, form, errors, onChange }) => (
           style={{
             fontSize: 12,
             fontFamily: "Inter, sans-serif",
-            color: "#6b7280",
+            color: "var(--bs-text-muted)",
             fontWeight: 600,
           }}
         >
           Seat {seat?.SeatName}
           {isSleeperSeat(seat) && (
-            <span style={{ color: seat?.IsUpper ? "#7c3aed" : "#0f766e" }}>
-              {" "}({seat?.IsUpper ? "Upper" : "Lower"})
+            <span
+              style={{
+                color: seat?.IsUpper
+                  ? "var(--bs-purple-text)"
+                  : "var(--bs-teal-text)",
+              }}
+            >
+              {" "}
+              ({seat?.IsUpper ? "Upper" : "Lower"})
             </span>
           )}
         </span>
@@ -478,7 +487,7 @@ const Stop = ({ time, date, place }) => (
         style={{
           fontSize: 14,
           fontWeight: 700,
-          color: "#111",
+          color: "var(--bs-text-strong)",
           lineHeight: 1.2,
         }}
       >
@@ -488,7 +497,7 @@ const Stop = ({ time, date, place }) => (
         style={{
           fontSize: 11,
           fontFamily: "Inter, sans-serif",
-          color: "#9ca3af",
+          color: "var(--bs-text-faint)",
           marginTop: 2,
         }}
       >
@@ -496,12 +505,22 @@ const Stop = ({ time, date, place }) => (
       </div>
     </div>
     <div
-      style={{ paddingTop: 0, flexShrink: 0, background: "#fff", zIndex: 1 }}
+      style={{
+        paddingTop: 0,
+        flexShrink: 0,
+        background: "var(--bs-surface)",
+        zIndex: 1,
+      }}
     >
       <LocationPinIcon />
     </div>
     <div
-      style={{ fontSize: 13, color: "#374151", lineHeight: 1.5, paddingTop: 3 }}
+      style={{
+        fontSize: 13,
+        color: "var(--bs-text-body)",
+        lineHeight: 1.5,
+        paddingTop: 3,
+      }}
     >
       {place}
     </div>
@@ -527,7 +546,7 @@ const SummaryPanel = ({
           fontSize: 15,
           fontWeight: 700,
           fontFamily: "Inter, sans-serif",
-          color: "#111",
+          color: "var(--bs-text-strong)",
         }}
       >
         {bus.operatorName}
@@ -536,14 +555,20 @@ const SummaryPanel = ({
         style={{
           fontSize: 12,
           fontFamily: "Inter, sans-serif",
-          color: "#9ca3af",
+          color: "var(--bs-text-faint)",
           marginTop: 3,
           marginBottom: 16,
         }}
       >
         {bus.busType}
       </div>
-      <div style={{ height: 1, background: "#f3f4f6", marginBottom: 14 }} />
+      <div
+        style={{
+          height: 1,
+          background: "var(--bs-surface-muted)",
+          marginBottom: 14,
+        }}
+      />
       <div style={{ position: "relative" }}>
         <div
           style={{
@@ -552,7 +577,7 @@ const SummaryPanel = ({
             top: 14,
             width: 1.5,
             height: "calc(50% + 6px)",
-            background: "#e5e7eb",
+            background: "var(--bs-surface-strong)",
           }}
         />
         <Stop
@@ -561,7 +586,11 @@ const SummaryPanel = ({
           place={`${bus.from} · ${selectedBoardingPoint?.name}`}
         />
         <div
-          style={{ fontSize: 11, color: "#9ca3af", padding: "6px 0 6px 76px" }}
+          style={{
+            fontSize: 11,
+            color: "var(--bs-text-faint)",
+            padding: "6px 0 6px 76px",
+          }}
         >
           {bus.duration}
         </div>
@@ -571,13 +600,19 @@ const SummaryPanel = ({
           place={`${bus.to} · ${selectedDroppingPoint?.name}`}
         />
       </div>
-      <div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
+      <div
+        style={{
+          height: 1,
+          background: "var(--bs-surface-muted)",
+          margin: "14px 0",
+        }}
+      />
       <div
         style={{
           fontSize: 13,
           fontWeight: 600,
           fontFamily: "Inter, sans-serif",
-          color: "#111",
+          color: "var(--bs-text-strong)",
           marginBottom: 4,
         }}
       >
@@ -599,7 +634,7 @@ const SummaryPanel = ({
               padding: "4px 10px",
               fontSize: 12,
               fontWeight: 600,
-              color: "#166534",
+              color: "var(--bs-brand-strong-text)",
             }}
           >
             {seat.SeatName}
@@ -608,7 +643,9 @@ const SummaryPanel = ({
                 style={{
                   fontSize: 10,
                   fontWeight: 700,
-                  color: seat.IsUpper ? "#7c3aed" : "#0f766e",
+                  color: seat.IsUpper
+                    ? "var(--bs-purple-text)"
+                    : "var(--bs-teal-text)",
                 }}
               >
                 · {seat.IsUpper ? "Upper" : "Lower"}
@@ -617,13 +654,19 @@ const SummaryPanel = ({
           </span>
         ))}
       </div>
-      <div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
+      <div
+        style={{
+          height: 1,
+          background: "var(--bs-surface-muted)",
+          margin: "14px 0",
+        }}
+      />
       <div
         style={{
           fontSize: 14,
           fontWeight: 700,
           fontFamily: "Inter, sans-serif",
-          color: "#111",
+          color: "var(--bs-text-strong)",
           marginBottom: 10,
         }}
       >
@@ -636,11 +679,11 @@ const SummaryPanel = ({
           marginBottom: 7,
         }}
       >
-        <span style={{ fontSize: 13, color: "#6b7280" }}>
+        <span style={{ fontSize: 13, color: "var(--bs-text-muted)" }}>
           Base Fare ({selectedSeatObjects.length} seat
           {selectedSeatObjects.length > 1 ? "s" : ""})
         </span>
-        <span style={{ fontSize: 13, color: "#374151" }}>
+        <span style={{ fontSize: 13, color: "var(--bs-text-body)" }}>
           ₹{totalFare.toLocaleString("en-IN")}
         </span>
       </div>
@@ -649,7 +692,7 @@ const SummaryPanel = ({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderTop: "1px solid #f3f4f6",
+          borderTop: "1px solid var(--bs-border-soft)",
           paddingTop: 10,
           marginBottom: 14,
         }}
@@ -659,7 +702,7 @@ const SummaryPanel = ({
             fontSize: 13,
             fontWeight: 700,
             fontFamily: "Inter, sans-serif",
-            color: "#111",
+            color: "var(--bs-text-strong)",
           }}
         >
           Total Amount
@@ -669,7 +712,7 @@ const SummaryPanel = ({
             fontSize: 15,
             fontWeight: 700,
             fontFamily: "Inter, sans-serif",
-            color: "#111",
+            color: "var(--bs-text-strong)",
           }}
         >
           ₹{totalFare.toLocaleString("en-IN")}
@@ -681,8 +724,8 @@ const SummaryPanel = ({
         style={{
           display: "block",
           width: "100%",
-          background: paying ? "#9ca3af" : GREEN,
-          color: "#fff",
+          background: paying ? "var(--bs-btn-disabled-text)" : GREEN,
+          color: "var(--bs-text-on-brand)",
           border: "none",
           borderRadius: 8,
           height: 44,
@@ -909,22 +952,23 @@ const PassengerDetailsForm = ({
                 icon: "error",
                 title: "Payment Failed",
                 html: `
-                  <div style="font-size:14px;color:#374151;line-height:1.8;text-align:left">
+                  <div style="font-size:14px;color:var(--bs-text-body);line-height:1.8;text-align:left">
                     <div style="margin-bottom:6px">
-                      <span style="color:#6b7280;font-size:12px">Reason</span><br/>
+                      <span style="color:var(--bs-text-muted);font-size:12px">Reason</span><br/>
                       <strong>${msg}</strong>
                     </div>
                     <div style="margin-bottom:6px">
-                      <span style="color:#6b7280;font-size:12px">Order ID</span><br/>
-                      <strong style="font-family:monospace">${statusData?.orderId || "-"
-                  }</strong>
+                      <span style="color:var(--bs-text-muted);font-size:12px">Order ID</span><br/>
+                      <strong style="font-family:monospace">${
+                        statusData?.orderId || "-"
+                      }</strong>
                     </div>
                     <div>
-                      <span style="color:#6b7280;font-size:12px">Amount</span><br/>
+                      <span style="color:var(--bs-text-muted);font-size:12px">Amount</span><br/>
                       <strong>₹${Number(statusData?.amount || 0).toLocaleString(
-                    "en-IN",
-                    { minimumFractionDigits: 2 },
-                  )}</strong>
+                        "en-IN",
+                        { minimumFractionDigits: 2 },
+                      )}</strong>
                     </div>
                   </div>
                 `,
@@ -1075,7 +1119,7 @@ const PassengerDetailsForm = ({
           icon: "success",
           title: "Seat Booked Successfully! 🎉",
           html: `
-            <div style="font-size:14px;color:#374151;line-height:1.6">
+            <div style="font-size:14px;color:var(--bs-text-body);line-height:1.6">
               Your seat has been reserved.<br/>
               <strong>Redirecting to payment QR in <span id="swal-countdown">5</span>s...</strong>
             </div>
@@ -1145,7 +1189,7 @@ const PassengerDetailsForm = ({
                 fontSize: 16,
                 fontWeight: 700,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 marginBottom: 16,
               }}
             >
@@ -1171,7 +1215,7 @@ const PassengerDetailsForm = ({
                 fontSize: 16,
                 fontWeight: 700,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 marginBottom: 4,
               }}
             >
@@ -1181,7 +1225,7 @@ const PassengerDetailsForm = ({
               style={{
                 fontSize: 13,
                 fontFamily: "Inter, sans-serif",
-                color: "#9ca3af",
+                color: "var(--bs-text-faint)",
                 marginBottom: 14,
               }}
             >
@@ -1237,7 +1281,7 @@ const PassengerDetailsForm = ({
                 fontSize: 16,
                 fontWeight: 700,
                 fontFamily: "Inter, sans-serif",
-                color: "#111",
+                color: "var(--bs-text-strong)",
                 marginBottom: 16,
               }}
             >

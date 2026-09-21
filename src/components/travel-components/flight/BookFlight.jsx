@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 const flightlogo = "/bookflighticon.svg";
 const planlogo = "/planeicon.svg";
@@ -124,7 +123,6 @@ const FARE_RULES_FALLBACK = [
   },
 ];
 
-
 const AIRLINE_LOGO_MAP = {
   indigo: "/navbaricons/indigo.png",
   "6e": "/navbaricons/indigo.png",
@@ -154,11 +152,7 @@ const getAirlineLogo = (airline = {}) => {
   const code = (airline.AirlineCode || "").toLowerCase().trim();
   const name = (airline.AirlineName || "").toLowerCase().trim();
 
-  return (
-    AIRLINE_LOGO_MAP[code] ||
-    AIRLINE_LOGO_MAP[name] ||
-    flightlogo
-  );
+  return AIRLINE_LOGO_MAP[code] || AIRLINE_LOGO_MAP[name] || flightlogo;
 };
 
 // ─── Title options — har passenger type ke liye same 4 options: Mstr, Mr, Ms, Mrs ──
@@ -190,7 +184,8 @@ const calcAge = (dob, referenceDate) => {
 };
 
 const pad2 = (n) => String(n).padStart(2, "0");
-const toISODate = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const toISODate = (d) =>
+  `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
 
 const getDobLimits = (type) => {
   const today = new Date();
@@ -219,21 +214,20 @@ const getDobLimits = (type) => {
 const formatTime = (date) =>
   date
     ? new Date(date).toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
     : "--";
 
 const formatDate = (date) =>
   date
     ? new Date(date).toLocaleDateString("en-IN", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    })
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      })
     : "";
-
 
 const newTraveller = (type) => ({
   id: Date.now() + Math.random(),
@@ -281,8 +275,8 @@ const labelStyle = {
   top: -9,
   left: 10,
   fontSize: 11,
-  color: "#6b7280",
-  background: "#fff",
+  color: "var(--fl-text-muted)",
+  background: "var(--fl-surface)",
   padding: "0 4px",
   zIndex: 1,
   pointerEvents: "none",
@@ -290,7 +284,7 @@ const labelStyle = {
 
 const errStyle = {
   fontSize: 11,
-  color: "#dc2626",
+  color: "var(--fl-danger-text)",
   marginTop: 4,
   display: "block",
 };
@@ -348,7 +342,9 @@ const validateTraveller = (type, data, opts = {}) => {
         errs.passportExpiry = "Passport expiry date is required";
       } else {
         const expiry = new Date(data.passportExpiry);
-        const travelDate = flightDepartureDate ? new Date(flightDepartureDate) : new Date();
+        const travelDate = flightDepartureDate
+          ? new Date(flightDepartureDate)
+          : new Date();
         const minValidTill = new Date(travelDate);
         minValidTill.setMonth(minValidTill.getMonth() + 6);
 
@@ -391,7 +387,10 @@ const validateTraveller = (type, data, opts = {}) => {
   //    par PAN chahiye) ke liye hamesha PAN, aur Adult (12-17) ke liye tab
   //    chalta hai jab wo Guardian checkbox tick kare. ──
   if (usesGuardian) {
-    if (!data.guardianTitle || !TITLE_OPTIONS.adults.includes(data.guardianTitle)) {
+    if (
+      !data.guardianTitle ||
+      !TITLE_OPTIONS.adults.includes(data.guardianTitle)
+    ) {
       errs.guardianTitle = "Please select a valid title";
     }
     if (!data.guardianFirstName || !data.guardianFirstName.trim())
@@ -466,7 +465,7 @@ function GSTToggle({ checked, onChange, disabled = false }) {
         height: 22,
         borderRadius: 999,
         flexShrink: 0,
-        background: checked ? "#16a34a" : "#d1d5db",
+        background: checked ? "var(--fl-brand)" : "var(--fl-surface-strong)",
         border: "none",
         cursor: disabled ? "not-allowed" : "pointer",
         position: "relative",
@@ -482,7 +481,7 @@ function GSTToggle({ checked, onChange, disabled = false }) {
           width: 16,
           height: 16,
           borderRadius: "50%",
-          background: "#fff",
+          background: "var(--fl-surface)",
           transition: "left 0.2s",
           boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
         }}
@@ -492,7 +491,13 @@ function GSTToggle({ checked, onChange, disabled = false }) {
 }
 
 // ─── Passport Issue Country Autocomplete ─────────────────────────────────────
-function CountryAutocomplete({ value, displayValue, onSelect, hasError, fieldErr }) {
+function CountryAutocomplete({
+  value,
+  displayValue,
+  onSelect,
+  hasError,
+  fieldErr,
+}) {
   const { countries, loading, searchCountries, clearCountries } =
     useCountries();
   const [query, setQuery] = useState(displayValue || "");
@@ -576,8 +581,8 @@ function CountryAutocomplete({ value, displayValue, onSelect, hasError, fieldErr
               left: coords.left,
               width: coords.width,
               zIndex: 9999,
-              background: "#fff",
-              border: "1px solid #e5e7eb",
+              background: "var(--fl-surface)",
+              border: "1px solid var(--fl-border)",
               borderRadius: 8,
               maxHeight: 220,
               overflowY: "auto",
@@ -585,7 +590,13 @@ function CountryAutocomplete({ value, displayValue, onSelect, hasError, fieldErr
             }}
           >
             {loading && (
-              <div style={{ padding: "8px 12px", fontSize: 12, color: "#9ca3af" }}>
+              <div
+                style={{
+                  padding: "8px 12px",
+                  fontSize: 12,
+                  color: "var(--fl-text-faint)",
+                }}
+              >
                 Searching...
               </div>
             )}
@@ -597,24 +608,25 @@ function CountryAutocomplete({ value, displayValue, onSelect, hasError, fieldErr
                   style={{
                     padding: "8px 12px",
                     fontSize: 13,
-                    color: "#374151",
+                    color: "var(--fl-text-body)",
                     cursor: "pointer",
                   }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.background = "#f9fafb")
+                    (e.currentTarget.style.background =
+                      "var(--fl-surface-subtle)")
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = "#fff")
+                    (e.currentTarget.style.background = "var(--fl-surface)")
                   }
                 >
                   {c.name}{" "}
-                  <span style={{ color: "#9ca3af", fontSize: 11 }}>
+                  <span style={{ color: "var(--fl-text-faint)", fontSize: 11 }}>
                     ({c.code})
                   </span>
                 </div>
               ))}
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );
@@ -639,7 +651,8 @@ function TravellerCard({
   const labelMap = { adults: "Adult", children: "Child", infants: "Infant" };
 
   const age = calcAge(data.dob, flightDepartureDate);
-  const isMinorAdult = type === "adults" && age !== null && age >= 12 && age <= 17;
+  const isMinorAdult =
+    type === "adults" && age !== null && age >= 12 && age <= 17;
   const minorUsesGuardian = isMinorAdult && !!data.minorUsesGuardian;
   const docRequired = requiresPassport || requiresPan;
   const dobLimits = getDobLimits(type);
@@ -675,7 +688,8 @@ function TravellerCard({
         guardianTitle: primaryAdult.title || data.guardianTitle,
         guardianFirstName: primaryAdult.firstName || "",
         guardianLastName: primaryAdult.lastName || "",
-        guardianDocType: (!needsGuardianOnly && requiresPassport) ? "passport" : "pan",
+        guardianDocType:
+          !needsGuardianOnly && requiresPassport ? "passport" : "pan",
         guardianPan: primaryAdult.panNumber || "",
         guardianPassportNumber: primaryAdult.passportNumber || "",
         guardianPassportExpiry: primaryAdult.passportExpiry || "",
@@ -693,7 +707,11 @@ function TravellerCard({
   return (
     <div
       style={{
-        border: `1px solid ${showErrors && Object.keys(errors || {}).length > 0 ? "#fca5a5" : "#e5e7eb"}`,
+        border: `1px solid ${
+          showErrors && Object.keys(errors || {}).length > 0
+            ? "var(--fl-danger-border)"
+            : "var(--fl-border)"
+        }`,
         borderRadius: 12,
         padding: 20,
         marginTop: 12,
@@ -709,7 +727,13 @@ function TravellerCard({
           marginBottom: 14,
         }}
       >
-        <span style={{ fontWeight: 600, fontSize: 13, color: "#6b7280" }}>
+        <span
+          style={{
+            fontWeight: 600,
+            fontSize: 13,
+            color: "var(--fl-text-muted)",
+          }}
+        >
           {labelMap[type]} {index + 1}
           {isMinorAdult && (
             <span
@@ -717,9 +741,9 @@ function TravellerCard({
                 marginLeft: 8,
                 fontSize: 11,
                 fontWeight: 700,
-                color: "#1e40af",
-                background: "#eff6ff",
-                border: "1px solid #bfdbfe",
+                color: "var(--fl-info-text)",
+                background: "var(--fl-info-bg)",
+                border: "1px solid var(--fl-info-border)",
                 borderRadius: 999,
                 padding: "1px 8px",
               }}
@@ -761,7 +785,7 @@ function TravellerCard({
                 gap: 6,
                 cursor: "pointer",
                 fontSize: 14,
-                color: "#374151",
+                color: "var(--fl-text-body)",
               }}
             >
               <input
@@ -770,7 +794,7 @@ function TravellerCard({
                 value={t}
                 checked={data.title === t}
                 onChange={() => onChange({ ...data, title: t })}
-                style={{ accentColor: "#16a34a" }}
+                style={{ accentColor: "var(--fl-brand)" }}
               />
               {t}
             </label>
@@ -792,7 +816,9 @@ function TravellerCard({
         <div style={{ position: "relative" }}>
           <label style={labelStyle}>First Name & Middle Name *</label>
           <input
-            className={`input-field${showErrors && errors?.firstName ? " input-err" : ""}`}
+            className={`input-field${
+              showErrors && errors?.firstName ? " input-err" : ""
+            }`}
             placeholder="First Name & Middle Name"
             value={data.firstName}
             onChange={(e) => handleText("firstName", e.target.value)}
@@ -802,7 +828,9 @@ function TravellerCard({
         <div style={{ position: "relative" }}>
           <label style={labelStyle}>Last Name *</label>
           <input
-            className={`input-field${showErrors && errors?.lastName ? " input-err" : ""}`}
+            className={`input-field${
+              showErrors && errors?.lastName ? " input-err" : ""
+            }`}
             placeholder="Last Name"
             value={data.lastName}
             onChange={(e) => handleText("lastName", e.target.value)}
@@ -824,7 +852,9 @@ function TravellerCard({
         <div style={{ position: "relative" }}>
           <label style={labelStyle}>Date of Birth *</label>
           <input
-            className={`input-field${showErrors && errors?.dob ? " input-err" : ""}`}
+            className={`input-field${
+              showErrors && errors?.dob ? " input-err" : ""
+            }`}
             type="date"
             min={dobLimits.min}
             max={dobLimits.max}
@@ -842,7 +872,7 @@ function TravellerCard({
             style={{
               // background: "#f9fafb",
               cursor: "default",
-              color: "#374151",
+              color: "var(--fl-text-body)",
             }}
           />
         </div>
@@ -863,7 +893,9 @@ function TravellerCard({
             <div style={{ position: "relative" }}>
               <label style={labelStyle}>Passport Number *</label>
               <input
-                className={`input-field${showErrors && errors?.passportNumber ? " input-err" : ""}`}
+                className={`input-field${
+                  showErrors && errors?.passportNumber ? " input-err" : ""
+                }`}
                 placeholder="Passport Number"
                 value={data.passportNumber}
                 onChange={(e) =>
@@ -875,7 +907,9 @@ function TravellerCard({
             <div style={{ position: "relative" }}>
               <label style={labelStyle}>Passport Expiry Date *</label>
               <input
-                className={`input-field${showErrors && errors?.passportExpiry ? " input-err" : ""}`}
+                className={`input-field${
+                  showErrors && errors?.passportExpiry ? " input-err" : ""
+                }`}
                 type="date"
                 value={data.passportExpiry}
                 onChange={(e) =>
@@ -898,7 +932,9 @@ function TravellerCard({
             <div style={{ position: "relative" }}>
               <label style={labelStyle}>Passport Issue Date *</label>
               <input
-                className={`input-field${showErrors && errors?.passportIssueDate ? " input-err" : ""}`}
+                className={`input-field${
+                  showErrors && errors?.passportIssueDate ? " input-err" : ""
+                }`}
                 type="date"
                 value={data.passportIssueDate}
                 onChange={(e) =>
@@ -935,7 +971,9 @@ function TravellerCard({
         >
           <label style={labelStyle}>PAN Number *</label>
           <input
-            className={`input-field${showErrors && errors?.panNumber ? " input-err" : ""}`}
+            className={`input-field${
+              showErrors && errors?.panNumber ? " input-err" : ""
+            }`}
             placeholder="ABCDE1234F"
             value={data.panNumber}
             onChange={(e) =>
@@ -958,7 +996,7 @@ function TravellerCard({
             gap: 7,
             cursor: "pointer",
             fontSize: 12.5,
-            color: "#4b5563",
+            color: "var(--fl-text-body)",
             marginBottom: 14,
           }}
         >
@@ -971,7 +1009,7 @@ function TravellerCard({
             style={{
               width: 14,
               height: 14,
-              accentColor: "#16a34a",
+              accentColor: "var(--fl-brand)",
               cursor: "pointer",
               flexShrink: 0,
             }}
@@ -980,15 +1018,13 @@ function TravellerCard({
         </label>
       )}
 
-
-
       {/* ── Guardian Details block — Infant/Child ke liye tab jab Passport
            nahi chahiye lekin PAN chahiye, aur Minor Adult (12-17) ke liye
            tab jab usne checkbox tick kiya ho. ── */}
       {usesGuardian && (
         <div
           style={{
-            border: "1px dashed #d1d5db",
+            border: "1px dashed var(--fl-border-strong)",
             borderRadius: 8,
             padding: 14,
             marginBottom: 14,
@@ -998,11 +1034,13 @@ function TravellerCard({
             style={{
               fontSize: 12,
               fontWeight: 700,
-              color: "#374151",
+              color: "var(--fl-text-body)",
               marginBottom: 10,
             }}
           >
-            {needsGuardianOnly ? "Guardian Details (required)" : "Guardian Details"}
+            {needsGuardianOnly
+              ? "Guardian Details (required)"
+              : "Guardian Details"}
           </div>
 
           {/* ── "Same as Adult details?" — ek click me primary adult ka
@@ -1016,7 +1054,7 @@ function TravellerCard({
                 gap: 7,
                 cursor: "pointer",
                 fontSize: 12.5,
-                color: "#4b5563",
+                color: "var(--fl-text-body)",
                 marginBottom: 14,
               }}
             >
@@ -1027,7 +1065,7 @@ function TravellerCard({
                 style={{
                   width: 14,
                   height: 14,
-                  accentColor: "#16a34a",
+                  accentColor: "var(--fl-brand)",
                   cursor: "pointer",
                   flexShrink: 0,
                 }}
@@ -1048,7 +1086,9 @@ function TravellerCard({
                     gap: 6,
                     cursor: data.guardianSameAsAdult ? "default" : "pointer",
                     fontSize: 14,
-                    color: data.guardianSameAsAdult ? "#9ca3af" : "#374151",
+                    color: data.guardianSameAsAdult
+                      ? "var(--fl-text-faint)"
+                      : "var(--fl-text-body)",
                   }}
                 >
                   <input
@@ -1057,7 +1097,7 @@ function TravellerCard({
                     checked={data.guardianTitle === t}
                     disabled={!!data.guardianSameAsAdult}
                     onChange={() => onChange({ ...data, guardianTitle: t })}
-                    style={{ accentColor: "#16a34a" }}
+                    style={{ accentColor: "var(--fl-brand)" }}
                   />
                   {t}
                 </label>
@@ -1078,13 +1118,19 @@ function TravellerCard({
             <div style={{ position: "relative" }}>
               <label style={labelStyle}>Guardian First Name *</label>
               <input
-                className={`input-field${showErrors && errors?.guardianFirstName ? " input-err" : ""}`}
+                className={`input-field${
+                  showErrors && errors?.guardianFirstName ? " input-err" : ""
+                }`}
                 placeholder="Guardian First Name"
                 value={data.guardianFirstName}
                 readOnly={!!data.guardianSameAsAdult}
                 style={
                   data.guardianSameAsAdult
-                    ? { background: "#f9fafb", color: "#374151", cursor: "default" }
+                    ? {
+                        background: "var(--fl-surface-subtle)",
+                        color: "var(--fl-text-body)",
+                        cursor: "default",
+                      }
                     : undefined
                 }
                 onChange={(e) =>
@@ -1099,13 +1145,19 @@ function TravellerCard({
             <div style={{ position: "relative" }}>
               <label style={labelStyle}>Guardian Last Name *</label>
               <input
-                className={`input-field${showErrors && errors?.guardianLastName ? " input-err" : ""}`}
+                className={`input-field${
+                  showErrors && errors?.guardianLastName ? " input-err" : ""
+                }`}
                 placeholder="Guardian Last Name"
                 value={data.guardianLastName}
                 readOnly={!!data.guardianSameAsAdult}
                 style={
                   data.guardianSameAsAdult
-                    ? { background: "#f9fafb", color: "#374151", cursor: "default" }
+                    ? {
+                        background: "var(--fl-surface-subtle)",
+                        color: "var(--fl-text-body)",
+                        cursor: "default",
+                      }
                     : undefined
                 }
                 onChange={(e) =>
@@ -1128,7 +1180,7 @@ function TravellerCard({
               <div
                 style={{
                   fontSize: 12,
-                  color: "#6b7280",
+                  color: "var(--fl-text-muted)",
                   marginBottom: 6,
                   fontWeight: 600,
                 }}
@@ -1143,7 +1195,9 @@ function TravellerCard({
                     gap: 6,
                     cursor: data.guardianSameAsAdult ? "default" : "pointer",
                     fontSize: 13,
-                    color: data.guardianSameAsAdult ? "#9ca3af" : "#374151",
+                    color: data.guardianSameAsAdult
+                      ? "var(--fl-text-faint)"
+                      : "var(--fl-text-body)",
                   }}
                 >
                   <input
@@ -1151,8 +1205,10 @@ function TravellerCard({
                     name={`${data.id}-guardian-doctype`}
                     checked={data.guardianDocType !== "passport"}
                     disabled={!!data.guardianSameAsAdult}
-                    onChange={() => onChange({ ...data, guardianDocType: "pan" })}
-                    style={{ accentColor: "#16a34a" }}
+                    onChange={() =>
+                      onChange({ ...data, guardianDocType: "pan" })
+                    }
+                    style={{ accentColor: "var(--fl-brand)" }}
                   />
                   PAN Card
                 </label>
@@ -1163,7 +1219,9 @@ function TravellerCard({
                     gap: 6,
                     cursor: data.guardianSameAsAdult ? "default" : "pointer",
                     fontSize: 13,
-                    color: data.guardianSameAsAdult ? "#9ca3af" : "#374151",
+                    color: data.guardianSameAsAdult
+                      ? "var(--fl-text-faint)"
+                      : "var(--fl-text-body)",
                   }}
                 >
                   <input
@@ -1174,7 +1232,7 @@ function TravellerCard({
                     onChange={() =>
                       onChange({ ...data, guardianDocType: "passport" })
                     }
-                    style={{ accentColor: "#16a34a" }}
+                    style={{ accentColor: "var(--fl-brand)" }}
                   />
                   Passport
                 </label>
@@ -1195,13 +1253,19 @@ function TravellerCard({
             >
               <label style={labelStyle}>Guardian PAN Number *</label>
               <input
-                className={`input-field${showErrors && errors?.guardianPan ? " input-err" : ""}`}
+                className={`input-field${
+                  showErrors && errors?.guardianPan ? " input-err" : ""
+                }`}
                 placeholder="ABCDE1234F"
                 value={data.guardianPan}
                 readOnly={!!data.guardianSameAsAdult}
                 style={
                   data.guardianSameAsAdult
-                    ? { background: "#f9fafb", color: "#374151", cursor: "default" }
+                    ? {
+                        background: "var(--fl-surface-subtle)",
+                        color: "var(--fl-text-body)",
+                        cursor: "default",
+                      }
                     : undefined
                 }
                 onChange={(e) =>
@@ -1230,13 +1294,21 @@ function TravellerCard({
               <div style={{ position: "relative" }}>
                 <label style={labelStyle}>Guardian Passport Number *</label>
                 <input
-                  className={`input-field${showErrors && errors?.guardianPassportNumber ? " input-err" : ""}`}
+                  className={`input-field${
+                    showErrors && errors?.guardianPassportNumber
+                      ? " input-err"
+                      : ""
+                  }`}
                   placeholder="Guardian Passport Number"
                   value={data.guardianPassportNumber}
                   readOnly={!!data.guardianSameAsAdult}
                   style={
                     data.guardianSameAsAdult
-                      ? { background: "#f9fafb", color: "#374151", cursor: "default" }
+                      ? {
+                          background: "var(--fl-surface-subtle)",
+                          color: "var(--fl-text-body)",
+                          cursor: "default",
+                        }
                       : undefined
                   }
                   onChange={(e) =>
@@ -1251,13 +1323,21 @@ function TravellerCard({
               <div style={{ position: "relative" }}>
                 <label style={labelStyle}>Guardian Passport Expiry *</label>
                 <input
-                  className={`input-field${showErrors && errors?.guardianPassportExpiry ? " input-err" : ""}`}
+                  className={`input-field${
+                    showErrors && errors?.guardianPassportExpiry
+                      ? " input-err"
+                      : ""
+                  }`}
                   type="date"
                   value={data.guardianPassportExpiry}
                   readOnly={!!data.guardianSameAsAdult}
                   style={
                     data.guardianSameAsAdult
-                      ? { background: "#f9fafb", color: "#374151", cursor: "default" }
+                      ? {
+                          background: "var(--fl-surface-subtle)",
+                          color: "var(--fl-text-body)",
+                          cursor: "default",
+                        }
                       : undefined
                   }
                   onChange={(e) =>
@@ -1303,18 +1383,30 @@ function TravellerGroup({
         }}
       >
         <div>
-          <span style={{ fontWeight: 700, fontSize: 15, color: "#111827" }}>
+          <span
+            style={{
+              fontWeight: 700,
+              fontSize: 15,
+              color: "var(--fl-text-strong)",
+            }}
+          >
             {label}
           </span>
-          <span style={{ fontSize: 12, color: "#9ca3af", marginLeft: 6 }}>
+          <span
+            style={{
+              fontSize: 12,
+              color: "var(--fl-text-faint)",
+              marginLeft: 6,
+            }}
+          >
             {ageLabel}
           </span>
         </div>
         <span
           style={{
             fontSize: 12,
-            color: "#6b7280",
-            background: "#f3f4f6",
+            color: "var(--fl-text-muted)",
+            background: "var(--fl-surface-muted)",
             borderRadius: 999,
             padding: "2px 10px",
             fontWeight: 500,
@@ -1354,7 +1446,7 @@ function BaggageTab({ segs }) {
       <div
         style={{
           padding: "16px 20px",
-          color: "#9ca3af",
+          color: "var(--fl-text-faint)",
           fontSize: 13,
           textAlign: "center",
         }}
@@ -1368,19 +1460,19 @@ function BaggageTab({ segs }) {
     segs.length > 0
       ? segs
       : [
-        {
-          Origin: { Airport: { AirportCode: "BOM" } },
-          Destination: { Airport: { AirportCode: "DED" } },
-          Baggage: "15 kg",
-          CabinBaggage: "7 kg",
-        },
-        {
-          Origin: { Airport: { AirportCode: "DED" } },
-          Destination: { Airport: { AirportCode: "DEL" } },
-          Baggage: "15 kg",
-          CabinBaggage: "7 kg",
-        },
-      ];
+          {
+            Origin: { Airport: { AirportCode: "BOM" } },
+            Destination: { Airport: { AirportCode: "DED" } },
+            Baggage: "15 kg",
+            CabinBaggage: "7 kg",
+          },
+          {
+            Origin: { Airport: { AirportCode: "DED" } },
+            Destination: { Airport: { AirportCode: "DEL" } },
+            Baggage: "15 kg",
+            CabinBaggage: "7 kg",
+          },
+        ];
 
   return (
     <div style={{ padding: "16px 20px" }}>
@@ -1406,6 +1498,7 @@ function BaggageTab({ segs }) {
                   width: 28,
                   height: 28,
                   borderRadius: 6,
+                  background: "var(--fl-logo-bg)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -1420,14 +1513,20 @@ function BaggageTab({ segs }) {
                   }}
                 />
               </div>
-              <span style={{ fontWeight: 700, fontSize: 14, color: "#111827" }}>
+              <span
+                style={{
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--fl-text-strong)",
+                }}
+              >
                 {seg?.Origin?.Airport?.AirportCode} –{" "}
                 {seg?.Destination?.Airport?.AirportCode}
               </span>
             </div>
             <div
               style={{
-                border: "1px solid #e5e7eb",
+                border: "1px solid var(--fl-border)",
                 borderRadius: 10,
                 overflow: "hidden",
               }}
@@ -1436,11 +1535,11 @@ function BaggageTab({ segs }) {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr 1fr",
-                  background: "#f9fafb",
+                  background: "var(--fl-surface-subtle)",
                   padding: "10px 14px",
                   fontSize: 12,
                   fontWeight: 600,
-                  color: "#374151",
+                  color: "var(--fl-text-body)",
                 }}
               >
                 <span />
@@ -1471,8 +1570,8 @@ function BaggageTab({ segs }) {
                   gridTemplateColumns: "1fr 1fr 1fr",
                   padding: "10px 14px",
                   fontSize: 13,
-                  color: "#374151",
-                  borderTop: "1px solid #e5e7eb",
+                  color: "var(--fl-text-body)",
+                  borderTop: "1px solid var(--fl-border)",
                 }}
               >
                 <span style={{ fontWeight: 500 }}>Adult</span>
@@ -1501,7 +1600,7 @@ function renderContentByType(item, idx) {
             colSpan={2}
             style={{
               fontSize: 13,
-              color: "#374151",
+              color: "var(--fl-text-body)",
               lineHeight: 1.7,
               whiteSpace: "pre-wrap",
             }}
@@ -1513,13 +1612,16 @@ function renderContentByType(item, idx) {
     case "list":
       return (
         <tr key={idx}>
-          <td colSpan={2} style={{ fontSize: 13, color: "#374151" }}>
+          <td
+            colSpan={2}
+            style={{ fontSize: 13, color: "var(--fl-text-body)" }}
+          >
             {item.title && (
               <div
                 style={{
                   fontWeight: 600,
                   marginBottom: 8,
-                  color: "#111827",
+                  color: "var(--fl-text-strong)",
                   marginTop: idx > 0 ? 8 : 0,
                 }}
               >
@@ -1542,12 +1644,12 @@ function renderContentByType(item, idx) {
           <td colSpan={2}>
             <div
               style={{
-                background: "#fef3c7",
-                border: "1px solid #fde68a",
+                background: "var(--fl-warn-bg)",
+                border: "1px solid var(--fl-warn-border)",
                 borderRadius: 8,
                 padding: "10px 12px",
                 fontSize: 13,
-                color: "#92400e",
+                color: "var(--fl-warn-text)",
                 marginTop: idx > 0 ? 8 : 0,
                 lineHeight: 1.6,
               }}
@@ -1576,7 +1678,7 @@ function renderContentByType(item, idx) {
             >
               {item.header && (
                 <thead>
-                  <tr style={{ background: "#f3f4f6" }}>
+                  <tr style={{ background: "var(--fl-surface-muted)" }}>
                     {item.header.map((col, ci) => (
                       <th
                         key={ci}
@@ -1584,8 +1686,8 @@ function renderContentByType(item, idx) {
                           padding: "8px 12px",
                           textAlign: "left",
                           fontWeight: 600,
-                          color: "#111827",
-                          borderBottom: "1px solid #e5e7eb",
+                          color: "var(--fl-text-strong)",
+                          borderBottom: "1px solid var(--fl-border)",
                         }}
                       >
                         {col}
@@ -1596,18 +1698,29 @@ function renderContentByType(item, idx) {
               )}
               <tbody>
                 {item.rows?.map((row, ri) => (
-                  <tr key={ri} style={{ borderBottom: "1px solid #f0f0f0" }}>
+                  <tr
+                    key={ri}
+                    style={{ borderBottom: "1px solid var(--fl-border-soft)" }}
+                  >
                     {Array.isArray(row) ? (
                       row.map((cell, ci) => (
                         <td
                           key={ci}
-                          style={{ padding: "8px 12px", color: "#374151" }}
+                          style={{
+                            padding: "8px 12px",
+                            color: "var(--fl-text-body)",
+                          }}
                         >
                           {cell}
                         </td>
                       ))
                     ) : (
-                      <td style={{ padding: "8px 12px", color: "#374151" }}>
+                      <td
+                        style={{
+                          padding: "8px 12px",
+                          color: "var(--fl-text-body)",
+                        }}
+                      >
                         {row}
                       </td>
                     )}
@@ -1626,7 +1739,7 @@ function renderContentByType(item, idx) {
             style={{
               fontSize: 14,
               fontWeight: 700,
-              color: "#111827",
+              color: "var(--fl-text-strong)",
               paddingTop: idx > 0 ? 12 : 0,
               paddingBottom: 6,
             }}
@@ -1639,7 +1752,7 @@ function renderContentByType(item, idx) {
       return (
         <tr key={idx}>
           <td colSpan={2} style={{ padding: "8px 0" }}>
-            <div style={{ height: 1, background: "#e5e7eb" }} />
+            <div style={{ height: 1, background: "var(--fl-surface-muted)" }} />
           </td>
         </tr>
       );
@@ -1648,7 +1761,11 @@ function renderContentByType(item, idx) {
         <tr key={idx}>
           <td
             colSpan={2}
-            style={{ fontSize: 13, color: "#374151", lineHeight: 1.6 }}
+            style={{
+              fontSize: 13,
+              color: "var(--fl-text-body)",
+              lineHeight: 1.6,
+            }}
           >
             {item.content || item.text || JSON.stringify(item)}
           </td>
@@ -1667,7 +1784,7 @@ function FareRuleTab({ fareRuleData, fareLoading }) {
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            color: "#6b7280",
+            color: "var(--fl-text-muted)",
             fontSize: 13,
           }}
         >
@@ -1710,7 +1827,7 @@ function FareRuleTab({ fareRuleData, fareLoading }) {
                       style={{
                         fontWeight: 400,
                         fontSize: 12,
-                        color: "#6b7280",
+                        color: "var(--fl-text-muted)",
                         marginTop: 2,
                       }}
                     >
@@ -1737,7 +1854,7 @@ function FareRuleTab({ fareRuleData, fareLoading }) {
                         whiteSpace: "pre-line",
                         lineHeight: 1.7,
                         fontSize: 13,
-                        color: "#374151",
+                        color: "var(--fl-text-body)",
                       }}
                     >
                       {rule.FareRuleDetail}
@@ -1768,7 +1885,7 @@ function FareRuleTab({ fareRuleData, fareLoading }) {
                     style={{
                       fontWeight: 400,
                       fontSize: 12,
-                      color: "#6b7280",
+                      color: "var(--fl-text-muted)",
                       marginTop: 2,
                     }}
                   >
@@ -1836,34 +1953,45 @@ function FareBreakdownDetail({ fare }) {
     <div style={{ padding: "6px 20px" }}>
       {ordered.map((b, i) => {
         const label = PAX_LABELS[b.PassengerType] || "Traveller";
-        const taxEntries = (b.TaxBreakUp || []).filter((t) => (t.value || 0) > 0);
+        const taxEntries = (b.TaxBreakUp || []).filter(
+          (t) => (t.value || 0) > 0,
+        );
         return (
           <div
             key={b.PassengerType}
             style={{
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--fl-border)",
               borderRadius: 8,
               padding: "10px 12px",
               marginBottom: i < ordered.length - 1 ? 8 : 0,
-              background: "#fafafa",
+              background: "var(--fl-surface-subtle)",
             }}
           >
             <div
               style={{
                 fontSize: 12.5,
                 fontWeight: 700,
-                color: "#111827",
+                color: "var(--fl-text-strong)",
                 marginBottom: 6,
                 paddingBottom: 6,
-                borderBottom: "1px solid #e5e7eb",
+                borderBottom: "1px solid var(--fl-border)",
               }}
             >
               {label} × {b.PassengerCount}
             </div>
 
             <div style={rowStyle}>
-              <span style={{ fontSize: 13, color: "#374151" }}>Base Fare</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#111827", textAlign: "right" }}>
+              <span style={{ fontSize: 13, color: "var(--fl-text-body)" }}>
+                Base Fare
+              </span>
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "var(--fl-text-strong)",
+                  textAlign: "right",
+                }}
+              >
                 ₹{Math.round(b.BaseFare).toLocaleString("en-IN")}
               </span>
             </div>
@@ -1871,31 +1999,31 @@ function FareBreakdownDetail({ fare }) {
             {/* {taxEntries.length > 0 ? (
               taxEntries.map((t) => (
                 <div style={rowStyle} key={t.key}>
-                  <span style={{ fontSize: 12, color: "#6b7280" }}>
+                  <span style={{ fontSize: 12, color: "var(--fl-text-muted)" }}>
                     {TAX_LABELS[t.key] || t.key}
                   </span>
-                  <span style={{ fontSize: 12, color: "#6b7280", textAlign: "right" }}>
+                  <span style={{ fontSize: 12, color: "var(--fl-text-muted)", textAlign: "right" }}>
                     ₹{Math.round(t.value).toLocaleString("en-IN")}
                   </span>
                 </div>
               ))
             ) : (
               <div style={rowStyle}>
-                <span style={{ fontSize: 12, color: "#6b7280" }}>Taxes &amp; Fees</span>
-                <span style={{ fontSize: 12, color: "#6b7280", textAlign: "right" }}>
+                <span style={{ fontSize: 12, color: "var(--fl-text-muted)" }}>Taxes &amp; Fees</span>
+                <span style={{ fontSize: 12, color: "var(--fl-text-muted)", textAlign: "right" }}>
                   ₹{Math.round(b.Tax).toLocaleString("en-IN")}
                 </span>
               </div>
             )} */}
             <div style={rowStyle}>
-              <span style={{ fontSize: 12, color: "#6b7280" }}>
+              <span style={{ fontSize: 12, color: "var(--fl-text-muted)" }}>
                 Taxes
               </span>
 
               <span
                 style={{
                   fontSize: 12,
-                  color: "#6b7280",
+                  color: "var(--fl-text-muted)",
                   textAlign: "right",
                 }}
               >
@@ -1907,13 +2035,26 @@ function FareBreakdownDetail({ fare }) {
                 ...rowStyle,
                 marginTop: 6,
                 paddingTop: 6,
-                borderTop: "1px dashed #d1d5db",
+                borderTop: "1px dashed var(--fl-border-strong)",
               }}
             >
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: "var(--fl-text-strong)",
+                }}
+              >
                 {label} Total
               </span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#111827", textAlign: "right" }}>
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: "var(--fl-text-strong)",
+                  textAlign: "right",
+                }}
+              >
                 ₹{Math.round(b.BaseFare + b.Tax).toLocaleString("en-IN")}
               </span>
             </div>
@@ -1925,24 +2066,51 @@ function FareBreakdownDetail({ fare }) {
         <div style={{ marginTop: 8 }}>
           {otherCharges > 0 && (
             <div style={rowStyle}>
-              <span style={{ fontSize: 13, color: "#374151" }}>Other Charges</span>
-              <span style={{ fontSize: 13, color: "#111827", textAlign: "right", fontWeight: 600 }}>
+              <span style={{ fontSize: 13, color: "var(--fl-text-body)" }}>
+                Other Charges
+              </span>
+              <span
+                style={{
+                  fontSize: 13,
+                  color: "var(--fl-text-strong)",
+                  textAlign: "right",
+                  fontWeight: 600,
+                }}
+              >
                 ₹{Math.round(otherCharges).toLocaleString("en-IN")}
               </span>
             </div>
           )}
           {additionalTxnFee > 0 && (
             <div style={rowStyle}>
-              <span style={{ fontSize: 13, color: "#374151" }}>Additional Transaction Fee</span>
-              <span style={{ fontSize: 13, color: "#111827", textAlign: "right", fontWeight: 600 }}>
+              <span style={{ fontSize: 13, color: "var(--fl-text-body)" }}>
+                Additional Transaction Fee
+              </span>
+              <span
+                style={{
+                  fontSize: 13,
+                  color: "var(--fl-text-strong)",
+                  textAlign: "right",
+                  fontWeight: 600,
+                }}
+              >
                 ₹{Math.round(additionalTxnFee).toLocaleString("en-IN")}
               </span>
             </div>
           )}
           {discount > 0 && (
             <div style={rowStyle}>
-              <span style={{ fontSize: 13, color: "#16a34a" }}>Discount</span>
-              <span style={{ fontSize: 13, color: "#16a34a", textAlign: "right", fontWeight: 600 }}>
+              <span style={{ fontSize: 13, color: "var(--fl-brand-text)" }}>
+                Discount
+              </span>
+              <span
+                style={{
+                  fontSize: 13,
+                  color: "var(--fl-brand-text)",
+                  textAlign: "right",
+                  fontWeight: 600,
+                }}
+              >
                 -₹{Math.round(discount).toLocaleString("en-IN")}
               </span>
             </div>
@@ -2002,9 +2170,9 @@ function FlightCard({
             padding: "10px 20px",
             fontSize: 12,
             fontWeight: 700,
-            color: "#16a34a",
-            background: "#f0fdf4",
-            borderBottom: "1px solid #f3f4f6",
+            color: "var(--fl-brand-text)",
+            background: "var(--fl-success-bg)",
+            borderBottom: "1px solid var(--fl-border-soft)",
             textTransform: "uppercase",
             letterSpacing: 0.5,
           }}
@@ -2020,7 +2188,7 @@ function FlightCard({
           justifyContent: "space-between",
           padding: "14px 16px",
           cursor: "pointer",
-          borderBottom: expanded ? "1px solid #f3f4f6" : "none",
+          borderBottom: expanded ? "1px solid var(--fl-border-soft)" : "none",
           gap: 8,
         }}
       >
@@ -2030,6 +2198,7 @@ function FlightCard({
               width: 46,
               height: 46,
               borderRadius: 10,
+              background: "var(--fl-logo-bg)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -2043,7 +2212,13 @@ function FlightCard({
             />
           </div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 16, color: "#111827" }}>
+            <div
+              style={{
+                fontWeight: 700,
+                fontSize: 16,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {firstSeg?.Origin?.Airport?.CityName || "Origin"} to{" "}
               {displayDestSeg?.Destination?.Airport?.CityName || "Destination"}
               {isCombined && (
@@ -2052,9 +2227,9 @@ function FlightCard({
                     marginLeft: 8,
                     fontSize: 11,
                     fontWeight: 700,
-                    color: "#1d4ed8",
-                    background: "#eff6ff",
-                    border: "1px solid #bfdbfe",
+                    color: "var(--fl-info-text)",
+                    background: "var(--fl-info-bg)",
+                    border: "1px solid var(--fl-info-border)",
                     borderRadius: 999,
                     padding: "2px 8px",
                     verticalAlign: "middle",
@@ -2064,7 +2239,13 @@ function FlightCard({
                 </span>
               )}
             </div>
-            <div style={{ fontSize: 13, color: "#6b7280", marginTop: 2 }}>
+            <div
+              style={{
+                fontSize: 13,
+                color: "var(--fl-text-muted)",
+                marginTop: 2,
+              }}
+            >
               {formatDate(firstSeg?.Origin?.DepTime)} •{" "}
               {firstSeg?.Airline?.AirlineName || "Airline"} •{" "}
               {Math.floor((lastSeg?.AccumulatedDuration || 135) / 60)}h{" "}
@@ -2072,15 +2253,15 @@ function FlightCard({
               {isCombined
                 ? `${legs.length} legs`
                 : segs.length > 1
-                  ? `${segs.length - 1} Stop${segs.length - 1 !== 1 ? "s" : ""}`
-                  : "Non-stop"}
+                ? `${segs.length - 1} Stop${segs.length - 1 !== 1 ? "s" : ""}`
+                : "Non-stop"}
             </div>
           </div>
         </div>
         <ChevronDown
           size={20}
           style={{
-            color: "#6b7280",
+            color: "var(--fl-text-muted)",
             transition: "transform 0.25s",
             transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
             flexShrink: 0,
@@ -2104,10 +2285,13 @@ function FlightCard({
                       padding: "8px 20px",
                       fontSize: 11.5,
                       fontWeight: 700,
-                      color: "#16a34a",
-                      background: "#f0fdf4",
-                      borderTop: legIdx > 0 ? "1px dashed #bbf7d0" : "none",
-                      borderBottom: "1px solid #f3f4f6",
+                      color: "var(--fl-brand-text)",
+                      background: "var(--fl-success-bg)",
+                      borderTop:
+                        legIdx > 0
+                          ? "1px dashed var(--fl-success-border)"
+                          : "none",
+                      borderBottom: "1px solid var(--fl-border-soft)",
                       textTransform: "uppercase",
                       letterSpacing: 0.5,
                     }}
@@ -2130,13 +2314,18 @@ function FlightCard({
                     >
                       {" "}
                       <div
-                        style={{ display: "flex", alignItems: "flex-start", gap: 8 }}
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 8,
+                        }}
                       >
                         <div
                           style={{
                             width: 36,
                             height: 36,
                             borderRadius: 8,
+                            background: "var(--fl-logo-bg)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -2149,25 +2338,35 @@ function FlightCard({
                             style={{ width: 22, height: 22 }}
                           />
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column" }}>
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
                           <div
                             style={{
                               fontSize: 12,
                               fontWeight: 700,
-                              color: "#1a56db",
+                              color: "var(--fl-info-text)",
                               lineHeight: 1.4,
                             }}
                           >
                             {seg?.Airline?.AirlineName || "IndiGo"}
                           </div>
                           <div
-                            style={{ fontSize: 11, color: "#1a56db", marginTop: 1 }}
+                            style={{
+                              fontSize: 11,
+                              color: "var(--fl-info-text)",
+                              marginTop: 1,
+                            }}
                           >
                             {seg?.Airline?.AirlineCode || "6E"}-
                             {seg?.Airline?.FlightNumber || "5032"}
                           </div>
                           <div
-                            style={{ fontSize: 11, color: "#9ca3af", marginTop: 2 }}
+                            style={{
+                              fontSize: 11,
+                              color: "var(--fl-text-faint)",
+                              marginTop: 2,
+                            }}
                           >
                             {seg?.Craft || ""}
                           </div>
@@ -2187,7 +2386,7 @@ function FlightCard({
                             style={{
                               fontSize: 22,
                               fontWeight: 800,
-                              color: "#111827",
+                              color: "var(--fl-text-strong)",
                               lineHeight: 1.1,
                             }}
                           >
@@ -2197,7 +2396,7 @@ function FlightCard({
                             style={{
                               fontSize: 13,
                               fontWeight: 600,
-                              color: "#374151",
+                              color: "var(--fl-text-body)",
                               marginTop: 3,
                             }}
                           >
@@ -2207,7 +2406,7 @@ function FlightCard({
                           <div
                             style={{
                               fontSize: 11,
-                              color: "#9ca3af",
+                              color: "var(--fl-text-faint)",
                               marginTop: 2,
                               lineHeight: 1.4,
                             }}
@@ -2227,7 +2426,7 @@ function FlightCard({
                           <span
                             style={{
                               fontSize: 12,
-                              color: "#9ca3af",
+                              color: "var(--fl-text-faint)",
                               marginBottom: 6,
                               whiteSpace: "nowrap",
                             }}
@@ -2263,7 +2462,7 @@ function FlightCard({
                             style={{
                               fontSize: 22,
                               fontWeight: 800,
-                              color: "#111827",
+                              color: "var(--fl-text-strong)",
                               lineHeight: 1.1,
                             }}
                           >
@@ -2273,7 +2472,7 @@ function FlightCard({
                             style={{
                               fontSize: 13,
                               fontWeight: 600,
-                              color: "#374151",
+                              color: "var(--fl-text-body)",
                               marginTop: 3,
                             }}
                           >
@@ -2283,7 +2482,7 @@ function FlightCard({
                           <div
                             style={{
                               fontSize: 11,
-                              color: "#9ca3af",
+                              color: "var(--fl-text-faint)",
                               marginTop: 2,
                               lineHeight: 1.4,
                             }}
@@ -2298,7 +2497,11 @@ function FlightCard({
                         <div className="layover-badge">
                           <span>
                             {seg?.GroundTime
-                              ? `${Math.floor(seg.GroundTime / 60)}h ${seg.GroundTime % 60}m Layover at ${seg?.Destination?.Airport?.CityName}`
+                              ? `${Math.floor(seg.GroundTime / 60)}h ${
+                                  seg.GroundTime % 60
+                                }m Layover at ${
+                                  seg?.Destination?.Airport?.CityName
+                                }`
                               : `Layover at ${seg?.Destination?.Airport?.CityName}`}
                           </span>
                         </div>
@@ -2306,7 +2509,11 @@ function FlightCard({
                     )}
                     {idx < legSegs.length - 1 && (
                       <div
-                        style={{ height: 1, background: "#f3f4f6", margin: "0 20px" }}
+                        style={{
+                          height: 1,
+                          background: "var(--fl-surface-muted)",
+                          margin: "0 20px",
+                        }}
                       />
                     )}
                   </div>
@@ -2315,19 +2522,21 @@ function FlightCard({
             );
           })}
 
-          <div style={{ borderTop: "1px solid #f3f4f6" }}>
+          <div style={{ borderTop: "1px solid var(--fl-border-soft)" }}>
             <div
               style={{
                 display: "flex",
                 gap: 24,
                 padding: "0 20px",
-                borderBottom: "1px solid #f3f4f6",
+                borderBottom: "1px solid var(--fl-border-soft)",
               }}
             >
               {["fare", "baggage"].map((tab) => (
                 <button
                   key={tab}
-                  className={`tab-btn ${activeTab === tab ? "tab-active" : "tab-inactive"}`}
+                  className={`tab-btn ${
+                    activeTab === tab ? "tab-active" : "tab-inactive"
+                  }`}
                   onClick={(e) => {
                     e.stopPropagation();
                     onTabChange(tab);
@@ -2432,13 +2641,17 @@ export default function BookFlight() {
       const fareRulePayload = {
         traceId: searchMeta.traceId,
         onwardResultIndex: onwardF.ResultIndex,
-        returnResultIndex: isCombinedRoundTrip ? null : (returnF?.ResultIndex || null),
+        returnResultIndex: isCombinedRoundTrip
+          ? null
+          : returnF?.ResultIndex || null,
         isCombinedRoundTrip,
       };
       const fareQuotePayload = {
         traceId: searchMeta.traceId,
         onwardResultIndex: onwardF.ResultIndex,
-        returnResultIndex: isCombinedRoundTrip ? null : (returnF?.ResultIndex || null),
+        returnResultIndex: isCombinedRoundTrip
+          ? null
+          : returnF?.ResultIndex || null,
         isCombinedRoundTrip,
       };
 
@@ -2512,17 +2725,18 @@ export default function BookFlight() {
       icon: "error",
       title: "Fare Quote Failed",
       html: `
-      <div style="font-size:14px;color:#374151;line-height:1.8;text-align:left">
+      <div style="font-size:14px;color:var(--fl-text-body);line-height:1.8;text-align:left">
         <div style="margin-bottom:6px">
-          <span style="color:#6b7280;font-size:12px">Reason</span><br/>
+          <span style="color:var(--fl-text-muted);font-size:12px">Reason</span><br/>
           <strong>${fareQuoteError}</strong>
         </div>
-        ${fareQuoteErrorCode
-          ? `<div>
-            <span style="color:#6b7280;font-size:12px">Error Code</span><br/>
+        ${
+          fareQuoteErrorCode
+            ? `<div>
+            <span style="color:var(--fl-text-muted);font-size:12px">Error Code</span><br/>
             <strong style="font-family:monospace">${fareQuoteErrorCode}</strong>
           </div>`
-          : ""
+            : ""
         }
       </div>
     `,
@@ -2706,19 +2920,22 @@ export default function BookFlight() {
     }
   };
 
-
   const onwardFare = onwardFareQuote?.Results?.Fare;
   const returnFare = returnFareQuote?.Results?.Fare;
 
-  const onwardPublished = onwardFare?.PublishedFare ?? onwardF?.Fare?.PublishedFare ?? 0;
-  const returnPublished = returnFare?.PublishedFare ?? returnF?.Fare?.PublishedFare ?? 0;
+  const onwardPublished =
+    onwardFare?.PublishedFare ?? onwardF?.Fare?.PublishedFare ?? 0;
+  const returnPublished =
+    returnFare?.PublishedFare ?? returnF?.Fare?.PublishedFare ?? 0;
 
   const onwardFareTotal = onwardPublished;
   const returnFareTotal = returnPublished;
   const totalFare = onwardFareTotal + returnFareTotal;
 
   const findBreakdown = (fareResult, paxType) =>
-    fareResult?.Results?.FareBreakdown?.find((b) => b.PassengerType === paxType);
+    fareResult?.Results?.FareBreakdown?.find(
+      (b) => b.PassengerType === paxType,
+    );
 
   const onwardAdultBreakdown = findBreakdown(onwardFareQuote, 1);
   const onwardChildBreakdown = findBreakdown(onwardFareQuote, 2);
@@ -2794,7 +3011,9 @@ export default function BookFlight() {
       returnFareQuote,
       traceId: searchMeta?.traceId,
       resultIndex: onwardF?.ResultIndex,
-      returnResultIndex: isCombinedRoundTrip ? null : (returnF?.ResultIndex || null),
+      returnResultIndex: isCombinedRoundTrip
+        ? null
+        : returnF?.ResultIndex || null,
       isCombinedRoundTrip,
       isLCC: onwardF?.IsLCC || false,
       requiresPassportAtTicket,
@@ -2846,32 +3065,32 @@ export default function BookFlight() {
         .bk-wrap { max-width: 1200px; margin: 0 auto; margin-top:60px; padding: 0 16px; }
         .bk-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
         @media (max-width: 860px) { .bk-grid { grid-template-columns: 1fr; } }
-        .card { background: #fff; border-radius: 14px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); overflow: hidden; }
+        .card { background: var(--fl-surface); border-radius: 14px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); overflow: hidden; }
         .card + .card { margin-top: 16px; }
-        .input-field { width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 11px 14px; font-size: 14px; color: #374151; outline: none; font-family: inherit; transition: border-color 0.2s; background: #fff; }
-        .input-field:focus { border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,0.08); }
-        .input-field::placeholder { color: #9ca3af; }
-        .input-err { border-color: #dc2626 !important; background: #fff5f5 !important; }
-        .input-err:focus { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.08) !important; }
+        .input-field { width: 100%; border: 1px solid var(--fl-border-strong); border-radius: 8px; padding: 11px 14px; font-size: 14px; color: var(--fl-text-body); outline: none; font-family: inherit; transition: border-color 0.2s; background: var(--fl-surface); }
+        .input-field:focus { border-color: var(--fl-brand-line); box-shadow: 0 0 0 3px rgba(22,163,74,0.08); }
+        .input-field::placeholder { color: var(--fl-text-faint); }
+        .input-err { border-color: var(--fl-danger-line) !important; background: var(--fl-danger-bg) !important; }
+        .input-err:focus { border-color: var(--fl-danger-line) !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.08) !important; }
         select.input-field { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='4 6 8 10 12 6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
         .tab-btn { background: none; border: none; cursor: pointer; padding: 13px 0; font-family: inherit; font-size: 14px; transition: color 0.15s; }
-        .tab-active { border-bottom: 2px solid #16a34a; color: #16a34a; font-weight: 600; }
-        .tab-inactive { border-bottom: 2px solid transparent; color: #6b7280; font-weight: 400; }
-        .section-hdr { padding: 16px 20px; border-bottom: 1px solid #f3f4f6; }
-        .section-hdr h3 { font-size: 16px; font-weight: 700; color: #111827; }
-        .section-hdr p { font-size: 13px; color: #6b7280; margin-top: 2px; }
-        .fare-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; font-size: 14px; color: #374151; }
-        .fare-row + .fare-row { border-top: 1px solid #f3f4f6; }
-        .timeline-dot { width: 8px; height: 8px; border-radius: 50%; border: 2px solid #9ca3af; background: #fff; flex-shrink: 0; }
-        .timeline-line { flex: 1; height: 2px; background: #d1d5db; }
+        .tab-active { border-bottom: 2px solid var(--fl-brand-line); color: var(--fl-brand-text); font-weight: 600; }
+        .tab-inactive { border-bottom: 2px solid transparent; color: var(--fl-text-muted); font-weight: 400; }
+        .section-hdr { padding: 16px 20px; border-bottom: 1px solid var(--fl-border-soft); }
+        .section-hdr h3 { font-size: 16px; font-weight: 700; color: var(--fl-text-strong); }
+        .section-hdr p { font-size: 13px; color: var(--fl-text-muted); margin-top: 2px; }
+        .fare-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; font-size: 14px; color: var(--fl-text-body); }
+        .fare-row + .fare-row { border-top: 1px solid var(--fl-border-soft); }
+        .timeline-dot { width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--fl-text-faint); background: var(--fl-surface); flex-shrink: 0; }
+        .timeline-line { flex: 1; height: 2px; background: var(--fl-surface-strong); }
         .layover-badge { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
-        .layover-badge::before, .layover-badge::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
-        .layover-badge span { font-size: 12px; color: #92400e; background: #fef3c7; border: 1px solid #fde68a; border-radius: 999px; padding: 3px 14px; font-weight: 500; white-space: nowrap; }
+        .layover-badge::before, .layover-badge::after { content: ''; flex: 1; height: 1px; background: var(--fl-surface-muted); }
+        .layover-badge span { font-size: 12px; color: var(--fl-warn-text); background: var(--fl-warn-bg); border: 1px solid var(--fl-warn-border); border-radius: 999px; padding: 3px 14px; font-weight: 500; white-space: nowrap; }
         .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .rule-table th { text-align: left; font-weight: 700; color: #111827; padding: 12px 16px; background: #f3f4f6; }
+        .rule-table th { text-align: left; font-weight: 700; color: var(--fl-text-strong); padding: 12px 16px; background: var(--fl-surface-muted); }
         .rule-table th:last-child { text-align: right; }
-        .rule-table td { padding: 11px 16px; color: #374151; border-top: 1px solid #f0f0f0; }
-        .rule-table td:last-child:not([colspan]) { text-align: right; font-weight: 600; color: #111827; }
+        .rule-table td { padding: 11px 16px; color: var(--fl-text-body); border-top: 1px solid var(--fl-border-soft); }
+        .rule-table td:last-child:not([colspan]) { text-align: right; font-weight: 600; color: var(--fl-text-strong); }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @media (max-width: 580px) { 
   .two-col { grid-template-columns: 1fr !important; }
@@ -2941,12 +3160,12 @@ export default function BookFlight() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: #eff6ff;
-          border: 1px solid #bfdbfe;
+          background: var(--fl-info-bg);
+          border: 1px solid var(--fl-info-border);
           border-radius: 8px;
           padding: 8px 14px;
           font-size: 12.5px;
-          color: #1e40af;
+          color: var(--fl-info-text);
           font-weight: 500;
           margin-bottom: 12px;
         }
@@ -3032,7 +3251,7 @@ export default function BookFlight() {
                     gap: 5,
                     fontSize: 12,
                     fontFamily: "Inter, sans-serif",
-                    color: "#6b7280",
+                    color: "var(--fl-text-muted)",
                   }}
                 >
                   <UserIcon />
@@ -3107,7 +3326,7 @@ export default function BookFlight() {
                     style={{
                       marginTop:
                         travellers.adults.length > 0 ||
-                          travellers.children.length > 0
+                        travellers.children.length > 0
                           ? 16
                           : 0,
                     }}
@@ -3155,7 +3374,7 @@ export default function BookFlight() {
                           width: 84,
                           borderRadius: "8px 0 0 8px",
                           borderRight: "none",
-                          background: "#f9fafb",
+                          background: "var(--fl-surface-subtle)",
                           paddingRight: 8,
                         }}
                         value={contact.countryCode}
@@ -3172,7 +3391,9 @@ export default function BookFlight() {
                         <option>+971</option>
                       </select>
                       <input
-                        className={`input-field${showErrors && contactErrors.mobile ? " input-err" : ""}`}
+                        className={`input-field${
+                          showErrors && contactErrors.mobile ? " input-err" : ""
+                        }`}
                         style={{ borderRadius: "0 8px 8px 0", flex: 1 }}
                         placeholder="10-digit number"
                         type="tel"
@@ -3189,7 +3410,9 @@ export default function BookFlight() {
                   <div style={{ position: "relative" }}>
                     <label style={labelStyle}>Email Address *</label>
                     <input
-                      className={`input-field${showErrors && contactErrors.email ? " input-err" : ""}`}
+                      className={`input-field${
+                        showErrors && contactErrors.email ? " input-err" : ""
+                      }`}
                       placeholder="Email Address"
                       type="email"
                       value={contact.email}
@@ -3212,7 +3435,9 @@ export default function BookFlight() {
                 <div style={{ marginBottom: 14, position: "relative" }}>
                   <label style={labelStyle}>Address *</label>
                   <input
-                    className={`input-field${showErrors && billingErrors.address ? " input-err" : ""}`}
+                    className={`input-field${
+                      showErrors && billingErrors.address ? " input-err" : ""
+                    }`}
                     placeholder="Address"
                     value={billing.address}
                     onChange={(e) =>
@@ -3238,7 +3463,9 @@ export default function BookFlight() {
                   <div style={{ position: "relative" }}>
                     <label style={labelStyle}>City *</label>
                     <input
-                      className={`input-field${showErrors && billingErrors.city ? " input-err" : ""}`}
+                      className={`input-field${
+                        showErrors && billingErrors.city ? " input-err" : ""
+                      }`}
                       placeholder="City"
                       value={billing.city}
                       onChange={(e) =>
@@ -3255,7 +3482,9 @@ export default function BookFlight() {
                   <div style={{ position: "relative" }}>
                     <label style={labelStyle}>State *</label>
                     <input
-                      className={`input-field${showErrors && billingErrors.state ? " input-err" : ""}`}
+                      className={`input-field${
+                        showErrors && billingErrors.state ? " input-err" : ""
+                      }`}
                       placeholder="State"
                       value={billing.state}
                       onChange={(e) =>
@@ -3279,9 +3508,9 @@ export default function BookFlight() {
                     value="India"
                     readOnly
                     style={{
-                      background: "#f9fafb",
+                      background: "var(--fl-surface-subtle)",
                       cursor: "default",
-                      color: "#374151",
+                      color: "var(--fl-text-body)",
                     }}
                   />
                 </div>
@@ -3307,7 +3536,9 @@ export default function BookFlight() {
                         checked={gstEnabled}
                         onChange={() => setGstEnabled((v) => !v)}
                       />
-                      <span style={{ fontSize: 14, color: "#374151" }}>
+                      <span
+                        style={{ fontSize: 14, color: "var(--fl-text-body)" }}
+                      >
                         I would like to add my GST Number
                       </span>
                     </div>
@@ -3335,7 +3566,11 @@ export default function BookFlight() {
                             Company Name {gstMandatory && "*"}
                           </label>
                           <input
-                            className={`input-field${showErrors && gstErrors.GSTCompanyName ? " input-err" : ""}`}
+                            className={`input-field${
+                              showErrors && gstErrors.GSTCompanyName
+                                ? " input-err"
+                                : ""
+                            }`}
                             placeholder="Company Name"
                             value={gst.GSTCompanyName}
                             onChange={(e) =>
@@ -3356,7 +3591,11 @@ export default function BookFlight() {
                             GST Number {gstMandatory && "*"}
                           </label>
                           <input
-                            className={`input-field${showErrors && gstErrors.GSTNumber ? " input-err" : ""}`}
+                            className={`input-field${
+                              showErrors && gstErrors.GSTNumber
+                                ? " input-err"
+                                : ""
+                            }`}
                             placeholder="22AAAAA0000A1Z5"
                             value={gst.GSTNumber}
                             onChange={(e) =>
@@ -3369,7 +3608,9 @@ export default function BookFlight() {
                             }
                           />
                           {showErrors && gstErrors.GSTNumber && (
-                            <span style={errStyle}>⚠ {gstErrors.GSTNumber}</span>
+                            <span style={errStyle}>
+                              ⚠ {gstErrors.GSTNumber}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -3379,7 +3620,11 @@ export default function BookFlight() {
                           Company Address {gstMandatory && "*"}
                         </label>
                         <input
-                          className={`input-field${showErrors && gstErrors.GSTCompanyAddress ? " input-err" : ""}`}
+                          className={`input-field${
+                            showErrors && gstErrors.GSTCompanyAddress
+                              ? " input-err"
+                              : ""
+                          }`}
                           placeholder="Company Address"
                           value={gst.GSTCompanyAddress}
                           onChange={(e) =>
@@ -3411,7 +3656,11 @@ export default function BookFlight() {
                             Company Contact Number {gstMandatory && "*"}
                           </label>
                           <input
-                            className={`input-field${showErrors && gstErrors.GSTCompanyContactNumber ? " input-err" : ""}`}
+                            className={`input-field${
+                              showErrors && gstErrors.GSTCompanyContactNumber
+                                ? " input-err"
+                                : ""
+                            }`}
                             placeholder="10-digit number"
                             type="tel"
                             inputMode="numeric"
@@ -3437,7 +3686,11 @@ export default function BookFlight() {
                             Company Email {gstMandatory && "*"}
                           </label>
                           <input
-                            className={`input-field${showErrors && gstErrors.GSTCompanyEmail ? " input-err" : ""}`}
+                            className={`input-field${
+                              showErrors && gstErrors.GSTCompanyEmail
+                                ? " input-err"
+                                : ""
+                            }`}
                             placeholder="Company Email"
                             type="email"
                             value={gst.GSTCompanyEmail}
@@ -3472,15 +3725,19 @@ export default function BookFlight() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "16px 20px 12px",
-                  borderBottom: "1px solid #f3f4f6",
+                  borderBottom: "1px solid var(--fl-border-soft)",
                 }}
               >
                 <span
-                  style={{ fontWeight: 700, fontSize: 16, color: "#111827" }}
+                  style={{
+                    fontWeight: 700,
+                    fontSize: 16,
+                    color: "var(--fl-text-strong)",
+                  }}
                 >
                   Fare Summary
                 </span>
-                <span style={{ fontSize: 13, color: "#6b7280" }}>
+                <span style={{ fontSize: 13, color: "var(--fl-text-muted)" }}>
                   {totalPassengers} Traveller{totalPassengers !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -3492,7 +3749,7 @@ export default function BookFlight() {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 8,
-                      color: "#6b7280",
+                      color: "var(--fl-text-muted)",
                       fontSize: 13,
                     }}
                   >
@@ -3513,12 +3770,15 @@ export default function BookFlight() {
               ) : (
                 <div style={{ padding: "8px 0" }}>
                   <div className="fare-row">
-                    <span style={{ color: "#6b7280" }}>Fare Type</span>
-                    <span style={{ color: "#16a34a", fontWeight: 600 }}>
+                    <span style={{ color: "var(--fl-text-muted)" }}>
+                      Fare Type
+                    </span>
+                    <span
+                      style={{ color: "var(--fl-brand-text)", fontWeight: 600 }}
+                    >
                       {isRefundable ? "Refundable" : "Partial Refundable"}
                     </span>
                   </div>
-
 
                   {/* <div className="fare-row">
                     <span>
@@ -3531,16 +3791,26 @@ export default function BookFlight() {
                   <FareBreakdownDetail fare={onwardFareQuote?.Results?.Fare} />
                   <div
                     className="fare-row"
-                    style={{ borderTop: "1px solid #e5e7eb" }}
+                    style={{ borderTop: "1px solid var(--fl-border)" }}
                   >
-                    <span style={{ fontWeight: 700, color: "#111827" }}>
+                    <span
+                      style={{
+                        fontWeight: 700,
+                        color: "var(--fl-text-strong)",
+                      }}
+                    >
                       {isCombinedRoundTrip
                         ? "Subtotal"
                         : isRoundTrip
-                          ? "Onward Subtotal"
-                          : "Subtotal"}
+                        ? "Onward Subtotal"
+                        : "Subtotal"}
                     </span>
-                    <span style={{ fontWeight: 700, color: "#111827" }}>
+                    <span
+                      style={{
+                        fontWeight: 700,
+                        color: "var(--fl-text-strong)",
+                      }}
+                    >
                       ₹{onwardFareTotal.toLocaleString("en-IN")}
                     </span>
                   </div>
@@ -3558,10 +3828,10 @@ export default function BookFlight() {
                           padding: "12px 20px 4px",
                           fontSize: 12,
                           fontWeight: 700,
-                          color: "#16a34a",
+                          color: "var(--fl-brand-text)",
                           textTransform: "uppercase",
                           letterSpacing: 0.5,
-                          borderTop: "1px dashed #e5e7eb",
+                          borderTop: "1px dashed var(--fl-border)",
                           marginTop: 4,
                         }}
                       >
@@ -3573,15 +3843,27 @@ export default function BookFlight() {
                           ₹{returnFareTotal.toLocaleString("en-IN")}
                         </span>
                       </div>
-                      <FareBreakdownDetail fare={returnFareQuote?.Results?.Fare} />
+                      <FareBreakdownDetail
+                        fare={returnFareQuote?.Results?.Fare}
+                      />
                       <div
                         className="fare-row"
-                        style={{ borderTop: "1px solid #e5e7eb" }}
+                        style={{ borderTop: "1px solid var(--fl-border)" }}
                       >
-                        <span style={{ fontWeight: 700, color: "#111827" }}>
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            color: "var(--fl-text-strong)",
+                          }}
+                        >
                           Return Subtotal
                         </span>
-                        <span style={{ fontWeight: 700, color: "#111827" }}>
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            color: "var(--fl-text-strong)",
+                          }}
+                        >
                           ₹{returnFareTotal.toLocaleString("en-IN")}
                         </span>
                       </div>
@@ -3596,17 +3878,25 @@ export default function BookFlight() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "14px 20px",
-                  background: "#f9fafb",
-                  borderTop: "2px solid #e5e7eb",
+                  background: "var(--fl-surface-subtle)",
+                  borderTop: "2px solid var(--fl-border)",
                 }}
               >
                 <span
-                  style={{ fontWeight: 700, fontSize: 15, color: "#111827" }}
+                  style={{
+                    fontWeight: 700,
+                    fontSize: 15,
+                    color: "var(--fl-text-strong)",
+                  }}
                 >
                   Net Amount Payable
                 </span>
                 <span
-                  style={{ fontWeight: 800, fontSize: 17, color: "#111827" }}
+                  style={{
+                    fontWeight: 800,
+                    fontSize: 17,
+                    color: "var(--fl-text-strong)",
+                  }}
                 >
                   {fareQuoteLoading
                     ? "—"
@@ -3623,8 +3913,8 @@ export default function BookFlight() {
                     padding: "13px 0",
                     borderRadius: 10,
                     background: fareQuoteLoading
-                      ? "#d1d5db"
-                      : "linear-gradient(135deg, #16a34a, #15803d)",
+                      ? "var(--fl-surface-strong)"
+                      : "linear-gradient(135deg, var(--fl-brand), var(--fl-brand-hover))",
                     color: "#fff",
                     fontSize: 15,
                     fontWeight: 700,
@@ -3657,13 +3947,13 @@ export default function BookFlight() {
                     height="13"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#9ca3af"
+                    stroke="var(--fl-text-faint)"
                     strokeWidth="2"
                   >
                     <rect x="3" y="11" width="18" height="11" rx="2" />
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
-                  <span style={{ fontSize: 12, color: "#9ca3af" }}>
+                  <span style={{ fontSize: 12, color: "var(--fl-text-faint)" }}>
                     Secured &amp; Encrypted Payment
                   </span>
                 </div>
@@ -3678,11 +3968,11 @@ export default function BookFlight() {
                     style={{
                       margin: "0 16px 16px",
                       padding: "10px 14px",
-                      background: "#fff5f5",
-                      border: "1px solid #fca5a5",
+                      background: "var(--fl-danger-bg)",
+                      border: "1px solid var(--fl-danger-border)",
                       borderRadius: 8,
                       fontSize: 12,
-                      color: "#dc2626",
+                      color: "var(--fl-danger-text)",
                       fontWeight: 500,
                     }}
                   >

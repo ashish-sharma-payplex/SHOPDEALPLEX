@@ -54,7 +54,7 @@ function DestinationSkeleton({ cols }) {
         <Box
           key={i}
           sx={{
-            background: "#fff",
+            background: "var(--ht-surface)",
             borderRadius: "16px",
             overflow: "hidden",
             boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
@@ -118,7 +118,8 @@ function DestinationSkeleton({ cols }) {
 }
 
 const shimmerSx = {
-  background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+  background:
+    "linear-gradient(90deg, var(--ht-surface-muted) 25%, var(--ht-surface-strong) 50%, var(--ht-surface-muted) 75%)",
   backgroundSize: "600px 100%",
   animation: "shimmer 1.5s infinite linear",
   borderRadius: "6px",
@@ -212,7 +213,7 @@ function DestinationCard({ destination, onClick, isSearching }) {
       onMouseLeave={() => setHovered(false)}
       sx={{
         cursor: isSearching ? "wait" : "pointer",
-        background: "#fff",
+        background: "var(--ht-surface)",
         borderRadius: "16px",
         overflow: "hidden",
         boxShadow: hovered
@@ -227,7 +228,7 @@ function DestinationCard({ destination, onClick, isSearching }) {
           sx={{
             position: "absolute",
             inset: 0,
-            bgcolor: "rgba(255,255,255,0.75)",
+            bgcolor: "var(--ht-surface-glass)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -235,7 +236,7 @@ function DestinationCard({ destination, onClick, isSearching }) {
             borderRadius: "16px",
           }}
         >
-          <CircularProgress size={28} sx={{ color: "#111827" }} />
+          <CircularProgress size={28} sx={{ color: "var(--ht-text-strong)" }} />
         </Box>
       )}
 
@@ -252,7 +253,7 @@ function DestinationCard({ destination, onClick, isSearching }) {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(90deg, #ececec 25%, #e0e0e0 50%, #ececec 75%)",
+              "linear-gradient(90deg, var(--ht-skeleton-a) 25%, var(--ht-skeleton-b) 50%, var(--ht-skeleton-a) 75%)",
             backgroundSize: "600px 100%",
             animation: "shimmer 1.5s infinite linear",
             "@keyframes shimmer": {
@@ -294,7 +295,7 @@ function DestinationCard({ destination, onClick, isSearching }) {
           sx={{
             fontSize: { xs: "0.88rem", md: "0.95rem" },
             fontWeight: 700,
-            color: "#111827",
+            color: "var(--ht-text-strong)",
             mb: 0.8,
             lineHeight: 1.3,
           }}
@@ -308,7 +309,9 @@ function DestinationCard({ destination, onClick, isSearching }) {
             justifyContent: "space-between",
           }}
         >
-          <Typography sx={{ fontSize: "0.78rem", color: "#6b7280" }}>
+          <Typography
+            sx={{ fontSize: "0.78rem", color: "var(--ht-text-muted)" }}
+          >
             {destination.properties > 0
               ? `${destination.properties.toLocaleString()} Properties`
               : "Properties available"}
@@ -318,11 +321,13 @@ function DestinationCard({ destination, onClick, isSearching }) {
               width: 30,
               height: 30,
               borderRadius: "50%",
-              border: "1.5px solid #e5e7eb",
+              border: "1.5px solid var(--ht-border)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: hovered ? "#111827" : "#fff",
+              background: hovered
+                ? "var(--ht-text-strong)"
+                : "var(--ht-surface)",
               transition: "background 0.2s",
               flexShrink: 0,
             }}
@@ -330,7 +335,7 @@ function DestinationCard({ destination, onClick, isSearching }) {
             <ArrowForwardIcon
               sx={{
                 fontSize: 14,
-                color: hovered ? "#fff" : "#374151",
+                color: hovered ? "var(--ht-surface)" : "var(--ht-text-body)",
                 transition: "color 0.2s",
               }}
             />
@@ -350,8 +355,8 @@ function PromoCard() {
       {/* <Box
       sx={{
         borderRadius: "12px",
-        border: "1.5px solid #e5e7eb",
-        background: "#fff",
+        border: "1.5px solid var(--ht-border)",
+        background: "var(--ht-surface)",
         p: { xs: 2, md: 2.5 },
         display: "flex",
         flexDirection: "column",
@@ -365,7 +370,7 @@ function PromoCard() {
         sx={{
           fontSize: { xs: "1.05rem", md: "1.15rem" },
           fontWeight: 800,
-          color: "#111827",
+          color: "var(--ht-text-strong)",
           lineHeight: 1.3,
           mb: 2,
         }}
@@ -380,7 +385,7 @@ function PromoCard() {
           alignItems: "center",
           gap: 1,
           background: hovered ? "#374151" : "#111827",
-          color: "#fff",
+          color: "var(--ht-text-on-brand)",
           borderRadius: "8px",
           px: 2,
           py: 1,
@@ -390,7 +395,7 @@ function PromoCard() {
         }}
       >
         <Box>
-          <Typography sx={{ fontSize: "0.72rem", color: "#9ca3af", lineHeight: 1 }}>
+          <Typography sx={{ fontSize: "0.72rem", color: "var(--ht-text-faint)", lineHeight: 1 }}>
             Browse
           </Typography>
           <Typography sx={{ fontSize: "0.82rem", fontWeight: 700, lineHeight: 1.3 }}>
@@ -402,14 +407,14 @@ function PromoCard() {
             width: 28,
             height: 28,
             borderRadius: "50%",
-            background: "#fff",
+            background: "var(--ht-surface)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}
         >
-          <ArrowForwardIcon sx={{ fontSize: 14, color: "#111827" }} />
+          <ArrowForwardIcon sx={{ fontSize: 14, color: "var(--ht-text-strong)" }} />
         </Box>
       </Box>
     </Box> */}
@@ -493,8 +498,8 @@ export default function PopularHotelRoutes() {
           (firstPage?.meta?.total
             ? Math.ceil(firstPage.meta.total / 100)
             : firstPage?.meta?.has_next
-              ? 2
-              : 1);
+            ? 2
+            : 1);
 
         // Step 2 — agar pehle page me hi saari target cities mil gayi,
         // ruk jao. Warna baaki pages ek saath (parallel) maango.
@@ -602,13 +607,15 @@ export default function PopularHotelRoutes() {
         sx={{
           fontSize: { xs: "1.3rem", md: "1.6rem" },
           fontWeight: 600,
-          color: "#111827",
+          color: "var(--ht-text-strong)",
           mb: 0.5,
         }}
       >
         Popular Destinations
       </Typography>
-      <Typography sx={{ fontSize: "0.875rem", color: "#6b7280", mb: 3 }}>
+      <Typography
+        sx={{ fontSize: "0.875rem", color: "var(--ht-text-muted)", mb: 3 }}
+      >
         Favorite destinations based on customer reviews
       </Typography>
 

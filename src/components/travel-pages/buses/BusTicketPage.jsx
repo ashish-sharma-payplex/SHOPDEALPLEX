@@ -3,15 +3,15 @@ import React, { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 
-const RED = "#e0312e";
-const GREEN = "#16a34a";
-const BORDER = "#e5e7eb";
-const MUTED = "#6b7280";
+const RED = "var(--bs-danger-text)";
+const GREEN = "var(--bs-brand)";
+const BORDER = "var(--bs-border)";
+const MUTED = "var(--bs-text-muted)";
 
 const STYLES = `
   .bt-wrap {
     min-height: 100vh;
-    background: #f3f4f6;
+    background: var(--bs-surface-muted);
     padding: 32px 16px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     display: flex;
@@ -21,7 +21,7 @@ const STYLES = `
   .bt-card {
     width: 100%;
     max-width: 700px;
-    background: #fff;
+    background: var(--bs-surface);
     border-radius: 10px;
     border: 1px solid ${BORDER};
     overflow: hidden;
@@ -31,20 +31,20 @@ const STYLES = `
   }
   .bt-section {
     padding: 18px 26px;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--bs-border-soft);
   }
   .bt-section:last-child { border-bottom: none; }
   .bt-label {
     font-size: 11px;
     font-weight: 700;
     text-decoration: underline;
-    color: #111;
+    color: var(--bs-text-strong);
     margin-bottom: 4px;
     white-space: nowrap;
   }
   .bt-value {
     font-size: 13px;
-    color: #111;
+    color: var(--bs-text-strong);
     font-weight: 600;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -64,7 +64,7 @@ const STYLES = `
   }
   .bt-addr-row {
     font-size: 13px;
-    color: #111;
+    color: var(--bs-text-strong);
     margin-bottom: 3px;
     line-height: 1.4;
   }
@@ -75,12 +75,12 @@ const STYLES = `
     font-size: 11px;
     font-weight: 700;
     text-decoration: underline;
-    color: #111;
+    color: var(--bs-text-strong);
     padding: 4px 0;
   }
   .bt-table td {
     font-size: 13px;
-    color: #111;
+    color: var(--bs-text-strong);
     padding: 6px 0;
     font-weight: 500;
   }
@@ -105,14 +105,14 @@ const STYLES = `
     flex-direction: column;
     align-items: center;
     padding: 28px 0 8px;
-    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+    background: linear-gradient(180deg, var(--bs-success-bg) 0%, var(--bs-surface) 100%);
   }
   .bt-fail-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 28px 0 8px;
-    background: linear-gradient(180deg, #fef2f2 0%, #ffffff 100%);
+    background: linear-gradient(180deg, var(--bs-danger-bg) 0%, var(--bs-surface) 100%);
   }
   .bt-success-circle {
     width: 72px;
@@ -135,7 +135,7 @@ const STYLES = `
     animation: btPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .bt-success-check {
-    stroke: #fff;
+    stroke: var(--bs-text-on-brand);
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -145,7 +145,7 @@ const STYLES = `
     animation: btDraw 0.4s ease forwards 0.35s;
   }
   .bt-fail-cross line {
-    stroke: #fff;
+    stroke: var(--bs-text-on-brand);
     stroke-width: 3;
     stroke-linecap: round;
     opacity: 0;
@@ -154,7 +154,7 @@ const STYLES = `
   .bt-success-title {
     font-size: 18px;
     font-weight: 700;
-    color: #166534;
+    color: var(--bs-brand-strong-text);
     margin-top: 14px;
     opacity: 0;
     animation: btFadeUp 0.4s ease forwards 0.55s;
@@ -169,7 +169,7 @@ const STYLES = `
   }
   .bt-success-sub {
     font-size: 13px;
-    color: #16a34a;
+    color: var(--bs-brand-text);
     margin-top: 4px;
     opacity: 0;
     animation: btFadeUp 0.4s ease forwards 0.7s;
@@ -279,7 +279,13 @@ const Row = ({ k, v }) => (
     }}
   >
     <span style={{ color: MUTED }}>{k}</span>
-    <span style={{ fontWeight: 700, color: "#111", marginLeft: 12 }}>
+    <span
+      style={{
+        fontWeight: 700,
+        color: "var(--bs-text-strong)",
+        marginLeft: 12,
+      }}
+    >
       {v ?? "-"}
     </span>
   </div>
@@ -368,7 +374,7 @@ const BusTicketPage = () => {
 
       const canvas = await html2canvas(ticketRef.current, {
         scale: 2,
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--bs-surface)",
         useCORS: true,
       });
       const link = document.createElement("a");
@@ -455,7 +461,13 @@ const BusTicketPage = () => {
                 marginBottom: 10,
               }}
             >
-              <span style={{ fontSize: 18, fontWeight: 700, color: "#111" }}>
+              <span
+                style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  color: "var(--bs-text-strong)",
+                }}
+              >
                 {bus.from} <span style={{ color: MUTED }}>→</span> {bus.to}
               </span>
             </div>
@@ -639,7 +651,10 @@ const BusTicketPage = () => {
         )}
 
         {/* Footer note */}
-        <div className="bt-section" style={{ background: "#f9fafb" }}>
+        <div
+          className="bt-section"
+          style={{ background: "var(--bs-surface-subtle)" }}
+        >
           <div style={{ fontSize: 12, color: MUTED, textAlign: "center" }}>
             {isBookingFailed
               ? "If any amount was deducted, it will be refunded within 5-7 business days. Please contact support if you need assistance."
@@ -652,9 +667,9 @@ const BusTicketPage = () => {
         <button
           className="bt-btn"
           style={{
-            background: "#fff",
+            background: "var(--bs-surface)",
             border: `1px solid ${BORDER}`,
-            color: "#111",
+            color: "var(--bs-text-strong)",
           }}
           onClick={() => navigate("/")}
         >
@@ -665,7 +680,7 @@ const BusTicketPage = () => {
         {isBookingFailed ? (
           <button
             className="bt-btn"
-            style={{ background: RED, color: "#fff" }}
+            style={{ background: RED, color: "var(--bs-text-on-brand)" }}
             onClick={() => navigate(-1)}
           >
             Try Again
@@ -675,7 +690,7 @@ const BusTicketPage = () => {
             className="bt-btn"
             style={{
               background: downloading ? "#9ca3af" : GREEN,
-              color: "#fff",
+              color: "var(--bs-text-on-brand)",
               cursor: downloading ? "not-allowed" : "pointer",
             }}
             onClick={handleDownload}

@@ -1,38 +1,67 @@
 import React from "react";
-import { Box, Card, CardContent, Divider, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Typography,
+  Button,
+} from "@mui/material";
 import FlightIcon from "@mui/icons-material/Flight";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import flightRouteBg from "../../../../public/mapbgg.png";
 import { GREEN } from "components/travel-hooks/my-trips/constants";
 
 const STATUS_COLORS = {
-  BOOKED: { bg: "#fef3c7", color: "#b45309" },
-  TICKETED: { bg: "#dbeafe", color: "#0369a1" },
-  CANCELLED: { bg: "#fee2e2", color: "#dc2626" },
-  BOOK_FAILED: { bg: "#f3f4f6", color: "#f13e3e" },
+  BOOKED: { bg: "var(--fl-warn-bg)", color: "var(--fl-warn-text)" },
+  TICKETED: { bg: "var(--fl-info-bg-strong)", color: "var(--fl-info-text)" },
+  CANCELLED: {
+    bg: "var(--fl-danger-bg-strong)",
+    color: "var(--fl-danger-text)",
+  },
+  BOOK_FAILED: { bg: "var(--fl-surface-muted)", color: "#f13e3e" },
 };
 
 const CANCELLATION_STATUS_COLORS = {
-  Completed: { bg: "#dcfce7", color: "#15803d" },
-  Rejected: { bg: "#fee2e2", color: "#dc2626" },
-  Cancelled: { bg: "#fee2e2", color: "#dc2626" },
+  Completed: {
+    bg: "var(--fl-success-bg-strong)",
+    color: "var(--fl-brand-strong-text)",
+  },
+  Rejected: {
+    bg: "var(--fl-danger-bg-strong)",
+    color: "var(--fl-danger-text)",
+  },
+  Cancelled: {
+    bg: "var(--fl-danger-bg-strong)",
+    color: "var(--fl-danger-text)",
+  },
 };
-const DEFAULT_CANCELLATION_COLOR = { bg: "#fef3c7", color: "#b45309" };
+const DEFAULT_CANCELLATION_COLOR = {
+  bg: "var(--fl-warn-bg)",
+  color: "var(--fl-warn-text)",
+};
 
 // ✅ CANCELLABLE_STATUS use karo, NON_CANCELLABLE_STATUSES hata do
 const CANCELLABLE_STATUS = "TICKETED";
 
-const FlightCard = ({ booking, onViewDetails, detailsLoading, onCancelTicket }) => {
+const FlightCard = ({
+  booking,
+  onViewDetails,
+  detailsLoading,
+  onCancelTicket,
+}) => {
   const sc = STATUS_COLORS[booking.status] || STATUS_COLORS.BOOK_FAILED;
   const journeys = booking.journeys || [];
 
   const hasDetails = journeys.some((j) => j.booking_id);
 
-const cancellableJourneys = journeys.filter((j) => j.booking_id && !j.cancellation);
+  const cancellableJourneys = journeys.filter(
+    (j) => j.booking_id && !j.cancellation,
+  );
 
-// ✅ ab sirf TICKETED order pe hi button dikhega
-const canCancel =
-  cancellableJourneys.length > 0 && booking.status === CANCELLABLE_STATUS;
+  // ✅ ab sirf TICKETED order pe hi button dikhega
+  const canCancel =
+    cancellableJourneys.length > 0 && booking.status === CANCELLABLE_STATUS;
 
   return (
     <Card
@@ -41,7 +70,9 @@ const canCancel =
       sx={{
         position: "relative",
         overflow: "hidden",
-        border: "1px solid #e5e7eb",
+        bgcolor: "var(--fl-surface)",
+        backgroundImage: "none",
+        border: "1px solid var(--fl-border)",
         borderLeft: `4px solid ${GREEN}`,
         borderRadius: "14px",
         transition: "all 0.2s ease",
@@ -57,7 +88,7 @@ const canCancel =
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0.18,
+          opacity: "var(--fl-route-bg-opacity)",
           maskImage:
             "linear-gradient(to right, white 0%, black 25%, black 75%, white 100%)",
           WebkitMaskImage:
@@ -65,28 +96,45 @@ const canCancel =
         }}
       />
 
-      <CardContent sx={{ position: "relative", p: 2, "&:last-child": { pb: 2 } }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
+      <CardContent
+        sx={{ position: "relative", p: 2, "&:last-child": { pb: 2 } }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 1.5,
+          }}
+        >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Box
               sx={{
                 width: 34,
                 height: 34,
                 borderRadius: "50%",
-                bgcolor: "#dcfce7",
+                bgcolor: "var(--fl-success-bg-strong)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexShrink: 0,
               }}
             >
-              <FlightIcon sx={{ fontSize: 18, color: GREEN, transform: "rotate(45deg)" }} />
+              <FlightIcon
+                sx={{ fontSize: 18, color: GREEN, transform: "rotate(45deg)" }}
+              />
             </Box>
             <Box>
-              <Typography sx={{ fontSize: 13, fontWeight: 800, color: "#1a1a1a" }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  fontWeight: 800,
+                  color: "var(--fl-text-strong)",
+                }}
+              >
                 Order: {booking.order_id?.slice(0, 8)}...
               </Typography>
-              <Typography sx={{ fontSize: 11, color: "#888" }}>
+              <Typography sx={{ fontSize: 11, color: "var(--fl-text-soft)" }}>
                 {booking.created_at
                   ? new Date(booking.created_at).toLocaleDateString("en-IN", {
                       day: "2-digit",
@@ -118,9 +166,9 @@ const canCancel =
             display: "grid",
             gridTemplateColumns: `repeat(${journeys.length}, 1fr)`,
             gap: 0,
-            bgcolor: "#fafafa",
+            bgcolor: "var(--fl-surface-subtle)",
             borderRadius: "10px",
-            border: "1px solid #eee",
+            border: "1px solid var(--fl-border)",
             overflow: "hidden",
             mb: 1.5,
           }}
@@ -135,37 +183,98 @@ const canCancel =
                 key={`${journey.journey_type}-${journey.booking_id ?? idx}`}
                 sx={{
                   p: 1.5,
-                  borderLeft: idx > 0 ? "1px dashed #ddd" : "none",
+                  borderLeft:
+                    idx > 0 ? "1px dashed var(--fl-border-strong)" : "none",
                   minWidth: 0,
                 }}
               >
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.5, gap: 0.5 }}>
-                  <Typography sx={{ fontSize: 11, fontWeight: 700, color: "#1a1a1a", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 0.5,
+                    gap: 0.5,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: "var(--fl-text-strong)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     PNR {journey.pnr || "—"}
                   </Typography>
-                  <Typography sx={{ fontSize: 10, color: "#9ca3af", fontWeight: 700, flexShrink: 0 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 10,
+                      color: "var(--fl-text-faint)",
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}
+                  >
                     {journey.journey_type}
                   </Typography>
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 0.5 }}>
-                  <Typography sx={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.75,
+                    mb: 0.5,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "var(--fl-text-strong)",
+                    }}
+                  >
                     {journey.origin || "—"}
                   </Typography>
-                  <Typography sx={{ fontSize: 11, color: "#aaa" }}>✈</Typography>
-                  <Typography sx={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a" }}>
+                  <Typography
+                    sx={{ fontSize: 11, color: "var(--fl-text-soft)" }}
+                  >
+                    ✈
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "var(--fl-text-strong)",
+                    }}
+                  >
                     {journey.destination || "—"}
                   </Typography>
                 </Box>
 
-                <Typography sx={{ fontSize: 10.5, color: "#aaa", mb: 0.5 }}>
+                <Typography
+                  sx={{ fontSize: 10.5, color: "var(--fl-text-soft)", mb: 0.5 }}
+                >
                   #{journey.booking_id ?? "—"}
                 </Typography>
 
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 0.5 }}>
-                  <Typography sx={{ fontSize: 12, fontWeight: 700, color: GREEN }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 0.5,
+                  }}
+                >
+                  <Typography
+                    sx={{ fontSize: 12, fontWeight: 700, color: GREEN }}
+                  >
                     {journey.fare?.published_fare
-                      ? `₹${journey.fare.published_fare.toLocaleString("en-IN")}`
+                      ? `₹${journey.fare.published_fare.toLocaleString(
+                          "en-IN",
+                        )}`
                       : "Fare N/A"}
                   </Typography>
 
@@ -197,15 +306,37 @@ const canCancel =
         <Divider sx={{ mb: 1.5 }} />
 
         {booking.payable_amount && (
-          <Typography sx={{ fontSize: 14, fontWeight: 800, color: "#1a1a1a", mb: 1.2 }}>
+          <Typography
+            sx={{
+              fontSize: 14,
+              fontWeight: 800,
+              color: "var(--fl-text-strong)",
+              mb: 1.2,
+            }}
+          >
             ₹{Number(booking.payable_amount).toLocaleString("en-IN")}
-            <Typography component="span" sx={{ fontSize: 11, color: "#888", fontWeight: 400, ml: 0.5 }}>
+            <Typography
+              component="span"
+              sx={{
+                fontSize: 11,
+                color: "var(--fl-text-soft)",
+                fontWeight: 400,
+                ml: 0.5,
+              }}
+            >
               total paid
             </Typography>
           </Typography>
         )}
 
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 1,
+          }}
+        >
           {hasDetails ? (
             <Button
               variant="contained"
@@ -221,13 +352,22 @@ const canCancel =
                 py: 0.6,
                 bgcolor: GREEN,
                 boxShadow: "none",
-                "&:hover": { bgcolor: "#15803d", boxShadow: "none" },
+                "&:hover": {
+                  bgcolor: "var(--fl-brand-hover)",
+                  boxShadow: "none",
+                },
               }}
             >
               {detailsLoading ? "Loading..." : "View Details"}
             </Button>
           ) : (
-            <Typography sx={{ fontSize: 12.5, color: "#9ca3af", fontStyle: "italic" }}>
+            <Typography
+              sx={{
+                fontSize: 12.5,
+                color: "var(--fl-text-faint)",
+                fontStyle: "italic",
+              }}
+            >
               No booking details available
             </Typography>
           )}
@@ -245,9 +385,12 @@ const canCancel =
                 borderRadius: "8px",
                 px: 2,
                 py: 0.6,
-                borderColor: "#dc2626",
-                color: "#dc2626",
-                "&:hover": { borderColor: "#dc2626", bgcolor: "#fef2f2" },
+                borderColor: "var(--fl-danger-line)",
+                color: "var(--fl-danger-text)",
+                "&:hover": {
+                  borderColor: "var(--fl-danger-line)",
+                  bgcolor: "var(--fl-danger-bg)",
+                },
               }}
             >
               Cancel Ticket

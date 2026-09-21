@@ -18,15 +18,15 @@ import { GREEN } from "components/travel-hooks/my-trips/constants";
 import { cancelHotelBooking } from "components/travel-hooks/my-trips/MyTripsApi";
 
 const HOTEL_STATUS_STYLE = {
-  Confirmed: { bg: "#dcfce7", color: "#15803d" },
+  Confirmed: { bg: "#dcfce7", color: "var(--ht-brand-strong-text)" },
   Pending: { bg: "#fef3c7", color: "#b45309" },
-  Failed: { bg: "#fee2e2", color: "#dc2626" },
+  Failed: { bg: "#fee2e2", color: "var(--ht-danger-text)" },
 };
 
 const BOOKING_STATUS_STYLE = {
-  Upcoming: { bg: "#dbeafe", color: "#1d4ed8" },
-  Completed: { bg: "#f3f4f6", color: "#374151" },
-  Cancelled: { bg: "#fee2e2", color: "#dc2626" },
+  Upcoming: { bg: "#dbeafe", color: "var(--ht-info-text)" },
+  Completed: { bg: "#f3f4f6", color: "var(--ht-text-body)" },
+  Cancelled: { bg: "#fee2e2", color: "var(--ht-danger-text)" },
 };
 
 const formatDate = (iso) => {
@@ -62,11 +62,11 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
 
   const hotelStyle = HOTEL_STATUS_STYLE[hotel_booking_status] || {
     bg: "#f3f4f6",
-    color: "#6b7280",
+    color: "var(--ht-text-muted)",
   };
   const bookingStyle = BOOKING_STATUS_STYLE[booking_status] || {
     bg: "#f3f4f6",
-    color: "#6b7280",
+    color: "var(--ht-text-muted)",
   };
 
   /* ✅ Cancel booking option sirf tab dikhega jab hotel_booking_status
@@ -150,7 +150,7 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
       elevation={0}
       sx={{
         borderRadius: "16px",
-        border: "1px solid #e8e8e8",
+        border: "1px solid var(--ht-border)",
         overflow: "hidden",
         transition: "all 0.2s ease",
         "&:hover": {
@@ -167,8 +167,8 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
           justifyContent: "space-between",
           px: 2.5,
           py: 1.5,
-          bgcolor: "#f9fafb",
-          borderBottom: "1px solid #eee",
+          bgcolor: "var(--ht-surface-subtle)",
+          borderBottom: "1px solid var(--ht-border)",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -177,7 +177,7 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
               width: 34,
               height: 34,
               borderRadius: "10px",
-              bgcolor: "#f0fdf4",
+              bgcolor: "var(--ht-success-bg)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -187,11 +187,15 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
           </Box>
           <Box>
             <Typography
-              sx={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a" }}
+              sx={{
+                fontSize: 13,
+                fontWeight: 700,
+                color: "var(--ht-text-strong)",
+              }}
             >
               Booking #{booking_ref_no}
             </Typography>
-            <Typography sx={{ fontSize: 11, color: "#999" }}>
+            <Typography sx={{ fontSize: 11, color: "var(--ht-text-soft)" }}>
               {formatDate(created_at)}
             </Typography>
           </Box>
@@ -227,16 +231,27 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
       <Box sx={{ p: 2.5 }}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1.2 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <ConfirmationNumberIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-            <Typography sx={{ fontSize: 12.5, color: "#555" }}>
+            <ConfirmationNumberIcon
+              sx={{ fontSize: 16, color: "var(--ht-text-faint)" }}
+            />
+            <Typography
+              sx={{ fontSize: 12.5, color: "var(--ht-text-neutral)" }}
+            >
               Confirmation No:{" "}
-              <b style={{ color: "#1a1a1a" }}>{confirmation_no}</b>
+              <b style={{ color: "var(--ht-text-strong)" }}>
+                {confirmation_no}
+              </b>
             </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <ReceiptLongIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-            <Typography sx={{ fontSize: 12.5, color: "#555" }}>
-              Invoice No: <b style={{ color: "#1a1a1a" }}>{invoice_number}</b>
+            <ReceiptLongIcon
+              sx={{ fontSize: 16, color: "var(--ht-text-faint)" }}
+            />
+            <Typography
+              sx={{ fontSize: 12.5, color: "var(--ht-text-neutral)" }}
+            >
+              Invoice No:{" "}
+              <b style={{ color: "var(--ht-text-strong)" }}>{invoice_number}</b>
             </Typography>
           </Box>
         </Box>
@@ -249,17 +264,21 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            bgcolor: "#fafafa",
+            bgcolor: "var(--ht-surface-subtle)",
             borderRadius: "10px",
             px: 1.5,
             py: 1.2,
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <PaymentIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
+            <PaymentIcon sx={{ fontSize: 16, color: "var(--ht-text-faint)" }} />
             <Box>
               <Typography
-                sx={{ fontSize: 11, color: "#999", textTransform: "uppercase" }}
+                sx={{
+                  fontSize: 11,
+                  color: "var(--ht-text-soft)",
+                  textTransform: "uppercase",
+                }}
               >
                 {payment?.payment_mode}
               </Typography>
@@ -274,7 +293,13 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
               </Typography>
             </Box>
           </Box>
-          <Typography sx={{ fontSize: 16, fontWeight: 800, color: "#1a1a1a" }}>
+          <Typography
+            sx={{
+              fontSize: 16,
+              fontWeight: 800,
+              color: "var(--ht-text-strong)",
+            }}
+          >
             ₹{Number(payment?.amount || 0).toLocaleString("en-IN")}
           </Typography>
         </Box>
@@ -286,13 +311,13 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
             onClick={() => onViewDetails && onViewDetails(booking)}
             sx={{
               bgcolor: GREEN,
-              color: "#fff",
+              color: "var(--ht-text-on-brand)",
               textTransform: "none",
               fontWeight: 700,
               fontSize: 13,
               borderRadius: "10px",
               py: 1,
-              "&:hover": { bgcolor: "#15803d" },
+              "&:hover": { bgcolor: "var(--ht-brand-hover)" },
             }}
           >
             View Details
@@ -304,18 +329,24 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
               disabled={cancelling}
               onClick={handleCancelClick}
               sx={{
-                border: "1px solid #dc2626",
-                color: "#dc2626",
+                border: "1px solid var(--ht-danger-line)",
+                color: "var(--ht-danger-text)",
                 textTransform: "none",
                 fontWeight: 700,
                 fontSize: 13,
                 borderRadius: "10px",
                 py: 1,
-                "&:hover": { bgcolor: "#fef2f2", border: "1px solid #dc2626" },
+                "&:hover": {
+                  bgcolor: "var(--ht-danger-bg)",
+                  border: "1px solid var(--ht-danger-line)",
+                },
               }}
             >
               {cancelling ? (
-                <CircularProgress size={18} sx={{ color: "#dc2626" }} />
+                <CircularProgress
+                  size={18}
+                  sx={{ color: "var(--ht-danger-text)" }}
+                />
               ) : (
                 "Cancel Booking"
               )}

@@ -20,8 +20,8 @@ import { ENDPOINTS, hotelFetch } from "travel-api/hotelApi";
 import PopularHotelRoutes from "components/travel-components/hotels/PopularHotelsRoutes";
 import Lottie from "lottie-react";
 
-const GREEN = "#16a34a";
-const BORDER = "#e5e7eb";
+const GREEN = "var(--ht-brand)";
+const BORDER = "var(--ht-border)";
 
 const CATEGORIES = [
   {
@@ -87,7 +87,7 @@ const HotelSearchLoader = ({ open }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        bgcolor: "rgba(255,255,255,0.92)",
+        bgcolor: "var(--ht-surface-glass)",
         zIndex: 2000,
         display: "flex",
         flexDirection: "column",
@@ -101,11 +101,16 @@ const HotelSearchLoader = ({ open }) => {
       </Box>
       <Box sx={{ textAlign: "center" }}>
         <Typography
-          sx={{ fontSize: 18, fontWeight: 700, color: "#111827", mb: 0.5 }}
+          sx={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: "var(--ht-text-strong)",
+            mb: 0.5,
+          }}
         >
           Searching Best Hotels...
         </Typography>
-        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
+        <Typography sx={{ fontSize: 14, color: "var(--ht-text-muted)" }}>
           Checking availability across properties
         </Typography>
       </Box>
@@ -120,7 +125,7 @@ const CategoryTabs = () => {
   return (
     <Box
       sx={{
-        bgcolor: "#F7FAFF",
+        bgcolor: "var(--ht-page-blue)",
         pt: { xs: 1.5, md: 4 },
         pb: { xs: 1.5, md: 1 },
         px: 2,
@@ -155,11 +160,13 @@ const CategoryTabs = () => {
                 py: { xs: 0.8, md: 1.1 },
                 borderRadius: "50px",
                 cursor: "pointer",
-                bgcolor: isActive ? "#ffffff" : "transparent",
+                bgcolor: isActive ? "var(--ht-surface)" : "transparent",
                 boxShadow: isActive ? "0 2px 8px rgba(0,0,0,0.10)" : "none",
                 transition: "all 0.18s",
                 "&:hover": {
-                  bgcolor: isActive ? "#ffffff" : "rgba(255,255,255,0.6)",
+                  bgcolor: isActive
+                    ? "var(--ht-surface)"
+                    : "var(--ht-surface-glass-hover)",
                 },
               }}
             >
@@ -192,7 +199,9 @@ const CategoryTabs = () => {
                 sx={{
                   fontSize: { xs: 13, md: 15 },
                   fontWeight: isActive ? 700 : 500,
-                  color: isActive ? "#111827" : "#555",
+                  color: isActive
+                    ? "var(--ht-text-strong)"
+                    : "var(--ht-text-neutral)",
                   whiteSpace: "nowrap",
                 }}
               >
@@ -237,12 +246,12 @@ function renderFields(
           borderRight: {
             md:
               index < FIELDS.length - 1
-                ? `1.5px solid ${hasError ? "#fecaca" : BORDER}`
+                ? `1.5px solid ${hasError ? "var(--ht-danger-border)" : BORDER}`
                 : "none",
             xs: "none",
           },
           borderBottom: {
-            xs: `1.5px solid ${hasError ? "#fecaca" : BORDER}`,
+            xs: `1.5px solid ${hasError ? "var(--ht-danger-border)" : BORDER}`,
             md: "none",
           },
           display: "flex",
@@ -251,7 +260,11 @@ function renderFields(
           gap: "5px",
           minWidth: 0,
           transition: "background 0.15s",
-          bgcolor: hasError ? "#fff5f5" : isActive ? "#f0fdf4" : "transparent",
+          bgcolor: hasError
+            ? "var(--ht-danger-bg)"
+            : isActive
+            ? "var(--ht-brand-soft-bg)"
+            : "transparent",
           borderRadius:
             index === 0
               ? {
@@ -259,7 +272,11 @@ function renderFields(
                   md: "10.5px 0 0 10.5px",
                 }
               : "0",
-          "&:hover": { background: hasError ? "#fff5f5" : "#f9fafb" },
+          "&:hover": {
+            background: hasError
+              ? "var(--ht-danger-bg)"
+              : "var(--ht-surface-subtle)",
+          },
         }}
       >
         {/* Label */}
@@ -268,7 +285,11 @@ function renderFields(
             fontSize: "0.71rem",
             fontWeight: 600,
             letterSpacing: "0.15px",
-            color: hasError ? "#dc2626" : isActive ? GREEN : "#6b7280",
+            color: hasError
+              ? "var(--ht-danger-text)"
+              : isActive
+              ? "var(--ht-brand-text)"
+              : "var(--ht-text-muted)",
           }}
         >
           {field.label}
@@ -281,7 +302,9 @@ function renderFields(
             sx={{
               fontSize: "0.92rem",
               fontWeight: 600,
-              color: field.isPlaceholder ? "#9ca3af" : "#111827",
+              color: field.isPlaceholder
+                ? "var(--ht-text-faint)"
+                : "var(--ht-text-strong)",
               flex: 1,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -294,7 +317,11 @@ function renderFields(
             sx={{
               fontSize: 18,
               flexShrink: 0,
-              color: hasError ? "#dc2626" : isActive ? GREEN : "#6b7280",
+              color: hasError
+                ? "var(--ht-danger-text)"
+                : isActive
+                ? "var(--ht-brand-text)"
+                : "var(--ht-text-muted)",
               transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
               transition: "transform 0.2s",
             }}
@@ -306,7 +333,7 @@ function renderFields(
           <Typography
             sx={{
               fontSize: "0.7rem",
-              color: "#dc2626",
+              color: "var(--ht-danger-text)",
               fontWeight: 500,
               display: "flex",
               alignItems: "center",
@@ -514,7 +541,12 @@ const HotelsPage = ({ scrolled }) => {
       error: errors.location,
       icon: (
         <LocationOnIcon
-          sx={{ color: errors.location ? "#dc2626" : GREEN, fontSize: 19 }}
+          sx={{
+            color: errors.location
+              ? "var(--ht-danger-text)"
+              : "var(--ht-brand-text)",
+            fontSize: 19,
+          }}
         />
       ),
       ref: locationRef,
@@ -528,7 +560,12 @@ const HotelsPage = ({ scrolled }) => {
       error: errors.checkin,
       icon: (
         <CalendarTodayIcon
-          sx={{ color: errors.checkin ? "#dc2626" : GREEN, fontSize: 19 }}
+          sx={{
+            color: errors.checkin
+              ? "var(--ht-danger-text)"
+              : "var(--ht-brand-text)",
+            fontSize: 19,
+          }}
         />
       ),
       ref: checkinRef,
@@ -542,7 +579,12 @@ const HotelsPage = ({ scrolled }) => {
       error: errors.checkout,
       icon: (
         <CalendarTodayIcon
-          sx={{ color: errors.checkout ? "#dc2626" : GREEN, fontSize: 19 }}
+          sx={{
+            color: errors.checkout
+              ? "var(--ht-danger-text)"
+              : "var(--ht-brand-text)",
+            fontSize: 19,
+          }}
         />
       ),
       ref: checkoutRef,
@@ -556,7 +598,12 @@ const HotelsPage = ({ scrolled }) => {
       error: errors.guests,
       icon: (
         <PeopleAltIcon
-          sx={{ color: errors.guests ? "#dc2626" : GREEN, fontSize: 19 }}
+          sx={{
+            color: errors.guests
+              ? "var(--ht-danger-text)"
+              : "var(--ht-brand-text)",
+            fontSize: 19,
+          }}
         />
       ),
       ref: guestsRef,
@@ -572,15 +619,21 @@ const HotelsPage = ({ scrolled }) => {
         toastOptions={{
           style: {
             borderRadius: "12px",
-            background: "#1f2937",
-            color: "#fff",
+            background: "var(--ht-toast-bg)",
+            color: "var(--ht-text-on-brand)",
             fontSize: "14px",
             padding: "12px 18px",
             boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
           },
-          success: { style: { background: "#166534", color: "#fff" } },
-          error: { style: { background: "#991b1b", color: "#fff" } },
-          loading: { style: { background: "#166534", color: "#fff" } },
+          success: {
+            style: { background: "#166534", color: "var(--ht-text-on-brand)" },
+          },
+          error: {
+            style: { background: "#991b1b", color: "var(--ht-text-on-brand)" },
+          },
+          loading: {
+            style: { background: "#166534", color: "var(--ht-text-on-brand)" },
+          },
         }}
       />
 
@@ -619,7 +672,7 @@ const HotelsPage = ({ scrolled }) => {
             height: bgHeight
               ? `${bgHeight}px`
               : { xs: "140px", sm: "160px", md: "80px" },
-            bgcolor: "#F7FAFF",
+            bgcolor: "var(--ht-page-blue)",
             zIndex: 0,
             pointerEvents: "none",
             transition: "height 0.15s ease",
@@ -649,7 +702,7 @@ const HotelsPage = ({ scrolled }) => {
             boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
             position: "relative",
             zIndex: 1,
-            backgroundColor: "#fff",
+            backgroundColor: "var(--ht-surface)",
           }}
         >
           {/* HEADER */}
@@ -680,7 +733,7 @@ const HotelsPage = ({ scrolled }) => {
                   fontSize: { xs: "1.5rem", md: "1.65rem" },
                   fontWeight: 400,
                   fontFamily: "Inter, sans-serif",
-                  color: "#111827",
+                  color: "var(--ht-text-strong)",
                   letterSpacing: "-0.3px",
                   lineHeight: 1.2,
                   textAlign: {
@@ -696,7 +749,7 @@ const HotelsPage = ({ scrolled }) => {
                 sx={{
                   fontSize: "0.875rem",
                   fontFamily: "Inter, sans-serif",
-                  color: "rgba(0, 0, 0, 0.87)",
+                  color: "var(--ht-text-body)",
                   mt: 0.5,
                   textAlign: {
                     xs: "center",
@@ -737,7 +790,7 @@ const HotelsPage = ({ scrolled }) => {
                 alignItems: "center",
                 px: { xs: 1.5, md: 1.2 },
                 py: { xs: 1.2, md: 1 },
-                bgcolor: "#fff",
+                bgcolor: "var(--ht-surface)",
                 flexShrink: 0,
               }}
             >
@@ -747,7 +800,7 @@ const HotelsPage = ({ scrolled }) => {
                 startIcon={<SearchIcon sx={{ fontSize: "19px !important" }} />}
                 sx={{
                   background: GREEN,
-                  color: "#fff",
+                  color: "var(--ht-text-on-brand)",
                   fontWeight: 700,
                   fontSize: "0.95rem",
                   fontFamily: "Inter, sans-serif",
@@ -757,11 +810,11 @@ const HotelsPage = ({ scrolled }) => {
                   py: 1.6,
                   width: { xs: "100%", md: "auto" },
                   minWidth: { xs: 0, md: 130 },
-                  "&:hover": { background: "#15803d" },
+                  "&:hover": { background: "var(--ht-brand-hover)" },
                   "&:active": { transform: "scale(0.97)" },
                   "&.Mui-disabled": {
-                    background: "#86efac",
-                    color: "#fff",
+                    background: "var(--ht-success-border)",
+                    color: "var(--ht-text-on-brand)",
                   },
                   transition: "background 0.2s, transform 0.1s",
                 }}

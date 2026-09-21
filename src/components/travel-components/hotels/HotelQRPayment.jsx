@@ -13,10 +13,10 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import QRCode from "qrcode";
 import Swal from "sweetalert2";
 
-const GREEN = "#16a34a";
-const BORDER = "#e5e7eb";
-const LIGHT = "#6b7280";
-const DARK = "#111827";
+const GREEN = "var(--ht-brand)";
+const BORDER = "var(--ht-border)";
+const LIGHT = "var(--ht-text-muted)";
+const DARK = "var(--ht-text-strong)";
 
 function QRCanvas({ upiUrl, size = 220 }) {
   const ref = useRef(null);
@@ -30,14 +30,19 @@ function QRCanvas({ upiUrl, size = 220 }) {
     }).catch(console.error);
   }, [upiUrl, size]);
   return (
-    <canvas ref={ref} width={size} height={size} style={{ display: "block", borderRadius: 8 }} />
+    <canvas
+      ref={ref}
+      width={size}
+      height={size}
+      style={{ display: "block", borderRadius: 8 }}
+    />
   );
 }
 
 export default function HotelQRPayment({
-  paymentData,        // { amount, orderId, upiIntentUrl, expiryDate }
-  paymentStatus,       // "PENDING" | "SUCCESS" | "FAILED" | "EXPIRED" | "CANCELLED"
-  initiating = false,  // true while QR is being generated / retried
+  paymentData, // { amount, orderId, upiIntentUrl, expiryDate }
+  paymentStatus, // "PENDING" | "SUCCESS" | "FAILED" | "EXPIRED" | "CANCELLED"
+  initiating = false, // true while QR is being generated / retried
   cancelling = false,
   isExpired = false,
   mins = 0,
@@ -92,19 +97,40 @@ export default function HotelQRPayment({
       sx={{
         maxWidth: 480,
         mx: "auto",
-        bgcolor: "#fff",
+        bgcolor: "var(--ht-surface)",
         borderRadius: "18px",
         border: `1px solid ${BORDER}`,
         p: { xs: 2.5, sm: 3.5 },
         fontFamily: "Inter, sans-serif",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          mb: 2,
+        }}
+      >
         <Box>
-          <Typography sx={{ fontSize: 18, fontWeight: 800, color: DARK, fontFamily: "Inter, sans-serif" }}>
+          <Typography
+            sx={{
+              fontSize: 18,
+              fontWeight: 800,
+              color: DARK,
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
             Pay using QR Code
           </Typography>
-          <Typography sx={{ fontSize: 13, color: LIGHT, mt: 0.3, fontFamily: "Inter, sans-serif" }}>
+          <Typography
+            sx={{
+              fontSize: 13,
+              color: LIGHT,
+              mt: 0.3,
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
             Scan using any UPI App
           </Typography>
         </Box>
@@ -137,11 +163,23 @@ export default function HotelQRPayment({
           py: 1,
           mb: 2.5,
           fontFamily: "Inter, sans-serif",
-          bgcolor: showSuccess ? "#f0fdf4" : showFailed || showExpired ? "#fef2f2" : "#fffbeb",
+          bgcolor: showSuccess
+            ? "var(--ht-brand-soft-bg)"
+            : showFailed || showExpired
+            ? "var(--ht-danger-bg)"
+            : "var(--ht-warn-bg-soft)",
           border: `1px solid ${
-            showSuccess ? "#bbf7d0" : showFailed || showExpired ? "#fecaca" : "#fde68a"
+            showSuccess
+              ? "var(--ht-success-border)"
+              : showFailed || showExpired
+              ? "var(--ht-danger-border)"
+              : "var(--ht-warn-border)"
           }`,
-          color: showSuccess ? GREEN : showFailed || showExpired ? "#ef4444" : "#92400e",
+          color: showSuccess
+            ? GREEN
+            : showFailed || showExpired
+            ? "#ef4444"
+            : "var(--ht-warn-text)",
         }}
       >
         {showSuccess
@@ -153,18 +191,33 @@ export default function HotelQRPayment({
           : "Waiting for payment..."}
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1.5 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 1.5,
+        }}
+      >
         <Box
           sx={{
             position: "relative",
             border: `1px solid ${BORDER}`,
             borderRadius: "16px",
             p: 2,
-            bgcolor: "#fff",
+            bgcolor: "var(--ht-surface)",
           }}
         >
           {initiating ? (
-            <Box sx={{ width: 220, height: 220, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box
+              sx={{
+                width: 220,
+                height: 220,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <CircularProgress size={32} sx={{ color: GREEN }} />
             </Box>
           ) : (
@@ -180,12 +233,29 @@ export default function HotelQRPayment({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                bgcolor: "rgba(255,255,255,0.97)",
+                bgcolor: "var(--ht-surface-glass)",
               }}
             >
-              <Box sx={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
-                <ErrorOutlinedIcon sx={{ fontSize: 32, color: "#f59e0b" }} />
-                <Typography sx={{ fontSize: 14, fontWeight: 700, color: DARK, fontFamily: "Inter, sans-serif" }}>
+              <Box
+                sx={{
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <ErrorOutlinedIcon
+                  sx={{ fontSize: 32, color: "var(--ht-warn-strong-text)" }}
+                />
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: DARK,
+                    fontFamily: "Inter, sans-serif",
+                  }}
+                >
                   {showFailed ? "Payment Failed" : "QR Expired"}
                 </Typography>
                 <Button
@@ -193,7 +263,7 @@ export default function HotelQRPayment({
                   startIcon={<ReplayIcon sx={{ fontSize: 16 }} />}
                   sx={{
                     bgcolor: GREEN,
-                    color: "#fff",
+                    color: "var(--ht-text-on-brand)",
                     borderRadius: "8px",
                     px: 2.5,
                     py: 1,
@@ -201,7 +271,7 @@ export default function HotelQRPayment({
                     fontWeight: 600,
                     textTransform: "none",
                     fontFamily: "Inter, sans-serif",
-                    "&:hover": { bgcolor: "#15803d" },
+                    "&:hover": { bgcolor: "var(--ht-brand-hover)" },
                   }}
                 >
                   Retry Payment
@@ -219,17 +289,25 @@ export default function HotelQRPayment({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                bgcolor: "rgba(255,255,255,0.97)",
+                bgcolor: "var(--ht-surface-glass)",
               }}
             >
-              <Box sx={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+              <Box
+                sx={{
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
                 <Box
                   sx={{
                     width: 48,
                     height: 48,
                     borderRadius: "50%",
-                    bgcolor: "#f0fdf4",
-                    border: "2px solid #bbf7d0",
+                    bgcolor: "var(--ht-success-bg)",
+                    border: "2px solid var(--ht-success-border)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -237,7 +315,14 @@ export default function HotelQRPayment({
                 >
                   <CheckCircleIcon sx={{ fontSize: 26, color: GREEN }} />
                 </Box>
-                <Typography sx={{ fontSize: 14, fontWeight: 700, color: DARK, fontFamily: "Inter, sans-serif" }}>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: DARK,
+                    fontFamily: "Inter, sans-serif",
+                  }}
+                >
                   Payment Successful!
                 </Typography>
               </Box>
@@ -246,7 +331,9 @@ export default function HotelQRPayment({
         </Box>
 
         {!showExpired && !showFailed && !showSuccess && !initiating && (
-          <Typography sx={{ fontSize: 13, color: GREEN, fontFamily: "Inter, sans-serif" }}>
+          <Typography
+            sx={{ fontSize: 13, color: GREEN, fontFamily: "Inter, sans-serif" }}
+          >
             Scan securely using any UPI application
           </Typography>
         )}
@@ -260,25 +347,58 @@ export default function HotelQRPayment({
           mt: 2.5,
           px: 2,
           py: 1.5,
-          bgcolor: "#f0fdf4",
-          border: "1px solid #bbf7d0",
+          bgcolor: "var(--ht-success-bg)",
+          border: "1px solid var(--ht-success-border)",
           borderRadius: "10px",
         }}
       >
-        <Typography sx={{ fontSize: 13.5, fontWeight: 600, color: DARK, fontFamily: "Inter, sans-serif" }}>
+        <Typography
+          sx={{
+            fontSize: 13.5,
+            fontWeight: 600,
+            color: DARK,
+            fontFamily: "Inter, sans-serif",
+          }}
+        >
           Amount Payable
         </Typography>
-        <Typography sx={{ fontSize: 17, fontWeight: 800, color: GREEN, fontFamily: "Inter, sans-serif" }}>
+        <Typography
+          sx={{
+            fontSize: 17,
+            fontWeight: 800,
+            color: GREEN,
+            fontFamily: "Inter, sans-serif",
+          }}
+        >
           {currency}
           {Number(amount).toFixed(2)}
         </Typography>
       </Box>
 
-      <Box sx={{ mt: 3, display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(3,1fr)" }, gap: 2 }}>
+      <Box
+        sx={{
+          mt: 3,
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", sm: "repeat(3,1fr)" },
+          gap: 2,
+        }}
+      >
         {[
-          { n: 1, t: "Open UPI App", d: "Open GPay, PhonePe, Paytm or any UPI app." },
-          { n: 2, t: "Scan QR", d: "Scan the QR shown above to start payment." },
-          { n: 3, t: "Complete Payment", d: "Enter UPI PIN and wait for confirmation." },
+          {
+            n: 1,
+            t: "Open UPI App",
+            d: "Open GPay, PhonePe, Paytm or any UPI app.",
+          },
+          {
+            n: 2,
+            t: "Scan QR",
+            d: "Scan the QR shown above to start payment.",
+          },
+          {
+            n: 3,
+            t: "Complete Payment",
+            d: "Enter UPI PIN and wait for confirmation.",
+          },
         ].map((s) => (
           <Box key={s.n}>
             <Box
@@ -286,7 +406,7 @@ export default function HotelQRPayment({
                 width: 24,
                 height: 24,
                 borderRadius: "50%",
-                bgcolor: "#f0fdf4",
+                bgcolor: "var(--ht-success-bg)",
                 color: GREEN,
                 fontWeight: 700,
                 fontSize: 12,
@@ -298,10 +418,25 @@ export default function HotelQRPayment({
             >
               {s.n}
             </Box>
-            <Typography sx={{ fontSize: 12.5, fontWeight: 700, color: DARK, mb: 0.3, fontFamily: "Inter, sans-serif" }}>
+            <Typography
+              sx={{
+                fontSize: 12.5,
+                fontWeight: 700,
+                color: DARK,
+                mb: 0.3,
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
               {s.t}
             </Typography>
-            <Typography sx={{ fontSize: 11.5, color: LIGHT, lineHeight: 1.5, fontFamily: "Inter, sans-serif" }}>
+            <Typography
+              sx={{
+                fontSize: 11.5,
+                color: LIGHT,
+                lineHeight: 1.5,
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
               {s.d}
             </Typography>
           </Box>
@@ -317,13 +452,13 @@ export default function HotelQRPayment({
             mt: 2.5,
             py: 1.3,
             borderRadius: "10px",
-            border: "1.5px solid #ef4444",
-            color: "#ef4444",
+            border: "1.5px solid var(--ht-danger-line)",
+            color: "var(--ht-danger-text)",
             fontWeight: 600,
             fontSize: 13,
             textTransform: "none",
             fontFamily: "Inter, sans-serif",
-            "&:hover": { bgcolor: "#fef2f2" },
+            "&:hover": { bgcolor: "var(--ht-danger-bg)" },
             "&.Mui-disabled": { opacity: 0.4 },
           }}
         >

@@ -7,8 +7,10 @@ const FlightCardSkeleton = () => (
     sx={{
       position: "relative",
       overflow: "hidden",
-      border: "1px solid #e5e7eb",
-      borderLeft: "4px solid #d1fae5",
+      bgcolor: "var(--fl-surface)",
+      backgroundImage: "none",
+      border: "1px solid var(--fl-border)",
+      borderLeft: "4px solid var(--fl-success-border)",
       borderRadius: "14px",
     }}
   >
@@ -24,35 +26,117 @@ const FlightCardSkeleton = () => (
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Box
-            sx={{ width: 34, height: 34, borderRadius: "50%", bgcolor: "#f3f4f6" }}
+            sx={{
+              width: 34,
+              height: 34,
+              borderRadius: "50%",
+              bgcolor: "var(--fl-surface-muted)",
+            }}
           />
-          <Box sx={{ width: 100, height: 14, borderRadius: 2, bgcolor: "#f3f4f6" }} />
+          <Box
+            sx={{
+              width: 100,
+              height: 14,
+              borderRadius: 2,
+              bgcolor: "var(--fl-surface-muted)",
+            }}
+          />
         </Box>
-        <Box sx={{ width: 70, height: 22, borderRadius: "20px", bgcolor: "#f3f4f6" }} />
+        <Box
+          sx={{
+            width: 70,
+            height: 22,
+            borderRadius: "20px",
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
       </Box>
 
       {/* Row 2 - route */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-        <Box sx={{ width: 40, height: 13, borderRadius: 2, bgcolor: "#f3f4f6" }} />
-        <Box sx={{ width: 16, height: 13, borderRadius: 2, bgcolor: "#f3f4f6" }} />
-        <Box sx={{ width: 40, height: 13, borderRadius: 2, bgcolor: "#f3f4f6" }} />
+        <Box
+          sx={{
+            width: 40,
+            height: 13,
+            borderRadius: 2,
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
+        <Box
+          sx={{
+            width: 16,
+            height: 13,
+            borderRadius: 2,
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
+        <Box
+          sx={{
+            width: 40,
+            height: 13,
+            borderRadius: 2,
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
       </Box>
 
       {/* Row 3 - date + id */}
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1.5 }}>
-        <Box sx={{ width: 90, height: 12, borderRadius: 2, bgcolor: "#f3f4f6" }} />
-        <Box sx={{ width: 70, height: 12, borderRadius: 2, bgcolor: "#f3f4f6" }} />
+        <Box
+          sx={{
+            width: 90,
+            height: 12,
+            borderRadius: 2,
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
+        <Box
+          sx={{
+            width: 70,
+            height: 12,
+            borderRadius: 2,
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
       </Box>
 
       {/* Row 4 - fare */}
-      <Box sx={{ width: 80, height: 18, borderRadius: 2, bgcolor: "#f3f4f6", mb: 1.5 }} />
+      <Box
+        sx={{
+          width: 80,
+          height: 18,
+          borderRadius: 2,
+          bgcolor: "var(--fl-surface-muted)",
+          mb: 1.5,
+        }}
+      />
 
       <Divider sx={{ mb: 1.5 }} />
 
       {/* Row 5 - buttons */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Box sx={{ width: 90, height: 30, borderRadius: "8px", bgcolor: "#f3f4f6" }} />
-        <Box sx={{ width: 60, height: 12, borderRadius: 2, bgcolor: "#f3f4f6" }} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            width: 90,
+            height: 30,
+            borderRadius: "8px",
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
+        <Box
+          sx={{
+            width: 60,
+            height: 12,
+            borderRadius: 2,
+            bgcolor: "var(--fl-surface-muted)",
+          }}
+        />
       </Box>
     </CardContent>
 
@@ -62,7 +146,7 @@ const FlightCardSkeleton = () => (
         position: "absolute",
         inset: 0,
         background:
-          "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+          "linear-gradient(90deg, transparent 0%, var(--fl-shimmer) 50%, transparent 100%)",
         backgroundSize: "200% 100%",
         animation: "shimmer 1.4s infinite",
         "@keyframes shimmer": {

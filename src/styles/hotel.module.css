@@ -1,0 +1,316 @@
+/* =========================================================================
+   hotel.module.css
+  
+   ========================================================================= */
+
+/* --------------------------- LIGHT (original colours) -------------------- */
+.hotelThemeVars {
+  color-scheme: light;
+
+  /* ---------- Surfaces ---------- */
+  --ht-page: #f5f7fa;
+  --ht-page-blue: #f0f4fa;
+  --ht-page-slate: #f1f5f9;
+  --ht-page-subtle: #f9fafb;
+  --ht-surface: #ffffff;
+  --ht-surface-subtle: #f9fafb;
+  --ht-surface-muted: #f3f4f6;
+  --ht-surface-strong: #d1d5db;
+  --ht-surface-glass: rgba(255, 255, 255, 0.92);
+  --ht-surface-glass-hover: rgba(255, 255, 255, 0.6);
+  --ht-shimmer: rgba(255, 255, 255, 0.7);
+  --ht-overlay: rgba(0, 0, 0, 0.5);
+  --ht-toast-bg: #111827;
+  --ht-logo-bg: #ffffff; /* hotel-logo / gallery tiles stay white in both modes */
+  --ht-image-bg: #f3f4f6; /* placeholder behind room & hotel photos */
+  --ht-route-bg-opacity: 0.18; /* decorative art behind My-Trips hotel cards */
+  --ht-footer-bg: #f8f8f8;
+  --ht-skeleton-a: #f0f0f0; /* shimmer / skeleton gradient stops */
+  --ht-skeleton-b: #e0e0e0;
+  --ht-tab-bg: #ffffff; /* pill tabs (hotel About tabs etc.) */
+  --ht-tab-border: #e5e7eb;
+  --ht-tab-text: #292d32;
+  --ht-tab-active-bg: linear-gradient(270deg, #ffffff 0%, #c6ffe0 100%);
+
+  /* ---------- Borders ---------- */
+  --ht-border: #e5e7eb;
+  --ht-border-soft: #f3f4f6;
+  --ht-border-strong: #d1d5db;
+
+  /* ---------- Text ---------- */
+  --ht-text-strong: #111827;
+  --ht-text-body: #374151;
+  --ht-text-neutral: #555555;
+  --ht-text-muted: #6b7280;
+  --ht-text-soft: #888888;
+  --ht-text-faint: #9ca3af;
+  --ht-text-disabled: #d1d5db;
+  --ht-text-on-brand: #ffffff; /* text sitting on a filled green button */
+
+  /* ---------- Brand green ---------- */
+  --ht-brand: #16a34a;
+  --ht-brand2: #1a914b;
+  --ht-brand-hover: #15803d;
+  --ht-brand-text: #16a34a;
+  --ht-brand2-text: #1a914b;
+  --ht-brand-strong-text: #15803d;
+  --ht-brand-line: #16a34a;
+  --ht-brand2-line: #1a914b;
+  --ht-brand-strong-line: #15803d;
+  --ht-brand-soft-bg: #f0fdf4;
+
+  /* ---------- Navy / blue accent ---------- */
+  --ht-navy: #16305a;
+  --ht-navy-hover: #0f2340;
+  --ht-navy-text: #16305a;
+  --ht-blue-accent: #2563eb;
+  --ht-blue-accent-bg: #eef2ff;
+
+  /* ---------- Rating / star gold (hotel star ratings) ---------- */
+  --ht-star: #f5a623;
+  --ht-star-empty: #d1d5db;
+  --ht-rating-bg: #f0fdf4;
+  --ht-rating-text: #15803d;
+
+  /* ---------- Success ---------- */
+  --ht-success-bg: #f0fdf4;
+  --ht-success-bg-strong: #dcfce7;
+  --ht-success-border: #bbf7d0;
+  --ht-success-text: #166534;
+
+  /* ---------- Danger ---------- */
+  --ht-danger-text: #dc2626;
+  --ht-danger-strong-text: #991b1b;
+  --ht-danger-line: #dc2626;
+  --ht-danger-bg: #fef2f2;
+  --ht-danger-bg-strong: #fee2e2;
+  --ht-danger-border: #fecaca;
+
+  /* ---------- Info (blue) ---------- */
+  --ht-info-text: #1d4ed8;
+  --ht-info-bg: #eff6ff;
+  --ht-info-bg-strong: #dbeafe;
+  --ht-info-border: #bfdbfe;
+
+  /* ---------- Warning (amber) ---------- */
+  --ht-warn-text: #92400e;
+  --ht-warn-strong-text: #d97706;
+  --ht-warn-bg: #fef3c7;
+  --ht-warn-bg-soft: #fffbeb;
+  --ht-warn-border: #fde68a;
+
+  /* ---------- Purple ---------- */
+  --ht-purple-text: #6d28d9;
+  --ht-purple-bg: #ede9fe;
+  --ht-purple-border: #c084fc;
+}
+
+/* ------------------------------- DARK ------------------------------------ */
+:global([data-theme="dark"]) .hotelThemeVars {
+  color-scheme: dark;
+
+  /* ---------- Surfaces ---------- */
+  --ht-page: #131313; /* = MUI dark theme background.default */
+  --ht-page-blue: #131313;
+  --ht-page-slate: #131313;
+  --ht-page-subtle: #131313;
+  --ht-surface: #1a1a1a;
+  --ht-surface-subtle: #202020;
+  --ht-surface-muted: #2a2a2a;
+  --ht-surface-strong: #3f3f46;
+  --ht-surface-glass: rgba(26, 26, 26, 0.92);
+  --ht-surface-glass-hover: rgba(255, 255, 255, 0.08);
+  --ht-shimmer: rgba(255, 255, 255, 0.08);
+  --ht-overlay: rgba(0, 0, 0, 0.7);
+  --ht-toast-bg: #2b3040;
+  --ht-logo-bg: #ffffff;
+  --ht-image-bg: #202020;
+  --ht-route-bg-opacity: 0.07;
+  --ht-footer-bg: #131313;
+  --ht-skeleton-a: #262626;
+  --ht-skeleton-b: #343434;
+  --ht-tab-bg: #1a1a1a;
+  --ht-tab-border: #2e2e2e;
+  --ht-tab-text: #e5e7eb;
+  --ht-tab-active-bg: linear-gradient(270deg, #1a1a1a 0%, rgba(34, 197, 94, 0.28) 100%);
+
+  /* ---------- Borders ---------- */
+  --ht-border: #2e2e2e;
+  --ht-border-soft: #262626;
+  --ht-border-strong: #3f3f46;
+
+  /* ---------- Text ---------- */
+  --ht-text-strong: #f3f4f6;
+  --ht-text-body: #d1d5db;
+  --ht-text-neutral: #b4b9c2;
+  --ht-text-muted: #9ca3af;
+  --ht-text-soft: #8b929e;
+  --ht-text-faint: #7b8494;
+  --ht-text-disabled: #4b5563;
+  --ht-text-on-brand: #ffffff;
+
+  /* ---------- Brand green ----------
+     Button backgrounds keep the same green so white label text stays readable.
+     Text / outlines move to a lighter green so they stay visible on dark. */
+  --ht-brand: #16a34a;
+  --ht-brand2: #1a914b;
+  --ht-brand-hover: #15803d;
+  --ht-brand-text: #22c55e;
+  --ht-brand2-text: #22c55e;
+  --ht-brand-strong-text: #4ade80;
+  --ht-brand-line: #22c55e;
+  --ht-brand2-line: #22c55e;
+  --ht-brand-strong-line: #15803d;
+  --ht-brand-soft-bg: rgba(34, 197, 94, 0.12);
+
+  /* ---------- Navy / blue accent ---------- */
+  --ht-navy: #234a86;
+  --ht-navy-hover: #2c5a9e;
+  --ht-navy-text: #93c5fd;
+  --ht-blue-accent: #60a5fa;
+  --ht-blue-accent-bg: rgba(99, 102, 241, 0.16);
+
+  /* ---------- Rating / star gold ---------- */
+  --ht-star: #fbbf24;
+  --ht-star-empty: #4b5563;
+  --ht-rating-bg: rgba(34, 197, 94, 0.14);
+  --ht-rating-text: #4ade80;
+
+  /* ---------- Success ---------- */
+  --ht-success-bg: rgba(34, 197, 94, 0.12);
+  --ht-success-bg-strong: rgba(34, 197, 94, 0.22);
+  --ht-success-border: rgba(34, 197, 94, 0.4);
+  --ht-success-text: #4ade80;
+
+  /* ---------- Danger ---------- */
+  --ht-danger-text: #f87171;
+  --ht-danger-strong-text: #fca5a5;
+  --ht-danger-line: #f87171;
+  --ht-danger-bg: rgba(248, 113, 113, 0.12);
+  --ht-danger-bg-strong: rgba(248, 113, 113, 0.2);
+  --ht-danger-border: rgba(248, 113, 113, 0.4);
+
+  /* ---------- Info (blue) ---------- */
+  --ht-info-text: #93c5fd;
+  --ht-info-bg: rgba(59, 130, 246, 0.14);
+  --ht-info-bg-strong: rgba(59, 130, 246, 0.24);
+  --ht-info-border: rgba(96, 165, 250, 0.45);
+
+  /* ---------- Warning (amber) ---------- */
+  --ht-warn-text: #fbbf24;
+  --ht-warn-strong-text: #fcd34d;
+  --ht-warn-bg: rgba(245, 158, 11, 0.14);
+  --ht-warn-bg-soft: rgba(245, 158, 11, 0.09);
+  --ht-warn-border: rgba(245, 158, 11, 0.45);
+
+  /* ---------- Purple ---------- */
+  --ht-purple-text: #d8b4fe;
+  --ht-purple-bg: rgba(192, 132, 252, 0.14);
+  --ht-purple-border: rgba(192, 132, 252, 0.5);
+}
+
+/* ---------------------- SweetAlert2 popups (Swal.fire) -------------------
+   Swal renders in <body>, outside React's tree, with its own light styles.
+   Because <body> carries .hotelThemeVars while the travel app is mounted,
+   these descendant rules re-skin every Swal popup opened from hotel pages.
+   ------------------------------------------------------------------------ */
+.hotelThemeVars :global(.swal2-popup) {
+  background: var(--ht-surface);
+  color: var(--ht-text-body);
+}
+.hotelThemeVars :global(.swal2-title) {
+  color: var(--ht-text-strong);
+}
+.hotelThemeVars :global(.swal2-html-container) {
+  color: var(--ht-text-body);
+}
+.hotelThemeVars :global(.swal2-input),
+.hotelThemeVars :global(.swal2-textarea),
+.hotelThemeVars :global(.swal2-select) {
+  background: var(--ht-surface-subtle);
+  color: var(--ht-text-strong);
+  border-color: var(--ht-border-strong);
+}
+.hotelThemeVars :global(.swal2-timer-progress-bar) {
+  background: var(--ht-brand);
+}
+.hotelThemeVars :global(.swal2-success-circular-line-left),
+.hotelThemeVars :global(.swal2-success-circular-line-right),
+.hotelThemeVars :global(.swal2-success-fix) {
+  background: transparent !important;
+}
+
+/* ---------------------- react-date-range calendar ------------------------
+   The hotel check-in / check-out picker ships its own light-only stylesheet.
+   These rules repaint it from the tokens above.
+   ------------------------------------------------------------------------ */
+.hotelThemeVars :global(.rdrCalendarWrapper),
+.hotelThemeVars :global(.rdrDateRangeWrapper),
+.hotelThemeVars :global(.rdrMonthAndYearWrapper),
+.hotelThemeVars :global(.rdrMonth) {
+  background: var(--ht-surface);
+  color: var(--ht-text-body);
+}
+.hotelThemeVars :global(.rdrDayNumber span),
+.hotelThemeVars :global(.rdrWeekDay),
+.hotelThemeVars :global(.rdrMonthAndYearPickers select) {
+  color: var(--ht-text-body);
+}
+.hotelThemeVars :global(.rdrDayPassive .rdrDayNumber span),
+.hotelThemeVars :global(.rdrDayDisabled .rdrDayNumber span) {
+  color: var(--ht-text-disabled);
+}
+.hotelThemeVars :global(.rdrDayDisabled) {
+  background: var(--ht-surface-muted);
+}
+.hotelThemeVars :global(.rdrNextPrevButton) {
+  background: var(--ht-surface-muted);
+}
+.hotelThemeVars :global(.rdrDayToday .rdrDayNumber span:after) {
+  background: var(--ht-brand);
+}
+
+/* ---------------------- Leaflet map (hotel location) --------------------- */
+.hotelThemeVars :global(.leaflet-popup-content-wrapper),
+.hotelThemeVars :global(.leaflet-popup-tip) {
+  background: var(--ht-surface);
+  color: var(--ht-text-body);
+}
+.hotelThemeVars :global(.leaflet-control-zoom a) {
+  background: var(--ht-surface);
+  color: var(--ht-text-strong);
+  border-color: var(--ht-border);
+}
+
+/* ---------------------- Native form controls -----------------------------
+   MUI does not reach plain <input>/<select>/<textarea>, and Chrome paints
+   autofilled fields with its own near-white background + dark blue text,
+   which is what made the search-form values unreadable in dark mode.
+   ------------------------------------------------------------------------ */
+.hotelThemeVars
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]),
+.hotelThemeVars select,
+.hotelThemeVars textarea {
+  color: var(--ht-text-strong);
+  background-color: var(--ht-surface);
+}
+.hotelThemeVars input::placeholder,
+.hotelThemeVars textarea::placeholder {
+  color: var(--ht-text-faint);
+  opacity: 1;
+}
+.hotelThemeVars select option {
+  background: var(--ht-surface);
+  color: var(--ht-text-strong);
+}
+.hotelThemeVars input:-webkit-autofill,
+.hotelThemeVars input:-webkit-autofill:hover,
+.hotelThemeVars input:-webkit-autofill:focus,
+.hotelThemeVars textarea:-webkit-autofill,
+.hotelThemeVars select:-webkit-autofill {
+  -webkit-text-fill-color: var(--ht-text-strong);
+  -webkit-box-shadow: 0 0 0 1000px var(--ht-surface) inset;
+  box-shadow: 0 0 0 1000px var(--ht-surface) inset;
+  caret-color: var(--ht-text-strong);
+  transition: background-color 9999s ease-in-out 0s;
+}

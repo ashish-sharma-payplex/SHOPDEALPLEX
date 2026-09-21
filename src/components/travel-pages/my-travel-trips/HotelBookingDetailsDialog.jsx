@@ -37,11 +37,16 @@ import { GREEN } from "components/travel-hooks/my-trips/constants";
    ───────────────────────────────────────────────────────────── */
 
 const money = (v) =>
-  v === undefined || v === null || v === "" ? "—" : `₹${Number(v).toLocaleString("en-IN")}`;
+  v === undefined || v === null || v === ""
+    ? "—"
+    : `₹${Number(v).toLocaleString("en-IN")}`;
 
 const formatDate = (iso, opts) =>
   iso
-    ? new Date(iso).toLocaleDateString("en-IN", opts || { day: "2-digit", month: "short", year: "numeric" })
+    ? new Date(iso).toLocaleDateString(
+        "en-IN",
+        opts || { day: "2-digit", month: "short", year: "numeric" },
+      )
     : "—";
 
 const nightsBetween = (checkIn, checkOut) => {
@@ -52,15 +57,41 @@ const nightsBetween = (checkIn, checkOut) => {
 };
 
 const STATUS_STYLES = {
-  CONFIRMED: { bg: "#dcfce7", text: "#15803d", icon: CheckCircleIcon, subtitle: "Booking Confirmed" },
-  PENDING: { bg: "#fef9c3", text: "#a16207", icon: ScheduleIcon, subtitle: "Awaiting Confirmation" },
-  CANCELLED: { bg: "#fee2e2", text: "#b91c1c", icon: CancelIcon, subtitle: "Booking Cancelled" },
-  FAILED: { bg: "#fee2e2", text: "#b91c1c", icon: CancelIcon, subtitle: "Booking Failed" },
+  CONFIRMED: {
+    bg: "#dcfce7",
+    text: "#15803d",
+    icon: CheckCircleIcon,
+    subtitle: "Booking Confirmed",
+  },
+  PENDING: {
+    bg: "#fef9c3",
+    text: "#a16207",
+    icon: ScheduleIcon,
+    subtitle: "Awaiting Confirmation",
+  },
+  CANCELLED: {
+    bg: "#fee2e2",
+    text: "#b91c1c",
+    icon: CancelIcon,
+    subtitle: "Booking Cancelled",
+  },
+  FAILED: {
+    bg: "#fee2e2",
+    text: "#b91c1c",
+    icon: CancelIcon,
+    subtitle: "Booking Failed",
+  },
 };
-const DEFAULT_STATUS_STYLE = { bg: "#f3f4f6", text: "#374151", icon: InfoOutlinedIcon, subtitle: "" };
+const DEFAULT_STATUS_STYLE = {
+  bg: "#f3f4f6",
+  text: "#374151",
+  icon: InfoOutlinedIcon,
+  subtitle: "",
+};
 
 const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
-  const result = data?.GetBookingDetailResult || data?.data?.GetBookingDetailResult || null;
+  const result =
+    data?.GetBookingDetailResult || data?.data?.GetBookingDetailResult || null;
 
   const rawStatus = result?.HotelBookingStatus || "";
   const statusKey = rawStatus.toString().trim().toUpperCase();
@@ -70,13 +101,18 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
   const rooms = result?.Rooms || [];
 
   const cardSx = {
-    bgcolor: "#fff",
+    bgcolor: "var(--ht-surface)",
     borderRadius: "14px",
-    border: "1px solid #e8e8e8",
+    border: "1px solid var(--ht-border)",
     p: { xs: 2, sm: 2.5 },
     mb: 2,
   };
-  const sectionTitleSx = { fontWeight: 800, fontSize: 15, color: "#0f1e4d", mb: 1.5 };
+  const sectionTitleSx = {
+    fontWeight: 800,
+    fontSize: 15,
+    color: "#0f1e4d",
+    mb: 1.5,
+  };
 
   return (
     <Dialog
@@ -85,14 +121,19 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
       fullWidth
       maxWidth="md"
       PaperProps={{
-        sx: { borderRadius: 3, overflow: "hidden", maxHeight: "92vh", mx: { xs: 1, sm: 2 } },
+        sx: {
+          borderRadius: 3,
+          overflow: "hidden",
+          maxHeight: "92vh",
+          mx: { xs: 1, sm: 2 },
+        },
       }}
     >
       {/* ── Header ── */}
       <Box
         sx={{
           bgcolor: "#0f1e4d",
-          color: "#fff",
+          color: "var(--ht-text-on-brand)",
           px: { xs: 2, sm: 3 },
           py: 2,
           display: "flex",
@@ -100,7 +141,11 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
           gap: 1.5,
         }}
       >
-        <IconButton onClick={onClose} sx={{ color: "#fff" }} size="small">
+        <IconButton
+          onClick={onClose}
+          sx={{ color: "var(--ht-text-on-brand)" }}
+          size="small"
+        >
           <ArrowBackIcon />
         </IconButton>
         <Typography sx={{ fontWeight: 700, fontSize: { xs: 16, sm: 18 } }}>
@@ -108,14 +153,20 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
         </Typography>
       </Box>
 
-      <DialogContent sx={{ p: { xs: 1.5, sm: 3 }, bgcolor: "#f5f5f5" }}>
+      <DialogContent
+        sx={{ p: { xs: 1.5, sm: 3 }, bgcolor: "var(--ht-surface-muted)" }}
+      >
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
-            <Typography sx={{ fontSize: 13, color: "#888" }}>Loading details...</Typography>
+            <Typography sx={{ fontSize: 13, color: "var(--ht-text-soft)" }}>
+              Loading details...
+            </Typography>
           </Box>
         ) : !result ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
-            <Typography sx={{ fontSize: 13, color: "#888" }}>No details available.</Typography>
+            <Typography sx={{ fontSize: 13, color: "var(--ht-text-soft)" }}>
+              No details available.
+            </Typography>
           </Box>
         ) : (
           <Box>
@@ -130,29 +181,55 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                   gap: 2,
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, minWidth: 0 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                    minWidth: 0,
+                  }}
+                >
                   <Box
                     sx={{
                       width: 46,
                       height: 46,
                       borderRadius: "10px",
-                      border: "1px solid #eee",
+                      border: "1px solid var(--ht-border)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       flexShrink: 0,
-                      bgcolor: "#fafafa",
+                      bgcolor: "var(--ht-surface-subtle)",
                     }}
                   >
                     <HotelIcon sx={{ color: GREEN }} />
                   </Box>
                   <Box sx={{ minWidth: 0 }}>
-                    <Typography sx={{ fontWeight: 800, fontSize: 16, color: "#111827" }} noWrap>
+                    <Typography
+                      sx={{
+                        fontWeight: 800,
+                        fontSize: 16,
+                        color: "var(--ht-text-strong)",
+                      }}
+                      noWrap
+                    >
                       {result?.HotelName || "Hotel"}
                     </Typography>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mt: 0.25 }}>
-                      <LocationOnIcon sx={{ fontSize: 14, color: "#9ca3af" }} />
-                      <Typography sx={{ fontSize: 12, color: "#9ca3af" }} noWrap>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.5,
+                        mt: 0.25,
+                      }}
+                    >
+                      <LocationOnIcon
+                        sx={{ fontSize: 14, color: "var(--ht-text-faint)" }}
+                      />
+                      <Typography
+                        sx={{ fontSize: 12, color: "var(--ht-text-faint)" }}
+                        noWrap
+                      >
                         {result?.City || "—"}
                         {result?.StarRating ? ` · ${result.StarRating}★` : ""}
                       </Typography>
@@ -173,10 +250,19 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                 >
                   <StatusIcon sx={{ fontSize: 18, color: statusStyle.text }} />
                   <Box>
-                    <Typography sx={{ fontSize: 13, fontWeight: 800, color: statusStyle.text, lineHeight: 1.2 }}>
+                    <Typography
+                      sx={{
+                        fontSize: 13,
+                        fontWeight: 800,
+                        color: statusStyle.text,
+                        lineHeight: 1.2,
+                      }}
+                    >
                       {rawStatus || "—"}
                     </Typography>
-                    <Typography sx={{ fontSize: 10.5, color: statusStyle.text }}>
+                    <Typography
+                      sx={{ fontSize: 10.5, color: statusStyle.text }}
+                    >
                       {statusStyle.subtitle}
                     </Typography>
                   </Box>
@@ -185,16 +271,28 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
 
               <Divider sx={{ my: 2 }} />
 
-              <Box sx={{ display: "flex", flexWrap: "wrap", rowGap: 2, columnGap: 4 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  rowGap: 2,
+                  columnGap: 4,
+                }}
+              >
                 <MetaItem
                   icon={<ReceiptLongIcon sx={{ fontSize: 18, color: GREEN }} />}
                   label="Confirmation No"
                   value={result?.ConfirmationNo || "—"}
                 />
-                <MetaItem label="Booking Ref No" value={result?.BookingRefNo || "—"} />
+                <MetaItem
+                  label="Booking Ref No"
+                  value={result?.BookingRefNo || "—"}
+                />
                 <MetaItem label="Invoice No" value={result?.InvoiceNo || "—"} />
                 <MetaItem
-                  icon={<CalendarMonthIcon sx={{ fontSize: 18, color: GREEN }} />}
+                  icon={
+                    <CalendarMonthIcon sx={{ fontSize: 18, color: GREEN }} />
+                  }
                   label="Booking Date"
                   value={formatDate(result?.BookingDate, {
                     day: "2-digit",
@@ -204,52 +302,105 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                     minute: "2-digit",
                   })}
                 />
-                <MetaItem label="No. of Rooms" value={result?.NoOfRooms ?? "—"} />
+                <MetaItem
+                  label="No. of Rooms"
+                  value={result?.NoOfRooms ?? "—"}
+                />
               </Box>
             </Box>
 
             {/* ── Stay details ── */}
             <Box sx={cardSx}>
               <Typography sx={sectionTitleSx}>Stay Details</Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
                 <Box sx={{ textAlign: "center" }}>
-                  <Typography sx={{ fontSize: 11, color: "#9ca3af", textTransform: "uppercase", fontWeight: 700 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      color: "var(--ht-text-faint)",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                    }}
+                  >
                     Check-In
                   </Typography>
-                  <Typography sx={{ fontWeight: 800, fontSize: 16, color: "#111827" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: 16,
+                      color: "var(--ht-text-strong)",
+                    }}
+                  >
                     {formatDate(result?.CheckInDate)}
                   </Typography>
                 </Box>
 
                 <Box sx={{ textAlign: "center", minWidth: 90 }}>
-                  <Typography sx={{ fontSize: 11.5, color: "#9ca3af" }}>
+                  <Typography
+                    sx={{ fontSize: 11.5, color: "var(--ht-text-faint)" }}
+                  >
                     {nightsBetween(result?.CheckInDate, result?.CheckOutDate)}
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center", my: 0.5 }}>
                     <Box sx={{ flex: 1, height: 1, bgcolor: "#ddd" }} />
-                    <HotelIcon sx={{ fontSize: 16, color: "#bbb", mx: 0.5 }} />
+                    <HotelIcon
+                      sx={{
+                        fontSize: 16,
+                        color: "var(--ht-text-disabled)",
+                        mx: 0.5,
+                      }}
+                    />
                     <Box sx={{ flex: 1, height: 1, bgcolor: "#ddd" }} />
                   </Box>
                 </Box>
 
                 <Box sx={{ textAlign: "center" }}>
-                  <Typography sx={{ fontSize: 11, color: "#9ca3af", textTransform: "uppercase", fontWeight: 700 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      color: "var(--ht-text-faint)",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                    }}
+                  >
                     Check-Out
                   </Typography>
-                  <Typography sx={{ fontWeight: 800, fontSize: 16, color: "#111827" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: 16,
+                      color: "var(--ht-text-strong)",
+                    }}
+                  >
                     {formatDate(result?.CheckOutDate)}
                   </Typography>
                 </Box>
 
-                <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", sm: "block" } }} />
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ display: { xs: "none", sm: "block" } }}
+                />
 
                 <Box sx={{ flex: 1, minWidth: 200 }}>
-                  <Typography sx={{ fontSize: 12.5, color: "#374151" }}>
+                  <Typography
+                    sx={{ fontSize: 12.5, color: "var(--ht-text-body)" }}
+                  >
                     {result?.AddressLine1 || "—"}
                   </Typography>
                   {result?.LastCancellationDate && (
-                    <Typography sx={{ fontSize: 12, color: "#b45309", mt: 0.5 }}>
-                      Free cancellation till {formatDate(result.LastCancellationDate, {
+                    <Typography
+                      sx={{ fontSize: 12, color: "#b45309", mt: 0.5 }}
+                    >
+                      Free cancellation till{" "}
+                      {formatDate(result.LastCancellationDate, {
                         day: "2-digit",
                         month: "short",
                         hour: "2-digit",
@@ -264,19 +415,37 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
             {/* ── Rooms ── */}
             {rooms.map((room, idx) => (
               <Box key={idx} sx={cardSx}>
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    mb: 1.5,
+                  }}
+                >
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <BedroomParentIcon sx={{ fontSize: 18, color: GREEN }} />
-                    <Typography sx={{ fontWeight: 800, fontSize: 14.5, color: "#111827" }}>
+                    <Typography
+                      sx={{
+                        fontWeight: 800,
+                        fontSize: 14.5,
+                        color: "var(--ht-text-strong)",
+                      }}
+                    >
                       Room {idx + 1}: {room?.RoomTypeName || "—"}
                     </Typography>
                   </Box>
                   <Chip
                     size="small"
-                    label={`${room?.AdultCount ?? 0} Adult${(room?.AdultCount ?? 0) > 1 ? "s" : ""}${
-                      room?.ChildCount ? `, ${room.ChildCount} Child` : ""
-                    }`}
-                    sx={{ bgcolor: "#f0fdf4", color: GREEN, fontWeight: 700, fontSize: 11 }}
+                    label={`${room?.AdultCount ?? 0} Adult${
+                      (room?.AdultCount ?? 0) > 1 ? "s" : ""
+                    }${room?.ChildCount ? `, ${room.ChildCount} Child` : ""}`}
+                    sx={{
+                      bgcolor: "var(--ht-success-bg)",
+                      color: GREEN,
+                      fontWeight: 700,
+                      fontSize: 11,
+                    }}
                   />
                 </Box>
 
@@ -292,8 +461,12 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                       borderTop: pIdx > 0 ? "1px solid #f1f1f1" : "none",
                     }}
                   >
-                    <PersonIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-                    <Typography sx={{ fontSize: 13, color: "#374151" }}>
+                    <PersonIcon
+                      sx={{ fontSize: 16, color: "var(--ht-text-faint)" }}
+                    />
+                    <Typography
+                      sx={{ fontSize: 13, color: "var(--ht-text-body)" }}
+                    >
                       {p?.Title} {p?.FirstName} {p?.LastName}
                       {p?.LeadPassenger ? " (Lead)" : ""}
                     </Typography>
@@ -303,27 +476,80 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                 <Divider sx={{ my: 1.5 }} />
 
                 {/* Price breakup */}
-                <FareRow label="Room Rate" value={money(room?.PriceBreakUp?.RoomRate)} />
-                <FareRow label="Room Tax" value={money(room?.PriceBreakUp?.RoomTax)} />
+                <FareRow
+                  label="Room Rate"
+                  value={money(room?.PriceBreakUp?.RoomRate)}
+                />
+                <FareRow
+                  label="Room Tax"
+                  value={money(room?.PriceBreakUp?.RoomTax)}
+                />
                 {Number(room?.PriceBreakUp?.RoomExtraGuestCharges) > 0 && (
-                  <FareRow label="Extra Guest Charges" value={money(room.PriceBreakUp.RoomExtraGuestCharges)} />
+                  <FareRow
+                    label="Extra Guest Charges"
+                    value={money(room.PriceBreakUp.RoomExtraGuestCharges)}
+                  />
                 )}
                 {Number(room?.PriceBreakUp?.RoomChildCharges) > 0 && (
-                  <FareRow label="Child Charges" value={money(room.PriceBreakUp.RoomChildCharges)} />
+                  <FareRow
+                    label="Child Charges"
+                    value={money(room.PriceBreakUp.RoomChildCharges)}
+                  />
                 )}
 
                 {room?.Inclusion && (
-                  <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.75, mt: 1.5 }}>
-                    <CheckCircleIcon sx={{ fontSize: 15, color: GREEN, mt: 0.2 }} />
-                    <Typography sx={{ fontSize: 12.5, color: "#15803d" }}>{room.Inclusion}</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 0.75,
+                      mt: 1.5,
+                    }}
+                  >
+                    <CheckCircleIcon
+                      sx={{ fontSize: 15, color: GREEN, mt: 0.2 }}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: 12.5,
+                        color: "var(--ht-brand-strong-text)",
+                      }}
+                    >
+                      {room.Inclusion}
+                    </Typography>
                   </Box>
                 )}
 
                 {room?.CancellationPolicy && (
-                  <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.75, mt: 1, bgcolor: "#fafafa", borderRadius: "8px", p: 1.25 }}>
-                    <PolicyIcon sx={{ fontSize: 15, color: "#9ca3af", mt: 0.2 }} />
-                    <Typography sx={{ fontSize: 11.5, color: "#6b7280", lineHeight: 1.5 }}>
-                      {room.CancellationPolicy.replace(/#\^#|#!#/g, " ").replace(/\|/g, " · ")}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 0.75,
+                      mt: 1,
+                      bgcolor: "var(--ht-surface-subtle)",
+                      borderRadius: "8px",
+                      p: 1.25,
+                    }}
+                  >
+                    <PolicyIcon
+                      sx={{
+                        fontSize: 15,
+                        color: "var(--ht-text-faint)",
+                        mt: 0.2,
+                      }}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: 11.5,
+                        color: "var(--ht-text-muted)",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {room.CancellationPolicy.replace(
+                        /#\^#|#!#/g,
+                        " ",
+                      ).replace(/\|/g, " · ")}
                     </Typography>
                   </Box>
                 )}
@@ -332,7 +558,9 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
 
             {/* ── Fare summary ── */}
             <Box sx={cardSx}>
-              <Typography sx={sectionTitleSx}>Fare Summary (All amounts in INR)</Typography>
+              <Typography sx={sectionTitleSx}>
+                Fare Summary (All amounts in INR)
+              </Typography>
               <FareRow label="Net Amount" value={money(result?.NetAmount)} />
               <FareRow label="Net Tax" value={money(result?.NetTax)} />
               <Divider sx={{ my: 1.5 }} />
@@ -341,26 +569,51 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  bgcolor: "#eef2ff",
+                  bgcolor: "var(--ht-blue-accent-bg)",
                   borderRadius: "8px",
                   px: 1.5,
                   py: 1.25,
                 }}
               >
-                <Typography sx={{ fontWeight: 800, fontSize: 14, color: "#111827" }}>
+                <Typography
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: 14,
+                    color: "var(--ht-text-strong)",
+                  }}
+                >
                   Total Invoice Amount
                 </Typography>
-                <Typography sx={{ fontWeight: 800, fontSize: 15, color: "#111827" }}>
+                <Typography
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: 15,
+                    color: "var(--ht-text-strong)",
+                  }}
+                >
                   {money(result?.InvoiceAmount)}
                 </Typography>
               </Box>
             </Box>
 
             {/* ── Footer note ── */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, bgcolor: "#eef2ff", borderRadius: "10px", px: 2, py: 1.5 }}>
-              <InfoOutlinedIcon sx={{ fontSize: 18, color: "#4338ca" }} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                bgcolor: "var(--ht-blue-accent-bg)",
+                borderRadius: "10px",
+                px: 2,
+                py: 1.5,
+              }}
+            >
+              <InfoOutlinedIcon
+                sx={{ fontSize: 18, color: "var(--ht-info-text)" }}
+              />
               <Typography sx={{ fontSize: 12.5, color: "#3730a3" }}>
-                Please carry a valid government-issued photo ID at the time of check-in.
+                Please carry a valid government-issued photo ID at the time of
+                check-in.
               </Typography>
             </Box>
           </Box>
@@ -371,20 +624,52 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
 };
 
 const MetaItem = ({ icon, label, value }) => (
-  <Box sx={{ display: "flex", alignItems: "flex-start", gap: icon ? 0.75 : 0, flexDirection: icon ? "row" : "column" }}>
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "flex-start",
+      gap: icon ? 0.75 : 0,
+      flexDirection: icon ? "row" : "column",
+    }}
+  >
     <Box>
-      <Typography sx={{ fontSize: 11, color: "#6b7280", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 700 }}>
+      <Typography
+        sx={{
+          fontSize: 11,
+          color: "var(--ht-text-muted)",
+          textTransform: "uppercase",
+          letterSpacing: 0.5,
+          fontWeight: 700,
+        }}
+      >
         {label}
       </Typography>
-      <Typography sx={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>{value}</Typography>
+      <Typography
+        sx={{ fontSize: 14, fontWeight: 700, color: "var(--ht-text-strong)" }}
+      >
+        {value}
+      </Typography>
     </Box>
   </Box>
 );
 
 const FareRow = ({ label, value }) => (
-  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", py: 0.9 }}>
-    <Typography sx={{ fontSize: 13.5, color: "#374151" }}>{label}</Typography>
-    <Typography sx={{ fontSize: 13.5, fontWeight: 700, color: "#111827" }}>{value}</Typography>
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      py: 0.9,
+    }}
+  >
+    <Typography sx={{ fontSize: 13.5, color: "var(--ht-text-body)" }}>
+      {label}
+    </Typography>
+    <Typography
+      sx={{ fontSize: 13.5, fontWeight: 700, color: "var(--ht-text-strong)" }}
+    >
+      {value}
+    </Typography>
   </Box>
 );
 

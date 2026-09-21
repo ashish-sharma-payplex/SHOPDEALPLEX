@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -7,6 +7,11 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Stack, styled } from "@mui/material";
+// ✅ Dark / light colour tokens (--fl-*) for the whole Travel → Flight module
+import flightStyles from "../../styles/flight.module.css";
+// ✅ Same token contract for the Hotel (--ht-*) and Bus (--bs-*) modules
+import hotelStyles from "../../styles/hotel.module.css";
+import busStyles from "../../styles/bus.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 // ✅ configData ke liye (logo/header data)
@@ -84,7 +89,6 @@ function ScrollHandler({ setScrolled }) {
     }
   }, [location.pathname]);
 
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -125,6 +129,20 @@ function App() {
     };
   }, []);
 
+  // ✅ DARK MODE — MUI Dialog / Drawer / Popover and SweetAlert2 render in a
+  // portal directly under <body>, i.e. OUTSIDE <MainLayoutRoot>. Putting the
+  // token class on <body> as well makes the --fl-* variables available there
+  // too. It is removed again when the travel app unmounts.
+  useLayoutEffect(() => {
+    const classes = [
+      flightStyles.flightThemeVars,
+      hotelStyles.hotelThemeVars,
+      busStyles.busThemeVars,
+    ].filter(Boolean);
+    document.body.classList.add(...classes);
+    return () => document.body.classList.remove(...classes);
+  }, []);
+
   /* ============================================================
      ✅ SHARED AUTH — same Redux slices the main shopdealplex
      header (SecondNavbar.js) reads. This is what keeps the travel
@@ -161,7 +179,9 @@ function App() {
     <BrowserRouter basename="/travel">
       <ScrollHandler setScrolled={setScrolled} />
 
-      <MainLayoutRoot>
+      <MainLayoutRoot
+        className={`${flightStyles.flightThemeVars} ${hotelStyles.hotelThemeVars} ${busStyles.busThemeVars}`}
+      >
         {/* ✅ Sirf EK navbar — StickyNavbar hamesha top pe fixed/visible
             rehta hai. Iske andar CATEGORIES (Flights/Hotels/Buses) row
             sirf tab dikhta hai jab `scrolled` true ho — warna hidden. */}
@@ -242,7 +262,7 @@ function App() {
                 element={<HotelBookingTicket />}
               />
               <Route path="/buses/payment" element={<BusPaymentPage />} />
-               <Route path="/hotels/qr-payment" element={<QRPaymentPage />} /> 
+              <Route path="/hotels/qr-payment" element={<QRPaymentPage />} />
             </Routes>
           )}
         </div>
@@ -251,7 +271,7 @@ function App() {
         <footer
           style={{
             width: "100%",
-            backgroundColor: "#F8F8F8",
+            backgroundColor: "var(--fl-footer-bg)",
             display: "flex",
             justifyContent: "center",
             padding: "20px 0",

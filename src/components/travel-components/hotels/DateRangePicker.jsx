@@ -3,9 +3,9 @@ import { Box, Typography, IconButton, Paper } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-const GREEN = "#16a34a";
-const GREEN_LIGHT = "#dcfce7";
-const GREEN_RANGE = "#bbf7d0";
+const GREEN = "var(--ht-brand)";
+const GREEN_LIGHT = "var(--ht-success-bg)";
+const GREEN_RANGE = "var(--ht-success-border)";
 
 const DAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
@@ -84,15 +84,26 @@ function MonthGrid({
           sx={{
             width: 28,
             height: 28,
-            color: showPrev ? "#6b7280" : "#d1d5db",
-            "&:hover": showPrev ? { bgcolor: "#f9fafb", color: "#111" } : {},
+            color: showPrev
+              ? "var(--ht-text-muted)"
+              : "var(--ht-text-disabled)",
+            "&:hover": showPrev
+              ? {
+                  bgcolor: "var(--ht-surface-subtle)",
+                  color: "var(--ht-text-strong)",
+                }
+              : {},
           }}
         >
           <ChevronLeftIcon sx={{ fontSize: 18 }} />
         </IconButton>
 
         <Typography
-          sx={{ fontWeight: 700, fontSize: "0.95rem", color: "#111827" }}
+          sx={{
+            fontWeight: 700,
+            fontSize: "0.95rem",
+            color: "var(--ht-text-strong)",
+          }}
         >
           {MONTH_NAMES[month]} {year}
         </Typography>
@@ -103,8 +114,11 @@ function MonthGrid({
           sx={{
             width: 28,
             height: 28,
-            color: "#6b7280",
-            "&:hover": { bgcolor: "#f9fafb", color: "#111" },
+            color: "var(--ht-text-muted)",
+            "&:hover": {
+              bgcolor: "var(--ht-surface-subtle)",
+              color: "var(--ht-text-strong)",
+            },
           }}
         >
           <ChevronRightIcon sx={{ fontSize: 18 }} />
@@ -122,7 +136,7 @@ function MonthGrid({
               textAlign: "center",
               fontSize: "0.78rem",
               fontWeight: 600,
-              color: "#9ca3af",
+              color: "var(--ht-text-faint)",
               py: 0.5,
             }}
           >
@@ -202,7 +216,8 @@ function MonthGrid({
                   transition: "background 0.12s, transform 0.1s",
                   "&:hover": !isPast
                     ? {
-                        bgcolor: isStart || isEnd ? GREEN : "#f0fdf4",
+                        bgcolor:
+                          isStart || isEnd ? GREEN : "var(--ht-brand-soft-bg)",
                         transform: "scale(1.08)",
                       }
                     : {},
@@ -214,12 +229,12 @@ function MonthGrid({
                     fontWeight: isStart || isEnd || isToday ? 700 : 400,
                     color:
                       isStart || isEnd
-                        ? "#fff"
+                        ? "var(--ht-text-on-brand)"
                         : isPast
-                        ? "#d1d5db"
+                        ? "var(--ht-text-disabled)"
                         : isToday
-                        ? GREEN
-                        : "#111827",
+                        ? "var(--ht-brand-text)"
+                        : "var(--ht-text-strong)",
                     lineHeight: 1,
                     userSelect: "none",
                   }}
@@ -447,8 +462,8 @@ export default function DateRangePicker({
         borderRadius: "16px",
         p: { xs: "20px 12px", md: "24px 28px" },
         boxShadow: "0 8px 40px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07)",
-        border: "1px solid #f3f4f6",
-        bgcolor: "#ffffff",
+        border: "1px solid var(--ht-border-soft)",
+        bgcolor: "var(--ht-surface)",
         width: { xs: "calc(100vw - 16px)", md: "auto" },
         minWidth: { md: 580 },
       }}
@@ -467,7 +482,7 @@ export default function DateRangePicker({
               fontSize: "0.7rem",
               fontWeight: 700,
               fontFamily: "Inter, sans-serif",
-              color: "#9ca3af",
+              color: "var(--ht-text-faint)",
               letterSpacing: "0.8px",
               mb: 1,
               textAlign: "center",
@@ -496,7 +511,7 @@ export default function DateRangePicker({
           sx={{
             width: { md: "1px" },
             height: { xs: "1px", md: "auto" },
-            bgcolor: "#e5e7eb",
+            bgcolor: "var(--ht-surface-strong)",
             alignSelf: "stretch",
             mx: { md: 1 },
           }}
@@ -508,7 +523,7 @@ export default function DateRangePicker({
             sx={{
               fontSize: "0.7rem",
               fontWeight: 700,
-              color: "#9ca3af",
+              color: "var(--ht-text-faint)",
               letterSpacing: "0.8px",
               mb: 1,
               textAlign: "center",
@@ -535,7 +550,7 @@ export default function DateRangePicker({
 
       {/* Footer */}
       <Box sx={{ textAlign: "center", mt: 2 }}>
-        <Typography sx={{ fontSize: "0.78rem", color: "#9ca3af" }}>
+        <Typography sx={{ fontSize: "0.78rem", color: "var(--ht-text-faint)" }}>
           {!startDate
             ? "Select check-in date"
             : !endDate

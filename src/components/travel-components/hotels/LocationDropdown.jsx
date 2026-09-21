@@ -113,9 +113,9 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
         left: position.left,
         zIndex: 9999,
         width: 320,
-        background: "#ffffff",
+        background: "var(--ht-surface)",
         borderRadius: 16,
-        border: "1px solid #f0f0f0",
+        border: "1px solid var(--ht-border-soft)",
         boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
         overflow: "hidden",
       }}
@@ -129,7 +129,7 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
               left: 12,
               top: "50%",
               transform: "translateY(-50%)",
-              color: "#9ca3af",
+              color: "var(--ht-text-faint)",
             }}
             width="16"
             height="16"
@@ -160,15 +160,17 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
               width: "100%",
               padding: "10px 12px 10px 36px",
               borderRadius: 10,
-              border: "1.5px solid #e5e7eb",
+              border: "1.5px solid var(--ht-border)",
               outline: "none",
               fontSize: 14,
-              color: "#111827",
+              color: "var(--ht-text-strong)",
               boxSizing: "border-box",
-              background: "#fafafa",
+              background: "var(--ht-surface-subtle)",
             }}
-            onFocus={(e) => (e.target.style.borderColor = "#16a34a")}
-            onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
+            onFocus={(e) =>
+              (e.target.style.borderColor = "var(--ht-brand-line)")
+            }
+            onBlur={(e) => (e.target.style.borderColor = "var(--ht-border)")}
           />
         </div>
       </div>
@@ -178,26 +180,26 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
         style={{
           display: "flex", alignItems: "center", gap: 12,
           padding: "12px 16px", cursor: "pointer",
-          borderBottom: "1px solid #f3f4f6",
+          borderBottom: "1px solid var(--ht-border-soft)",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#f9fafb")}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "var(--ht-surface-subtle)")}
         onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
       >
         <div style={{
           width: 38, height: 38, borderRadius: "50%",
-          border: "1.5px solid #e5e7eb",
+          border: "1.5px solid var(--ht-border)",
           display: "flex", alignItems: "center", justifyContent: "center",
           flexShrink: 0,
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke="#374151" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            stroke="var(--ht-text-body)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3" />
             <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
           </svg>
         </div>
         <div>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "#111827", lineHeight: 1.3 }}>Near me</div>
-          <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>Properties near your current location</div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--ht-text-strong)", lineHeight: 1.3 }}>Near me</div>
+          <div style={{ fontSize: 12, color: "var(--ht-text-faint)", marginTop: 2 }}>Properties near your current location</div>
         </div>
       </div> */}
 
@@ -207,7 +209,7 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
           padding: "12px 16px 6px",
           fontSize: 13,
           fontWeight: 700,
-          color: "#374151",
+          color: "var(--ht-text-body)",
         }}
       >
         {query ? "Search Results" : "Popular Destinations"}
@@ -220,7 +222,7 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
             style={{
               padding: "16px",
               textAlign: "center",
-              color: "#9ca3af",
+              color: "var(--ht-text-faint)",
               fontSize: 14,
             }}
           >
@@ -242,7 +244,8 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
                   cursor: "pointer",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#f9fafb")
+                  (e.currentTarget.style.background =
+                    "var(--ht-surface-subtle)")
                 }
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.background = "transparent")
@@ -253,7 +256,7 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
                   height="18"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#9ca3af"
+                  stroke="var(--ht-text-faint)"
                   strokeWidth="1.8"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -263,14 +266,22 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
                   <circle cx="12" cy="10" r="3" />
                 </svg>
                 <span
-                  style={{ fontSize: 14, fontWeight: 500, color: "#111827" }}
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "var(--ht-text-strong)",
+                  }}
                 >
                   {city.name}
                 </span>
               </div>
               {idx < cities.length - 1 && (
                 <div
-                  style={{ height: 1, background: "#f3f4f6", margin: "0 16px" }}
+                  style={{
+                    height: 1,
+                    background: "var(--ht-surface-muted)",
+                    margin: "0 16px",
+                  }}
                 />
               )}
             </React.Fragment>
@@ -280,7 +291,7 @@ function LocationDropdown({ open, onClose, anchorEl, onSelect }) {
             style={{
               padding: "16px",
               textAlign: "center",
-              color: "#9ca3af",
+              color: "var(--ht-text-faint)",
               fontSize: 14,
             }}
           >

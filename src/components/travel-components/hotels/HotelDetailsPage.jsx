@@ -15,7 +15,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import WifiIcon from "@mui/icons-material/Wifi";
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import SmokeFreeIcon from "@mui/icons-material/SmokeFree";
 import ElevatorIcon from "@mui/icons-material/Elevator";
@@ -45,7 +45,7 @@ import NoRoomsAvailable from "./NoRoomsAvailabel";
 import useTravelAuthGuard from "components/travel-hooks/useTravelAuthGuard";
 import toast from "react-hot-toast";
 
-const GREEN = "#16a34a";
+const GREEN = "var(--ht-brand)";
 
 // ─── Shimmer keyframe ─────────────────────────
 const SHIMMER_STYLE = `
@@ -75,7 +75,7 @@ const Shimmer = ({
       height,
       borderRadius: `${borderRadius}px`,
       background:
-        "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+        "linear-gradient(90deg, var(--ht-skeleton-a) 25%, var(--ht-skeleton-b) 50%, var(--ht-skeleton-a) 75%)",
       backgroundSize: "700px 100%",
       animation: "shimmer 1.4s infinite linear",
       flexShrink: 0,
@@ -145,7 +145,7 @@ const AboutSkeleton = () => (
       px: { xs: 2, sm: 3, md: 4, lg: 6 },
       pt: 2.5,
       pb: 3,
-      borderTop: "1px solid #f3f4f6",
+      borderTop: "1px solid var(--ht-border-soft)",
     }}
   >
     <Shimmer width={60} height={20} borderRadius={6} sx={{ mb: 2.5 }} />
@@ -158,7 +158,7 @@ const AboutSkeleton = () => (
     <Shimmer width="92%" height={14} borderRadius={5} sx={{ mb: 1 }} />
     <Shimmer width="85%" height={14} borderRadius={5} sx={{ mb: 1 }} />
     <Shimmer width="60%" height={14} borderRadius={5} sx={{ mb: 2.5 }} />
-    <Box sx={{ height: "1px", bgcolor: "#f3f4f6", mb: 2.5 }} />
+    <Box sx={{ height: "1px", bgcolor: "var(--ht-surface-muted)", mb: 2.5 }} />
     <Shimmer width={140} height={16} borderRadius={5} sx={{ mb: 1.5 }} />
     <Box
       sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 16px" }}
@@ -183,7 +183,7 @@ const RoomsSkeleton = () => (
       px: { xs: 2, sm: 3, md: 4, lg: 6 },
       pt: 3,
       pb: 3,
-      borderTop: "1px solid #f3f4f6",
+      borderTop: "1px solid var(--ht-border-soft)",
     }}
   >
     <Shimmer width={160} height={20} borderRadius={6} sx={{ mb: 2 }} />
@@ -191,7 +191,7 @@ const RoomsSkeleton = () => (
       <Box
         key={idx}
         sx={{
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--ht-border)",
           borderRadius: "12px",
           overflow: "hidden",
           display: "flex",
@@ -248,7 +248,7 @@ const RoomsSkeleton = () => (
             gap: 1,
             minWidth: 170,
             pl: 2,
-            borderLeft: "1px solid #f3f4f6",
+            borderLeft: "1px solid var(--ht-border-soft)",
           }}
         >
           <Shimmer width={50} height={20} borderRadius={6} />
@@ -263,38 +263,56 @@ const RoomsSkeleton = () => (
 );
 
 const FACILITY_ICON_MAP = {
-  "free wifi": <WifiIcon sx={{ fontSize: 20, color: "#374151" }} />,
+  "free wifi": <WifiIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />,
   "free wireless internet": (
-    <WifiIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <WifiIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
-  wifi: <WifiIcon sx={{ fontSize: 20, color: "#374151" }} />,
+  wifi: <WifiIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />,
   "free valet parking": (
-    <DirectionsCarIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <DirectionsCarIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
-  parking: <DirectionsCarIcon sx={{ fontSize: 20, color: "#374151" }} />,
-  "meeting rooms": <MeetingRoomIcon sx={{ fontSize: 20, color: "#374151" }} />,
+  parking: (
+    <DirectionsCarIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
+  ),
+  "meeting rooms": (
+    <MeetingRoomIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
+  ),
   "smoke-free property": (
-    <SmokeFreeIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <SmokeFreeIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
-  elevator: <ElevatorIcon sx={{ fontSize: 20, color: "#374151" }} />,
+  elevator: (
+    <ElevatorIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
+  ),
   "dry cleaning/laundry service": (
-    <DryCleaningIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <DryCleaningIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
   "laundry facilities": (
-    <DryCleaningIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <DryCleaningIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
   "free newspapers in lobby": (
-    <NewspaperIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <NewspaperIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
-  "luggage storage": <LuggageIcon sx={{ fontSize: 20, color: "#374151" }} />,
+  "luggage storage": (
+    <LuggageIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
+  ),
   "24-hour front desk": (
-    <SupportAgentIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <SupportAgentIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />
   ),
   breakfast: (
-    <FreeBreakfastOutlinedIcon sx={{ fontSize: 20, color: "#374151" }} />
+    <FreeBreakfastOutlinedIcon
+      sx={{ fontSize: 20, color: "var(--ht-text-body)" }}
+    />
   ),
-  lunch: <FreeBreakfastOutlinedIcon sx={{ fontSize: 20, color: "#374151" }} />,
-  dinner: <FreeBreakfastOutlinedIcon sx={{ fontSize: 20, color: "#374151" }} />,
+  lunch: (
+    <FreeBreakfastOutlinedIcon
+      sx={{ fontSize: 20, color: "var(--ht-text-body)" }}
+    />
+  ),
+  dinner: (
+    <FreeBreakfastOutlinedIcon
+      sx={{ fontSize: 20, color: "var(--ht-text-body)" }}
+    />
+  ),
 };
 
 function getFacilityIcon(label) {
@@ -302,7 +320,7 @@ function getFacilityIcon(label) {
   for (const [k, icon] of Object.entries(FACILITY_ICON_MAP)) {
     if (key.includes(k)) return icon;
   }
-  return <AcUnitIcon sx={{ fontSize: 20, color: "#374151" }} />;
+  return <AcUnitIcon sx={{ fontSize: 20, color: "var(--ht-text-body)" }} />;
 }
 
 // ─── Room card helpers — meal type, promotions, cancellation ──
@@ -364,13 +382,13 @@ const RoomCarousel = ({ images = [] }) => {
         sx={{
           width: "100%",
           height: "100%",
-          bgcolor: "#f3f4f6",
+          bgcolor: "var(--ht-surface-muted)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Typography sx={{ color: "#9ca3af", fontSize: 13 }}>
+        <Typography sx={{ color: "var(--ht-text-faint)", fontSize: 13 }}>
           No image
         </Typography>
       </Box>
@@ -411,13 +429,15 @@ const RoomCarousel = ({ images = [] }) => {
               left: 6,
               top: "50%",
               transform: "translateY(-50%)",
-              bgcolor: "rgba(255,255,255,0.85)",
+              bgcolor: "var(--ht-surface-glass)",
               p: 0.4,
-              "&:hover": { bgcolor: "#fff" },
+              "&:hover": { bgcolor: "var(--ht-surface)" },
               boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
             }}
           >
-            <ChevronLeftIcon sx={{ fontSize: 18, color: "#222" }} />
+            <ChevronLeftIcon
+              sx={{ fontSize: 18, color: "var(--ht-text-strong)" }}
+            />
           </IconButton>
           <IconButton
             onClick={next}
@@ -427,13 +447,15 @@ const RoomCarousel = ({ images = [] }) => {
               right: 6,
               top: "50%",
               transform: "translateY(-50%)",
-              bgcolor: "rgba(255,255,255,0.85)",
+              bgcolor: "var(--ht-surface-glass)",
               p: 0.4,
-              "&:hover": { bgcolor: "#fff" },
+              "&:hover": { bgcolor: "var(--ht-surface)" },
               boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
             }}
           >
-            <ChevronRightIcon sx={{ fontSize: 18, color: "#222" }} />
+            <ChevronRightIcon
+              sx={{ fontSize: 18, color: "var(--ht-text-strong)" }}
+            />
           </IconButton>
           <Box
             sx={{
@@ -572,12 +594,12 @@ const RoomCard = ({
   return (
     <Box
       sx={{
-        border: "1px solid #e5e7eb",
+        border: "1px solid var(--ht-border)",
         borderRadius: "12px",
         overflow: "hidden",
         display: "flex",
         flexDirection: { xs: "column", sm: "row" },
-        bgcolor: "#fff",
+        bgcolor: "var(--ht-surface)",
         mb: 2,
       }}
     >
@@ -604,7 +626,7 @@ const RoomCard = ({
               sx={{
                 fontSize: { xs: 15, sm: 16 },
                 fontWeight: 700,
-                color: "#111827",
+                color: "var(--ht-text-strong)",
                 fontFamily: "Inter, sans-serif",
               }}
             >
@@ -616,8 +638,12 @@ const RoomCard = ({
                   fontSize: 11.5,
                   fontWeight: 600,
                   fontFamily: "Inter, sans-serif",
-                  color: isRefundable ? GREEN : "#f59e0b",
-                  bgcolor: isRefundable ? "#dcfce7" : "#fef3c7",
+                  color: isRefundable
+                    ? "var(--ht-brand-text)"
+                    : "var(--ht-warn-strong-text)",
+                  bgcolor: isRefundable
+                    ? "var(--ht-success-bg-strong)"
+                    : "var(--ht-warn-bg)",
                   px: 1,
                   py: 0.2,
                   borderRadius: "4px",
@@ -633,8 +659,8 @@ const RoomCard = ({
                   fontSize: 11.5,
                   fontWeight: 600,
                   fontFamily: "Inter, sans-serif",
-                  color: "#374151",
-                  bgcolor: "#f3f4f6",
+                  color: "var(--ht-text-body)",
+                  bgcolor: "var(--ht-surface-muted)",
                   px: 1,
                   py: 0.2,
                   borderRadius: "4px",
@@ -655,11 +681,13 @@ const RoomCard = ({
                 mb: 1,
               }}
             >
-              <LocalOfferIcon sx={{ fontSize: 15, color: "#d97706" }} />
+              <LocalOfferIcon
+                sx={{ fontSize: 15, color: "var(--ht-warn-strong-text)" }}
+              />
               <Typography
                 sx={{
                   fontSize: 12,
-                  color: "#d97706",
+                  color: "var(--ht-warn-strong-text)",
                   fontWeight: 600,
                   fontFamily: "Inter, sans-serif",
                 }}
@@ -680,11 +708,13 @@ const RoomCard = ({
             >
               {size && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
-                  <SquareFootIcon sx={{ fontSize: 16, color: "#555" }} />
+                  <SquareFootIcon
+                    sx={{ fontSize: 16, color: "var(--ht-text-neutral)" }}
+                  />
                   <Typography
                     sx={{
                       fontSize: 13,
-                      color: "#374151",
+                      color: "var(--ht-text-body)",
                       fontFamily: "Inter, sans-serif",
                     }}
                   >
@@ -694,11 +724,13 @@ const RoomCard = ({
               )}
               {bedType && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
-                  <KingBedOutlinedIcon sx={{ fontSize: 16, color: "#555" }} />
+                  <KingBedOutlinedIcon
+                    sx={{ fontSize: 16, color: "var(--ht-text-neutral)" }}
+                  />
                   <Typography
                     sx={{
                       fontSize: 13,
-                      color: "#374151",
+                      color: "var(--ht-text-body)",
                       fontFamily: "Inter, sans-serif",
                     }}
                   >
@@ -708,11 +740,13 @@ const RoomCard = ({
               )}
               {viewType && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
-                  <VisibilityIcon sx={{ fontSize: 16, color: "#555" }} />
+                  <VisibilityIcon
+                    sx={{ fontSize: 16, color: "var(--ht-text-neutral)" }}
+                  />
                   <Typography
                     sx={{
                       fontSize: 13,
-                      color: "#374151",
+                      color: "var(--ht-text-body)",
                       fontFamily: "Inter, sans-serif",
                     }}
                   >
@@ -722,8 +756,12 @@ const RoomCard = ({
               )}
               {maxOccupancy && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
-                  <PeopleAltOutlinedIcon sx={{ fontSize: 16, color: "#555" }} />
-                  <Typography sx={{ fontSize: 13, color: "#374151" }}>
+                  <PeopleAltOutlinedIcon
+                    sx={{ fontSize: 16, color: "var(--ht-text-neutral)" }}
+                  />
+                  <Typography
+                    sx={{ fontSize: 13, color: "var(--ht-text-body)" }}
+                  >
                     Sleeps {maxOccupancy}
                   </Typography>
                 </Box>
@@ -736,7 +774,7 @@ const RoomCard = ({
               <Typography
                 sx={{
                   fontSize: 12.5,
-                  color: "#6b7280",
+                  color: "var(--ht-text-muted)",
                   fontWeight: 500,
                   fontFamily: "Inter, sans-serif",
                   mb: 0.8,
@@ -761,7 +799,7 @@ const RoomCard = ({
                     <Typography
                       sx={{
                         fontSize: { xs: 12, sm: 12.5 },
-                        color: "#555",
+                        color: "var(--ht-text-neutral)",
                         fontFamily: "Inter, sans-serif",
                       }}
                     >
@@ -778,7 +816,7 @@ const RoomCard = ({
             <Typography
               sx={{
                 fontSize: 11.5,
-                color: "#6b7280",
+                color: "var(--ht-text-muted)",
                 fontFamily: "Inter, sans-serif",
                 mt: 0.5,
               }}
@@ -797,7 +835,7 @@ const RoomCard = ({
             gap: { xs: 1, md: 1.2 },
             minWidth: { md: 170 },
             pl: { md: 2 },
-            borderLeft: { md: "1px solid #f3f4f6" },
+            borderLeft: { md: "1px solid var(--ht-border-soft)" },
             mt: { xs: 1, md: 0 },
           }}
         >
@@ -806,7 +844,7 @@ const RoomCard = ({
               <Box
                 sx={{
                   display: "inline-block",
-                  bgcolor: "#dcfce7",
+                  bgcolor: "var(--ht-success-bg-strong)",
                   color: GREEN,
                   fontSize: 11.5,
                   fontWeight: 700,
@@ -823,7 +861,7 @@ const RoomCard = ({
               <Typography
                 sx={{
                   fontSize: 12,
-                  color: "#9ca3af",
+                  color: "var(--ht-text-faint)",
                   textDecoration: "line-through",
                 }}
               >
@@ -834,7 +872,7 @@ const RoomCard = ({
               sx={{
                 fontSize: { xs: 17, sm: 18 },
                 fontWeight: 800,
-                color: "#111827",
+                color: "var(--ht-text-strong)",
                 fontFamily: "Inter, sans-serif",
               }}
             >
@@ -844,7 +882,7 @@ const RoomCard = ({
               <Typography
                 sx={{
                   fontSize: 11,
-                  color: "#6b7280",
+                  color: "var(--ht-text-muted)",
                   lineHeight: 1.4,
                   fontFamily: "Inter, sans-serif",
                 }}
@@ -889,7 +927,7 @@ const RoomCard = ({
               onClick={handleReserve}
               sx={{
                 bgcolor: GREEN,
-                color: "#fff",
+                color: "var(--ht-text-on-brand)",
                 fontSize: { xs: 12.5, sm: 13 },
                 fontWeight: 600,
                 fontFamily: "Inter, sans-serif",
@@ -899,7 +937,10 @@ const RoomCard = ({
                 py: 0.9,
                 boxShadow: "none",
                 whiteSpace: "nowrap",
-                "&:hover": { bgcolor: "#15803d", boxShadow: "none" },
+                "&:hover": {
+                  bgcolor: "var(--ht-brand-hover)",
+                  boxShadow: "none",
+                },
               }}
             >
               Reserve Now
@@ -939,7 +980,7 @@ const SelectRoomsSection = ({
         pt: 3,
         pb: 3,
         fontFamily: "Inter, sans-serif",
-        borderTop: "1px solid #f3f4f6",
+        borderTop: "1px solid var(--ht-border-soft)",
       }}
     >
       <Typography
@@ -947,7 +988,7 @@ const SelectRoomsSection = ({
           fontSize: { xs: "1.05rem", md: "1.15rem" },
           fontWeight: 800,
           fontFamily: "Inter, sans-serif",
-          color: "#111827",
+          color: "var(--ht-text-strong)",
           mb: 2,
         }}
       >
@@ -993,7 +1034,7 @@ const MapSection = ({ hotelDetail }) => {
         px: { xs: 2, sm: 3, md: 4, lg: 6 },
         pt: 3,
         pb: 4,
-        borderTop: "1px solid #f3f4f6",
+        borderTop: "1px solid var(--ht-border-soft)",
       }}
     >
       <Typography
@@ -1001,7 +1042,7 @@ const MapSection = ({ hotelDetail }) => {
           fontSize: { xs: "1.05rem", md: "1.15rem" },
           fontWeight: 800,
           fontFamily: "Inter, sans-serif",
-          color: "#111827",
+          color: "var(--ht-text-strong)",
           mb: 0.5,
         }}
       >
@@ -1022,7 +1063,7 @@ const MapSection = ({ hotelDetail }) => {
               position: "relative",
               borderRadius: "16px",
               overflow: "hidden",
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ht-border)",
               height: { xs: 240, sm: 320, md: 430 },
               boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
               flexShrink: 0,
@@ -1050,8 +1091,8 @@ const MapSection = ({ hotelDetail }) => {
                 right: 10,
                 width: 34,
                 height: 34,
-                bgcolor: "#fff",
-                border: "1px solid #e5e7eb",
+                bgcolor: "var(--ht-surface)",
+                border: "1px solid var(--ht-border)",
                 borderRadius: "8px",
                 display: "flex",
                 alignItems: "center",
@@ -1059,12 +1100,14 @@ const MapSection = ({ hotelDetail }) => {
                 cursor: "pointer",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
                 textDecoration: "none",
-                "&:hover": { bgcolor: "#f9fafb" },
+                "&:hover": { bgcolor: "var(--ht-surface-subtle)" },
                 transition: "background 0.15s",
                 zIndex: 10,
               }}
             >
-              <OpenInFullIcon sx={{ fontSize: 16, color: "#374151" }} />
+              <OpenInFullIcon
+                sx={{ fontSize: 16, color: "var(--ht-text-body)" }}
+              />
             </Box>
           </Box>
         )}
@@ -1072,20 +1115,26 @@ const MapSection = ({ hotelDetail }) => {
           <Box
             sx={{
               flex: hasMap ? { md: 3 } : 1,
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ht-border)",
               borderRadius: "16px",
               overflow: "hidden",
               display: "flex",
               flexDirection: "column",
             }}
           >
-            <Box sx={{ px: 2.5, py: 2, borderBottom: "1px solid #f3f4f6" }}>
+            <Box
+              sx={{
+                px: 2.5,
+                py: 2,
+                borderBottom: "1px solid var(--ht-border-soft)",
+              }}
+            >
               <Typography
                 sx={{
                   fontSize: { xs: 14, sm: 15 },
                   fontWeight: 800,
                   fontFamily: "Inter, sans-serif",
-                  color: "#111827",
+                  color: "var(--ht-text-strong)",
                 }}
               >
                 Explore the Area
@@ -1098,7 +1147,7 @@ const MapSection = ({ hotelDetail }) => {
                 maxHeight: { xs: 280, md: hasMap ? 374 : "none" },
                 "&::-webkit-scrollbar": { width: "4px" },
                 "&::-webkit-scrollbar-thumb": {
-                  bgcolor: "#e5e7eb",
+                  bgcolor: "var(--ht-surface-strong)",
                   borderRadius: "4px",
                 },
               }}
@@ -1114,9 +1163,9 @@ const MapSection = ({ hotelDetail }) => {
                     py: 1.5,
                     borderBottom:
                       i < attractionList.length - 1
-                        ? "1px solid #f3f4f6"
+                        ? "1px solid var(--ht-border-soft)"
                         : "none",
-                    "&:hover": { bgcolor: "#f9fafb" },
+                    "&:hover": { bgcolor: "var(--ht-surface-subtle)" },
                     transition: "background 0.15s",
                   }}
                 >
@@ -1124,7 +1173,7 @@ const MapSection = ({ hotelDetail }) => {
                     sx={{
                       fontSize: { xs: 12.5, sm: 13 },
                       fontFamily: "Inter, sans-serif",
-                      color: "#374151",
+                      color: "var(--ht-text-body)",
                       flex: 1,
                       minWidth: 0,
                       overflow: "hidden",
@@ -1159,7 +1208,9 @@ const PoliciesSection = ({ hotelDetail }) => {
   const policyRows = [
     {
       icon: (
-        <LoginIcon sx={{ fontSize: 20, color: "#374151", flexShrink: 0 }} />
+        <LoginIcon
+          sx={{ fontSize: 20, color: "var(--ht-text-body)", flexShrink: 0 }}
+        />
       ),
       label: "Check-in",
       value: checkIn,
@@ -1168,7 +1219,9 @@ const PoliciesSection = ({ hotelDetail }) => {
     },
     {
       icon: (
-        <LogoutIcon sx={{ fontSize: 20, color: "#374151", flexShrink: 0 }} />
+        <LogoutIcon
+          sx={{ fontSize: 20, color: "var(--ht-text-body)", flexShrink: 0 }}
+        />
       ),
       label: "Check-out",
       value: checkOut,
@@ -1185,7 +1238,7 @@ const PoliciesSection = ({ hotelDetail }) => {
         px: { xs: 2, sm: 3, md: 4, lg: 6 },
         pt: 3,
         pb: 5,
-        borderTop: "1px solid #f3f4f6",
+        borderTop: "1px solid var(--ht-border-soft)",
       }}
     >
       <Typography
@@ -1193,7 +1246,7 @@ const PoliciesSection = ({ hotelDetail }) => {
           fontSize: { xs: "1.05rem", md: "1.15rem" },
           fontWeight: 800,
           fontFamily: "Inter, sans-serif",
-          color: "#111827",
+          color: "var(--ht-text-strong)",
           mb: 2,
         }}
       >
@@ -1203,7 +1256,7 @@ const PoliciesSection = ({ hotelDetail }) => {
       {policyRows.length > 0 && (
         <Box
           sx={{
-            border: "1px solid #e5e7eb",
+            border: "1px solid var(--ht-border)",
             borderRadius: "12px",
             overflow: "hidden",
             mb: hasFees ? 3 : 0,
@@ -1216,7 +1269,9 @@ const PoliciesSection = ({ hotelDetail }) => {
                 display: "flex",
                 flexDirection: { xs: "column", sm: "row" },
                 borderBottom:
-                  i < policyRows.length - 1 ? "1px solid #e5e7eb" : "none",
+                  i < policyRows.length - 1
+                    ? "1px solid var(--ht-border)"
+                    : "none",
                 px: { xs: 2, sm: 2.5 },
                 py: { xs: 1.8, sm: 2.2 },
               }}
@@ -1236,7 +1291,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                   sx={{
                     fontSize: { xs: 13.5, sm: 14 },
                     fontWeight: 700,
-                    color: "#111827",
+                    color: "var(--ht-text-strong)",
                     fontFamily: "Inter, sans-serif",
                   }}
                 >
@@ -1247,7 +1302,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                 <Typography
                   sx={{
                     fontSize: { xs: 13, sm: 13.5 },
-                    color: "#374151",
+                    color: "var(--ht-text-body)",
                     fontFamily: "Inter, sans-serif",
                     lineHeight: 1.7,
                   }}
@@ -1258,7 +1313,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                   <Typography
                     sx={{
                       fontSize: { xs: 11.5, sm: 12 },
-                      color: "#6b7280",
+                      color: "var(--ht-text-muted)",
                       mt: 0.5,
                       lineHeight: 1.6,
                       fontFamily: "Inter, sans-serif",
@@ -1276,12 +1331,14 @@ const PoliciesSection = ({ hotelDetail }) => {
       {optional.length > 0 && (
         <Box sx={{ mt: 1 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-            <ReceiptLongIcon sx={{ fontSize: 18, color: "#374151" }} />
+            <ReceiptLongIcon
+              sx={{ fontSize: 18, color: "var(--ht-text-body)" }}
+            />
             <Typography
               sx={{
                 fontSize: { xs: 14, sm: 15 },
                 fontWeight: 700,
-                color: "#111827",
+                color: "var(--ht-text-strong)",
                 fontFamily: "Inter, sans-serif",
               }}
             >
@@ -1290,7 +1347,7 @@ const PoliciesSection = ({ hotelDetail }) => {
           </Box>
           <Box
             sx={{
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ht-border)",
               borderRadius: "12px",
               overflow: "hidden",
             }}
@@ -1306,7 +1363,9 @@ const PoliciesSection = ({ hotelDetail }) => {
                   px: { xs: 2, sm: 2.5 },
                   py: { xs: 1.5, sm: 1.8 },
                   borderBottom:
-                    i < optional.length - 1 ? "1px solid #e5e7eb" : "none",
+                    i < optional.length - 1
+                      ? "1px solid var(--ht-border)"
+                      : "none",
                   gap: { xs: 0.4, sm: 1 },
                 }}
               >
@@ -1315,7 +1374,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                     sx={{
                       fontSize: { xs: 13, sm: 13.5 },
                       fontWeight: 600,
-                      color: "#111827",
+                      color: "var(--ht-text-strong)",
                       fontFamily: "Inter, sans-serif",
                     }}
                   >
@@ -1325,7 +1384,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                     <Typography
                       sx={{
                         fontSize: { xs: 11.5, sm: 12 },
-                        color: "#6b7280",
+                        color: "var(--ht-text-muted)",
                         mt: 0.3,
                         fontFamily: "Inter, sans-serif",
                       }}
@@ -1338,7 +1397,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                   sx={{
                     fontSize: { xs: 13, sm: 13.5 },
                     fontWeight: 700,
-                    color: "#374151",
+                    color: "var(--ht-text-body)",
                     whiteSpace: "nowrap",
                     flexShrink: 0,
                   }}
@@ -1354,12 +1413,14 @@ const PoliciesSection = ({ hotelDetail }) => {
       {mandatory.length > 0 && (
         <Box sx={{ mt: 2.5 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-            <ReceiptLongIcon sx={{ fontSize: 18, color: "#374151" }} />
+            <ReceiptLongIcon
+              sx={{ fontSize: 18, color: "var(--ht-text-body)" }}
+            />
             <Typography
               sx={{
                 fontSize: { xs: 14, sm: 15 },
                 fontWeight: 700,
-                color: "#111827",
+                color: "var(--ht-text-strong)",
               }}
             >
               Mandatory charges
@@ -1367,7 +1428,7 @@ const PoliciesSection = ({ hotelDetail }) => {
           </Box>
           <Box
             sx={{
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ht-border)",
               borderRadius: "12px",
               overflow: "hidden",
             }}
@@ -1383,7 +1444,9 @@ const PoliciesSection = ({ hotelDetail }) => {
                   px: { xs: 2, sm: 2.5 },
                   py: { xs: 1.5, sm: 1.8 },
                   borderBottom:
-                    i < mandatory.length - 1 ? "1px solid #e5e7eb" : "none",
+                    i < mandatory.length - 1
+                      ? "1px solid var(--ht-border)"
+                      : "none",
                   gap: { xs: 0.4, sm: 1 },
                 }}
               >
@@ -1392,7 +1455,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                     sx={{
                       fontSize: { xs: 13, sm: 13.5 },
                       fontWeight: 600,
-                      color: "#111827",
+                      color: "var(--ht-text-strong)",
                     }}
                   >
                     {fee.FeesType}
@@ -1401,7 +1464,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                     <Typography
                       sx={{
                         fontSize: { xs: 11.5, sm: 12 },
-                        color: "#6b7280",
+                        color: "var(--ht-text-muted)",
                         mt: 0.3,
                       }}
                     >
@@ -1413,7 +1476,7 @@ const PoliciesSection = ({ hotelDetail }) => {
                   sx={{
                     fontSize: { xs: 13, sm: 13.5 },
                     fontWeight: 700,
-                    color: "#374151",
+                    color: "var(--ht-text-body)",
                     whiteSpace: "nowrap",
                     flexShrink: 0,
                   }}
@@ -1494,7 +1557,7 @@ const ImageLightbox = ({
             onClick={onClose}
             sx={{
               bgcolor: "rgba(255,255,255,0.1)",
-              color: "#fff",
+              color: "var(--ht-text-on-brand)",
               "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
               borderRadius: "10px",
               p: 0.8,
@@ -1525,7 +1588,7 @@ const ImageLightbox = ({
                 top: "50%",
                 transform: "translateY(-50%)",
                 bgcolor: "rgba(255,255,255,0.12)",
-                color: "#fff",
+                color: "var(--ht-text-on-brand)",
                 "&:hover": { bgcolor: "rgba(255,255,255,0.25)" },
                 p: { xs: 1, sm: 1.4 },
                 zIndex: 2,
@@ -1563,7 +1626,7 @@ const ImageLightbox = ({
                 top: "50%",
                 transform: "translateY(-50%)",
                 bgcolor: "rgba(255,255,255,0.12)",
-                color: "#fff",
+                color: "var(--ht-text-on-brand)",
                 "&:hover": { bgcolor: "rgba(255,255,255,0.25)" },
                 p: { xs: 1, sm: 1.4 },
                 zIndex: 2,
@@ -1647,13 +1710,15 @@ const ImageGalleryModal = ({ open, onClose, images = [], hotelName = "" }) => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <GridViewIcon sx={{ color: "#fff", fontSize: 20 }} />
+              <GridViewIcon
+                sx={{ color: "var(--ht-text-on-brand)", fontSize: 20 }}
+              />
               <Box>
                 <Typography
                   sx={{
                     fontSize: { xs: 14, sm: 16 },
                     fontWeight: 700,
-                    color: "#fff",
+                    color: "var(--ht-text-on-brand)",
                     lineHeight: 1.2,
                   }}
                 >
@@ -1674,7 +1739,7 @@ const ImageGalleryModal = ({ open, onClose, images = [], hotelName = "" }) => {
               onClick={onClose}
               sx={{
                 bgcolor: "rgba(255,255,255,0.1)",
-                color: "#fff",
+                color: "var(--ht-text-on-brand)",
                 "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
                 borderRadius: "10px",
                 p: 0.8,
@@ -1878,10 +1943,14 @@ const PhotoGrid = ({ images = [], totalCount = 0, hotelName = "" }) => {
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       <CameraAltOutlinedIcon
-                        sx={{ color: "#fff", fontSize: 18 }}
+                        sx={{ color: "var(--ht-text-on-brand)", fontSize: 18 }}
                       />
                       <Typography
-                        sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
+                        sx={{
+                          color: "var(--ht-text-on-brand)",
+                          fontWeight: 700,
+                          fontSize: 15,
+                        }}
                       >
                         {extra}+
                       </Typography>
@@ -1973,10 +2042,14 @@ const PhotoGrid = ({ images = [], totalCount = 0, hotelName = "" }) => {
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       <CameraAltOutlinedIcon
-                        sx={{ color: "#fff", fontSize: 18 }}
+                        sx={{ color: "var(--ht-text-on-brand)", fontSize: 18 }}
                       />
                       <Typography
-                        sx={{ color: "#fff", fontWeight: 700, fontSize: 16 }}
+                        sx={{
+                          color: "var(--ht-text-on-brand)",
+                          fontWeight: 700,
+                          fontSize: 16,
+                        }}
                       >
                         {extra}+
                       </Typography>
@@ -2071,11 +2144,11 @@ const PhotoGrid = ({ images = [], totalCount = 0, hotelName = "" }) => {
                 >
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
                     <CameraAltOutlinedIcon
-                      sx={{ color: "#fff", fontSize: 20 }}
+                      sx={{ color: "var(--ht-text-on-brand)", fontSize: 20 }}
                     />
                     <Typography
                       sx={{
-                        color: "#fff",
+                        color: "var(--ht-text-on-brand)",
                         fontWeight: 700,
                         fontSize: 18,
                         letterSpacing: 0.5,
@@ -2123,7 +2196,7 @@ const AboutSection = ({ hotelDetail, loading }) => {
         px: { xs: 2, sm: 3, md: 4, lg: 6 },
         pt: 2.5,
         pb: 3,
-        borderTop: "1px solid #f3f4f6",
+        borderTop: "1px solid var(--ht-border-soft)",
       }}
     >
       <Typography
@@ -2131,7 +2204,7 @@ const AboutSection = ({ hotelDetail, loading }) => {
           fontSize: { xs: "1.05rem", md: "1.15rem" },
           fontWeight: 800,
           fontFamily: "Inter, sans-serif",
-          color: "#111827",
+          color: "var(--ht-text-strong)",
           mb: 2,
         }}
       >
@@ -2155,21 +2228,20 @@ const AboutSection = ({ hotelDetail, loading }) => {
                   fontFamily: "Inter, sans-serif",
                   cursor: "pointer",
                   border: "1.5px solid",
-                  borderColor: isActive ? "#E3E8EE" : "#e5e7eb",
+                  borderColor: "var(--ht-tab-border)",
 
                   // Active background
                   background: isActive
-                    ? "linear-gradient(270deg, #FFFFFF 0%, #C6FFE0 100%)"
-                    : "#fff",
+                    ? "var(--ht-tab-active-bg)"
+                    : "var(--ht-tab-bg)",
 
                   // Hover background
                   "&:hover": {
-                    background:
-                      "linear-gradient(270deg, #FFFFFF 0%, #C6FFE0 100%)",
-                    borderColor: "#E3E8EE",
+                    background: "var(--ht-tab-active-bg)",
+                    borderColor: "var(--ht-border)",
                   },
 
-                  color: isActive ? "#292D32" : "#292D32",
+                  color: "var(--ht-tab-text)",
                   fontWeight: isActive ? 600 : 500,
                   userSelect: "none",
                   transition: "all 0.25s ease",
@@ -2187,8 +2259,8 @@ const AboutSection = ({ hotelDetail, loading }) => {
           sx={{
             mb: 2.5,
             ...(activeType === "note" && {
-              bgcolor: "#fffbeb",
-              border: "1px solid #fde68a",
+              bgcolor: "var(--ht-warn-bg-soft)",
+              border: "1px solid var(--ht-warn-border)",
               borderRadius: "8px",
               px: 1.8,
               py: 1.4,
@@ -2204,12 +2276,14 @@ const AboutSection = ({ hotelDetail, loading }) => {
                 mb: 0.6,
               }}
             >
-              <InfoOutlinedIcon sx={{ fontSize: 15, color: "#d97706" }} />
+              <InfoOutlinedIcon
+                sx={{ fontSize: 15, color: "var(--ht-warn-strong-text)" }}
+              />
               <Typography
                 sx={{
                   fontSize: 12,
                   fontWeight: 700,
-                  color: "#d97706",
+                  color: "var(--ht-warn-strong-text)",
                   textTransform: "uppercase",
                   letterSpacing: 0.5,
                 }}
@@ -2221,7 +2295,10 @@ const AboutSection = ({ hotelDetail, loading }) => {
           <Typography
             sx={{
               fontSize: { xs: 13, sm: 13.5 },
-              color: activeType === "note" ? "#92400e" : "#374151",
+              color:
+                activeType === "note"
+                  ? "var(--ht-warn-text)"
+                  : "var(--ht-text-body)",
               lineHeight: 1.75,
               whiteSpace: "pre-line",
               fontFamily: "Inter, sans-serif",
@@ -2234,12 +2311,14 @@ const AboutSection = ({ hotelDetail, loading }) => {
 
       {facilities.length > 0 && (
         <>
-          <Box sx={{ height: "1px", bgcolor: "#f3f4f6", mb: 2.5 }} />
+          <Box
+            sx={{ height: "1px", bgcolor: "var(--ht-surface-muted)", mb: 2.5 }}
+          />
           <Typography
             sx={{
               fontSize: { xs: 14, sm: 15 },
               fontWeight: 700,
-              color: "#111827",
+              color: "var(--ht-text-strong)",
               mb: 1.5,
               fontFamily: "Inter, sans-serif",
             }}
@@ -2281,7 +2360,7 @@ const AboutSection = ({ hotelDetail, loading }) => {
                   <Typography
                     sx={{
                       fontSize: { xs: 13, sm: 13.5 },
-                      color: "#374151",
+                      color: "var(--ht-text-body)",
                       fontFamily: "Inter, sans-serif",
                     }}
                   >
@@ -2399,23 +2478,26 @@ const HotelDetailHeader = ({
     const n = typeof count === "number" ? count : parseInt(count) || 3;
     return Array.from({ length: 5 }).map((_, i) =>
       i < n ? (
-        <StarIcon key={i} sx={{ fontSize: 15, color: "#f5a623" }} />
+        <StarIcon key={i} sx={{ fontSize: 15, color: "var(--ht-star)" }} />
       ) : (
-        <StarBorderIcon key={i} sx={{ fontSize: 15, color: "#d1d5db" }} />
+        <StarBorderIcon
+          key={i}
+          sx={{ fontSize: 15, color: "var(--ht-text-disabled)" }}
+        />
       ),
     );
   };
 
   return (
     <Box
-    sx={{
-      width: "100%",
-      maxWidth: "1300px",
-      mx: "auto",
-      bgcolor: "#fff",
-      overflow: "hidden",
-    }}
-  >
+      sx={{
+        width: "100%",
+        maxWidth: "1300px",
+        mx: "auto",
+        bgcolor: "var(--ht-surface)",
+        overflow: "hidden",
+      }}
+    >
       {detailLoading ? (
         <HeaderSkeleton />
       ) : (
@@ -2431,7 +2513,7 @@ const HotelDetailHeader = ({
             <Typography
               sx={{
                 fontSize: 13,
-                color: "#9ca3af",
+                color: "var(--ht-text-faint)",
                 ml: 0.5,
                 fontFamily: "Inter, sans-serif",
               }}
@@ -2441,7 +2523,7 @@ const HotelDetailHeader = ({
             <Typography
               sx={{
                 fontSize: 13,
-                color: "#555",
+                color: "var(--ht-text-neutral)",
                 ml: 0.5,
                 fontFamily: "Inter, sans-serif",
               }}
@@ -2462,7 +2544,7 @@ const HotelDetailHeader = ({
                 fontSize: { xs: "1.3rem", sm: "1.5rem", md: "1.75rem" },
                 fontWeight: 800,
                 fontFamily: "Inter, sans-serif",
-                color: "#111827",
+                color: "var(--ht-text-strong)",
                 lineHeight: 1.25,
                 letterSpacing: "-0.3px",
               }}
@@ -2479,20 +2561,23 @@ const HotelDetailHeader = ({
                   mt: 0.5,
                 }}
               >
-                {/* <Button startIcon={<FavoriteIcon sx={{ fontSize: "17px !important" }} />} sx={{ color: "#111", fontWeight: 600, fontSize: 13, textTransform: "none", borderRadius: "8px", px: 1.5, py: 0.7, border: "1.5px solid #e5e7eb", "&:hover": { bgcolor: "#f9fafb", borderColor: "#d1d5db" } }}>Save</Button> */}
+                {/* <Button startIcon={<FavoriteIcon sx={{ fontSize: "17px !important" }} />} sx={{ color: "var(--ht-text-strong)", fontWeight: 600, fontSize: 13, textTransform: "none", borderRadius: "8px", px: 1.5, py: 0.7, border: "1.5px solid var(--ht-border)", "&:hover": { bgcolor: "var(--ht-surface-subtle)", borderColor: "var(--ht-border-strong)" } }}>Save</Button> */}
                 <Button
                   onClick={handleShare}
                   startIcon={<ShareIcon sx={{ fontSize: "17px !important" }} />}
                   sx={{
-                    color: "#111",
+                    color: "var(--ht-text-strong)",
                     fontWeight: 600,
                     fontSize: 13,
                     textTransform: "none",
                     borderRadius: "8px",
                     px: 1.5,
                     py: 0.7,
-                    border: "1.5px solid #e5e7eb",
-                    "&:hover": { bgcolor: "#f9fafb", borderColor: "#d1d5db" },
+                    border: "1.5px solid var(--ht-border)",
+                    "&:hover": {
+                      bgcolor: "var(--ht-surface-subtle)",
+                      borderColor: "var(--ht-border-strong)",
+                    },
                   }}
                 >
                   Share
@@ -2518,7 +2603,7 @@ const HotelDetailHeader = ({
                     sx={{
                       fontSize: 13,
                       fontFamily: "Inter, sans-serif",
-                      color: "#374151",
+                      color: "var(--ht-text-body)",
                     }}
                   >
                     {address}
@@ -2551,23 +2636,27 @@ const HotelDetailHeader = ({
                 <IconButton
                   size="small"
                   sx={{
-                    border: "1.5px solid #e5e7eb",
+                    border: "1.5px solid var(--ht-border)",
                     borderRadius: "8px",
                     p: 0.8,
                   }}
                 >
-                  <FavoriteIcon sx={{ fontSize: 17, color: "#111" }} />
+                  <FavoriteIcon
+                    sx={{ fontSize: 17, color: "var(--ht-text-strong)" }}
+                  />
                 </IconButton>
                 <IconButton
                   size="small"
                   onClick={handleShare}
                   sx={{
-                    border: "1.5px solid #e5e7eb",
+                    border: "1.5px solid var(--ht-border)",
                     borderRadius: "8px",
                     p: 0.8,
                   }}
                 >
-                  <ShareIcon sx={{ fontSize: 17, color: "#111" }} />
+                  <ShareIcon
+                    sx={{ fontSize: 17, color: "var(--ht-text-strong)" }}
+                  />
                 </IconButton>
               </Box>
             )}

@@ -96,11 +96,11 @@ const AirlineLogo = ({ name, code, size = 36 }) => {
           borderRadius: "7.5px",
           overflow: "hidden",
           flexShrink: 0,
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--fl-border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          bgcolor: "#fff",
+          bgcolor: "var(--fl-logo-bg)",
         }}
       >
         <Box
@@ -134,8 +134,6 @@ const AirlineLogo = ({ name, code, size = 36 }) => {
   );
 };
 
-
-
 const AirplaneLoader = ({ onDismiss }) => {
   const [showDismiss, setShowDismiss] = useState(false);
   React.useEffect(() => {
@@ -147,7 +145,7 @@ const AirplaneLoader = ({ onDismiss }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        bgcolor: "rgba(255,255,255,0.92)",
+        bgcolor: "var(--fl-surface-glass)",
         zIndex: 2000,
         display: "flex",
         flexDirection: "column",
@@ -161,11 +159,16 @@ const AirplaneLoader = ({ onDismiss }) => {
       </Box>
       <Box sx={{ textAlign: "center" }}>
         <Typography
-          sx={{ fontSize: 18, fontWeight: 700, color: "#111827", mb: 0.5 }}
+          sx={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: "var(--fl-text-strong)",
+            mb: 0.5,
+          }}
         >
           Searching Best Flights...
         </Typography>
-        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
+        <Typography sx={{ fontSize: 14, color: "var(--fl-text-muted)" }}>
           Checking availability across airlines
         </Typography>
       </Box>
@@ -174,11 +177,11 @@ const AirplaneLoader = ({ onDismiss }) => {
           onClick={onDismiss}
           sx={{
             fontSize: 13,
-            color: "#9ca3af",
+            color: "var(--fl-text-faint)",
             cursor: "pointer",
             textDecoration: "underline",
             mt: 1,
-            "&:hover": { color: "#6b7280" },
+            "&:hover": { color: "var(--fl-text-muted)" },
           }}
         >
           Taking too long? Dismiss
@@ -188,15 +191,13 @@ const AirplaneLoader = ({ onDismiss }) => {
   );
 };
 
-
-
 const SearchErrorBanner = ({ message, onClose }) => {
   if (!message) return null;
   return (
     <Box
       sx={{
-        bgcolor: "#FEF2F2",
-        border: "1px solid #FECACA",
+        bgcolor: "var(--fl-danger-bg)",
+        border: "1px solid var(--fl-danger-border)",
         borderRadius: "10px",
         px: 3,
         py: 1.5,
@@ -207,14 +208,20 @@ const SearchErrorBanner = ({ message, onClose }) => {
         justifyContent: "space-between",
       }}
     >
-      <Typography sx={{ fontSize: 14, color: "#991B1B", fontWeight: 500 }}>
+      <Typography
+        sx={{
+          fontSize: 14,
+          color: "var(--fl-danger-strong-text)",
+          fontWeight: 500,
+        }}
+      >
         ⚠ {message}
       </Typography>
       <Typography
         onClick={onClose}
         sx={{
           fontSize: 20,
-          color: "#991B1B",
+          color: "var(--fl-danger-strong-text)",
           cursor: "pointer",
           ml: 2,
           lineHeight: 1,
@@ -247,18 +254,18 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
   const formatT = (d) =>
     d
       ? new Date(d).toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      })
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
       : "--";
   const formatDateShort = (d) =>
     d
       ? new Date(d).toLocaleDateString("en-IN", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      })
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+        })
       : "";
 
   const LayoverStrip = ({ currentSeg, nextSeg }) => {
@@ -284,16 +291,22 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
         sx={{
           my: 1.2,
           borderRadius: "8px",
-          bgcolor: "#F0FDF4",
-          border: "1px solid #BBF7D0",
+          bgcolor: "var(--fl-success-bg)",
+          border: "1px solid var(--fl-success-border)",
           px: 1.8,
           py: 1,
         }}
       >
-        <Typography sx={{ fontSize: 12.5, fontWeight: 700, color: "#166534" }}>
+        <Typography
+          sx={{
+            fontSize: 12.5,
+            fontWeight: 700,
+            color: "var(--fl-brand-strong-text)",
+          }}
+        >
           Change of planes
         </Typography>
-        <Typography sx={{ fontSize: 11.5, color: "#16a34a" }}>
+        <Typography sx={{ fontSize: 11.5, color: "var(--fl-brand-text)" }}>
           {lh > 0 ? `${lh}h ` : ""}
           {lm > 0 ? `${lm}m ` : ""}Layover at {cityName}
         </Typography>
@@ -308,16 +321,21 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
       maxWidth="sm"
       fullWidth
       PaperProps={{
-        sx: { borderRadius: "16px", overflow: "hidden" },
+        sx: {
+          borderRadius: "16px",
+          overflow: "hidden",
+          bgcolor: "var(--fl-surface)",
+          backgroundImage: "none",
+        },
       }}
     >
       <Box
         sx={{
-          bgcolor: "#fff",
+          bgcolor: "var(--fl-surface)",
           px: 3,
           pt: 2.5,
           pb: 1.5,
-          borderBottom: "1px solid #f0f0f0",
+          borderBottom: "1px solid var(--fl-border-soft)",
           display: "flex",
           alignItems: "flex-start",
           justifyContent: "space-between",
@@ -325,25 +343,47 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
       >
         <Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography sx={{ fontSize: 18, fontWeight: 700, color: "#111" }}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {originCity}
             </Typography>
-            <FlightTakeoff sx={{ fontSize: 16, color: "#1A914B" }} />
-            <Typography sx={{ fontSize: 18, fontWeight: 700, color: "#111" }}>
+            <FlightTakeoff
+              sx={{ fontSize: 16, color: "var(--fl-brand2-text)" }}
+            />
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {destCity}
             </Typography>
           </Box>
-          <Typography sx={{ fontSize: 12.5, color: "#888", mt: 0.3 }}>
+          <Typography
+            sx={{ fontSize: 12.5, color: "var(--fl-text-soft)", mt: 0.3 }}
+          >
             {formatDateShort(first?.Origin?.DepTime)} &nbsp;·&nbsp; {dh}h {dm}m
             &nbsp;·&nbsp; {stopLabel}
           </Typography>
         </Box>
-        <IconButton onClick={onClose} size="small" sx={{ color: "#555" }}>
+        <IconButton
+          onClick={onClose}
+          size="small"
+          sx={{ color: "var(--fl-text-neutral)" }}
+        >
           <Close />
         </IconButton>
       </Box>
 
-      <DialogContent sx={{ px: 3, py: 2.5, bgcolor: "#fafafa" }}>
+      <DialogContent
+        sx={{ px: 3, py: 2.5, bgcolor: "var(--fl-surface-subtle)" }}
+      >
         {segs.map((seg, idx) => {
           const segDh = Math.floor((seg.Duration || 0) / 60);
           const segDm = (seg.Duration || 0) % 60;
@@ -351,8 +391,8 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
             <React.Fragment key={idx}>
               <Box
                 sx={{
-                  bgcolor: "#fff",
-                  border: "1px solid #E3E8EE",
+                  bgcolor: "var(--fl-surface)",
+                  border: "1px solid var(--fl-border)",
                   borderRadius: "12px",
                   p: 2,
                   mb: idx < segs.length - 1 ? 0 : 1.5,
@@ -373,12 +413,18 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
                   />
                   <Box sx={{ minWidth: 0 }}>
                     <Typography
-                      sx={{ fontSize: 13, fontWeight: 700, color: "#222" }}
+                      sx={{
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: "var(--fl-text-strong)",
+                      }}
                     >
                       {seg.Airline?.AirlineName} · {seg.Airline?.AirlineCode}-
                       {seg.Airline?.FlightNumber}
                     </Typography>
-                    <Typography sx={{ fontSize: 11.5, color: "#888" }}>
+                    <Typography
+                      sx={{ fontSize: 11.5, color: "var(--fl-text-soft)" }}
+                    >
                       {segDh}h {segDm}m
                       {seg.SupplierFareClass
                         ? ` · ${seg.SupplierFareClass}`
@@ -391,17 +437,27 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
                 <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
                   <Box sx={{ flex: 1 }}>
                     <Typography
-                      sx={{ fontSize: 18, fontWeight: 700, color: "#111" }}
+                      sx={{
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: "var(--fl-text-strong)",
+                      }}
                     >
                       {formatT(seg.Origin?.DepTime)}
                     </Typography>
                     <Typography
-                      sx={{ fontSize: 12.5, fontWeight: 600, color: "#333" }}
+                      sx={{
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        color: "var(--fl-text-body)",
+                      }}
                     >
                       {seg.Origin?.Airport?.CityName} (
                       {seg.Origin?.Airport?.AirportCode})
                     </Typography>
-                    <Typography sx={{ fontSize: 11, color: "#888" }}>
+                    <Typography
+                      sx={{ fontSize: 11, color: "var(--fl-text-soft)" }}
+                    >
                       {seg.Origin?.Airport?.AirportName}
                       {seg.Origin?.Airport?.Terminal
                         ? `, Terminal ${seg.Origin.Airport.Terminal}`
@@ -433,17 +489,27 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
                   </Box>
                   <Box sx={{ flex: 1, textAlign: "right" }}>
                     <Typography
-                      sx={{ fontSize: 18, fontWeight: 700, color: "#111" }}
+                      sx={{
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: "var(--fl-text-strong)",
+                      }}
                     >
                       {formatT(seg.Destination?.ArrTime)}
                     </Typography>
                     <Typography
-                      sx={{ fontSize: 12.5, fontWeight: 600, color: "#333" }}
+                      sx={{
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        color: "var(--fl-text-body)",
+                      }}
                     >
                       {seg.Destination?.Airport?.CityName} (
                       {seg.Destination?.Airport?.AirportCode})
                     </Typography>
-                    <Typography sx={{ fontSize: 11, color: "#888" }}>
+                    <Typography
+                      sx={{ fontSize: 11, color: "var(--fl-text-soft)" }}
+                    >
                       {seg.Destination?.Airport?.AirportName}
                       {seg.Destination?.Airport?.Terminal
                         ? `, Terminal ${seg.Destination.Airport.Terminal}`
@@ -454,10 +520,14 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
 
                 <Divider sx={{ my: 1.5 }} />
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1.2 }}>
-                  <Typography sx={{ fontSize: 11.5, color: "#555" }}>
+                  <Typography
+                    sx={{ fontSize: 11.5, color: "var(--fl-text-neutral)" }}
+                  >
                     Cabin: {seg.CabinBaggage || "7 KG"}
                   </Typography>
-                  <Typography sx={{ fontSize: 11.5, color: "#555" }}>
+                  <Typography
+                    sx={{ fontSize: 11.5, color: "var(--fl-text-neutral)" }}
+                  >
                     Check-in: {seg.Baggage || "15 KG"}
                   </Typography>
                   {seg.NoOfSeatAvailable != null && (
@@ -466,7 +536,9 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
                         fontSize: 11.5,
                         fontWeight: 600,
                         color:
-                          seg.NoOfSeatAvailable <= 5 ? "#E57373" : "#6B7280",
+                          seg.NoOfSeatAvailable <= 5
+                            ? "#E57373"
+                            : "var(--fl-text-muted)",
                       }}
                     >
                       {seg.NoOfSeatAvailable} seats left
@@ -487,18 +559,23 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
               mt: 1,
               mb: 2,
               borderRadius: "10px",
-              bgcolor: "#FFFBEB",
-              border: "1px solid #FDE68A",
+              bgcolor: "var(--fl-warn-bg)",
+              border: "1px solid var(--fl-warn-border)",
               px: 1.8,
               py: 1.2,
             }}
           >
             <Typography
-              sx={{ fontSize: 12, fontWeight: 700, color: "#92400E", mb: 0.3 }}
+              sx={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "var(--fl-warn-text)",
+                mb: 0.3,
+              }}
             >
               ⓘ Fare Note
             </Typography>
-            <Typography sx={{ fontSize: 12, color: "#92400E" }}>
+            <Typography sx={{ fontSize: 12, color: "var(--fl-warn-text)" }}>
               {flight.AirlineRemarks}
             </Typography>
           </Box>
@@ -506,37 +583,60 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
 
         <Box
           sx={{
-            bgcolor: "#fff",
-            border: "1px solid #E3E8EE",
+            bgcolor: "var(--fl-surface)",
+            border: "1px solid var(--fl-border)",
             borderRadius: "12px",
             p: 2,
           }}
         >
           <Typography
-            sx={{ fontSize: 13.5, fontWeight: 700, color: "#333", mb: 1 }}
+            sx={{
+              fontSize: 13.5,
+              fontWeight: 700,
+              color: "var(--fl-text-body)",
+              mb: 1,
+            }}
           >
             Fare Summary
           </Typography>
           <Box
             sx={{ display: "flex", justifyContent: "space-between", mb: 0.6 }}
           >
-            <Typography sx={{ fontSize: 12.5, color: "#555" }}>
+            <Typography
+              sx={{ fontSize: 12.5, color: "var(--fl-text-neutral)" }}
+            >
               Base Fare
             </Typography>
-            <Typography sx={{ fontSize: 12.5, color: "#222", fontWeight: 500 }}>
+            <Typography
+              sx={{
+                fontSize: 12.5,
+                color: "var(--fl-text-strong)",
+                fontWeight: 500,
+              }}
+            >
               ₹ {flight.Fare?.BaseFare?.toLocaleString("en-IN")}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: 12.5, color: "#555" }}>
+            <Typography
+              sx={{ fontSize: 12.5, color: "var(--fl-text-neutral)" }}
+            >
               Taxes & Fees
             </Typography>
-            <Typography sx={{ fontSize: 12.5, color: "#222", fontWeight: 500 }}>
+            <Typography
+              sx={{
+                fontSize: 12.5,
+                color: "var(--fl-text-strong)",
+                fontWeight: 500,
+              }}
+            >
               ₹ {flight.Fare?.Tax?.toLocaleString("en-IN")}
             </Typography>
           </Box>
           {flight.FareBreakdown?.[0]?.TaxBreakUp?.length > 0 && (
-            <Typography sx={{ fontSize: 10.5, color: "#9ca3af", mt: 0.4 }}>
+            <Typography
+              sx={{ fontSize: 10.5, color: "var(--fl-text-faint)", mt: 0.4 }}
+            >
               {flight.FareBreakdown[0].TaxBreakUp.map(
                 (t) => `${t.key} ₹${t.value}`,
               ).join(" · ")}
@@ -544,11 +644,21 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
           )}
           <Divider sx={{ my: 1 }} />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: 13.5, fontWeight: 700, color: "#111" }}>
+            <Typography
+              sx={{
+                fontSize: 13.5,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               Total (per traveller)
             </Typography>
             <Typography
-              sx={{ fontSize: 15, fontWeight: 700, color: "#1A914B" }}
+              sx={{
+                fontSize: 15,
+                fontWeight: 700,
+                color: "var(--fl-brand2-text)",
+              }}
             >
               ₹ {flight.Fare?.PublishedFare?.toLocaleString("en-IN")}
             </Typography>
@@ -559,16 +669,23 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
                 px: 1.4,
                 py: 0.4,
                 borderRadius: "50px",
-                bgcolor: flight.IsRefundable ? "#EAF7EF" : "#FEF2F2",
-                border: `1px solid ${flight.IsRefundable ? "#86EFAC" : "#FECACA"
-                  }`,
+                bgcolor: flight.IsRefundable
+                  ? "var(--fl-success-bg)"
+                  : "var(--fl-danger-bg)",
+                border: `1px solid ${
+                  flight.IsRefundable
+                    ? "var(--fl-success-border)"
+                    : "var(--fl-danger-border)"
+                }`,
               }}
             >
               <Typography
                 sx={{
                   fontSize: 11,
                   fontWeight: 600,
-                  color: flight.IsRefundable ? "#166534" : "#991B1B",
+                  color: flight.IsRefundable
+                    ? "var(--fl-brand-strong-text)"
+                    : "var(--fl-danger-strong-text)",
                 }}
               >
                 {flight.IsRefundable ? "✓ Refundable" : "✗ Non-refundable"}
@@ -580,12 +697,16 @@ const FlightDetailsPopup = ({ open, onClose, flight }) => {
                   px: 1.4,
                   py: 0.4,
                   borderRadius: "50px",
-                  bgcolor: "#EFF6FF",
-                  border: "1px solid #BFDBFE",
+                  bgcolor: "var(--fl-info-bg)",
+                  border: "1px solid var(--fl-info-border)",
                 }}
               >
                 <Typography
-                  sx={{ fontSize: 11, fontWeight: 600, color: "#1D4ED8" }}
+                  sx={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "var(--fl-info-text)",
+                  }}
                 >
                   {segs[0].SupplierFareClass}
                 </Typography>
@@ -632,18 +753,18 @@ const FlightDetailSidebar = ({
   const formatTime = (d) =>
     d
       ? d.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      })
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
       : "--";
   const formatDateShort = (d) =>
     d
       ? d.toLocaleDateString("en-IN", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      })
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+        })
       : "";
 
   const handleContinue = () => {
@@ -677,7 +798,12 @@ const FlightDetailSidebar = ({
           }}
         >
           <Typography
-            sx={{ fontSize: 22, fontWeight: 700, color: "#111", lineHeight: 1 }}
+            sx={{
+              fontSize: 22,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+              lineHeight: 1,
+            }}
           >
             {formatTime(segDepTime)}
           </Typography>
@@ -685,14 +811,19 @@ const FlightDetailSidebar = ({
             sx={{
               fontSize: 12,
               fontWeight: 600,
-              color: "#9ca3af",
+              color: "var(--fl-text-faint)",
               whiteSpace: "nowrap",
             }}
           >
             {segDh}h {segDm}m
           </Typography>
           <Typography
-            sx={{ fontSize: 22, fontWeight: 700, color: "#111", lineHeight: 1 }}
+            sx={{
+              fontSize: 22,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+              lineHeight: 1,
+            }}
           >
             {formatTime(segArrTime)}
           </Typography>
@@ -714,11 +845,11 @@ const FlightDetailSidebar = ({
               width: 10,
               height: 10,
               borderRadius: "50%",
-              bgcolor: "#E5E7EB",
+              bgcolor: "var(--fl-surface-muted)",
               flexShrink: 0,
             }}
           />
-          <Box sx={{ width: 2, flex: 1, bgcolor: "#E5E7EB" }} />
+          <Box sx={{ width: 2, flex: 1, bgcolor: "var(--fl-surface-muted)" }} />
           <Box
             sx={{
               width: 20,
@@ -734,13 +865,13 @@ const FlightDetailSidebar = ({
               style={{ width: 20, height: 20, objectFit: "contain" }}
             />
           </Box>
-          <Box sx={{ width: 2, flex: 1, bgcolor: "#E5E7EB" }} />
+          <Box sx={{ width: 2, flex: 1, bgcolor: "var(--fl-surface-muted)" }} />
           <Box
             sx={{
               width: 10,
               height: 10,
               borderRadius: "50%",
-              bgcolor: "#E5E7EB",
+              bgcolor: "var(--fl-surface-muted)",
               flexShrink: 0,
             }}
           />
@@ -757,12 +888,22 @@ const FlightDetailSidebar = ({
           }}
         >
           <Box>
-            <Typography sx={{ fontSize: 14, fontWeight: 600, color: "#222" }}>
+            <Typography
+              sx={{
+                fontSize: 14,
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {seg.Origin?.Airport?.CityName} (
               {seg.Origin?.Airport?.AirportCode})
             </Typography>
             <Typography
-              sx={{ fontSize: 12, color: "#888", wordBreak: "break-word" }}
+              sx={{
+                fontSize: 12,
+                color: "var(--fl-text-soft)",
+                wordBreak: "break-word",
+              }}
             >
               {seg.Origin?.Airport?.AirportName}
               {seg.Origin?.Airport?.Terminal
@@ -771,27 +912,41 @@ const FlightDetailSidebar = ({
             </Typography>
           </Box>
 
-          <Box
-            sx={{ display: "flex", alignItems: "center", gap: 1.2, my: 5 }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, my: 5 }}>
             <AirlineLogo
               name={seg.Airline?.AirlineName}
               code={seg.Airline?.AirlineCode}
               size={26}
             />
-            <Typography sx={{ fontSize: 13.5, fontWeight: 600, color: "#333" }}>
+            <Typography
+              sx={{
+                fontSize: 13.5,
+                fontWeight: 600,
+                color: "var(--fl-text-body)",
+              }}
+            >
               {seg.Airline?.AirlineName} &bull; {seg.Airline?.AirlineCode}-
               {seg.Airline?.FlightNumber}
             </Typography>
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: 14, fontWeight: 600, color: "#222" }}>
+            <Typography
+              sx={{
+                fontSize: 14,
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {seg.Destination?.Airport?.CityName} (
               {seg.Destination?.Airport?.AirportCode})
             </Typography>
             <Typography
-              sx={{ fontSize: 12, color: "#888", wordBreak: "break-word" }}
+              sx={{
+                fontSize: 12,
+                color: "var(--fl-text-soft)",
+                wordBreak: "break-word",
+              }}
             >
               {seg.Destination?.Airport?.AirportName}
               {seg.Destination?.Airport?.Terminal
@@ -828,8 +983,8 @@ const FlightDetailSidebar = ({
           mx: 0,
           my: 1.5,
           borderRadius: "10px",
-          bgcolor: "#F0FDF4",
-          border: "1px solid #BBF7D0",
+          bgcolor: "var(--fl-success-bg)",
+          border: "1px solid var(--fl-success-border)",
           px: 2,
           py: 1.2,
           display: "flex",
@@ -851,7 +1006,7 @@ const FlightDetailSidebar = ({
             sx={{
               fontSize: 13,
               fontWeight: 700,
-              color: "#166534",
+              color: "var(--fl-brand-strong-text)",
               lineHeight: 1.3,
             }}
           >
@@ -860,7 +1015,7 @@ const FlightDetailSidebar = ({
           <Typography
             sx={{
               fontSize: 12,
-              color: "#16a34a",
+              color: "var(--fl-brand-text)",
               mt: 0.3,
               fontFamily: "Inter,Sans-serif",
             }}
@@ -887,16 +1042,18 @@ const FlightDetailSidebar = ({
           borderRadius: { sm: "16px 0 0 16px" },
           overflow: "hidden",
           zIndex: 99999,
+          bgcolor: "var(--fl-surface)",
+          backgroundImage: "none",
         },
       }}
     >
       <Box
         sx={{
-          bgcolor: "#fff",
+          bgcolor: "var(--fl-surface)",
           px: 3,
           pt: 3,
           pb: 2,
-          borderBottom: "1px solid #f0f0f0",
+          borderBottom: "1px solid var(--fl-border-soft)",
         }}
       >
         <Box
@@ -921,20 +1078,24 @@ const FlightDetailSidebar = ({
               sx={{
                 fontSize: 20,
                 fontWeight: 700,
-                color: "#111",
+                color: "var(--fl-text-strong)",
                 fontFamily: "Inter,Sans-serif",
               }}
             >
               {originCity}
             </Typography>
             <FlightTakeoff
-              sx={{ fontSize: 18, color: "#1A914B", flexShrink: 0 }}
+              sx={{
+                fontSize: 18,
+                color: "var(--fl-brand2-text)",
+                flexShrink: 0,
+              }}
             />
             <Typography
               sx={{
                 fontSize: 20,
                 fontWeight: 700,
-                color: "#111",
+                color: "var(--fl-text-strong)",
                 fontFamily: "Inter,Sans-serif",
               }}
             >
@@ -944,13 +1105,17 @@ const FlightDetailSidebar = ({
           <IconButton
             onClick={onClose}
             size="small"
-            sx={{ color: "#555", flexShrink: 0 }}
+            sx={{ color: "var(--fl-text-neutral)", flexShrink: 0 }}
           >
             <Close />
           </IconButton>
         </Box>
         <Typography
-          sx={{ fontSize: 13, color: "#888", fontFamily: "Inter,Sans-serif" }}
+          sx={{
+            fontSize: 13,
+            color: "var(--fl-text-soft)",
+            fontFamily: "Inter,Sans-serif",
+          }}
         >
           {formatDateShort(depDate)} &nbsp;·&nbsp; {totalPassengers} Adult
           {totalPassengers > 1 ? "s" : ""} &nbsp;·&nbsp;{" "}
@@ -959,7 +1124,13 @@ const FlightDetailSidebar = ({
         </Typography>
       </Box>
       <Box
-        sx={{ overflowY: "auto", flex: 1, px: 3, py: 2.5, bgcolor: "#fafafa" }}
+        sx={{
+          overflowY: "auto",
+          flex: 1,
+          px: 3,
+          py: 2.5,
+          bgcolor: "var(--fl-surface-subtle)",
+        }}
       >
         <Paper
           elevation={0}
@@ -968,7 +1139,7 @@ const FlightDetailSidebar = ({
             alignItems: "center",
             gap: 1,
             width: "100%",
-            bgcolor: "#EAF7EF",
+            bgcolor: "var(--fl-success-bg)",
             px: 2,
             py: 0.8,
             borderRadius: "50px",
@@ -976,7 +1147,14 @@ const FlightDetailSidebar = ({
             boxSizing: "border-box",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, width: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.2,
+              width: "100%",
+            }}
+          >
             <AirlineLogo
               name={first?.Airline?.AirlineName}
               code={first?.Airline?.AirlineCode}
@@ -984,10 +1162,18 @@ const FlightDetailSidebar = ({
             />
 
             <Box sx={{ minWidth: 0 }}>
-              <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#1A914B" }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "var(--fl-brand2-text)",
+                }}
+              >
                 {formatDateShort(depDate)}
               </Typography>
-              <Typography sx={{ fontSize: 12, color: "#555" }}>
+              <Typography
+                sx={{ fontSize: 12, color: "var(--fl-text-neutral)" }}
+              >
                 {originCity} – {destCity} &bull; {dh}h {dm}m ({stopLabel})
               </Typography>
             </Box>
@@ -1007,7 +1193,7 @@ const FlightDetailSidebar = ({
           sx={{
             fontSize: 14,
             fontWeight: 600,
-            color: "#333",
+            color: "var(--fl-text-body)",
             mb: 1.5,
             fontFamily: "Inter,Sans-serif",
           }}
@@ -1019,7 +1205,7 @@ const FlightDetailSidebar = ({
             <Typography
               sx={{
                 fontSize: 13,
-                color: "#555",
+                color: "var(--fl-text-neutral)",
                 fontFamily: "Inter,Sans-serif",
               }}
             >
@@ -1028,7 +1214,7 @@ const FlightDetailSidebar = ({
             <Typography
               sx={{
                 fontSize: 13,
-                color: "#222",
+                color: "var(--fl-text-strong)",
                 fontWeight: 500,
                 fontFamily: "Inter,Sans-serif",
               }}
@@ -1044,7 +1230,7 @@ const FlightDetailSidebar = ({
               <Typography
                 sx={{
                   fontSize: 13,
-                  color: "#555",
+                  color: "var(--fl-text-neutral)",
                   fontFamily: "Inter,Sans-serif",
                 }}
               >
@@ -1053,7 +1239,7 @@ const FlightDetailSidebar = ({
               <Typography
                 sx={{
                   fontSize: 13,
-                  color: "#222",
+                  color: "var(--fl-text-strong)",
                   fontWeight: 500,
                   fontFamily: "Inter,Sans-serif",
                 }}
@@ -1065,7 +1251,7 @@ const FlightDetailSidebar = ({
               <Typography
                 sx={{
                   fontSize: 11,
-                  color: "#9ca3af",
+                  color: "var(--fl-text-faint)",
                   fontFamily: "Inter,Sans-serif",
                   mt: 0.3,
                 }}
@@ -1082,7 +1268,7 @@ const FlightDetailSidebar = ({
               sx={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#111",
+                color: "var(--fl-text-strong)",
                 fontFamily: "Inter,Sans-serif",
               }}
             >
@@ -1092,7 +1278,7 @@ const FlightDetailSidebar = ({
               sx={{
                 fontSize: 16,
                 fontWeight: 700,
-                color: "#1A914B",
+                color: "var(--fl-brand2-text)",
                 fontFamily: "Inter,Sans-serif",
               }}
             >
@@ -1102,7 +1288,7 @@ const FlightDetailSidebar = ({
           <Typography
             sx={{
               fontSize: 11,
-              color: "#9ca3af",
+              color: "var(--fl-text-faint)",
               textAlign: "right",
               fontFamily: "Inter,Sans-serif",
             }}
@@ -1116,16 +1302,23 @@ const FlightDetailSidebar = ({
               px: 1.5,
               py: 0.5,
               borderRadius: "50px",
-              bgcolor: flight.IsRefundable ? "#EAF7EF" : "#FEF2F2",
-              border: `1px solid ${flight.IsRefundable ? "#86EFAC" : "#FECACA"
-                }`,
+              bgcolor: flight.IsRefundable
+                ? "var(--fl-success-bg)"
+                : "var(--fl-danger-bg)",
+              border: `1px solid ${
+                flight.IsRefundable
+                  ? "var(--fl-success-border)"
+                  : "var(--fl-danger-border)"
+              }`,
             }}
           >
             <Typography
               sx={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: flight.IsRefundable ? "#166534" : "#991B1B",
+                color: flight.IsRefundable
+                  ? "var(--fl-brand-strong-text)"
+                  : "var(--fl-danger-strong-text)",
                 fontFamily: "Inter,Sans-serif",
               }}
             >
@@ -1138,15 +1331,15 @@ const FlightDetailSidebar = ({
                 px: 1.5,
                 py: 0.5,
                 borderRadius: "50px",
-                bgcolor: "#EFF6FF",
-                border: "1px solid #BFDBFE",
+                bgcolor: "var(--fl-info-bg)",
+                border: "1px solid var(--fl-info-border)",
               }}
             >
               <Typography
                 sx={{
                   fontSize: 11.5,
                   fontWeight: 600,
-                  color: "#1D4ED8",
+                  color: "var(--fl-info-text)",
                   fontFamily: "Inter,Sans-serif",
                 }}
               >
@@ -1160,8 +1353,8 @@ const FlightDetailSidebar = ({
         sx={{
           px: 3,
           py: 2.5,
-          bgcolor: "#fff",
-          borderTop: "1px solid #f0f0f0",
+          bgcolor: "var(--fl-surface)",
+          borderTop: "1px solid var(--fl-border-soft)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -1172,14 +1365,18 @@ const FlightDetailSidebar = ({
             sx={{
               fontSize: 22,
               fontWeight: 700,
-              color: "#111",
+              color: "var(--fl-text-strong)",
               fontFamily: "Inter,Sans-serif",
             }}
           >
             ₹ {totalPrice.toLocaleString("en-IN")}
           </Typography>
           <Typography
-            sx={{ fontSize: 12, color: "#888", fontFamily: "Inter,Sans-serif" }}
+            sx={{
+              fontSize: 12,
+              color: "var(--fl-text-soft)",
+              fontFamily: "Inter,Sans-serif",
+            }}
           >
             For {totalPassengers} Traveller{totalPassengers > 1 ? "s" : ""}
           </Typography>
@@ -1188,8 +1385,8 @@ const FlightDetailSidebar = ({
           variant="contained"
           onClick={handleContinue}
           sx={{
-            bgcolor: "#1A914B",
-            "&:hover": { bgcolor: "#157a3e" },
+            bgcolor: "var(--fl-brand2)",
+            "&:hover": { bgcolor: "var(--fl-brand-hover)" },
             textTransform: "none",
             borderRadius: "10px",
             px: 3.5,
@@ -1231,18 +1428,18 @@ const RoundTripDetailSidebar = ({
   const formatTime = (d) =>
     d
       ? d.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      })
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
       : "--";
   const formatDateShort = (d) =>
     d
       ? d.toLocaleDateString("en-IN", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      })
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+        })
       : "";
 
   const handleContinue = () => {
@@ -1280,7 +1477,12 @@ const RoundTripDetailSidebar = ({
           }}
         >
           <Typography
-            sx={{ fontSize: 24, fontWeight: 600, color: "#111", lineHeight: 1 }}
+            sx={{
+              fontSize: 24,
+              fontWeight: 600,
+              color: "var(--fl-text-strong)",
+              lineHeight: 1,
+            }}
           >
             {formatTime(segDepTime)}
           </Typography>
@@ -1288,14 +1490,19 @@ const RoundTripDetailSidebar = ({
             sx={{
               fontSize: 12,
               fontWeight: 500,
-              color: "#717171",
+              color: "var(--fl-text-neutral)",
               whiteSpace: "nowrap",
             }}
           >
             {segDh}h {segDm}m
           </Typography>
           <Typography
-            sx={{ fontSize: 24, fontWeight: 600, color: "#111", lineHeight: 1 }}
+            sx={{
+              fontSize: 24,
+              fontWeight: 600,
+              color: "var(--fl-text-strong)",
+              lineHeight: 1,
+            }}
           >
             {formatTime(segArrTime)}
           </Typography>
@@ -1317,11 +1524,11 @@ const RoundTripDetailSidebar = ({
               width: 10,
               height: 10,
               borderRadius: "50%",
-              bgcolor: "#E3E8EE",
+              bgcolor: "var(--fl-surface-muted)",
               flexShrink: 0,
             }}
           />
-          <Box sx={{ width: 2, flex: 1, bgcolor: "#E3E8EE" }} />
+          <Box sx={{ width: 2, flex: 1, bgcolor: "var(--fl-surface-muted)" }} />
           <Box
             sx={{
               width: 20,
@@ -1337,13 +1544,13 @@ const RoundTripDetailSidebar = ({
               style={{ width: 20, height: 20, objectFit: "contain" }}
             />
           </Box>
-          <Box sx={{ width: 2, flex: 1, bgcolor: "#E3E8EE" }} />
+          <Box sx={{ width: 2, flex: 1, bgcolor: "var(--fl-surface-muted)" }} />
           <Box
             sx={{
               width: 10,
               height: 10,
               borderRadius: "50%",
-              bgcolor: "#E3E8EE",
+              bgcolor: "var(--fl-surface-muted)",
               flexShrink: 0,
             }}
           />
@@ -1361,12 +1568,22 @@ const RoundTripDetailSidebar = ({
           }}
         >
           <Box>
-            <Typography sx={{ fontSize: 18, fontWeight: 600, color: "#222" }}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {seg.Origin?.Airport?.CityName} (
               {seg.Origin?.Airport?.AirportCode})
             </Typography>
             <Typography
-              sx={{ fontSize: 12, color: "#888", wordBreak: "break-word" }}
+              sx={{
+                fontSize: 12,
+                color: "var(--fl-text-soft)",
+                wordBreak: "break-word",
+              }}
             >
               {seg.Origin?.Airport?.AirportName}
               {seg.Origin?.Airport?.Terminal
@@ -1383,19 +1600,35 @@ const RoundTripDetailSidebar = ({
               code={seg.Airline?.AirlineCode}
               size={26}
             />
-            <Typography sx={{ fontSize: 16, fontWeight: 500, color: "#333" }}>
+            <Typography
+              sx={{
+                fontSize: 16,
+                fontWeight: 500,
+                color: "var(--fl-text-body)",
+              }}
+            >
               {seg.Airline?.AirlineName} &bull; {seg.Airline?.AirlineCode}-
               {seg.Airline?.FlightNumber}
             </Typography>
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: 18, fontWeight: 600, color: "#222" }}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {seg.Destination?.Airport?.CityName} (
               {seg.Destination?.Airport?.AirportCode})
             </Typography>
             <Typography
-              sx={{ fontSize: 12, color: "#888", wordBreak: "break-word" }}
+              sx={{
+                fontSize: 12,
+                color: "var(--fl-text-soft)",
+                wordBreak: "break-word",
+              }}
             >
               {seg.Destination?.Airport?.AirportName}
               {seg.Destination?.Airport?.Terminal
@@ -1429,8 +1662,8 @@ const RoundTripDetailSidebar = ({
           mx: 0,
           my: 5,
           borderRadius: "10px",
-          bgcolor: "#F0FDF4",
-          border: "1px solid #15d659",
+          bgcolor: "var(--fl-success-bg)",
+          border: "1px solid var(--fl-success-border)",
           px: 2,
           py: 1.2,
           display: "flex",
@@ -1452,13 +1685,15 @@ const RoundTripDetailSidebar = ({
             sx={{
               fontSize: 13,
               fontWeight: 700,
-              color: "#166534",
+              color: "var(--fl-brand-strong-text)",
               lineHeight: 1.3,
             }}
           >
             Change of planesss
           </Typography>
-          <Typography sx={{ fontSize: 12, color: "#16a34a", mt: 0.3 }}>
+          <Typography
+            sx={{ fontSize: 12, color: "var(--fl-brand-text)", mt: 0.3 }}
+          >
             {lh > 0 ? `${lh}h ` : ""}
             {lm > 0 ? `${lm}m ` : ""}Layover at {cityName}
           </Typography>
@@ -1493,7 +1728,7 @@ const RoundTripDetailSidebar = ({
             alignItems: "center",
             gap: 1,
             width: "100%",
-            bgcolor: "#EAF7EF",
+            bgcolor: "var(--fl-success-bg)",
             px: 2,
             py: 0.8,
             borderRadius: "50px",
@@ -1501,7 +1736,14 @@ const RoundTripDetailSidebar = ({
             boxSizing: "border-box",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, width: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.2,
+              width: "100%",
+            }}
+          >
             <AirlineLogo
               name={first?.Airline?.AirlineName}
               code={first?.Airline?.AirlineCode}
@@ -1509,10 +1751,18 @@ const RoundTripDetailSidebar = ({
             />
 
             <Box sx={{ minWidth: 0 }}>
-              <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#1A914B" }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "var(--fl-brand2-text)",
+                }}
+              >
                 {formatDateShort(depDate)}
               </Typography>
-              <Typography sx={{ fontSize: 12, color: "#555" }}>
+              <Typography
+                sx={{ fontSize: 12, color: "var(--fl-text-neutral)" }}
+              >
                 {originCity} – {destCity} &bull; {dh}h {dm}m ({stopLabel})
               </Typography>
             </Box>
@@ -1548,16 +1798,18 @@ const RoundTripDetailSidebar = ({
           borderRadius: { sm: "16px 0 0 16px" },
           overflow: "hidden",
           zIndex: 99999,
+          bgcolor: "var(--fl-surface)",
+          backgroundImage: "none",
         },
       }}
     >
       <Box
         sx={{
-          bgcolor: "#fff",
+          bgcolor: "var(--fl-surface)",
           px: 3,
           pt: 3,
           pb: 2,
-          borderBottom: "1px solid #f0f0f0",
+          borderBottom: "1px solid var(--fl-border-soft)",
         }}
       >
         <Box
@@ -1568,8 +1820,6 @@ const RoundTripDetailSidebar = ({
             mb: 0.5,
           }}
         >
-
-
           <Box
             sx={{
               display: "flex",
@@ -1580,13 +1830,31 @@ const RoundTripDetailSidebar = ({
               mr: 1,
             }}
           >
-            <Typography sx={{ fontSize: 18, fontWeight: 700, color: "#111" }}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {fromCity}
             </Typography>
 
-            <CompareArrows sx={{ fontSize: 18, color: "#6B7280", flexShrink: 0 }} />
+            <CompareArrows
+              sx={{
+                fontSize: 18,
+                color: "var(--fl-text-muted)",
+                flexShrink: 0,
+              }}
+            />
 
-            <Typography sx={{ fontSize: 18, fontWeight: 700, color: "#111" }}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {toCity}
             </Typography>
           </Box>
@@ -1594,21 +1862,26 @@ const RoundTripDetailSidebar = ({
           <IconButton
             onClick={onClose}
             size="small"
-            sx={{ color: "#555", flexShrink: 0 }}
+            sx={{ color: "var(--fl-text-neutral)", flexShrink: 0 }}
           >
             <Close />
           </IconButton>
         </Box>
-        <Typography sx={{ fontSize: 13, color: "#888" }}>
+        <Typography sx={{ fontSize: 13, color: "var(--fl-text-soft)" }}>
           {formatDateShort(onwardDepDate)} &nbsp;·&nbsp; {totalPassengers} Adult
           {totalPassengers > 1 ? "s" : ""} &nbsp;·&nbsp;{" "}
           {searchMeta?.cabinClass || "Economy"} &nbsp;·&nbsp; Round Trip
         </Typography>
       </Box>
 
-
       <Box
-        sx={{ overflowY: "auto", flex: 1, px: 3, py: 2.5, bgcolor: "#fafafa" }}
+        sx={{
+          overflowY: "auto",
+          flex: 1,
+          px: 3,
+          py: 2.5,
+          bgcolor: "var(--fl-surface-subtle)",
+        }}
       >
         <FlightLegDetail flight={onwardFlight} label="Onward" />
 
@@ -1616,7 +1889,7 @@ const RoundTripDetailSidebar = ({
           sx={{
             my: 5,
             borderStyle: "dashed",
-            borderColor: "#CBD5E1",
+            borderColor: "var(--fl-border-strong)",
           }}
         />
 
@@ -1624,16 +1897,27 @@ const RoundTripDetailSidebar = ({
 
         <Divider sx={{ my: 2 }} />
         <Typography
-          sx={{ fontSize: 14, fontWeight: 600, color: "#333", mb: 1.5 }}
+          sx={{
+            fontSize: 14,
+            fontWeight: 600,
+            color: "var(--fl-text-body)",
+            mb: 1.5,
+          }}
         >
           Fare Summary
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: 13, color: "#555" }}>
+            <Typography sx={{ fontSize: 13, color: "var(--fl-text-neutral)" }}>
               Onward Base Fare × {totalPassengers}
             </Typography>
-            <Typography sx={{ fontSize: 13, color: "#222", fontWeight: 500 }}>
+            <Typography
+              sx={{
+                fontSize: 13,
+                color: "var(--fl-text-strong)",
+                fontWeight: 500,
+              }}
+            >
               ₹{" "}
               {(
                 (onwardFlight.Fare?.BaseFare || 0) * totalPassengers
@@ -1641,10 +1925,16 @@ const RoundTripDetailSidebar = ({
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: 13, color: "#555" }}>
+            <Typography sx={{ fontSize: 13, color: "var(--fl-text-neutral)" }}>
               Return Base Fare × {totalPassengers}
             </Typography>
-            <Typography sx={{ fontSize: 13, color: "#222", fontWeight: 500 }}>
+            <Typography
+              sx={{
+                fontSize: 13,
+                color: "var(--fl-text-strong)",
+                fontWeight: 500,
+              }}
+            >
               ₹{" "}
               {(
                 (returnFlight.Fare?.BaseFare || 0) * totalPassengers
@@ -1652,10 +1942,16 @@ const RoundTripDetailSidebar = ({
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: 13, color: "#555" }}>
+            <Typography sx={{ fontSize: 13, color: "var(--fl-text-neutral)" }}>
               Taxes & Fees
             </Typography>
-            <Typography sx={{ fontSize: 13, color: "#222", fontWeight: 500 }}>
+            <Typography
+              sx={{
+                fontSize: 13,
+                color: "var(--fl-text-strong)",
+                fontWeight: 500,
+              }}
+            >
               ₹{" "}
               {(
                 ((onwardFlight.Fare?.Tax || 0) +
@@ -1666,17 +1962,31 @@ const RoundTripDetailSidebar = ({
           </Box>
           <Divider sx={{ my: 0.5 }} />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+            <Typography
+              sx={{
+                fontSize: 14,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               Total
             </Typography>
             <Typography
-              sx={{ fontSize: 16, fontWeight: 700, color: "#1A914B" }}
+              sx={{
+                fontSize: 16,
+                fontWeight: 700,
+                color: "var(--fl-brand2-text)",
+              }}
             >
               ₹ {totalPriceAll.toLocaleString("en-IN")}
             </Typography>
           </Box>
           <Typography
-            sx={{ fontSize: 11, color: "#9ca3af", textAlign: "right" }}
+            sx={{
+              fontSize: 11,
+              color: "var(--fl-text-faint)",
+              textAlign: "right",
+            }}
           >
             For {totalPassengers} traveller{totalPassengers > 1 ? "s" : ""}
           </Typography>
@@ -1687,15 +1997,17 @@ const RoundTripDetailSidebar = ({
               px: 1.5,
               py: 0.5,
               borderRadius: "50px",
-              bgcolor: "#F3F4F6",
-              border: "1px solid #E5E7EB",
+              bgcolor: "var(--fl-surface-muted)",
+              border: "1px solid var(--fl-border)",
             }}
           >
             <Typography
               sx={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: onwardFlight.IsRefundable ? "#166534" : "#991B1B",
+                color: onwardFlight.IsRefundable
+                  ? "var(--fl-brand-strong-text)"
+                  : "var(--fl-danger-strong-text)",
               }}
             >
               Onward:{" "}
@@ -1707,15 +2019,17 @@ const RoundTripDetailSidebar = ({
               px: 1.5,
               py: 0.5,
               borderRadius: "50px",
-              bgcolor: "#F3F4F6",
-              border: "1px solid #E5E7EB",
+              bgcolor: "var(--fl-surface-muted)",
+              border: "1px solid var(--fl-border)",
             }}
           >
             <Typography
               sx={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: returnFlight.IsRefundable ? "#166534" : "#991B1B",
+                color: returnFlight.IsRefundable
+                  ? "var(--fl-brand-strong-text)"
+                  : "var(--fl-danger-strong-text)",
               }}
             >
               Return:{" "}
@@ -1729,18 +2043,24 @@ const RoundTripDetailSidebar = ({
         sx={{
           px: 3,
           py: 2.5,
-          bgcolor: "#fff",
-          borderTop: "1px solid #f0f0f0",
+          bgcolor: "var(--fl-surface)",
+          borderTop: "1px solid var(--fl-border-soft)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
         <Box>
-          <Typography sx={{ fontSize: 22, fontWeight: 700, color: "#111" }}>
+          <Typography
+            sx={{
+              fontSize: 22,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+            }}
+          >
             ₹ {totalPriceAll.toLocaleString("en-IN")}
           </Typography>
-          <Typography sx={{ fontSize: 12, color: "#888" }}>
+          <Typography sx={{ fontSize: 12, color: "var(--fl-text-soft)" }}>
             For {totalPassengers} Traveller{totalPassengers > 1 ? "s" : ""}
           </Typography>
         </Box>
@@ -1748,8 +2068,8 @@ const RoundTripDetailSidebar = ({
           variant="contained"
           onClick={handleContinue}
           sx={{
-            bgcolor: "#1A914B",
-            "&:hover": { bgcolor: "#157a3e" },
+            bgcolor: "var(--fl-brand2)",
+            "&:hover": { bgcolor: "var(--fl-brand-hover)" },
             textTransform: "none",
             borderRadius: "10px",
             px: 3.5,
@@ -1774,8 +2094,8 @@ const timeSlots = [
 ];
 
 const checkboxStyle = {
-  color: "#B5BAC2",
-  "&.Mui-checked": { color: "#1A914B" },
+  color: "var(--fl-text-faint)",
+  "&.Mui-checked": { color: "var(--fl-brand2-text)" },
   padding: "4px 8px",
 };
 
@@ -1876,8 +2196,8 @@ const applyFilters = (
         meta.stopsCount === 0
           ? "Nonstop"
           : meta.stopsCount === 1
-            ? "1 Stop"
-            : "2+ Stop";
+          ? "1 Stop"
+          : "2+ Stop";
       if (!selectedStops.includes(stopText)) return false;
     }
     if (departureTime) {
@@ -1997,9 +2317,9 @@ const CalendarFareStrip = ({
   );
   const selectedKey = selectedDate
     ? (() => {
-      const d = new Date(selectedDate);
-      return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-    })()
+        const d = new Date(selectedDate);
+        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      })()
     : null;
 
   if (loading) {
@@ -2007,9 +2327,9 @@ const CalendarFareStrip = ({
       <Paper
         elevation={0}
         sx={{
-          border: "1px solid #E3E8EE",
+          border: "1px solid var(--fl-border)",
           borderRadius: "14px",
-          bgcolor: "#fff",
+          bgcolor: "var(--fl-surface)",
           mb: 2,
           overflow: "hidden",
         }}
@@ -2018,17 +2338,25 @@ const CalendarFareStrip = ({
           sx={{
             px: { xs: 1.5, sm: 2.5 },
             py: 1.5,
-            borderBottom: "1px solid #F3F4F6",
+            borderBottom: "1px solid var(--fl-border-soft)",
             display: "flex",
             alignItems: "center",
             gap: 1,
           }}
         >
-          <FlightTakeoff sx={{ fontSize: 16, color: "#1A914B" }} />
-          <Typography sx={{ fontSize: 13, fontWeight: 700, color: "#111" }}>
+          <FlightTakeoff
+            sx={{ fontSize: 16, color: "var(--fl-brand2-text)" }}
+          />
+          <Typography
+            sx={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+            }}
+          >
             {label}
           </Typography>
-          <Typography sx={{ fontSize: 12, color: "#888" }}>
+          <Typography sx={{ fontSize: 12, color: "var(--fl-text-soft)" }}>
             {originCode} → {destCode}
           </Typography>
         </Box>
@@ -2056,9 +2384,9 @@ const CalendarFareStrip = ({
     <Paper
       elevation={0}
       sx={{
-        border: "1px solid #E3E8EE",
+        border: "1px solid var(--fl-border)",
         borderRadius: "14px",
-        bgcolor: "#fff",
+        bgcolor: "var(--fl-surface)",
         mb: 2,
         overflow: "hidden",
       }}
@@ -2067,26 +2395,32 @@ const CalendarFareStrip = ({
         sx={{
           px: 2.5,
           py: 1.5,
-          borderBottom: "1px solid #F3F4F6",
+          borderBottom: "1px solid var(--fl-border-soft)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <FlightTakeoff sx={{ fontSize: 16, color: "#1A914B" }} />
+          <FlightTakeoff
+            sx={{ fontSize: 16, color: "var(--fl-brand2-text)" }}
+          />
           <Typography
             sx={{
               fontSize: 13,
               fontWeight: 700,
               fontFamily: "Inter,Sans-serif",
-              color: "#111",
+              color: "var(--fl-text-strong)",
             }}
           >
             {label}
           </Typography>
           <Typography
-            sx={{ fontSize: 12, fontFamily: "Inter,Sans-serif", color: "#888" }}
+            sx={{
+              fontSize: 12,
+              fontFamily: "Inter,Sans-serif",
+              color: "var(--fl-text-soft)",
+            }}
           >
             {originCode} → {destCode}
           </Typography>
@@ -2096,8 +2430,8 @@ const CalendarFareStrip = ({
             sx={{
               px: 1.5,
               py: 0.4,
-              bgcolor: "#F0FDF4",
-              border: "1px solid #BBF7D0",
+              bgcolor: "var(--fl-success-bg)",
+              border: "1px solid var(--fl-success-border)",
               borderRadius: "50px",
             }}
           >
@@ -2106,7 +2440,7 @@ const CalendarFareStrip = ({
                 fontSize: 11.5,
                 fontWeight: 700,
                 fontFamily: "Inter,Sans-serif",
-                color: "#166634",
+                color: "var(--fl-brand-strong-text)",
               }}
             >
               Lowest ₹ {lowestFare.toLocaleString("en-IN")}
@@ -2125,9 +2459,11 @@ const CalendarFareStrip = ({
             minWidth: { xs: 28, sm: 36 },
             flexShrink: 0,
             cursor: canGoPrev ? "pointer" : "default",
-            borderRight: "1px solid #F3F4F6",
-            color: canGoPrev ? "#374151" : "#D1D5DB",
-            "&:hover": canGoPrev ? { bgcolor: "#F9FAFB" } : {},
+            borderRight: "1px solid var(--fl-border-soft)",
+            color: canGoPrev
+              ? "var(--fl-text-body)"
+              : "var(--fl-text-disabled)",
+            "&:hover": canGoPrev ? { bgcolor: "var(--fl-surface-subtle)" } : {},
             transition: "background 0.15s",
           }}
         >
@@ -2142,8 +2478,9 @@ const CalendarFareStrip = ({
             const isLowest = item.TotalFare === lowestFare;
             const isPast = d < new Date(new Date().setHours(0, 0, 0, 0));
             const isLast = idx === visibleItems.length - 1;
-            const dateLabel = `${DAY_SHORT[d.getDay()]}, ${d.getDate()} ${MONTH_SHORT[d.getMonth()]
-              }`;
+            const dateLabel = `${DAY_SHORT[d.getDay()]}, ${d.getDate()} ${
+              MONTH_SHORT[d.getMonth()]
+            }`;
             return (
               <Box
                 key={item.DepartureDate}
@@ -2156,17 +2493,23 @@ const CalendarFareStrip = ({
                   px: 0.3,
                   cursor: isPast ? "default" : "pointer",
                   opacity: isPast ? 0.4 : 1,
-                  borderRight: isLast ? "none" : "1px solid #F3F4F6",
+                  borderRight: isLast
+                    ? "none"
+                    : "1px solid var(--fl-border-soft)",
                   position: "relative",
                   transition: "background 0.12s",
-                  "&:hover": !isPast ? { bgcolor: "#F9FAFB" } : {},
+                  "&:hover": !isPast
+                    ? { bgcolor: "var(--fl-surface-subtle)" }
+                    : {},
                 }}
               >
                 <Typography
                   sx={{
                     fontSize: { xs: 10, sm: 13 },
                     fontWeight: isSelected ? 700 : 500,
-                    color: isSelected ? "#111" : "#374151",
+                    color: isSelected
+                      ? "var(--fl-text-strong)"
+                      : "var(--fl-text-body)",
                     lineHeight: 1.4,
                     whiteSpace: "nowrap",
                     overflow: "hidden",
@@ -2182,10 +2525,10 @@ const CalendarFareStrip = ({
                     fontWeight: 600,
                     fontFamily: "Inter,Sans-serif",
                     color: isSelected
-                      ? "#1A914B"
+                      ? "var(--fl-brand2-text)"
                       : isLowest
-                        ? "#1A914B"
-                        : "#6B7280",
+                      ? "var(--fl-brand2-text)"
+                      : "var(--fl-text-muted)",
                     lineHeight: 1.4,
                     mt: 0.2,
                   }}
@@ -2200,7 +2543,7 @@ const CalendarFareStrip = ({
                       left: "15%",
                       right: "15%",
                       height: 3,
-                      bgcolor: "#1A914B",
+                      bgcolor: "var(--fl-brand2)",
                       borderRadius: "3px 3px 0 0",
                     }}
                   />
@@ -2222,9 +2565,11 @@ const CalendarFareStrip = ({
             minWidth: { xs: 28, sm: 36 },
             flexShrink: 0,
             cursor: canGoNext ? "pointer" : "default",
-            borderLeft: "1px solid #F3F4F6",
-            color: canGoNext ? "#374151" : "#D1D5DB",
-            "&:hover": canGoNext ? { bgcolor: "#F9FAFB" } : {},
+            borderLeft: "1px solid var(--fl-border-soft)",
+            color: canGoNext
+              ? "var(--fl-text-body)"
+              : "var(--fl-text-disabled)",
+            "&:hover": canGoNext ? { bgcolor: "var(--fl-surface-subtle)" } : {},
             transition: "background 0.15s",
           }}
         >
@@ -2348,15 +2693,15 @@ const RoundTripCalendarStrip = ({
   );
   const onwardKey = selectedOnwardDate
     ? (() => {
-      const d = new Date(selectedOnwardDate);
-      return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-    })()
+        const d = new Date(selectedOnwardDate);
+        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      })()
     : null;
   const returnKey = selectedReturnDate
     ? (() => {
-      const d = new Date(selectedReturnDate);
-      return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-    })()
+        const d = new Date(selectedReturnDate);
+        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      })()
     : null;
 
   if (loading) {
@@ -2364,9 +2709,9 @@ const RoundTripCalendarStrip = ({
       <Paper
         elevation={0}
         sx={{
-          border: "1px solid #E3E8EE",
+          border: "1px solid var(--fl-border)",
           borderRadius: "14px",
-          bgcolor: "#fff",
+          bgcolor: "var(--fl-surface)",
           mb: 2,
           overflow: "hidden",
         }}
@@ -2380,9 +2725,11 @@ const RoundTripCalendarStrip = ({
               sx={{
                 flex: 1,
                 p: 2,
-                borderRight: { sm: i === 0 ? "1px solid #E3E8EE" : "none" },
+                borderRight: {
+                  sm: i === 0 ? "1px solid var(--fl-border)" : "none",
+                },
                 borderBottom: {
-                  xs: i === 0 ? "1px solid #E3E8EE" : "none",
+                  xs: i === 0 ? "1px solid var(--fl-border)" : "none",
                   sm: "none",
                 },
               }}
@@ -2432,7 +2779,7 @@ const RoundTripCalendarStrip = ({
           sx={{
             px: 2,
             py: 1.2,
-            borderBottom: "1px solid #F3F4F6",
+            borderBottom: "1px solid var(--fl-border-soft)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -2447,14 +2794,18 @@ const RoundTripCalendarStrip = ({
             }}
           >
             <FlightTakeoff
-              sx={{ fontSize: 14, color: "#1A914B", flexShrink: 0 }}
+              sx={{
+                fontSize: 14,
+                color: "var(--fl-brand2-text)",
+                flexShrink: 0,
+              }}
             />
             <Typography
               sx={{
                 fontSize: 12.5,
                 fontWeight: 700,
                 fontFamily: "Inter,Sans-serif",
-                color: "#111",
+                color: "var(--fl-text-strong)",
               }}
             >
               {label}
@@ -2463,7 +2814,7 @@ const RoundTripCalendarStrip = ({
               sx={{
                 fontSize: 11.5,
                 fontFamily: "Inter,Sans-serif",
-                color: "#888",
+                color: "var(--fl-text-soft)",
               }}
             >
               {fromCode} → {toCode}
@@ -2474,8 +2825,8 @@ const RoundTripCalendarStrip = ({
               sx={{
                 px: 1.2,
                 py: 0.3,
-                bgcolor: "#F0FDF4",
-                border: "1px solid #BBF7D0",
+                bgcolor: "var(--fl-success-bg)",
+                border: "1px solid var(--fl-success-border)",
                 borderRadius: "50px",
                 flexShrink: 0,
                 ml: 1,
@@ -2486,7 +2837,7 @@ const RoundTripCalendarStrip = ({
                   fontSize: 10.5,
                   fontWeight: 700,
                   fontFamily: "Inter,Sans-serif",
-                  color: "#166534",
+                  color: "var(--fl-brand-strong-text)",
                 }}
               >
                 ₹{lowestFare.toLocaleString("en-IN")}
@@ -2504,9 +2855,11 @@ const RoundTripCalendarStrip = ({
               width: 28,
               flexShrink: 0,
               cursor: canPrev ? "pointer" : "default",
-              borderRight: "1px solid #F3F4F6",
-              color: canPrev ? "#374151" : "#D1D5DB",
-              "&:hover": canPrev ? { bgcolor: "#F9FAFB" } : {},
+              borderRight: "1px solid var(--fl-border-soft)",
+              color: canPrev
+                ? "var(--fl-text-body)"
+                : "var(--fl-text-disabled)",
+              "&:hover": canPrev ? { bgcolor: "var(--fl-surface-subtle)" } : {},
               transition: "background 0.15s",
             }}
           >
@@ -2520,8 +2873,9 @@ const RoundTripCalendarStrip = ({
               const isLowest = item.TotalFare === lowestFare;
               const isPast = d < new Date(new Date().setHours(0, 0, 0, 0));
               const isLast = idx === visibleItems.length - 1;
-              const dateLabel = `${DAY_SHORT[d.getDay()]}, ${d.getDate()} ${MONTH_SHORT[d.getMonth()]
-                }`;
+              const dateLabel = `${DAY_SHORT[d.getDay()]}, ${d.getDate()} ${
+                MONTH_SHORT[d.getMonth()]
+              }`;
               return (
                 <Box
                   key={item.DepartureDate}
@@ -2534,17 +2888,23 @@ const RoundTripCalendarStrip = ({
                     px: 0.3,
                     cursor: isPast ? "default" : "pointer",
                     opacity: isPast ? 0.4 : 1,
-                    borderRight: isLast ? "none" : "1px solid #F3F4F6",
+                    borderRight: isLast
+                      ? "none"
+                      : "1px solid var(--fl-border-soft)",
                     position: "relative",
                     transition: "background 0.12s",
-                    "&:hover": !isPast ? { bgcolor: "#F9FAFB" } : {},
+                    "&:hover": !isPast
+                      ? { bgcolor: "var(--fl-surface-subtle)" }
+                      : {},
                   }}
                 >
                   <Typography
                     sx={{
                       fontSize: { xs: 9, sm: 11 },
                       fontWeight: isSelected ? 700 : 500,
-                      color: isSelected ? "#111" : "#374151",
+                      color: isSelected
+                        ? "var(--fl-text-strong)"
+                        : "var(--fl-text-body)",
                       lineHeight: 1.4,
                       whiteSpace: "nowrap",
                       overflow: "hidden",
@@ -2558,10 +2918,10 @@ const RoundTripCalendarStrip = ({
                       fontSize: { xs: 9, sm: 11 },
                       fontWeight: 600,
                       color: isSelected
-                        ? "#1A914B"
+                        ? "var(--fl-brand2-text)"
                         : isLowest
-                          ? "#1A914B"
-                          : "#6B7280",
+                        ? "var(--fl-brand2-text)"
+                        : "var(--fl-text-muted)",
                       lineHeight: 1.4,
                       mt: 0.2,
                     }}
@@ -2576,7 +2936,7 @@ const RoundTripCalendarStrip = ({
                         left: "10%",
                         right: "10%",
                         height: 3,
-                        bgcolor: "#1A914B",
+                        bgcolor: "var(--fl-brand2)",
                         borderRadius: "3px 3px 0 0",
                       }}
                     />
@@ -2597,9 +2957,11 @@ const RoundTripCalendarStrip = ({
               width: 28,
               flexShrink: 0,
               cursor: canNext ? "pointer" : "default",
-              borderLeft: "1px solid #F3F4F6",
-              color: canNext ? "#374151" : "#D1D5DB",
-              "&:hover": canNext ? { bgcolor: "#F9FAFB" } : {},
+              borderLeft: "1px solid var(--fl-border-soft)",
+              color: canNext
+                ? "var(--fl-text-body)"
+                : "var(--fl-text-disabled)",
+              "&:hover": canNext ? { bgcolor: "var(--fl-surface-subtle)" } : {},
               transition: "background 0.15s",
             }}
           >
@@ -2614,9 +2976,9 @@ const RoundTripCalendarStrip = ({
     <Paper
       elevation={0}
       sx={{
-        border: "1px solid #E3E8EE",
+        border: "1px solid var(--fl-border)",
         borderRadius: "14px",
-        bgcolor: "#fff",
+        bgcolor: "var(--fl-surface)",
         mb: 2,
         overflow: "hidden",
       }}
@@ -2637,7 +2999,7 @@ const RoundTripCalendarStrip = ({
           sx={{
             width: { xs: "100%", sm: "1px" },
             height: { xs: "1px", sm: "auto" },
-            bgcolor: "#E3E8EE",
+            bgcolor: "var(--fl-surface-muted)",
             flexShrink: 0,
           }}
         />
@@ -2684,11 +3046,16 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
         p: 1.5,
         mb: 1,
         borderRadius: "12px",
-        border: `1.5px solid ${selected ? "#1A914B" : "#E3E8EE"}`,
-        bgcolor: selected ? "#F0FDF4" : "#fff",
+        border: `1.5px solid ${
+          selected ? "var(--fl-brand2-line)" : "var(--fl-border)"
+        }`,
+        bgcolor: selected ? "var(--fl-success-bg)" : "var(--fl-surface)",
         cursor: "pointer",
         transition: "all 0.15s",
-        "&:hover": { borderColor: "#1A914B", bgcolor: "#F0FDF4" },
+        "&:hover": {
+          borderColor: "var(--fl-brand2-line)",
+          bgcolor: "var(--fl-success-bg)",
+        },
       }}
     >
       <Box
@@ -2714,7 +3081,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
               sx={{
                 fontSize: 12,
                 fontWeight: 600,
-                color: "#222",
+                color: "var(--fl-text-strong)",
                 fontFamily: "Inter,Sans-serif",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -2727,7 +3094,9 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
               sx={{
                 fontSize: 10.5,
                 fontWeight: 500,
-                color: flight.IsRefundable ? "#1A914B" : "#E57373",
+                color: flight.IsRefundable
+                  ? "var(--fl-brand2-text)"
+                  : "#E57373",
               }}
             >
               {flight.IsRefundable ? "Refundable" : "Non-refundable"}
@@ -2747,7 +3116,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
             sx={{
               fontSize: 14,
               fontWeight: 700,
-              color: "#222",
+              color: "var(--fl-text-strong)",
               fontFamily: "Inter,Sans-serif",
             }}
           >
@@ -2758,7 +3127,9 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
               width: 18,
               height: 18,
               borderRadius: "50%",
-              border: `2px solid ${selected ? "#1A914B" : "#D1D5DB"}`,
+              border: `2px solid ${
+                selected ? "var(--fl-brand2-line)" : "var(--fl-border-strong)"
+              }`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -2771,7 +3142,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
                   width: 9,
                   height: 9,
                   borderRadius: "50%",
-                  bgcolor: "#1A914B",
+                  bgcolor: "var(--fl-brand2)",
                 }}
               />
             )}
@@ -2786,7 +3157,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
             sx={{
               fontSize: { xs: 14, sm: 17 },
               fontWeight: 700,
-              color: "#111",
+              color: "var(--fl-text-strong)",
               fontFamily: "Inter,Sans-serif",
               lineHeight: 1.1,
             }}
@@ -2796,7 +3167,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
           <Typography
             sx={{
               fontSize: 10,
-              color: "#888",
+              color: "var(--fl-text-soft)",
               fontFamily: "Inter,Sans-serif",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -2850,18 +3221,18 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
                   width: 6,
                   height: 6,
                   borderRadius: "50%",
-                  bgcolor: "#1A914B",
+                  bgcolor: "var(--fl-brand2)",
                   transform: "translate(-50%, -50%)",
-                  boxShadow: "0 0 0 2px #fff",
+                  boxShadow: "0 0 0 2px var(--fl-surface)",
                 }}
               />
             ))}
           </Box>
-         
-        <Typography
+
+          <Typography
             sx={{
               fontSize: 10,
-              color: "#888",
+              color: "var(--fl-text-soft)",
               fontFamily: "Inter,Sans-serif",
               lineHeight: 1.3,
             }}
@@ -2881,7 +3252,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
             sx={{
               fontSize: { xs: 14, sm: 17 },
               fontWeight: 700,
-              color: "#111",
+              color: "var(--fl-text-strong)",
               fontFamily: "Inter,Sans-serif",
               lineHeight: 1.1,
             }}
@@ -2891,7 +3262,7 @@ const RoundTripFlightCard = ({ flight, selected, onSelect }) => {
           <Typography
             sx={{
               fontSize: 10,
-              color: "#888",
+              color: "var(--fl-text-soft)",
               fontFamily: "Inter,Sans-serif",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -2925,7 +3296,7 @@ const CombinedRoundTripCard = ({ flight, onBook }) => {
         sx={{
           fontSize: 12.5,
           fontWeight: 600,
-          color: "#374151",
+          color: "var(--fl-text-body)",
           mb: 1,
           fontFamily: "Inter,Sans-serif",
         }}
@@ -2941,27 +3312,41 @@ const CombinedRoundTripCard = ({ flight, onBook }) => {
           size={30}
         />
         <Box>
-          <Typography sx={{ fontSize: 16, fontWeight: 700, color: "#111" }}>
+          <Typography
+            sx={{
+              fontSize: 16,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+            }}
+          >
             {meta.depTime}
           </Typography>
-          <Typography sx={{ fontSize: 11.5, color: "#888" }}>
+          <Typography sx={{ fontSize: 11.5, color: "var(--fl-text-soft)" }}>
             {meta.originCode}
           </Typography>
         </Box>
         <Box sx={{ textAlign: "center", minWidth: 60 }}>
-          <Typography sx={{ fontSize: 11, color: "#9CA3AF" }}>
+          <Typography sx={{ fontSize: 11, color: "var(--fl-text-faint)" }}>
             {meta.durationHours}h {meta.durationMinutes}m
           </Typography>
-          <Box sx={{ height: 1, bgcolor: "#E5E7EB", my: 0.4 }} />
-          <Typography sx={{ fontSize: 11, color: "#9CA3AF" }}>
+          <Box
+            sx={{ height: 1, bgcolor: "var(--fl-surface-muted)", my: 0.4 }}
+          />
+          <Typography sx={{ fontSize: 11, color: "var(--fl-text-faint)" }}>
             {meta.stopLabel}
           </Typography>
         </Box>
         <Box>
-          <Typography sx={{ fontSize: 16, fontWeight: 700, color: "#111" }}>
+          <Typography
+            sx={{
+              fontSize: 16,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+            }}
+          >
             {meta.arrTime}
           </Typography>
-          <Typography sx={{ fontSize: 11.5, color: "#888" }}>
+          <Typography sx={{ fontSize: 11.5, color: "var(--fl-text-soft)" }}>
             {meta.destCode}
           </Typography>
         </Box>
@@ -2975,8 +3360,8 @@ const CombinedRoundTripCard = ({ flight, onBook }) => {
       sx={{
         mb: 1.5,
         borderRadius: "14px",
-        border: "1px solid #E3E8EE",
-        bgcolor: "#fff",
+        border: "1px solid var(--fl-border)",
+        bgcolor: "var(--fl-surface)",
         overflow: "hidden",
         "&:hover": { boxShadow: "0 4px 16px rgba(0,0,0,0.08)" },
       }}
@@ -2987,7 +3372,7 @@ const CombinedRoundTripCard = ({ flight, onBook }) => {
           sx={{
             width: { xs: "100%", md: "1px" },
             height: { xs: "1px", md: "auto" },
-            bgcolor: "#E3E8EE",
+            bgcolor: "var(--fl-surface-muted)",
           }}
         />
         <LegBlock label="Return" meta={ret} />
@@ -3004,12 +3389,22 @@ const CombinedRoundTripCard = ({ flight, onBook }) => {
         >
           {discount > 0 && (
             <Typography
-              sx={{ fontSize: 12, fontWeight: 600, color: "#16a34a" }}
+              sx={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: "var(--fl-brand-text)",
+              }}
             >
               Extra ₹{discount.toLocaleString("en-IN")} Off
             </Typography>
           )}
-          <Typography sx={{ fontSize: 20, fontWeight: 700, color: "#111" }}>
+          <Typography
+            sx={{
+              fontSize: 20,
+              fontWeight: 700,
+              color: "var(--fl-text-strong)",
+            }}
+          >
             ₹ {price.toLocaleString("en-IN")}
           </Typography>
           <Button
@@ -3050,15 +3445,23 @@ const CombinedRoundTripCard = ({ flight, onBook }) => {
             px: 1.2,
             py: 0.4,
             borderRadius: "50px",
-            border: `1px solid ${flight.IsRefundable ? "#FDBA74" : "#FECACA"}`,
-            bgcolor: flight.IsRefundable ? "#FFF7ED" : "#FEF2F2",
+            border: `1px solid ${
+              flight.IsRefundable
+                ? "var(--fl-warn-border)"
+                : "var(--fl-danger-border)"
+            }`,
+            bgcolor: flight.IsRefundable
+              ? "var(--fl-warn-bg)"
+              : "var(--fl-danger-bg)",
           }}
         >
           <Typography
             sx={{
               fontSize: 11,
               fontWeight: 600,
-              color: flight.IsRefundable ? "#C2410C" : "#991B1B",
+              color: flight.IsRefundable
+                ? "var(--fl-warn-text)"
+                : "var(--fl-danger-strong-text)",
             }}
           >
             {flight.IsRefundable ? "Partially Refundable" : "Non-refundable"}
@@ -3101,7 +3504,7 @@ const RoundTripSummaryBar = ({ flight }) => {
         <Typography
           sx={{
             fontSize: 11,
-            color: "#B8BEC9",
+            color: "var(--fl-text-faint)",
             lineHeight: 1.3,
             whiteSpace: "nowrap",
           }}
@@ -3121,12 +3524,18 @@ const RoundTripSummaryBar = ({ flight }) => {
           {depTime}
         </Typography>
         <Typography
-          sx={{ fontSize: 11, color: "#B8BEC9", whiteSpace: "nowrap" }}
+          sx={{
+            fontSize: 11,
+            color: "var(--fl-text-faint)",
+            whiteSpace: "nowrap",
+          }}
         >
           {originCity}
         </Typography>
       </Box>
-      <Typography sx={{ fontSize: 15, color: "#B8BEC9", flexShrink: 0 }}>
+      <Typography
+        sx={{ fontSize: 15, color: "var(--fl-text-faint)", flexShrink: 0 }}
+      >
         →
       </Typography>
       <Box sx={{ textAlign: "center", flexShrink: 0 }}>
@@ -3141,7 +3550,11 @@ const RoundTripSummaryBar = ({ flight }) => {
           {arrTime}
         </Typography>
         <Typography
-          sx={{ fontSize: 11, color: "#B8BEC9", whiteSpace: "nowrap" }}
+          sx={{
+            fontSize: 11,
+            color: "var(--fl-text-faint)",
+            whiteSpace: "nowrap",
+          }}
         >
           {destCity}
         </Typography>
@@ -3204,15 +3617,15 @@ const RoundTripLayout = ({
   const formatDateTab = (d) =>
     d
       ? d.toLocaleDateString("en-IN", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      })
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+        })
       : "";
   const totalPrice = isCombinedRoundTrip
     ? selectedOnward?.Fare?.PublishedFare || 0
     : (selectedOnward?.Fare?.PublishedFare || 0) +
-    (selectedReturn?.Fare?.PublishedFare || 0);
+      (selectedReturn?.Fare?.PublishedFare || 0);
 
   const handleSelectOnward = (flight) => {
     setSelectedOnward(flight);
@@ -3246,9 +3659,9 @@ const RoundTripLayout = ({
         <Box>
           <Box
             sx={{
-              bgcolor: "#fff",
+              bgcolor: "var(--fl-surface)",
               borderRadius: "12px",
-              border: "1px solid #E3E8EE",
+              border: "1px solid var(--fl-border)",
               px: 2,
               py: 1.2,
               mb: 1.5,
@@ -3258,14 +3671,18 @@ const RoundTripLayout = ({
             }}
           >
             <FlightTakeoff
-              sx={{ fontSize: 16, color: "#1A914B", flexShrink: 0 }}
+              sx={{
+                fontSize: 16,
+                color: "var(--fl-brand2-text)",
+                flexShrink: 0,
+              }}
             />
             <Typography
               sx={{
                 fontSize: 13,
                 fontWeight: 700,
                 fontFamily: "Inter,Sans-serif",
-                color: "#111",
+                color: "var(--fl-text-strong)",
               }}
             >
               {fromCode} → {toCode}
@@ -3273,7 +3690,7 @@ const RoundTripLayout = ({
             <Typography
               sx={{
                 fontSize: 12,
-                color: "#888",
+                color: "var(--fl-text-soft)",
                 fontFamily: "Inter,Sans-serif",
                 ml: "auto",
               }}
@@ -3288,15 +3705,15 @@ const RoundTripLayout = ({
                 p: 3,
                 textAlign: "center",
                 borderRadius: "12px",
-                border: "1px solid #E3E8EE",
-                bgcolor: "#fff",
+                border: "1px solid var(--fl-border)",
+                bgcolor: "var(--fl-surface)",
               }}
             >
               <Typography
                 sx={{
                   fontSize: 14,
                   fontFamily: "Inter,Sans-serif",
-                  color: "#888",
+                  color: "var(--fl-text-soft)",
                 }}
               >
                 No onward flights found
@@ -3316,9 +3733,9 @@ const RoundTripLayout = ({
         <Box>
           <Box
             sx={{
-              bgcolor: "#fff",
+              bgcolor: "var(--fl-surface)",
               borderRadius: "12px",
-              border: "1px solid #E3E8EE",
+              border: "1px solid var(--fl-border)",
               px: 2,
               py: 1.2,
               mb: 1.5,
@@ -3330,7 +3747,7 @@ const RoundTripLayout = ({
             <FlightTakeoff
               sx={{
                 fontSize: 16,
-                color: "#1A914B",
+                color: "var(--fl-brand2-text)",
                 transform: "scaleX(-1)",
                 flexShrink: 0,
               }}
@@ -3340,7 +3757,7 @@ const RoundTripLayout = ({
                 fontSize: 13,
                 fontWeight: 700,
                 fontFamily: "Inter,Sans-serif",
-                color: "#111",
+                color: "var(--fl-text-strong)",
               }}
             >
               {toCode} → {fromCode}
@@ -3349,7 +3766,7 @@ const RoundTripLayout = ({
               sx={{
                 fontSize: 12,
                 fontFamily: "Inter,Sans-serif",
-                color: "#888",
+                color: "var(--fl-text-soft)",
                 ml: "auto",
               }}
             >
@@ -3363,14 +3780,14 @@ const RoundTripLayout = ({
                 p: 3,
                 textAlign: "center",
                 borderRadius: "12px",
-                border: "1px solid #E3E8EE",
-                bgcolor: "#fff",
+                border: "1px solid var(--fl-border)",
+                bgcolor: "var(--fl-surface)",
               }}
             >
               <Typography
                 sx={{
                   fontSize: 14,
-                  color: "#888",
+                  color: "var(--fl-text-soft)",
                   fontFamily: "Inter,Sans-serif",
                 }}
               >
@@ -3462,7 +3879,7 @@ const RoundTripLayout = ({
             <Typography
               sx={{
                 fontSize: 12,
-                color: "#9CA3AF",
+                color: "var(--fl-text-faint)",
                 textDecoration: "underline",
                 whiteSpace: "nowrap",
               }}
@@ -3475,8 +3892,8 @@ const RoundTripLayout = ({
             variant="contained"
             onClick={() => onOpenSidebar()}
             sx={{
-              bgcolor: "#1A914B",
-              "&:hover": { bgcolor: "#157a3e" },
+              bgcolor: "var(--fl-brand2)",
+              "&:hover": { bgcolor: "var(--fl-brand-hover)" },
               textTransform: "none",
               borderRadius: "10px",
               px: { xs: 2.5, sm: 3.5 },
@@ -3753,8 +4170,8 @@ const FlightsListingPage = () => {
         minWidth: { md: "240px" },
         p: 2.5,
         borderRadius: "16px",
-        border: "1px solid #E3E8EE",
-        bgcolor: "#fff",
+        border: "1px solid var(--fl-border)",
+        bgcolor: "var(--fl-surface)",
         height: "fit-content",
         flexShrink: 0,
         boxSizing: "border-box",
@@ -3768,13 +4185,15 @@ const FlightsListingPage = () => {
           mb: 2,
         }}
       >
-        <Typography sx={{ fontSize: 17, fontWeight: 600, color: "#383E48" }}>
+        <Typography
+          sx={{ fontSize: 17, fontWeight: 600, color: "var(--fl-text-body)" }}
+        >
           Filter by:
         </Typography>
         <Typography
           onClick={clearAll}
           sx={{
-            color: "#1A914B",
+            color: "var(--fl-brand2-text)",
             textDecoration: "underline",
             cursor: "pointer",
             fontSize: 13,
@@ -3790,7 +4209,7 @@ const FlightsListingPage = () => {
           fontWeight: 600,
           mb: 1.5,
           fontFamily: "Inter,Sans-serif",
-          color: "#222",
+          color: "var(--fl-text-strong)",
         }}
       >
         Price Range
@@ -3801,18 +4220,26 @@ const FlightsListingPage = () => {
         min={minP}
         max={maxP}
         sx={{
-          color: "#1A914B",
+          color: "var(--fl-brand2-text)",
           "& .MuiSlider-thumb": { width: 18, height: 18 },
         }}
       />
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
         <Typography
-          sx={{ fontSize: 13, fontFamily: "Inter,Sans-serif", color: "#555" }}
+          sx={{
+            fontSize: 13,
+            fontFamily: "Inter,Sans-serif",
+            color: "var(--fl-text-neutral)",
+          }}
         >
           ₹ {effectivePriceRange[0].toLocaleString("en-IN")}
         </Typography>
         <Typography
-          sx={{ fontSize: 13, fontFamily: "Inter,Sans-serif", color: "#555" }}
+          sx={{
+            fontSize: 13,
+            fontFamily: "Inter,Sans-serif",
+            color: "var(--fl-text-neutral)",
+          }}
         >
           ₹ {effectivePriceRange[1].toLocaleString("en-IN")}
         </Typography>
@@ -3824,7 +4251,7 @@ const FlightsListingPage = () => {
           fontWeight: 600,
           mb: 1,
           fontFamily: "Inter,Sans-serif",
-          color: "#222",
+          color: "var(--fl-text-strong)",
         }}
       >
         Stops
@@ -3845,7 +4272,7 @@ const FlightsListingPage = () => {
               sx={{
                 fontSize: 13.5,
                 fontFamily: "Inter,Sans-serif",
-                color: "#444",
+                color: "var(--fl-text-body)",
               }}
             >
               {stop}
@@ -3861,7 +4288,7 @@ const FlightsListingPage = () => {
           fontWeight: 600,
           mb: 1,
           fontFamily: "Inter,Sans-serif",
-          color: "#222",
+          color: "var(--fl-text-strong)",
         }}
       >
         Fare Type
@@ -3883,10 +4310,13 @@ const FlightsListingPage = () => {
               cursor: "pointer",
               border:
                 fareTypeFilter === key
-                  ? "1.5px solid #1A914B"
-                  : "1px solid #E3E8EE",
-              backgroundColor: fareTypeFilter === key ? "#EAF7EF" : "#fff",
-              "&:hover": { borderColor: "#1A914B" },
+                  ? "1.5px solid var(--fl-brand2-line)"
+                  : "1px solid var(--fl-border)",
+              backgroundColor:
+                fareTypeFilter === key
+                  ? "var(--fl-success-bg)"
+                  : "var(--fl-surface)",
+              "&:hover": { borderColor: "var(--fl-brand2-line)" },
               transition: "all .15s",
             }}
           >
@@ -3894,7 +4324,10 @@ const FlightsListingPage = () => {
               sx={{
                 fontSize: 13,
                 fontWeight: fareTypeFilter === key ? 700 : 500,
-                color: fareTypeFilter === key ? "#1A914B" : "#555",
+                color:
+                  fareTypeFilter === key
+                    ? "var(--fl-brand2-text)"
+                    : "var(--fl-text-neutral)",
               }}
             >
               {label}
@@ -3909,7 +4342,7 @@ const FlightsListingPage = () => {
           fontWeight: 600,
           mb: 1.5,
           fontFamily: "Inter,Sans-serif",
-          color: "#222",
+          color: "var(--fl-text-strong)",
         }}
       >
         Departure from {searchMeta.fromCity?.code || "Origin"}
@@ -3936,14 +4369,17 @@ const FlightsListingPage = () => {
               cursor: "pointer",
               border:
                 departureTime === label
-                  ? "1.5px solid #1A914B"
-                  : "1px solid #E3E8EE",
-              backgroundColor: departureTime === label ? "#EAF7EF" : "#fff",
+                  ? "1.5px solid var(--fl-brand2-line)"
+                  : "1px solid var(--fl-border)",
+              backgroundColor:
+                departureTime === label
+                  ? "var(--fl-success-bg)"
+                  : "var(--fl-surface)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: 0.3,
-              "&:hover": { borderColor: "#1A914B" },
+              "&:hover": { borderColor: "var(--fl-brand2-line)" },
               transition: "all .15s",
             }}
           >
@@ -3963,7 +4399,10 @@ const FlightsListingPage = () => {
               sx={{
                 fontSize: 11,
                 fontWeight: 500,
-                color: departureTime === label ? "#1A914B" : "#555",
+                color:
+                  departureTime === label
+                    ? "var(--fl-brand2-text)"
+                    : "var(--fl-text-neutral)",
                 lineHeight: 1.3,
               }}
             >
@@ -3978,7 +4417,7 @@ const FlightsListingPage = () => {
           fontWeight: 600,
           mb: 1.5,
           fontFamily: "Inter,Sans-serif",
-          color: "#222",
+          color: "var(--fl-text-strong)",
         }}
       >
         Arrival at {searchMeta.toCity?.code || "Destination"}
@@ -4003,14 +4442,17 @@ const FlightsListingPage = () => {
               cursor: "pointer",
               border:
                 arrivalTime === label
-                  ? "1.5px solid #1A914B"
-                  : "1px solid #E3E8EE",
-              backgroundColor: arrivalTime === label ? "#EAF7EF" : "#fff",
+                  ? "1.5px solid var(--fl-brand2-line)"
+                  : "1px solid var(--fl-border)",
+              backgroundColor:
+                arrivalTime === label
+                  ? "var(--fl-success-bg)"
+                  : "var(--fl-surface)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: 0.3,
-              "&:hover": { borderColor: "#1A914B" },
+              "&:hover": { borderColor: "var(--fl-brand2-line)" },
               transition: "all .15s",
             }}
           >
@@ -4030,7 +4472,10 @@ const FlightsListingPage = () => {
               sx={{
                 fontSize: 11,
                 fontWeight: 500,
-                color: arrivalTime === label ? "#1A914B" : "#555",
+                color:
+                  arrivalTime === label
+                    ? "var(--fl-brand2-text)"
+                    : "var(--fl-text-neutral)",
                 lineHeight: 1.3,
               }}
             >
@@ -4046,7 +4491,7 @@ const FlightsListingPage = () => {
           fontWeight: 600,
           mb: 1,
           fontFamily: "Inter,Sans-serif",
-          color: "#222",
+          color: "var(--fl-text-strong)",
         }}
       >
         Airlines
@@ -4071,7 +4516,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: 13.5,
                   fontFamily: "Inter,Sans-serif",
-                  color: "#444",
+                  color: "var(--fl-text-body)",
                 }}
               >
                 {airline}
@@ -4113,12 +4558,12 @@ const FlightsListingPage = () => {
         sx={{
           mb: 1.5,
           borderRadius: "14px",
-          border: "1px solid #E3E8EE",
-          bgcolor: "#fff",
+          border: "1px solid var(--fl-border)",
+          bgcolor: "var(--fl-surface)",
           overflow: "hidden",
           "&:hover": {
             boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-            borderColor: "#ccc",
+            borderColor: "var(--fl-border-strong)",
           },
           transition: "box-shadow .2s, border-color .2s",
         }}
@@ -4141,7 +4586,7 @@ const FlightsListingPage = () => {
                   fontSize: 14.5,
                   fontWeight: 600,
                   fontFamily: "Inter,Sans-serif",
-                  color: "#222",
+                  color: "var(--fl-text-strong)",
                 }}
               >
                 {airlineName}
@@ -4150,7 +4595,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: 12.5,
                   fontFamily: "Inter,Sans-serif",
-                  color: "#888",
+                  color: "var(--fl-text-soft)",
                 }}
               >
                 {airlineCode}-{flightNumber}
@@ -4162,7 +4607,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: 12,
                   fontWeight: 600,
-                  color: "#1A914B",
+                  color: "var(--fl-brand2-text)",
                   cursor: "pointer",
                   mt: 0.3,
                   fontFamily: "Inter,Sans-serif",
@@ -4175,14 +4620,20 @@ const FlightsListingPage = () => {
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: 17, fontWeight: 700, color: "#222" }}>
+            <Typography
+              sx={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {depTime}
             </Typography>
             <Typography
               sx={{
                 fontSize: 12.5,
                 fontFamily: "Inter,Sans-serif",
-                color: "#888",
+                color: "var(--fl-text-soft)",
               }}
             >
               {originCity}
@@ -4227,39 +4678,45 @@ const FlightsListingPage = () => {
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    bgcolor: "#1A914B",
+                    bgcolor: "var(--fl-brand2)",
                     transform: "translate(-50%, -50%)",
-                    boxShadow: "0 0 0 2px #fff",
+                    boxShadow: "0 0 0 2px var(--fl-surface)",
                   }}
                 />
               ))}
             </Box>
-           
-           <Typography
-                sx={{
-                  fontSize: 10,
-                  color: "#888",
-                  fontFamily: "Inter,Sans-serif",
-                }}
-              >
-                {stopLabel}
-                {stopsCount > 0 &&
-                  ` • ${segs
-                    .slice(0, -1)
-                    .map((s) => s.Destination?.Airport?.CityCode)
-                    .join(",")}`}
-              </Typography>
+
+            <Typography
+              sx={{
+                fontSize: 10,
+                color: "var(--fl-text-soft)",
+                fontFamily: "Inter,Sans-serif",
+              }}
+            >
+              {stopLabel}
+              {stopsCount > 0 &&
+                ` • ${segs
+                  .slice(0, -1)
+                  .map((s) => s.Destination?.Airport?.CityCode)
+                  .join(",")}`}
+            </Typography>
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: 17, fontWeight: 700, color: "#222" }}>
+            <Typography
+              sx={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "var(--fl-text-strong)",
+              }}
+            >
               {arrTime}
             </Typography>
             <Typography
               sx={{
                 fontSize: 12.5,
                 fontFamily: "Inter,Sans-serif",
-                color: "#888",
+                color: "var(--fl-text-soft)",
               }}
             >
               {destCity}
@@ -4278,7 +4735,7 @@ const FlightsListingPage = () => {
               sx={{
                 fontSize: 20,
                 fontWeight: 800,
-                color: "#111827",
+                color: "var(--fl-text-strong)",
                 whiteSpace: "nowrap",
               }}
             >
@@ -4299,8 +4756,8 @@ const FlightsListingPage = () => {
                   setSidebarOpen(true);
                 }}
                 sx={{
-                  bgcolor: "#1A914B",
-                  "&:hover": { bgcolor: "#157a3e" },
+                  bgcolor: "var(--fl-brand2)",
+                  "&:hover": { bgcolor: "var(--fl-brand-hover)" },
                   textTransform: "none",
                   borderRadius: "10px",
                   px: 4,
@@ -4318,7 +4775,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: 12,
                   fontFamily: "Inter,Sans-serif",
-                  color: seatsLeft <= 5 ? "#E57373" : "#6B7280",
+                  color: seatsLeft <= 5 ? "#E57373" : "var(--fl-text-muted)",
                   fontWeight: seatsLeft <= 5 ? 600 : 400,
                   whiteSpace: "nowrap",
                 }}
@@ -4363,7 +4820,7 @@ const FlightsListingPage = () => {
                   sx={{
                     fontSize: 12.5,
                     fontWeight: 600,
-                    color: "#222",
+                    color: "var(--fl-text-strong)",
                     fontFamily: "Inter,Sans-serif",
                     lineHeight: 1.2,
                     overflow: "hidden",
@@ -4376,7 +4833,7 @@ const FlightsListingPage = () => {
                 <Typography
                   sx={{
                     fontSize: 10.5,
-                    color: "#888",
+                    color: "var(--fl-text-soft)",
                     fontFamily: "Inter,Sans-serif",
                   }}
                 >
@@ -4389,7 +4846,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: { xs: 14, sm: 17 },
                   fontWeight: 700,
-                  color: "#111",
+                  color: "var(--fl-text-strong)",
                   fontFamily: "Inter,Sans-serif",
                   lineHeight: 1.2,
                 }}
@@ -4424,7 +4881,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: { xs: 13, sm: 15 },
                   fontWeight: 700,
-                  color: "#111",
+                  color: "var(--fl-text-strong)",
                   fontFamily: "Inter,Sans-serif",
                   lineHeight: 1.1,
                 }}
@@ -4434,7 +4891,7 @@ const FlightsListingPage = () => {
               <Typography
                 sx={{
                   fontSize: 10,
-                  color: "#888",
+                  color: "var(--fl-text-soft)",
                   fontFamily: "Inter,Sans-serif",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -4469,12 +4926,18 @@ const FlightsListingPage = () => {
                     width: 5,
                     height: 5,
                     borderRadius: "50%",
-                    bgcolor: "#D1D5DB",
+                    bgcolor: "var(--fl-surface-strong)",
                   }}
                 />
                 {segs.slice(0, -1).map((_, i) => (
                   <React.Fragment key={i}>
-                    <Box sx={{ flex: 1, height: 1, bgcolor: "#E5E7EB" }} />
+                    <Box
+                      sx={{
+                        flex: 1,
+                        height: 1,
+                        bgcolor: "var(--fl-surface-muted)",
+                      }}
+                    />
                     <Box
                       sx={{
                         width: 5,
@@ -4485,20 +4948,26 @@ const FlightsListingPage = () => {
                     />
                   </React.Fragment>
                 ))}
-                <Box sx={{ flex: 1, height: 1, bgcolor: "#E5E7EB" }} />
+                <Box
+                  sx={{
+                    flex: 1,
+                    height: 1,
+                    bgcolor: "var(--fl-surface-muted)",
+                  }}
+                />
                 <Box
                   sx={{
                     width: 5,
                     height: 5,
                     borderRadius: "50%",
-                    bgcolor: "#D1D5DB",
+                    bgcolor: "var(--fl-surface-strong)",
                   }}
                 />
               </Box>
               <Typography
                 sx={{
                   fontSize: 10,
-                  color: "#888",
+                  color: "var(--fl-text-soft)",
                   fontFamily: "Inter,Sans-serif",
                 }}
               >
@@ -4508,7 +4977,7 @@ const FlightsListingPage = () => {
                 <Typography
                   sx={{
                     fontSize: 10,
-                    color: "#aaa",
+                    color: "var(--fl-text-soft)",
                     fontFamily: "Inter,Sans-serif",
                   }}
                 >
@@ -4531,7 +5000,7 @@ const FlightsListingPage = () => {
                 sx={{
                   fontSize: { xs: 13, sm: 15 },
                   fontWeight: 700,
-                  color: "#111",
+                  color: "var(--fl-text-strong)",
                   fontFamily: "Inter,Sans-serif",
                   lineHeight: 1.1,
                 }}
@@ -4541,7 +5010,7 @@ const FlightsListingPage = () => {
               <Typography
                 sx={{
                   fontSize: 10,
-                  color: "#888",
+                  color: "var(--fl-text-soft)",
                   fontFamily: "Inter,Sans-serif",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -4560,14 +5029,16 @@ const FlightsListingPage = () => {
               alignItems: "center",
               justifyContent: "space-between",
               pt: 0.5,
-              borderTop: "1px solid #F3F4F6",
+              borderTop: "1px solid var(--fl-border-soft)",
             }}
           >
             <Box>
               <Typography
                 sx={{
                   fontSize: 10.5,
-                  color: flight.IsRefundable ? "#1A914B" : "#E57373",
+                  color: flight.IsRefundable
+                    ? "var(--fl-brand2-text)"
+                    : "#E57373",
                   fontWeight: 600,
                   fontFamily: "Inter,Sans-serif",
                 }}
@@ -4577,7 +5048,7 @@ const FlightsListingPage = () => {
               <Typography
                 sx={{
                   fontSize: 10,
-                  color: "#9ca3af",
+                  color: "var(--fl-text-faint)",
                   fontFamily: "Inter,Sans-serif",
                 }}
               >
@@ -4591,8 +5062,8 @@ const FlightsListingPage = () => {
                 setSidebarOpen(true);
               }}
               sx={{
-                bgcolor: "#1A914B",
-                "&:hover": { bgcolor: "#157a3e" },
+                bgcolor: "var(--fl-brand2)",
+                "&:hover": { bgcolor: "var(--fl-brand-hover)" },
                 textTransform: "none",
                 borderRadius: "8px",
                 px: 2,
@@ -4635,7 +5106,7 @@ const FlightsListingPage = () => {
         initialPassengers={searchMeta.passengers}
         initialCabinClass={searchMeta.cabinClass}
         onSearch={handleSearchFromBar}
-        stickyHeader={true}  
+        stickyHeader={true}
       />
 
       <SearchErrorBanner
@@ -4648,8 +5119,8 @@ const FlightsListingPage = () => {
           variant="outlined"
           onClick={() => setFilterOpen((p) => !p)}
           sx={{
-            borderColor: "#1A914B",
-            color: "#1A914B",
+            borderColor: "var(--fl-brand2-line)",
+            color: "var(--fl-brand2-text)",
             borderRadius: "8px",
             textTransform: "none",
             fontSize: 13,
@@ -4662,7 +5133,7 @@ const FlightsListingPage = () => {
         <Typography
           sx={{
             fontSize: 13.5,
-            color: "#555",
+            color: "var(--fl-text-neutral)",
             alignSelf: "center",
             ml: 1,
             fontFamily: "Inter,Sans-serif",
@@ -4731,12 +5202,16 @@ const FlightsListingPage = () => {
                     p: 5,
                     textAlign: "center",
                     borderRadius: "14px",
-                    border: "1px solid #E3E8EE",
-                    bgcolor: "#fff",
+                    border: "1px solid var(--fl-border)",
+                    bgcolor: "var(--fl-surface)",
                   }}
                 >
                   <Typography
-                    sx={{ fontSize: 17, color: "#555", fontWeight: 500 }}
+                    sx={{
+                      fontSize: 17,
+                      color: "var(--fl-text-neutral)",
+                      fontWeight: 500,
+                    }}
                   >
                     No flights match your filters
                   </Typography>
@@ -4793,7 +5268,7 @@ const FlightsListingPage = () => {
                         sx={{
                           fontSize: 12.5,
                           fontFamily: "Inter,Sans-serif",
-                          color: "#9CA3AF",
+                          color: "var(--fl-text-faint)",
                           fontWeight: 500,
                           textAlign: h === "Price" ? "right" : "left",
                         }}
@@ -4811,14 +5286,14 @@ const FlightsListingPage = () => {
                     p: 5,
                     textAlign: "center",
                     borderRadius: "14px",
-                    border: "1px solid #E3E8EE",
-                    bgcolor: "#fff",
+                    border: "1px solid var(--fl-border)",
+                    bgcolor: "var(--fl-surface)",
                   }}
                 >
                   <Typography
                     sx={{
                       fontSize: 17,
-                      color: "#555",
+                      color: "var(--fl-text-neutral)",
                       fontWeight: 500,
                       fontFamily: "Inter,Sans-serif",
                     }}
@@ -4830,7 +5305,7 @@ const FlightsListingPage = () => {
                   <Typography
                     sx={{
                       fontSize: 13.5,
-                      color: "#9CA3AF",
+                      color: "var(--fl-text-faint)",
                       mt: 1,
                       fontFamily: "Inter,Sans-serif",
                     }}

@@ -39,11 +39,11 @@ import QRPaymentPage from "./QRPaymentPage";
 import CancellationPolicyModal from "./CancellationPolicyModal";
 import Swal from "sweetalert2";
 
-const GREEN = "#16a34a";
-const BORDER = "#e5e7eb";
-const LIGHT = "#6b7280";
-const DARK = "#111827";
-const BG = "#f5f7fa";
+const GREEN = "var(--ht-brand)";
+const BORDER = "var(--ht-border)";
+const LIGHT = "var(--ht-text-muted)";
+const DARK = "var(--ht-text-strong)";
+const BG = "var(--ht-page)";
 const FONT = "'DM Sans', sans-serif";
 
 const InfoItem = ({ icon, text }) =>
@@ -51,7 +51,11 @@ const InfoItem = ({ icon, text }) =>
     <Box sx={{ display: "flex", alignItems: "center", gap: 0.7 }}>
       {icon}
       <Typography
-        sx={{ fontSize: 13, color: "#374151", fontFamily: "Inter, sans-serif" }}
+        sx={{
+          fontSize: 13,
+          color: "var(--ht-text-body)",
+          fontFamily: "Inter, sans-serif",
+        }}
       >
         {text}
       </Typography>
@@ -62,7 +66,11 @@ const Facility = ({ label }) => (
   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
     <CheckCircleIcon sx={{ fontSize: 14, color: GREEN }} />
     <Typography
-      sx={{ fontSize: 12.5, color: "#374151", fontFamily: "Inter, sans-serif" }}
+      sx={{
+        fontSize: 12.5,
+        color: "var(--ht-text-body)",
+        fontFamily: "Inter, sans-serif",
+      }}
     >
       {label}
     </Typography>
@@ -74,7 +82,7 @@ const Stars = ({ count = 4 }) => (
     sx={{
       px: 1,
       py: 0.3,
-      bgcolor: "#fef3c7",
+      bgcolor: "var(--ht-warn-bg)",
       borderRadius: "6px",
       fontSize: 12,
       fontWeight: 700,
@@ -139,12 +147,14 @@ const CancelTimeline = ({
       : null;
 
   return (
-    <Box sx={{ bgcolor: "#fef2f2", borderRadius: "14px", p: 2, mb: 2 }}>
+    <Box
+      sx={{ bgcolor: "var(--ht-danger-bg)", borderRadius: "14px", p: 2, mb: 2 }}
+    >
       <Typography
         sx={{
           textAlign: "center",
           fontSize: 13,
-          color: "#374151",
+          color: "var(--ht-text-body)",
           mb: 1.5,
           fontFamily: "Inter, sans-serif",
         }}
@@ -206,7 +216,12 @@ const CancelTimeline = ({
           }}
         >
           <Box
-            sx={{ width: 7, height: 7, borderRadius: "50%", bgcolor: "#fff" }}
+            sx={{
+              width: 7,
+              height: 7,
+              borderRadius: "50%",
+              bgcolor: "var(--ht-surface)",
+            }}
           />
         </Box>
       </Box>
@@ -225,7 +240,11 @@ const CancelTimeline = ({
             Now
           </Typography>
           <Typography
-            sx={{ fontSize: 11, color: "#9ca3af", fontFamily: "Inter, sans-serif" }}
+            sx={{
+              fontSize: 11,
+              color: "var(--ht-text-faint)",
+              fontFamily: "Inter, sans-serif",
+            }}
           >
             {today.day}, {today.date}
           </Typography>
@@ -245,7 +264,11 @@ const CancelTimeline = ({
           </Typography>
           {(checkInDay || checkInDate) && (
             <Typography
-              sx={{ fontSize: 11, color: "#9ca3af", fontFamily: "Inter, sans-serif" }}
+              sx={{
+                fontSize: 11,
+                color: "var(--ht-text-faint)",
+                fontFamily: "Inter, sans-serif",
+              }}
             >
               {checkInDay}
               {checkInDay && checkInDate ? ", " : ""}
@@ -299,7 +322,7 @@ const StatusHeader = ({
     return (
       <Box
         sx={{
-          bgcolor: "#fefce8",
+          bgcolor: "var(--ht-warn-bg)",
           px: { xs: 2, sm: 3 },
           py: 2.5,
           display: "flex",
@@ -309,14 +332,14 @@ const StatusHeader = ({
       >
         <CircularProgress
           size={28}
-          sx={{ color: "#ca8a04", mt: "2px", flexShrink: 0 }}
+          sx={{ color: "var(--ht-warn-strong-text)", mt: "2px", flexShrink: 0 }}
         />
         <Box>
           <Typography
             sx={{
               fontSize: { xs: 18, sm: 20 },
               fontWeight: 800,
-              color: "#ca8a04",
+              color: "var(--ht-warn-strong-text)",
               fontFamily: "Inter, sans-serif",
             }}
           >
@@ -325,7 +348,7 @@ const StatusHeader = ({
           <Typography
             sx={{
               fontSize: 13.5,
-              color: "#374151",
+              color: "var(--ht-text-body)",
               mt: 0.5,
               lineHeight: 1.6,
               fontFamily: "Inter, sans-serif",
@@ -345,7 +368,9 @@ const StatusHeader = ({
     return (
       <Box
         sx={{
-          bgcolor: isDuplicateBooking ? "#fefce8" : "#fef2f2",
+          bgcolor: isDuplicateBooking
+            ? "var(--ht-warn-bg-soft)"
+            : "var(--ht-danger-bg)",
           px: { xs: 2, sm: 3 },
           py: 2.5,
           display: "flex",
@@ -376,7 +401,7 @@ const StatusHeader = ({
           <Typography
             sx={{
               fontSize: 13.5,
-              color: "#374151",
+              color: "var(--ht-text-body)",
               mt: 0.5,
               lineHeight: 1.6,
               fontFamily: "Inter, sans-serif",
@@ -384,8 +409,9 @@ const StatusHeader = ({
           >
             {isDuplicateBooking
               ? "Looks like this room is already booked under your account for these dates. Your payment was successful — please check My Trips to find your existing booking, or contact support if you don't see it there."
-              : `Your payment was successful, but we couldn't confirm the hotel booking${bookingErrorMessage ? ` (${bookingErrorMessage})` : ""
-              }. Don't worry — your money is safe. Please contact support with your Booking ID for assistance.`}
+              : `Your payment was successful, but we couldn't confirm the hotel booking${
+                  bookingErrorMessage ? ` (${bookingErrorMessage})` : ""
+                }. Don't worry — your money is safe. Please contact support with your Booking ID for assistance.`}
           </Typography>
         </Box>
       </Box>
@@ -395,7 +421,7 @@ const StatusHeader = ({
     return (
       <Box
         sx={{
-          bgcolor: "#dcfce7",
+          bgcolor: "var(--ht-success-bg-strong)",
           px: { xs: 2, sm: 3 },
           py: 2.5,
           display: "flex",
@@ -418,7 +444,7 @@ const StatusHeader = ({
           <Typography
             sx={{
               fontSize: 13.5,
-              color: "#374151",
+              color: "var(--ht-text-body)",
               mt: 0.5,
               lineHeight: 1.6,
               fontFamily: "Inter, sans-serif",
@@ -435,7 +461,7 @@ const StatusHeader = ({
     return (
       <Box
         sx={{
-          bgcolor: "#fef2f2",
+          bgcolor: "var(--ht-danger-bg)",
           px: { xs: 2, sm: 3 },
           py: 2.5,
           display: "flex",
@@ -443,13 +469,15 @@ const StatusHeader = ({
           alignItems: "flex-start",
         }}
       >
-        <ErrorOutlinedIcon sx={{ color: "#ef4444", fontSize: 30, mt: "2px" }} />
+        <ErrorOutlinedIcon
+          sx={{ color: "var(--ht-danger-text)", fontSize: 30, mt: "2px" }}
+        />
         <Box>
           <Typography
             sx={{
               fontSize: { xs: 18, sm: 20 },
               fontWeight: 800,
-              color: "#ef4444",
+              color: "var(--ht-danger-text)",
               fontFamily: "Inter, sans-serif",
             }}
           >
@@ -458,7 +486,7 @@ const StatusHeader = ({
           <Typography
             sx={{
               fontSize: 13.5,
-              color: "#374151",
+              color: "var(--ht-text-body)",
               mt: 0.5,
               lineHeight: 1.6,
               fontFamily: "Inter, sans-serif",
@@ -474,7 +502,7 @@ const StatusHeader = ({
     return (
       <Box
         sx={{
-          bgcolor: "#f3f4f6",
+          bgcolor: "var(--ht-surface-muted)",
           px: { xs: 2, sm: 3 },
           py: 2.5,
           display: "flex",
@@ -497,7 +525,7 @@ const StatusHeader = ({
           <Typography
             sx={{
               fontSize: 13.5,
-              color: "#374151",
+              color: "var(--ht-text-body)",
               mt: 0.5,
               lineHeight: 1.6,
               fontFamily: "Inter, sans-serif",
@@ -513,7 +541,7 @@ const StatusHeader = ({
     return (
       <Box
         sx={{
-          bgcolor: "#fefce8",
+          bgcolor: "var(--ht-warn-bg)",
           px: { xs: 2, sm: 3 },
           py: 2.5,
           display: "flex",
@@ -523,14 +551,14 @@ const StatusHeader = ({
       >
         <CircularProgress
           size={28}
-          sx={{ color: "#ca8a04", mt: "2px", flexShrink: 0 }}
+          sx={{ color: "var(--ht-warn-strong-text)", mt: "2px", flexShrink: 0 }}
         />
         <Box>
           <Typography
             sx={{
               fontSize: { xs: 18, sm: 20 },
               fontWeight: 800,
-              color: "#ca8a04",
+              color: "var(--ht-warn-strong-text)",
               fontFamily: "Inter, sans-serif",
             }}
           >
@@ -539,7 +567,7 @@ const StatusHeader = ({
           <Typography
             sx={{
               fontSize: 13.5,
-              color: "#374151",
+              color: "var(--ht-text-body)",
               mt: 0.5,
               lineHeight: 1.6,
               fontFamily: "Inter, sans-serif",
@@ -567,14 +595,13 @@ const BookingSuccessPage = () => {
     cancelPayment,
     cancelling,
     initiating,
- paymentStatus: hookPaymentStatus,
+    paymentStatus: hookPaymentStatus,
     paymentData: hookPaymentData,
     bookingResult: hookBookingResult, // ✅ destructured here
     booking, // ✅ NAYA — Book API abhi call ho rahi hai ya nahi
     resetKey,
     handleClientExpiry,
   } = usePayment();
-
 
   const paymentStatus = hookPaymentStatus ?? state?.paymentStatus ?? null;
   const paymentData = hookPaymentData ?? state?.paymentData ?? null;
@@ -679,7 +706,7 @@ const BookingSuccessPage = () => {
       if (prebookId && paymentStatus === "PENDING") {
         hotelFetch("/api/hotelv2/payment/cancel/", {
           body: { prebookId: String(prebookId) },
-        }).catch(() => { });
+        }).catch(() => {});
       }
     };
   }, [prebookId, paymentStatus]);
@@ -737,53 +764,51 @@ const BookingSuccessPage = () => {
     }
   }, [paymentStatus, bookingResult]);
 
-
- 
-useEffect(() => {
-  if (bookingFailed) {
-    Swal.fire({
-      icon: isDuplicateBooking ? "warning" : "error",
-      title: isDuplicateBooking
-        ? "Booking Already Exists"
-        : "Booking Could Not Be Confirmed",
-      text: isDuplicateBooking
-        ? "This room is already booked in your account for these dates. Payment was successful — please check My Trips or contact support."
-        : `Payment was successful, but the hotel booking could not be confirmed${
-            bookingErrorMessage ? ` (${bookingErrorMessage})` : ""
-          }. Please contact support with your Booking ID.`,
-      confirmButtonText: "OK",
-      confirmButtonColor: GREEN,
-      allowOutsideClick: false,
-    }).then(() => {
-      navigate("/");
-    });
-  }
-}, [bookingFailed]);
+  useEffect(() => {
+    if (bookingFailed) {
+      Swal.fire({
+        icon: isDuplicateBooking ? "warning" : "error",
+        title: isDuplicateBooking
+          ? "Booking Already Exists"
+          : "Booking Could Not Be Confirmed",
+        text: isDuplicateBooking
+          ? "This room is already booked in your account for these dates. Payment was successful — please check My Trips or contact support."
+          : `Payment was successful, but the hotel booking could not be confirmed${
+              bookingErrorMessage ? ` (${bookingErrorMessage})` : ""
+            }. Please contact support with your Booking ID.`,
+        confirmButtonText: "OK",
+        confirmButtonColor: GREEN,
+        allowOutsideClick: false,
+      }).then(() => {
+        navigate("/");
+      });
+    }
+  }, [bookingFailed]);
 
   // ── Handlers ──────────────────────────────────────────────
- const handlePayNow = () => {
-  if (!prebookId) {
-    alert("Prebook ID not found. Please go back and try again.");
-    return;
-  }
-  navigate("/hotels/qr-payment", {
-    state: {
-      ...state,                 // ✅ pura existing state forward — taaki wapas aane par usePayment/redirect logic chal sake
-      prebookId,
-      hotelName,
-      hotelLocation,
-      checkInDay,
-      checkInDate,
-      checkOutDay,
-      checkOutDate,
-      roomFare: confirmedFare,
-      taxAmount: confirmedTax,
-      convenienceFee,
-      totalPayable: confirmedNet + convenienceFee,
-      currency,
-    },
-  });
-};
+  const handlePayNow = () => {
+    if (!prebookId) {
+      alert("Prebook ID not found. Please go back and try again.");
+      return;
+    }
+    navigate("/hotels/qr-payment", {
+      state: {
+        ...state, // ✅ pura existing state forward — taaki wapas aane par usePayment/redirect logic chal sake
+        prebookId,
+        hotelName,
+        hotelLocation,
+        checkInDay,
+        checkInDate,
+        checkOutDay,
+        checkOutDate,
+        roomFare: confirmedFare,
+        taxAmount: confirmedTax,
+        convenienceFee,
+        totalPayable: confirmedNet + convenienceFee,
+        currency,
+      },
+    });
+  };
 
   const handleRetry = async () => {
     if (!prebookId || initiating) return;
@@ -826,7 +851,7 @@ useEffect(() => {
           sx={{
             flex: 1,
             width: "100%",
-            bgcolor: "#fff",
+            bgcolor: "var(--ht-surface)",
             borderRadius: "18px",
             border: `1px solid ${BORDER}`,
             overflow: "hidden",
@@ -991,7 +1016,7 @@ useEffect(() => {
                 sx={{
                   px: 2.5,
                   py: 0.8,
-                  bgcolor: "#dcfce7",
+                  bgcolor: "var(--ht-success-bg-strong)",
                   color: GREEN,
                   borderRadius: "30px",
                   fontWeight: 700,
@@ -1193,8 +1218,8 @@ useEffect(() => {
                       {p.CancellationCharge === 0
                         ? "Free"
                         : p.ChargeType === "Percentage"
-                          ? `${p.CancellationCharge}%`
-                          : `₹${Number(p.CancellationCharge).toLocaleString(
+                        ? `${p.CancellationCharge}%`
+                        : `₹${Number(p.CancellationCharge).toLocaleString(
                             "en-IN",
                           )}`}
                     </Typography>
@@ -1220,7 +1245,7 @@ useEffect(() => {
           {/* Fare summary */}
           <Box
             sx={{
-              bgcolor: "#fff",
+              bgcolor: "var(--ht-surface)",
               borderRadius: "18px",
               border: `1px solid ${BORDER}`,
               p: 2.5,
@@ -1239,8 +1264,9 @@ useEffect(() => {
             </Typography>
             {[
               {
-                label: `${roomQty} Room, ${nights} Night${nights > 1 ? "s" : ""
-                  }`,
+                label: `${roomQty} Room, ${nights} Night${
+                  nights > 1 ? "s" : ""
+                }`,
                 value: `${currency}${Number(confirmedFare).toLocaleString(
                   "en-IN",
                 )}`,
@@ -1263,7 +1289,7 @@ useEffect(() => {
                 <Typography
                   sx={{
                     fontSize: 13.5,
-                    color: "#374151",
+                    color: "var(--ht-text-body)",
                     fontFamily: "Inter, sans-serif",
                   }}
                 >
@@ -1287,7 +1313,7 @@ useEffect(() => {
               <Typography
                 sx={{
                   fontSize: 13.5,
-                  color: "#374151",
+                  color: "var(--ht-text-body)",
                   fontFamily: "Inter, sans-serif",
                 }}
               >
@@ -1298,7 +1324,7 @@ useEffect(() => {
                   <Typography
                     sx={{
                       fontSize: 12.5,
-                      color: "#9ca3af",
+                      color: "var(--ht-text-faint)",
                       textDecoration: "line-through",
                       fontFamily: "Inter, sans-serif",
                     }}
@@ -1321,7 +1347,7 @@ useEffect(() => {
                 </Typography>
               </Box>
             </Box>
-            <Divider sx={{ mb: 2, borderColor: "#f3f4f6" }} />
+            <Divider sx={{ mb: 2, borderColor: "var(--ht-border-soft)" }} />
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
                 sx={{
@@ -1350,7 +1376,7 @@ useEffect(() => {
           {/* Cancellation Policy */}
           <Box
             sx={{
-              bgcolor: "#fff",
+              bgcolor: "var(--ht-surface)",
               borderRadius: "18px",
               border: `1px solid ${BORDER}`,
               p: 2.5,
@@ -1409,7 +1435,7 @@ useEffect(() => {
             disabled={initiating || paymentStatus === "SUCCESS" || isCancelled}
             sx={{
               bgcolor: GREEN,
-              color: "#fff",
+              color: "var(--ht-text-on-brand)",
               borderRadius: "12px",
               py: 1.6,
               fontWeight: 700,
@@ -1417,12 +1443,18 @@ useEffect(() => {
               fontSize: 16,
               fontFamily: "Inter, sans-serif",
               boxShadow: "0 4px 14px rgba(22,163,74,0.3)",
-              "&:hover": { bgcolor: "#15803d" },
-              "&.Mui-disabled": { bgcolor: "#86efac", color: "#fff" },
+              "&:hover": { bgcolor: "var(--ht-brand-hover)" },
+              "&.Mui-disabled": {
+                bgcolor: "var(--ht-success-border)",
+                color: "var(--ht-text-on-brand)",
+              },
             }}
           >
             {initiating ? (
-              <CircularProgress size={22} sx={{ color: "#fff" }} />
+              <CircularProgress
+                size={22}
+                sx={{ color: "var(--ht-text-on-brand)" }}
+              />
             ) : paymentStatus === "SUCCESS" ? (
               "Payment Successful ✓"
             ) : isCancelled ? (
@@ -1438,7 +1470,7 @@ useEffect(() => {
                 sx={{
                   textAlign: "center",
                   fontSize: 13,
-                  color: "#ef4444",
+                  color: "var(--ht-danger-text)",
                   fontFamily: "Inter, sans-serif",
                 }}
               >
@@ -1450,9 +1482,9 @@ useEffect(() => {
           {/* {bookingFailed && (
             <Box
               sx={{
-                bgcolor: "#fff",
+                bgcolor: "var(--ht-surface)",
                 borderRadius: "18px",
-                border: `1px solid ${isDuplicateBooking ? "#fde68a" : "#fecaca"}`,
+                border: `1px solid ${isDuplicateBooking ? "var(--ht-warn-border)" : "var(--ht-danger-border)"}`,
                 p: 2.5,
               }}
             >
@@ -1489,7 +1521,7 @@ useEffect(() => {
                   color: isDuplicateBooking ? GREEN : "#ef4444",
                   "&:hover": {
                     borderColor: isDuplicateBooking ? "#15803d" : "#dc2626",
-                    bgcolor: isDuplicateBooking ? "#f0fdf4" : "#fef2f2",
+                    bgcolor: isDuplicateBooking ? "var(--ht-brand-soft-bg)" : "var(--ht-danger-bg)",
                   },
                 }}
               >
@@ -1541,7 +1573,7 @@ useEffect(() => {
             position: "fixed",
             inset: 0,
             zIndex: 2000,
-            bgcolor: "rgba(255,255,255,0.92)",
+            bgcolor: "var(--ht-surface-glass)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

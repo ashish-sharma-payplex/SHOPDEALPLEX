@@ -28,33 +28,40 @@ import { useFlightCities } from "components/travel-hooks/flight/useFlightCities"
 import { useFlightSearch } from "components/travel-hooks/flight/useFlightSearch";
 import Lottie from "lottie-react";
 
-
-
 // ─── MUI Theme ────────────────────────────────
-const muiTheme = createTheme({
-  palette: {
-    primary: { main: "#2e7d32" },
-    // background: { default: "#f0f4f8" },
-  },
-  typography: {
-    fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        html: {
-          overflowY: "scroll",
-        },
-        body: {
-          overflowX: "hidden",
+// Follows the site-wide light / dark mode (outer ThemeProvider in _app.js)
+// instead of forcing a light palette – otherwise MUI inputs, Typography and
+// <CssBaseline/> stay light while the rest of the page turns dark.
+const buildMuiTheme = (mode) =>
+  createTheme({
+    palette: {
+      mode,
+      primary: { main: mode === "dark" ? "#4caf50" : "#2e7d32" },
+      ...(mode === "dark"
+        ? { background: { default: "#131313", paper: "#1a1a1a" } }
+        : {}),
+      // background: { default: "#f0f4f8" },
+    },
+    typography: {
+      fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          html: {
+            overflowY: "scroll",
+          },
+          body: {
+            overflowX: "hidden",
+          },
         },
       },
     },
-  },
-});
+  });
 
 // ─── Constants ────────────────────────────────
-const GREEN = "#16a34a";
+const GREEN = "var(--fl-brand)"; // backgrounds / buttons
+const GREEN_TEXT = "var(--fl-brand-text)"; // text, icons, outlines (lighter in dark mode)
 
 const CATEGORIES = [
   {
@@ -87,14 +94,34 @@ const CABIN_CLASSES = ["Economy", "Premium Economy", "Business", "First Class"];
 
 // ─── SVG Icons ────────────────────────────────
 const FlightTakeoffIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9e9e9e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--fl-text-soft)"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ flexShrink: 0 }}
+  >
     <path d="M22 2 11 13" />
     <path d="m22 2-7 20-4-9-9-4 20-7z" />
   </svg>
 );
 
 const FlightLandIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9e9e9e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--fl-text-soft)"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ flexShrink: 0 }}
+  >
     <path d="M17.8 19.2 16 11l-3.5 3.5-2 4.8" />
     <path d="m2 9 7.7-1.4 3-5.3 1.3 3.5-4 7.2L2 9z" />
     <line x1="2" y1="19" x2="22" y2="19" />
@@ -102,14 +129,33 @@ const FlightLandIcon = () => (
 );
 
 const SwapIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--fl-brand-strong-text)"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M7 16V4m0 0L3 8m4-4l4 4" />
     <path d="M17 8v12m0 0l4-4m-4 4l-4-4" />
   </svg>
 );
 
 const CalendarIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9e9e9e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--fl-text-soft)"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ flexShrink: 0 }}
+  >
     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
     <line x1="16" y1="2" x2="16" y2="6" />
     <line x1="8" y1="2" x2="8" y2="6" />
@@ -118,44 +164,118 @@ const CalendarIcon = () => (
 );
 
 const UserIcon = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="#2e7d32" stroke="#2e7d32" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="17"
+    height="17"
+    viewBox="0 0 24 24"
+    fill="var(--fl-brand-strong-text)"
+    stroke="var(--fl-brand-strong-text)"
+    strokeWidth="1"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
 
 const PassengerIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9e9e9e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--fl-text-soft)"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ flexShrink: 0 }}
+  >
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
 
 const ChevronDownIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9e9e9e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--fl-text-soft)"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ flexShrink: 0 }}
+  >
     <polyline points="6 9 12 15 18 9" />
   </svg>
 );
 
 // ─── Date Helpers ─────────────────────────────
-const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const MONTH_SHORT = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 const DAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 const DAYS_FULL = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function getDaysInMonth(year, month) { return new Date(year, month + 1, 0).getDate(); }
-function getFirstDayOfMonth(year, month) { const d = new Date(year, month, 1).getDay(); return (d + 6) % 7; }
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year, month) {
+  const d = new Date(year, month, 1).getDay();
+  return (d + 6) % 7;
+}
 function isSameDay(a, b) {
   if (!a || !b) return false;
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
 }
 function formatDisplayDate(date) {
   if (!date) return "";
-  return `${DAYS_FULL[date.getDay()]}, ${MONTH_SHORT[date.getMonth()]} ${date.getDate()}`;
+  return `${DAYS_FULL[date.getDay()]}, ${
+    MONTH_SHORT[date.getMonth()]
+  } ${date.getDate()}`;
 }
 
 // ─── CitySearchDropdown ───────────────────────
-const CitySearchDropdown = ({ anchorEl, open, onClose, onSelect, cities, loading, placeholder = "Search city or airport..." }) => {
+const CitySearchDropdown = ({
+  anchorEl,
+  open,
+  onClose,
+  onSelect,
+  cities,
+  loading,
+  placeholder = "Search city or airport...",
+}) => {
   const [query, setQuery] = useState("");
   const [pos, setPos] = useState({ top: 0, left: 0, width: 320 });
   const inputRef = useRef(null);
@@ -166,7 +286,11 @@ const CitySearchDropdown = ({ anchorEl, open, onClose, onSelect, cities, loading
       const rect = anchorEl.getBoundingClientRect();
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const scrollX = window.scrollX || document.documentElement.scrollLeft;
-      setPos({ top: rect.bottom + scrollY + 6, left: rect.left + scrollX, width: Math.max(rect.width, 320) });
+      setPos({
+        top: rect.bottom + scrollY + 6,
+        left: rect.left + scrollX,
+        width: Math.max(rect.width, 320),
+      });
       setQuery("");
       setTimeout(() => inputRef.current?.focus(), 50);
     }
@@ -175,13 +299,24 @@ const CitySearchDropdown = ({ anchorEl, open, onClose, onSelect, cities, loading
   useEffect(() => {
     if (!open) return;
     const handle = (e) => {
-      if (ref.current && !ref.current.contains(e.target) && anchorEl && !anchorEl.contains(e.target)) onClose();
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        anchorEl &&
+        !anchorEl.contains(e.target)
+      )
+        onClose();
     };
     document.addEventListener("mousedown", handle);
     return () => document.removeEventListener("mousedown", handle);
   }, [open, onClose, anchorEl]);
 
-  const normalize = (c) => ({ code: c.code || c.value || "", name: c.name || c.label || "", country: "", airport: "" });
+  const normalize = (c) => ({
+    code: c.code || c.value || "",
+    name: c.name || c.label || "",
+    country: "",
+    airport: "",
+  });
 
   const filtered = useMemo(() => {
     if (!query.trim()) return cities.slice(0, 50);
@@ -209,36 +344,84 @@ const CitySearchDropdown = ({ anchorEl, open, onClose, onSelect, cities, loading
         width: { xs: "calc(100vw - 16px)", md: pos.width },
         zIndex: 9999,
         borderRadius: "16px",
-        border: "1px solid #e5e7eb",
+        border: "1px solid var(--fl-border)",
         boxShadow: "0 8px 40px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07)",
-        bgcolor: "#fff",
+        bgcolor: "var(--fl-surface)",
         overflow: "hidden",
         boxSizing: "border-box",
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2, px: 2, py: 1.5, borderBottom: "1px solid #f3f4f6" }}>
-        <SearchIcon sx={{ fontSize: 18, color: "#9ca3af", flexShrink: 0 }} />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          px: 2,
+          py: 1.5,
+          borderBottom: "1px solid var(--fl-border-soft)",
+        }}
+      >
+        <SearchIcon
+          sx={{ fontSize: 18, color: "var(--fl-text-faint)", flexShrink: 0 }}
+        />
         <input
           ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          style={{ flex: 1, border: "none", outline: "none", fontSize: 14, fontFamily: "'Inter', sans-serif", color: "#111827", background: "transparent", minWidth: 0 }}
+          style={{
+            flex: 1,
+            border: "none",
+            outline: "none",
+            fontSize: 14,
+            fontFamily: "'Inter', sans-serif",
+            color: "var(--fl-text-strong)",
+            background: "transparent",
+            minWidth: 0,
+          }}
         />
         {query && (
-          <Box onClick={() => setQuery("")} sx={{ cursor: "pointer", color: "#9ca3af", fontSize: 18, lineHeight: 1, "&:hover": { color: "#374151" } }}>×</Box>
+          <Box
+            onClick={() => setQuery("")}
+            sx={{
+              cursor: "pointer",
+              color: "var(--fl-text-faint)",
+              fontSize: 18,
+              lineHeight: 1,
+              "&:hover": { color: "var(--fl-text-body)" },
+            }}
+          >
+            ×
+          </Box>
         )}
       </Box>
 
-      <Box sx={{ maxHeight: 320, overflowY: "auto", overflowX: "hidden", width: "100%", boxSizing: "border-box", scrollbarGutter: "stable" }}>
+      <Box
+        sx={{
+          maxHeight: 320,
+          overflowY: "auto",
+          overflowX: "hidden",
+          width: "100%",
+          boxSizing: "border-box",
+          scrollbarGutter: "stable",
+        }}
+      >
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-            <CircularProgress size={24} sx={{ color: GREEN }} />
+            <CircularProgress size={24} sx={{ color: GREEN_TEXT }} />
           </Box>
         ) : filtered.length === 0 ? (
           <Box sx={{ py: 3, textAlign: "center" }}>
-            <Typography sx={{ fontSize: 13, color: "#9ca3af", fontFamily: "'Inter', sans-serif" }}>No cities found</Typography>
+            <Typography
+              sx={{
+                fontSize: 13,
+                color: "var(--fl-text-faint)",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              No cities found
+            </Typography>
           </Box>
         ) : (
           filtered.map((city, idx) => {
@@ -246,14 +429,60 @@ const CitySearchDropdown = ({ anchorEl, open, onClose, onSelect, cities, loading
             return (
               <Box
                 key={`${code}-${idx}`}
-                onClick={() => { onSelect({ code, name: country ? `${name}, ${country}` : name }); onClose(); }}
-                sx={{ display: "flex", alignItems: "center", gap: 2, px: 2, py: 1.2, cursor: "pointer", borderBottom: "1px solid #f9fafb", transition: "background 0.12s", "&:hover": { bgcolor: "#f0fdf4" } }}
+                onClick={() => {
+                  onSelect({
+                    code,
+                    name: country ? `${name}, ${country}` : name,
+                  });
+                  onClose();
+                }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  px: 2,
+                  py: 1.2,
+                  cursor: "pointer",
+                  borderBottom: "1px solid var(--fl-border-soft)",
+                  transition: "background 0.12s",
+                  "&:hover": { bgcolor: "var(--fl-success-bg)" },
+                }}
               >
-                <Box sx={{ minWidth: 42, height: 42, borderRadius: "10px", border: "1px solid #E3E8EE", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Typography sx={{ fontSize: 11, fontWeight: 700, fontFamily: "'Inter', sans-serif", letterSpacing: 0.5 }}>{code || "—"}</Typography>
+                <Box
+                  sx={{
+                    minWidth: 42,
+                    height: 42,
+                    borderRadius: "10px",
+                    border: "1px solid var(--fl-border)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      fontFamily: "'Inter', sans-serif",
+                      letterSpacing: 0.5,
+                    }}
+                  >
+                    {code || "—"}
+                  </Typography>
                 </Box>
                 <Box sx={{ minWidth: 0 }}>
-                  <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#111827", fontFamily: "'Inter', sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: "var(--fl-text-strong)",
+                      fontFamily: "'Inter', sans-serif",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {name}
                   </Typography>
                 </Box>
@@ -274,7 +503,7 @@ const FlightSearchLoader = ({ open }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        bgcolor: "rgba(255,255,255,0.92)",
+        bgcolor: "var(--fl-surface-glass)",
         zIndex: 2000,
         display: "flex",
         flexDirection: "column",
@@ -288,11 +517,16 @@ const FlightSearchLoader = ({ open }) => {
       </Box>
       <Box sx={{ textAlign: "center" }}>
         <Typography
-          sx={{ fontSize: 18, fontWeight: 700, color: "#111827", mb: 0.5 }}
+          sx={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: "var(--fl-text-strong)",
+            mb: 0.5,
+          }}
         >
           Searching Best Flights...
         </Typography>
-        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
+        <Typography sx={{ fontSize: 14, color: "var(--fl-text-muted)" }}>
           Checking availability across airlines
         </Typography>
       </Box>
@@ -301,10 +535,20 @@ const FlightSearchLoader = ({ open }) => {
 };
 
 // ─── FlightDatePicker ─────────────────────────
-const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, minDate }) => {
+const FlightDatePicker = ({
+  anchorEl,
+  open,
+  onClose,
+  selectedDate,
+  onChange,
+  minDate,
+}) => {
   const today = minDate ? new Date(minDate) : new Date();
   today.setHours(0, 0, 0, 0);
-  const [viewMonth, setViewMonth] = useState({ year: today.getFullYear(), month: today.getMonth() });
+  const [viewMonth, setViewMonth] = useState({
+    year: today.getFullYear(),
+    month: today.getMonth(),
+  });
   const [pos, setPos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
@@ -322,21 +566,37 @@ const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, min
     if (!open) return;
     const handle = (e) => {
       const popup = document.getElementById("flight-drp-popup");
-      if (anchorEl && !anchorEl.contains(e.target) && popup && !popup.contains(e.target)) onClose();
+      if (
+        anchorEl &&
+        !anchorEl.contains(e.target) &&
+        popup &&
+        !popup.contains(e.target)
+      )
+        onClose();
     };
     document.addEventListener("mousedown", handle);
     return () => document.removeEventListener("mousedown", handle);
   }, [open, onClose, anchorEl]);
 
-  const canGoPrev = viewMonth.year > today.getFullYear() || (viewMonth.year === today.getFullYear() && viewMonth.month > today.getMonth());
+  const canGoPrev =
+    viewMonth.year > today.getFullYear() ||
+    (viewMonth.year === today.getFullYear() &&
+      viewMonth.month > today.getMonth());
 
   const goPrev = () => {
     if (!canGoPrev) return;
     setViewMonth((prev) => {
       let m = prev.month - 1;
       let y = prev.year;
-      if (m < 0) { m = 11; y--; }
-      if (y < today.getFullYear() || (y === today.getFullYear() && m < today.getMonth())) return { year: today.getFullYear(), month: today.getMonth() };
+      if (m < 0) {
+        m = 11;
+        y--;
+      }
+      if (
+        y < today.getFullYear() ||
+        (y === today.getFullYear() && m < today.getMonth())
+      )
+        return { year: today.getFullYear(), month: today.getMonth() };
       return { year: y, month: m };
     });
   };
@@ -345,7 +605,10 @@ const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, min
     setViewMonth((prev) => {
       let m = prev.month + 1;
       let y = prev.year;
-      if (m > 11) { m = 0; y++; }
+      if (m > 11) {
+        m = 0;
+        y++;
+      }
       return { year: y, month: m };
     });
   };
@@ -372,27 +635,71 @@ const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, min
         borderRadius: "16px",
         p: { xs: "20px 16px", md: "24px 28px" },
         boxShadow: "0 8px 40px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07)",
-        border: "1px solid #f3f4f6",
-        bgcolor: "#ffffff",
+        border: "1px solid var(--fl-border-soft)",
+        bgcolor: "var(--fl-surface)",
         width: { xs: "calc(100vw - 16px)", md: "auto" },
         minWidth: { md: 300 },
         boxSizing: "border-box",
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
-        <IconButton onClick={goPrev} disabled={!canGoPrev} size="small" sx={{ width: 28, height: 28, color: canGoPrev ? "#6b7280" : "#d1d5db" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: 1.5,
+        }}
+      >
+        <IconButton
+          onClick={goPrev}
+          disabled={!canGoPrev}
+          size="small"
+          sx={{
+            width: 28,
+            height: 28,
+            color: canGoPrev
+              ? "var(--fl-text-muted)"
+              : "var(--fl-text-disabled)",
+          }}
+        >
           <ChevronLeftIcon sx={{ fontSize: 18 }} />
         </IconButton>
-        <Typography sx={{ fontWeight: 700, fontSize: "0.95rem", color: "#111827", fontFamily: "inherit" }}>{MONTH_NAMES[month]} {year}</Typography>
-        <IconButton onClick={goNext} size="small" sx={{ width: 28, height: 28, color: "#6b7280" }}>
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: "0.95rem",
+            color: "var(--fl-text-strong)",
+            fontFamily: "inherit",
+          }}
+        >
+          {MONTH_NAMES[month]} {year}
+        </Typography>
+        <IconButton
+          onClick={goNext}
+          size="small"
+          sx={{ width: 28, height: 28, color: "var(--fl-text-muted)" }}
+        >
           <ChevronRightIcon sx={{ fontSize: 18 }} />
         </IconButton>
       </Box>
 
-      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", mb: 0.5 }}>
+      <Box
+        sx={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", mb: 0.5 }}
+      >
         {DAY_LABELS.map((d) => (
-          <Typography key={d} sx={{ textAlign: "center", fontSize: "0.78rem", fontWeight: 600, color: "#9ca3af", py: 0.5 }}>{d}</Typography>
+          <Typography
+            key={d}
+            sx={{
+              textAlign: "center",
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              color: "var(--fl-text-faint)",
+              py: 0.5,
+            }}
+          >
+            {d}
+          </Typography>
         ))}
       </Box>
 
@@ -403,17 +710,55 @@ const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, min
           const isToday = isSameDay(date, new Date());
           const isPast = date < today && !isToday;
           return (
-            <Box key={date.toISOString()} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box
+              key={date.toISOString()}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Box
-                onClick={() => { if (!isPast) { onChange(date); onClose(); } }}
+                onClick={() => {
+                  if (!isPast) {
+                    onChange(date);
+                    onClose();
+                  }
+                }}
                 sx={{
-                  width: 34, height: 34, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-                  cursor: isPast ? "default" : "pointer", bgcolor: isSelected ? GREEN : "transparent", my: 0.3,
+                  width: 34,
+                  height: 34,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: isPast ? "default" : "pointer",
+                  bgcolor: isSelected ? GREEN : "transparent",
+                  my: 0.3,
                   transition: "background 0.12s, transform 0.1s",
-                  "&:hover": !isPast ? { bgcolor: isSelected ? GREEN : "#f0fdf4", transform: "scale(1.08)" } : {},
+                  "&:hover": !isPast
+                    ? {
+                        bgcolor: isSelected ? GREEN : "var(--fl-success-bg)",
+                        transform: "scale(1.08)",
+                      }
+                    : {},
                 }}
               >
-                <Typography sx={{ fontSize: "0.85rem", fontWeight: isSelected || isToday ? 700 : 400, color: isSelected ? "#fff" : isPast ? "#d1d5db" : isToday ? GREEN : "#111827", lineHeight: 1, userSelect: "none" }}>
+                <Typography
+                  sx={{
+                    fontSize: "0.85rem",
+                    fontWeight: isSelected || isToday ? 700 : 400,
+                    color: isSelected
+                      ? "#fff"
+                      : isPast
+                      ? "var(--fl-text-disabled)"
+                      : isToday
+                      ? GREEN_TEXT
+                      : "var(--fl-text-strong)",
+                    lineHeight: 1,
+                    userSelect: "none",
+                  }}
+                >
                   {date.getDate()}
                 </Typography>
               </Box>
@@ -423,8 +768,14 @@ const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, min
       </Box>
 
       <Box sx={{ textAlign: "center", mt: 2 }}>
-        <Typography sx={{ fontSize: "0.78rem", color: "#9ca3af" }}>
-          {selectedDate ? selectedDate.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "Select date"}
+        <Typography sx={{ fontSize: "0.78rem", color: "var(--fl-text-faint)" }}>
+          {selectedDate
+            ? selectedDate.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })
+            : "Select date"}
         </Typography>
       </Box>
     </Paper>
@@ -432,7 +783,15 @@ const FlightDatePicker = ({ anchorEl, open, onClose, selectedDate, onChange, min
 };
 
 // ─── PassengerClassDropdown ───────────────────
-const PassengerClassDropdown = ({ anchorEl, open, onClose, passengers, setPassengers, cabinClass, setCabinClass }) => {
+const PassengerClassDropdown = ({
+  anchorEl,
+  open,
+  onClose,
+  passengers,
+  setPassengers,
+  cabinClass,
+  setCabinClass,
+}) => {
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const ref = useRef(null);
 
@@ -448,7 +807,13 @@ const PassengerClassDropdown = ({ anchorEl, open, onClose, passengers, setPassen
   useEffect(() => {
     if (!open) return;
     const handle = (e) => {
-      if (ref.current && !ref.current.contains(e.target) && anchorEl && !anchorEl.contains(e.target)) onClose();
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        anchorEl &&
+        !anchorEl.contains(e.target)
+      )
+        onClose();
     };
     document.addEventListener("mousedown", handle);
     return () => document.removeEventListener("mousedown", handle);
@@ -466,45 +831,152 @@ const PassengerClassDropdown = ({ anchorEl, open, onClose, passengers, setPassen
     <div
       ref={ref}
       style={{
-        position: "absolute", top: pos.top, left: pos.left, zIndex: 9999, width: 300, boxSizing: "border-box",
-        background: "#fff", borderRadius: 16, border: "1px solid #f0f0f0", boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
-        overflow: "hidden", fontFamily: "'Inter', sans-serif",
+        position: "absolute",
+        top: pos.top,
+        left: pos.left,
+        zIndex: 9999,
+        width: 300,
+        boxSizing: "border-box",
+        background: "var(--fl-surface)",
+        borderRadius: 16,
+        border: "1px solid var(--fl-border-soft)",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+        overflow: "hidden",
+        fontFamily: "'Inter', sans-serif",
       }}
     >
-      <div style={{ padding: "16px 16px 10px", fontWeight: 700, fontSize: 14, color: "#374151" }}>Travellers</div>
+      <div
+        style={{
+          padding: "16px 16px 10px",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "var(--fl-text-body)",
+        }}
+      >
+        Travellers
+      </div>
       {types.map(({ key, label, sub }) => (
-        <div key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid #f3f4f6" }}>
+        <div
+          key={key}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 16px",
+            borderBottom: "1px solid var(--fl-border-soft)",
+          }}
+        >
           <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: "#111827" }}>{label}</div>
-            <div style={{ fontSize: 12, color: "#9ca3af" }}>{sub}</div>
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                color: "var(--fl-text-strong)",
+              }}
+            >
+              {label}
+            </div>
+            <div style={{ fontSize: 12, color: "var(--fl-text-faint)" }}>
+              {sub}
+            </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <button
-              onClick={() => setPassengers((p) => ({ ...p, [key]: Math.max(key === "adults" ? 1 : 0, p[key] - 1) }))}
-              style={{ width: 28, height: 28, borderRadius: "50%", border: "1.5px solid #d1d5db", background: "#fff", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#374151", lineHeight: 1 }}
+              onClick={() =>
+                setPassengers((p) => ({
+                  ...p,
+                  [key]: Math.max(key === "adults" ? 1 : 0, p[key] - 1),
+                }))
+              }
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: "50%",
+                border: "1.5px solid var(--fl-border-strong)",
+                background: "var(--fl-surface)",
+                fontSize: 18,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--fl-text-body)",
+                lineHeight: 1,
+              }}
             >
               −
             </button>
-            <span style={{ fontSize: 15, fontWeight: 600, color: "#111827", minWidth: 20, textAlign: "center" }}>{passengers[key]}</span>
+            <span
+              style={{
+                fontSize: 15,
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+                minWidth: 20,
+                textAlign: "center",
+              }}
+            >
+              {passengers[key]}
+            </span>
             <button
-              onClick={() => setPassengers((p) => ({ ...p, [key]: p[key] + 1 }))}
-              style={{ width: 28, height: 28, borderRadius: "50%", border: "1.5px solid #d1d5db", background: "#fff", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#374151", lineHeight: 1 }}
+              onClick={() =>
+                setPassengers((p) => ({ ...p, [key]: p[key] + 1 }))
+              }
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: "50%",
+                border: "1.5px solid var(--fl-border-strong)",
+                background: "var(--fl-surface)",
+                fontSize: 18,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--fl-text-body)",
+                lineHeight: 1,
+              }}
             >
               +
             </button>
           </div>
         </div>
       ))}
-      <div style={{ padding: "12px 16px 8px", fontWeight: 700, fontSize: 14, color: "#374151" }}>Cabin Class</div>
-      <div style={{ padding: "0 16px 16px", display: "flex", flexWrap: "wrap", gap: 8 }}>
+      <div
+        style={{
+          padding: "12px 16px 8px",
+          fontWeight: 700,
+          fontSize: 14,
+          color: "var(--fl-text-body)",
+        }}
+      >
+        Cabin Class
+      </div>
+      <div
+        style={{
+          padding: "0 16px 16px",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
         {CABIN_CLASSES.map((cls) => (
           <button
             key={cls}
             onClick={() => setCabinClass(cls)}
             style={{
-              padding: "6px 14px", borderRadius: 50, border: `1.5px solid ${cabinClass === cls ? GREEN : "#d1d5db"}`,
-              background: cabinClass === cls ? "#f0fdf4" : "#fff", color: cabinClass === cls ? GREEN : "#374151",
-              fontWeight: cabinClass === cls ? 700 : 500, fontSize: 13, cursor: "pointer", fontFamily: "'Inter', sans-serif",
+              padding: "6px 14px",
+              borderRadius: 50,
+              border: `1.5px solid ${
+                cabinClass === cls ? GREEN_TEXT : "var(--fl-border-strong)"
+              }`,
+              background:
+                cabinClass === cls
+                  ? "var(--fl-success-bg)"
+                  : "var(--fl-surface)",
+              color: cabinClass === cls ? GREEN_TEXT : "var(--fl-text-body)",
+              fontWeight: cabinClass === cls ? 700 : 500,
+              fontSize: 13,
+              cursor: "pointer",
+              fontFamily: "'Inter', sans-serif",
             }}
           >
             {cls}
@@ -514,7 +986,18 @@ const PassengerClassDropdown = ({ anchorEl, open, onClose, passengers, setPassen
       <div style={{ padding: "0 16px 14px" }}>
         <button
           onClick={onClose}
-          style={{ width: "100%", padding: "10px", borderRadius: 10, background: GREEN, color: "#fff", border: "none", fontWeight: 700, fontSize: 14, cursor: "pointer", fontFamily: "'Inter', sans-serif" }}
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: 10,
+            background: GREEN,
+            color: "#fff",
+            border: "none",
+            fontWeight: 700,
+            fontSize: 14,
+            cursor: "pointer",
+            fontFamily: "'Inter', sans-serif",
+          }}
         >
           Done
         </button>
@@ -539,31 +1022,76 @@ const CategoryTabs = () => {
         justifyContent: "center",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 1, md: 1.5 }, flexWrap: "wrap", justifyContent: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: { xs: 1, md: 1.5 },
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {CATEGORIES.map((cat) => {
-          const isActive = location.pathname === cat.path || location.pathname.startsWith(cat.path + "/");
+          const isActive =
+            location.pathname === cat.path ||
+            location.pathname.startsWith(cat.path + "/");
           return (
             <Box
               key={cat.label}
               onClick={() => navigate(cat.path)}
               sx={{
-                display: "flex", alignItems: "center", gap: { xs: 0.8, md: 1 },
-                px: { xs: 1.8, md: 2.5 }, py: { xs: 0.8, md: 1.1 }, borderRadius: "50px", cursor: "pointer",
-                bgcolor: isActive ? "#ffffff" : "transparent",
+                display: "flex",
+                alignItems: "center",
+                gap: { xs: 0.8, md: 1 },
+                px: { xs: 1.8, md: 2.5 },
+                py: { xs: 0.8, md: 1.1 },
+                borderRadius: "50px",
+                cursor: "pointer",
+                bgcolor: isActive ? "var(--fl-surface)" : "transparent",
                 boxShadow: isActive ? "0 2px 8px rgba(0,0,0,0.10)" : "none",
                 transition: "all 0.18s",
-                "&:hover": { bgcolor: isActive ? "#ffffff" : "rgba(255,255,255,0.6)" },
+                "&:hover": {
+                  bgcolor: isActive
+                    ? "var(--fl-surface)"
+                    : "var(--fl-surface-glass-hover)",
+                },
               }}
             >
               {cat.img && (
                 <Box
-                  component="img" src={cat.img} alt={cat.label}
-                  sx={{ width: { xs: 24, md: 30 }, height: { xs: 24, md: 30 }, objectFit: "contain" }}
-                  onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "block"; }}
+                  component="img"
+                  src={cat.img}
+                  alt={cat.label}
+                  sx={{
+                    width: { xs: 24, md: 30 },
+                    height: { xs: 24, md: 30 },
+                    objectFit: "contain",
+                  }}
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                    e.target.nextSibling.style.display = "block";
+                  }}
                 />
               )}
-              <Typography sx={{ fontSize: { xs: 22, md: 26 }, lineHeight: 1, display: cat.img ? "none" : "block" }}>{cat.emoji}</Typography>
-              <Typography sx={{ fontSize: { xs: 13, md: 15 }, fontWeight: isActive ? 700 : 500, color: isActive ? "#111827" : "#555", whiteSpace: "nowrap" }}>
+              <Typography
+                sx={{
+                  fontSize: { xs: 22, md: 26 },
+                  lineHeight: 1,
+                  display: cat.img ? "none" : "block",
+                }}
+              >
+                {cat.emoji}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { xs: 13, md: 15 },
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive
+                    ? "var(--fl-text-strong)"
+                    : "var(--fl-text-neutral)",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {cat.label}
               </Typography>
             </Box>
@@ -575,21 +1103,52 @@ const CategoryTabs = () => {
 };
 
 // ─── FieldBox helper ──────────────────────────
-const FieldBox = ({ legend, legendColor = "#6b6b6b", children, onClick, error, fieldRef, sx = {} }) => (
+const FieldBox = ({
+  legend,
+  legendColor = "var(--fl-text-neutral)",
+  children,
+  onClick,
+  error,
+  fieldRef,
+  sx = {},
+}) => (
   <Box
     ref={fieldRef}
     onClick={onClick}
     sx={{
-      position: "relative", border: `1px solid ${error ? "#dc2626" : "#c8c8c8"}`, borderRadius: "12px", height: 58, minHeight: 58,
-      display: "flex", alignItems: "center", px: "14px", backgroundColor: error ? "#fff5f5" : "#fff", cursor: "pointer",
-      transition: "border-color 0.15s", "&:hover": { borderColor: error ? "#dc2626" : "#2e7d32" }, boxSizing: "border-box", ...sx,
+      position: "relative",
+      border: `1px solid ${
+        error ? "var(--fl-danger-line)" : "var(--fl-border-strong)"
+      }`,
+      borderRadius: "12px",
+      height: 58,
+      minHeight: 58,
+      display: "flex",
+      alignItems: "center",
+      px: "14px",
+      backgroundColor: error ? "var(--fl-danger-bg)" : "var(--fl-surface)",
+      cursor: "pointer",
+      transition: "border-color 0.15s",
+      "&:hover": {
+        borderColor: error ? "var(--fl-danger-line)" : "var(--fl-brand-line)",
+      },
+      boxSizing: "border-box",
+      ...sx,
     }}
   >
     <Box
       component="span"
       sx={{
-        position: "absolute", top: -9, left: 10, fontSize: "0.72rem", color: error ? "#dc2626" : legendColor,
-        backgroundColor: error ? "#fff5f5" : "#fff", px: 0.5, lineHeight: 1, fontFamily: "'Inter', sans-serif", fontWeight: 500,
+        position: "absolute",
+        top: -9,
+        left: 10,
+        fontSize: "0.72rem",
+        color: error ? "var(--fl-danger-text)" : legendColor,
+        backgroundColor: error ? "var(--fl-danger-bg)" : "var(--fl-surface)",
+        px: 0.5,
+        lineHeight: 1,
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 500,
       }}
     >
       {legend}
@@ -616,14 +1175,22 @@ export default function FlightSearch({
   stickyHeader = false,
 }) {
   const theme = useTheme();
+  const muiTheme = useMemo(
+    () => buildMuiTheme(theme.palette.mode),
+    [theme.palette.mode],
+  );
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
 
   const { cities, loading: citiesLoading } = useFlightCities();
   const { searchFlights, loading: searchLoading } = useFlightSearch();
 
-  const [fromCity, setFromCity] = useState(initialFrom || { code: "BOM", name: "Mumbai, IN" });
-  const [toCity, setToCity] = useState(initialTo || { code: "DEL", name: "New Delhi, IN" });
+  const [fromCity, setFromCity] = useState(
+    initialFrom || { code: "BOM", name: "Mumbai, IN" },
+  );
+  const [toCity, setToCity] = useState(
+    initialTo || { code: "DEL", name: "New Delhi, IN" },
+  );
 
   const [fromDropOpen, setFromDropOpen] = useState(false);
   const [toDropOpen, setToDropOpen] = useState(false);
@@ -660,10 +1227,14 @@ export default function FlightSearch({
   const retDateRef = useRef(null);
   const paxRef = useRef(null);
 
-  const [passengers, setPassengers] = useState(initialPassengers || { adults: 1, children: 0, infants: 0 });
+  const [passengers, setPassengers] = useState(
+    initialPassengers || { adults: 1, children: 0, infants: 0 },
+  );
   const [cabinClass, setCabinClass] = useState(initialCabinClass || "Economy");
 
-  useEffect(() => { if (initialTripType) setTripType(initialTripType); }, [initialTripType]);
+  useEffect(() => {
+    if (initialTripType) setTripType(initialTripType);
+  }, [initialTripType]);
 
   useEffect(() => {
     if (initialReturnDate) {
@@ -673,8 +1244,12 @@ export default function FlightSearch({
     }
   }, [initialReturnDate]);
 
-  useEffect(() => { if (initialFrom) setFromCity(initialFrom); }, [initialFrom?.code]);
-  useEffect(() => { if (initialTo) setToCity(initialTo); }, [initialTo?.code]);
+  useEffect(() => {
+    if (initialFrom) setFromCity(initialFrom);
+  }, [initialFrom?.code]);
+  useEffect(() => {
+    if (initialTo) setToCity(initialTo);
+  }, [initialTo?.code]);
 
   // 🔥 NAYA — scroll-based "fixed" positioning, BusSearch jaisa hi.
   // Sirf `stickyHeader` true hone par hi activate hota hai.
@@ -731,7 +1306,7 @@ export default function FlightSearch({
   }, [stickyHeader]);
 
   // 🔥 NEW: bg-stretch measurement refs + state
-  const heroWrapRef = useRef(null);    // outer relative container (tabs + search Paper)
+  const heroWrapRef = useRef(null); // outer relative container (tabs + search Paper)
   const searchPaperRef = useRef(null); // the search Paper card
   const [blueHeight, setBlueHeight] = useState(140); // sensible fallback before measured
 
@@ -759,9 +1334,18 @@ export default function FlightSearch({
 
   const passengerLabel = () => {
     const parts = [];
-    if (passengers.adults) parts.push(`${passengers.adults} Adult${passengers.adults > 1 ? "s" : ""}`);
-    if (passengers.children) parts.push(`${passengers.children} Child${passengers.children > 1 ? "ren" : ""}`);
-    if (passengers.infants) parts.push(`${passengers.infants} Infant${passengers.infants > 1 ? "s" : ""}`);
+    if (passengers.adults)
+      parts.push(
+        `${passengers.adults} Adult${passengers.adults > 1 ? "s" : ""}`,
+      );
+    if (passengers.children)
+      parts.push(
+        `${passengers.children} Child${passengers.children > 1 ? "ren" : ""}`,
+      );
+    if (passengers.infants)
+      parts.push(
+        `${passengers.infants} Infant${passengers.infants > 1 ? "s" : ""}`,
+      );
     return `${parts.join(", ")} · ${cabinClass}`;
   };
 
@@ -791,12 +1375,26 @@ export default function FlightSearch({
   const handleSearch = async () => {
     const newErrors = { from: "", to: "" };
     let hasError = false;
-    if (!fromCity?.code) { newErrors.from = "Please select departure city"; hasError = true; }
-    if (!toCity?.code) { newErrors.to = "Please select destination city"; hasError = true; }
+    if (!fromCity?.code) {
+      newErrors.from = "Please select departure city";
+      hasError = true;
+    }
+    if (!toCity?.code) {
+      newErrors.to = "Please select destination city";
+      hasError = true;
+    }
     setErrors(newErrors);
     if (hasError) return;
 
-    const result = await searchFlights({ fromCity, toCity, departureDate, returnDate, passengers, cabinClass, tripType });
+    const result = await searchFlights({
+      fromCity,
+      toCity,
+      departureDate,
+      returnDate,
+      passengers,
+      cabinClass,
+      tripType,
+    });
 
     const params = {
       fromCity,
@@ -835,11 +1433,11 @@ export default function FlightSearch({
         width: "100%",
         maxWidth: 1280,
         borderRadius: { xs: 3, sm: 4 },
-        border: "1px solid #e8e8e8",
+        border: "1px solid var(--fl-border)",
         px: { xs: 2, sm: 3, md: 3 },
         py: { xs: 2.5, sm: 3 },
         position: "relative",
-        backgroundColor: "#fff",
+        backgroundColor: "var(--fl-surface)",
         fontFamily: "'Inter', sans-serif",
       }}
     >
@@ -850,7 +1448,14 @@ export default function FlightSearch({
           page pe ya jab tak scroll na hua ho, ye hamesha visible rahega —
           koi behaviour change nahi. */}
       {!(stickyHeader && isFixed) && (
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: { xs: 1.5, sm: 2 } }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            mb: { xs: 1.5, sm: 2 },
+          }}
+        >
           <Box
             sx={{
               textAlign: { xs: "center", sm: "left" },
@@ -865,10 +1470,23 @@ export default function FlightSearch({
               alignItems: { xs: "center", sm: "flex-start" },
             }}
           >
-            <Typography variant="h5" fontWeight={700} fontSize={{ xs: "1.25rem", sm: "1.5rem" }} color="#1a1a1a" lineHeight={1.2} sx={{ fontFamily: "'Inter', sans-serif" }}>
+            <Typography
+              variant="h5"
+              fontWeight={700}
+              fontSize={{ xs: "1.25rem", sm: "1.5rem" }}
+              color="var(--fl-text-strong)"
+              lineHeight={1.2}
+              sx={{ fontFamily: "'Inter', sans-serif" }}
+            >
               Flight Booking
             </Typography>
-            <Typography variant="body2" color="text.secondary" fontSize={{ xs: "0.78rem", sm: "0.875rem" }} mt={0.4} sx={{ fontFamily: "'Inter', sans-serif" }}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              fontSize={{ xs: "0.78rem", sm: "0.875rem" }}
+              mt={0.4}
+              sx={{ fontFamily: "'Inter', sans-serif" }}
+            >
               Book International and Domestic Flights
             </Typography>
           </Box>
@@ -876,22 +1494,46 @@ export default function FlightSearch({
       )}
 
       {/* Trip type radios */}
-      <Box sx={{ display: "flex", gap: { xs: 2, sm: 3 }, mb: { xs: 2, sm: 2.5 }, justifyContent: { xs: "center", sm: "flex-start" }, width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: { xs: 2, sm: 3 },
+          mb: { xs: 2, sm: 2.5 },
+          justifyContent: { xs: "center", sm: "flex-start" },
+          width: "100%",
+        }}
+      >
         {[
           { val: "oneway", label: "Oneway" },
           { val: "roundtrip", label: "Round Trip" },
         ].map(({ val, label }) => (
-          <Box key={val} onClick={() => handleRoundTripToggle(val)} sx={{ display: "flex", alignItems: "center", gap: 0.8, cursor: "pointer" }}>
+          <Box
+            key={val}
+            onClick={() => handleRoundTripToggle(val)}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 0.8,
+              cursor: "pointer",
+            }}
+          >
             {tripType === val ? (
-              <RadioButtonCheckedIcon sx={{ fontSize: 20, color: GREEN }} />
+              <RadioButtonCheckedIcon
+                sx={{ fontSize: 20, color: GREEN_TEXT }}
+              />
             ) : (
-              <RadioButtonUncheckedIcon sx={{ fontSize: 20, color: "#9ca3af" }} />
+              <RadioButtonUncheckedIcon
+                sx={{ fontSize: 20, color: "var(--fl-text-faint)" }}
+              />
             )}
             <Typography
               sx={{
                 fontSize: { xs: "0.85rem", sm: "0.95rem" },
                 fontWeight: tripType === val ? 600 : 500,
-                color: tripType === val ? "#111827" : "#6b7280",
+                color:
+                  tripType === val
+                    ? "var(--fl-text-strong)"
+                    : "var(--fl-text-muted)",
                 fontFamily: "'Inter', sans-serif",
                 userSelect: "none",
               }}
@@ -903,49 +1545,158 @@ export default function FlightSearch({
       </Box>
 
       {/* Search row */}
-      <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch", md: "center" }, flexWrap: { md: "nowrap" }, gap: { xs: 1.5, md: 1 }, width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: { xs: "stretch", md: "center" },
+          flexWrap: { md: "nowrap" },
+          gap: { xs: 1.5, md: 1 },
+          width: "100%",
+        }}
+      >
         {/* FROM + SWAP + TO */}
-        <Box sx={{ display: "flex", flex: { xs: "1 1 auto", md: "3 1 0" }, alignItems: "center", position: "relative", gap: 0, minWidth: 0 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flex: { xs: "1 1 auto", md: "3 1 0" },
+            alignItems: "center",
+            position: "relative",
+            gap: 0,
+            minWidth: 0,
+          }}
+        >
           {/* FROM fieldset */}
           <Box
             component="fieldset"
             ref={fromFieldRef}
-            onClick={() => { closeAll(); setFromDropOpen(true); }}
+            onClick={() => {
+              closeAll();
+              setFromDropOpen(true);
+            }}
             sx={{
-              flex: 1, minWidth: 0, border: `1px solid ${errors.from ? "#dc2626" : "#c8c8c8"}`, borderRadius: "12px", m: 0,
-              pl: "10px", pr: "24px", height: 50, minHeight: 50, boxSizing: "border-box", display: "flex", alignItems: "center",
-              backgroundColor: errors.from ? "#fff5f5" : "#fff", mr: "8px", lineHeight: 1, cursor: "pointer", overflow: "hidden",
-              "&:hover": { borderColor: errors.from ? "#dc2626" : "#2e7d32" }, transition: "border-color 0.15s",
+              flex: 1,
+              minWidth: 0,
+              border: `1px solid ${
+                errors.from
+                  ? "var(--fl-danger-line)"
+                  : "var(--fl-border-strong)"
+              }`,
+              borderRadius: "12px",
+              m: 0,
+              pl: "10px",
+              pr: "24px",
+              height: 50,
+              minHeight: 50,
+              boxSizing: "border-box",
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: errors.from
+                ? "var(--fl-danger-bg)"
+                : "var(--fl-surface)",
+              mr: "8px",
+              lineHeight: 1,
+              cursor: "pointer",
+              overflow: "hidden",
+              "&:hover": {
+                borderColor: errors.from
+                  ? "var(--fl-danger-line)"
+                  : "var(--fl-brand-line)",
+              },
+              transition: "border-color 0.15s",
             }}
           >
-            <legend style={{ fontSize: "0.68rem", color: errors.from ? "#dc2626" : "#6b6b6b", padding: "0 3px", lineHeight: 1, marginLeft: "6px", fontFamily: "'Inter', sans-serif" }}>
+            <legend
+              style={{
+                fontSize: "0.68rem",
+                color: errors.from
+                  ? "var(--fl-danger-text)"
+                  : "var(--fl-text-neutral)",
+                padding: "0 3px",
+                lineHeight: 1,
+                marginLeft: "6px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
               From
             </legend>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%", marginLeft: "0px", minWidth: 0, overflow: "hidden" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                width: "100%",
+                marginLeft: "0px",
+                minWidth: 0,
+                overflow: "hidden",
+              }}
+            >
               <FlightTakeoffIcon />
               <Typography
                 sx={{
-                  fontSize: "0.85rem", fontWeight: 600, color: fromCity ? "#111827" : "#9ca3af", flex: 1, minWidth: 0,
-                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", userSelect: "none", fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: fromCity
+                    ? "var(--fl-text-strong)"
+                    : "var(--fl-text-faint)",
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  userSelect: "none",
+                  fontFamily: "'Inter', sans-serif",
                 }}
               >
-                {fromCity ? `${fromCity.code} - ${fromCity.name}` : "Leaving From"}
+                {fromCity
+                  ? `${fromCity.code} - ${fromCity.name}`
+                  : "Leaving From"}
               </Typography>
             </Box>
             {errors.from && (
-              <Typography sx={{ fontSize: "0.68rem", color: "#dc2626", position: "absolute", bottom: -18, left: 4, whiteSpace: "nowrap" }}>
+              <Typography
+                sx={{
+                  fontSize: "0.68rem",
+                  color: "var(--fl-danger-text)",
+                  position: "absolute",
+                  bottom: -18,
+                  left: 4,
+                  whiteSpace: "nowrap",
+                }}
+              >
                 ⚠ {errors.from}
               </Typography>
             )}
           </Box>
 
           {/* Swap button */}
-          <Box sx={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: 5, flexShrink: 0 }}>
+          <Box
+            sx={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 5,
+              flexShrink: 0,
+            }}
+          >
             <IconButton
-              onClick={(e) => { e.stopPropagation(); handleSwap(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSwap();
+              }}
               sx={{
-                border: "1px solid #d4d4d4", backgroundColor: "#fff", width: 36, height: 36, borderRadius: "50%",
-                boxShadow: "0 0 0 3px #fff", "&:hover": { backgroundColor: "#f1f8f1", borderColor: "#2e7d32" }, transition: "all 0.2s",
+                border: "1px solid var(--fl-border-strong)",
+                backgroundColor: "var(--fl-surface)",
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                boxShadow: "0 0 0 3px var(--fl-surface)",
+                "&:hover": {
+                  backgroundColor: "var(--fl-success-bg)",
+                  borderColor: "var(--fl-brand-line)",
+                },
+                transition: "all 0.2s",
               }}
             >
               <SwapIcon />
@@ -956,30 +1707,94 @@ export default function FlightSearch({
           <Box
             component="fieldset"
             ref={toFieldRef}
-            onClick={() => { closeAll(); setToDropOpen(true); }}
+            onClick={() => {
+              closeAll();
+              setToDropOpen(true);
+            }}
             sx={{
-              flex: 1, minWidth: 0, border: `1px solid ${errors.to ? "#dc2626" : "#c8c8c8"}`, borderRadius: "12px", m: 0,
-              pl: "24px", pr: "10px", height: 50, minHeight: 50, boxSizing: "border-box", display: "flex", alignItems: "center",
-              backgroundColor: errors.to ? "#fff5f5" : "#fff", lineHeight: 1, cursor: "pointer", overflow: "hidden",
-              "&:hover": { borderColor: errors.to ? "#dc2626" : "#2e7d32" }, transition: "border-color 0.15s",
+              flex: 1,
+              minWidth: 0,
+              border: `1px solid ${
+                errors.to ? "var(--fl-danger-line)" : "var(--fl-border-strong)"
+              }`,
+              borderRadius: "12px",
+              m: 0,
+              pl: "24px",
+              pr: "10px",
+              height: 50,
+              minHeight: 50,
+              boxSizing: "border-box",
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: errors.to
+                ? "var(--fl-danger-bg)"
+                : "var(--fl-surface)",
+              lineHeight: 1,
+              cursor: "pointer",
+              overflow: "hidden",
+              "&:hover": {
+                borderColor: errors.to
+                  ? "var(--fl-danger-line)"
+                  : "var(--fl-brand-line)",
+              },
+              transition: "border-color 0.15s",
             }}
           >
-            <legend style={{ fontSize: "0.68rem", color: errors.to ? "#dc2626" : "#6b6b6b", padding: "0 3px", lineHeight: 1, marginLeft: "20px", fontFamily: "'Inter', sans-serif" }}>
+            <legend
+              style={{
+                fontSize: "0.68rem",
+                color: errors.to
+                  ? "var(--fl-danger-text)"
+                  : "var(--fl-text-neutral)",
+                padding: "0 3px",
+                lineHeight: 1,
+                marginLeft: "20px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
               To
             </legend>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%", marginLeft: "0px", minWidth: 0, overflow: "hidden" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                width: "100%",
+                marginLeft: "0px",
+                minWidth: 0,
+                overflow: "hidden",
+              }}
+            >
               <FlightLandIcon />
               <Typography
                 sx={{
-                  fontSize: "0.85rem", fontWeight: 600, color: toCity ? "#111827" : "#9ca3af", flex: 1, minWidth: 0,
-                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", userSelect: "none", fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: toCity
+                    ? "var(--fl-text-strong)"
+                    : "var(--fl-text-faint)",
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  userSelect: "none",
+                  fontFamily: "'Inter', sans-serif",
                 }}
               >
                 {toCity ? `${toCity.code} - ${toCity.name}` : "Going To"}
               </Typography>
             </Box>
             {errors.to && (
-              <Typography sx={{ fontSize: "0.68rem", color: "#dc2626", position: "absolute", bottom: -18, whiteSpace: "nowrap" }}>
+              <Typography
+                sx={{
+                  fontSize: "0.68rem",
+                  color: "var(--fl-danger-text)",
+                  position: "absolute",
+                  bottom: -18,
+                  whiteSpace: "nowrap",
+                }}
+              >
                 ⚠ {errors.to}
               </Typography>
             )}
@@ -990,23 +1805,67 @@ export default function FlightSearch({
         <Box
           component="fieldset"
           ref={depDateRef}
-          onClick={() => { closeAll(); setDepPickerOpen((o) => !o); }}
+          onClick={() => {
+            closeAll();
+            setDepPickerOpen((o) => !o);
+          }}
           sx={{
-            flex: { xs: "1 1 auto", md: "0.7 1 0" }, width: { xs: "100%", md: "auto" }, minWidth: { md: 105 },
-            border: "1px solid #c8c8c8", borderRadius: "12px", m: 0, pl: "12px", pr: "10px", height: 50, minHeight: 50,
-            boxSizing: "border-box", display: "flex", alignItems: "center", backgroundColor: "#fff", lineHeight: 1,
-            cursor: "pointer", overflow: "hidden", "&:hover": { borderColor: "#2e7d32" }, transition: "border-color 0.15s",
+            flex: { xs: "1 1 auto", md: "0.7 1 0" },
+            width: { xs: "100%", md: "auto" },
+            minWidth: { md: 105 },
+            border: "1px solid var(--fl-border-strong)",
+            borderRadius: "12px",
+            m: 0,
+            pl: "12px",
+            pr: "10px",
+            height: 50,
+            minHeight: 50,
+            boxSizing: "border-box",
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "var(--fl-surface)",
+            lineHeight: 1,
+            cursor: "pointer",
+            overflow: "hidden",
+            "&:hover": { borderColor: "var(--fl-brand-line)" },
+            transition: "border-color 0.15s",
           }}
         >
-          <legend style={{ fontSize: "0.68rem", color: "#6b6b6b", padding: "0 3px", lineHeight: 1, marginLeft: "0px", fontFamily: "'Inter', sans-serif" }}>
+          <legend
+            style={{
+              fontSize: "0.68rem",
+              color: "var(--fl-text-neutral)",
+              padding: "0 3px",
+              lineHeight: 1,
+              marginLeft: "0px",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
             Departure
           </legend>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%", minWidth: 0, overflow: "hidden" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+              minWidth: 0,
+              overflow: "hidden",
+            }}
+          >
             <CalendarIcon />
             <Typography
               sx={{
-                fontSize: "0.85rem", fontWeight: 600, color: "#111827", flex: 1, minWidth: 0, overflow: "hidden",
-                textOverflow: "ellipsis", whiteSpace: "nowrap", userSelect: "none", fontFamily: "'Inter', sans-serif",
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+                flex: 1,
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                userSelect: "none",
+                fontFamily: "'Inter', sans-serif",
               }}
             >
               {formatDisplayDate(departureDate)}
@@ -1029,21 +1888,67 @@ export default function FlightSearch({
             setRetPickerOpen((o) => !o);
           }}
           sx={{
-            flex: { xs: "1 1 auto", md: "0.7 1 0" }, width: { xs: "100%", md: "auto" }, minWidth: { md: 105 },
-            border: "1px solid #c8c8c8", borderRadius: "12px", m: 0, pl: "12px", pr: "10px", height: 50, minHeight: 50,
-            boxSizing: "border-box", display: "flex", alignItems: "center", backgroundColor: tripType === "oneway" ? "#fafafa" : "#fff",
-            lineHeight: 1, cursor: "pointer", overflow: "hidden", "&:hover": { borderColor: "#2e7d32" }, transition: "border-color 0.15s",
+            flex: { xs: "1 1 auto", md: "0.7 1 0" },
+            width: { xs: "100%", md: "auto" },
+            minWidth: { md: 105 },
+            border: "1px solid var(--fl-border-strong)",
+            borderRadius: "12px",
+            m: 0,
+            pl: "12px",
+            pr: "10px",
+            height: 50,
+            minHeight: 50,
+            boxSizing: "border-box",
+            display: "flex",
+            alignItems: "center",
+            backgroundColor:
+              tripType === "oneway"
+                ? "var(--fl-surface-subtle)"
+                : "var(--fl-surface)",
+            lineHeight: 1,
+            cursor: "pointer",
+            overflow: "hidden",
+            "&:hover": { borderColor: "var(--fl-brand-line)" },
+            transition: "border-color 0.15s",
           }}
         >
-          <legend style={{ fontSize: "0.68rem", color: "#6b6b6b", padding: "0 3px", lineHeight: 1, marginLeft: "0px", fontFamily: "'Inter', sans-serif" }}>
+          <legend
+            style={{
+              fontSize: "0.68rem",
+              color: "var(--fl-text-neutral)",
+              padding: "0 3px",
+              lineHeight: 1,
+              marginLeft: "0px",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
             Return
           </legend>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%", minWidth: 0, overflow: "hidden" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+              minWidth: 0,
+              overflow: "hidden",
+            }}
+          >
             <CalendarIcon />
             <Typography
               sx={{
-                fontSize: "0.85rem", fontWeight: 600, color: returnDate ? "#111827" : "#9ca3af", flex: 1, minWidth: 0,
-                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", userSelect: "none", fontFamily: "'Inter', sans-serif",
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: returnDate
+                  ? "var(--fl-text-strong)"
+                  : "var(--fl-text-faint)",
+                flex: 1,
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                userSelect: "none",
+                fontFamily: "'Inter', sans-serif",
               }}
             >
               {returnDate ? formatDisplayDate(returnDate) : "Add date"}
@@ -1055,23 +1960,67 @@ export default function FlightSearch({
         <Box
           component="fieldset"
           ref={paxRef}
-          onClick={() => { closeAll(); setPaxDropOpen((o) => !o); }}
+          onClick={() => {
+            closeAll();
+            setPaxDropOpen((o) => !o);
+          }}
           sx={{
-            flex: { xs: "1 1 auto", md: "0.9 1 0" }, width: { xs: "100%", md: "auto" }, minWidth: { md: 115 },
-            border: "1px solid #c8c8c8", borderRadius: "12px", m: 0, pl: "12px", pr: "10px", height: 50, minHeight: 50,
-            boxSizing: "border-box", display: "flex", alignItems: "center", backgroundColor: "#fff", lineHeight: 1,
-            cursor: "pointer", overflow: "hidden", "&:hover": { borderColor: "#2e7d32" }, transition: "border-color 0.15s",
+            flex: { xs: "1 1 auto", md: "0.9 1 0" },
+            width: { xs: "100%", md: "auto" },
+            minWidth: { md: 115 },
+            border: "1px solid var(--fl-border-strong)",
+            borderRadius: "12px",
+            m: 0,
+            pl: "12px",
+            pr: "10px",
+            height: 50,
+            minHeight: 50,
+            boxSizing: "border-box",
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "var(--fl-surface)",
+            lineHeight: 1,
+            cursor: "pointer",
+            overflow: "hidden",
+            "&:hover": { borderColor: "var(--fl-brand-line)" },
+            transition: "border-color 0.15s",
           }}
         >
-          <legend style={{ fontSize: "0.68rem", color: "#6b6b6b", padding: "0 3px", lineHeight: 1, marginLeft: "0px", fontFamily: "'Inter', sans-serif" }}>
+          <legend
+            style={{
+              fontSize: "0.68rem",
+              color: "var(--fl-text-neutral)",
+              padding: "0 3px",
+              lineHeight: 1,
+              marginLeft: "0px",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
             Travellers & Class
           </legend>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%", minWidth: 0, overflow: "hidden" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+              minWidth: 0,
+              overflow: "hidden",
+            }}
+          >
             <PassengerIcon />
             <Typography
               sx={{
-                fontSize: "0.8rem", fontWeight: 600, color: "#1a1a1a", flex: 1, minWidth: 0, overflow: "hidden",
-                textOverflow: "ellipsis", whiteSpace: "nowrap", userSelect: "none", fontFamily: "'Inter', sans-serif",
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                color: "var(--fl-text-strong)",
+                flex: 1,
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                userSelect: "none",
+                fontFamily: "'Inter', sans-serif",
               }}
             >
               {passengerLabel()}
@@ -1081,36 +2030,36 @@ export default function FlightSearch({
         </Box>
 
         {/* Search Button */}
-      {/* Search Button */}
-<Button
-  variant="contained"
-  disableElevation
-  onClick={handleSearch}
-  disabled={searchLoading}
-  sx={{
-    backgroundColor: "#2e7d32",
-    color: "#fff",
-    fontWeight: 700,
-    fontSize: { xs: "0.9rem", sm: "0.95rem" },
-    borderRadius: 2.5,
-    px: { xs: 3, md: 2.5 },
-    py: 0,
-    flex: { xs: "1 1 auto", md: "0.8 1 0" },
-    width: { xs: "100%", md: "auto" },
-    minWidth: { md: 110 },
-    height: 46,
-    minHeight: 46,
-    flexShrink: 0,
-    letterSpacing: 0.3,
-    "&:hover": { backgroundColor: "#1b5e20" },
-    transition: "background 0.2s",
-    textTransform: "none",
-    fontFamily: "'Inter', sans-serif",
-    alignSelf: { xs: "stretch", md: "center" },
-  }}
->
-  Search
-</Button>
+        {/* Search Button */}
+        <Button
+          variant="contained"
+          disableElevation
+          onClick={handleSearch}
+          disabled={searchLoading}
+          sx={{
+            backgroundColor: "var(--fl-brand-hover)",
+            color: "#fff",
+            fontWeight: 700,
+            fontSize: { xs: "0.9rem", sm: "0.95rem" },
+            borderRadius: 2.5,
+            px: { xs: 3, md: 2.5 },
+            py: 0,
+            flex: { xs: "1 1 auto", md: "0.8 1 0" },
+            width: { xs: "100%", md: "auto" },
+            minWidth: { md: 110 },
+            height: 46,
+            minHeight: 46,
+            flexShrink: 0,
+            letterSpacing: 0.3,
+            "&:hover": { backgroundColor: "var(--fl-brand-hover)" },
+            transition: "background 0.2s",
+            textTransform: "none",
+            fontFamily: "'Inter', sans-serif",
+            alignSelf: { xs: "stretch", md: "center" },
+          }}
+        >
+          Search
+        </Button>
       </Box>
     </Paper>
   );
@@ -1121,7 +2070,10 @@ export default function FlightSearch({
       <>
         <FlightSearchLoader open={searchLoading} />
         {/* ── Hero wrap: tabs + search Paper, bg extends to Paper's middle ── */}
-        <Box ref={heroWrapRef} sx={{ position: "relative", mt: { xs: "56px", md: "50px" } }}>
+        <Box
+          ref={heroWrapRef}
+          sx={{ position: "relative", mt: { xs: "56px", md: "50px" } }}
+        >
           {/* Full-bleed bg — height auto-measured to reach search Paper's middle.
               🔥 NAYA — stickyHeader wale case me jab header fixed ho jaata hai to
               searchBoxContent viewport-fixed ho jaata hai aur apna khud ka bg le
@@ -1134,7 +2086,7 @@ export default function FlightSearch({
               transform: "translateX(-50%)",
               width: "100vw",
               height: `${blueHeight}px`,
-              bgcolor: "#F7FAFF",
+              bgcolor: "var(--fl-info-bg)",
               zIndex: 0,
               pointerEvents: "none",
               transition: "height 0.15s ease",
@@ -1164,11 +2116,11 @@ export default function FlightSearch({
                   zIndex: 1,
                   ...(isFixed
                     ? {
-                      position: "fixed",
-                      top: { xs: 56, md: 40 }, // apne global navbar height ke hisaab se adjust karo
-                      left: 0,
-                      right: 0,
-                    }
+                        position: "fixed",
+                        top: { xs: 56, md: 40 }, // apne global navbar height ke hisaab se adjust karo
+                        left: 0,
+                        right: 0,
+                      }
                     : {}),
                   zIndex: 1100,
                   display: "flex",
@@ -1219,7 +2171,10 @@ export default function FlightSearch({
           anchorEl={fromFieldRef.current}
           open={fromDropOpen}
           onClose={() => setFromDropOpen(false)}
-          onSelect={(city) => { setFromCity(city); setErrors((e) => ({ ...e, from: "" })); }}
+          onSelect={(city) => {
+            setFromCity(city);
+            setErrors((e) => ({ ...e, from: "" }));
+          }}
           cities={cities}
           loading={citiesLoading}
           placeholder="Search departure city..."
@@ -1228,7 +2183,10 @@ export default function FlightSearch({
           anchorEl={toFieldRef.current}
           open={toDropOpen}
           onClose={() => setToDropOpen(false)}
-          onSelect={(city) => { setToCity(city); setErrors((e) => ({ ...e, to: "" })); }}
+          onSelect={(city) => {
+            setToCity(city);
+            setErrors((e) => ({ ...e, to: "" }));
+          }}
           cities={cities}
           loading={citiesLoading}
           placeholder="Search destination city..."

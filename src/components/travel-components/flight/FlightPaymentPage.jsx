@@ -9,7 +9,6 @@ import { useFlightPaymentStatus } from "components/travel-hooks/flight/useFlight
 import { useFlightTicket } from "components/travel-hooks/flight/useFlightTicket";
 import { useFlightPaymentCancel } from "components/travel-hooks/flight/useFlightPaymentCancel";
 
-
 const TITLE_MAP = {
   "Mr.": "Mr",
   Mr: "Mr",
@@ -81,7 +80,7 @@ function ProcessingScreen({ text }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#f0f4fa",
+        background: "var(--fl-surface-subtle)",
         fontFamily: "'Inter', sans-serif",
         gap: 16,
       }}
@@ -91,16 +90,23 @@ function ProcessingScreen({ text }) {
         height="40"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#16a34a"
+        stroke="var(--fl-brand-text)"
         strokeWidth="2.5"
         style={{ animation: "spin 0.9s linear infinite" }}
       >
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
       </svg>
-      <p style={{ fontSize: 16, fontWeight: 600, color: "#374151", margin: 0 }}>
+      <p
+        style={{
+          fontSize: 16,
+          fontWeight: 600,
+          color: "var(--fl-text-body)",
+          margin: 0,
+        }}
+      >
         {text}
       </p>
-      <p style={{ fontSize: 13, color: "#9ca3af", margin: 0 }}>
+      <p style={{ fontSize: 13, color: "var(--fl-text-faint)", margin: 0 }}>
         Please do not refresh or go back
       </p>
       <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
@@ -273,11 +279,9 @@ export default function FlightPaymentPage() {
     return paxType === 1
       ? adultCount
       : paxType === 2
-        ? childCount
-        : infantCount;
+      ? childCount
+      : infantCount;
   };
-
-
 
   // ── SSR leg splitter ──────────────────────────────────────────────────────
   const splitByLeg = (ssrMap) => {
@@ -436,13 +440,13 @@ export default function FlightPaymentPage() {
         ...(fareObj && { Fare: fareObj }),
         ...(trav.passportNumber &&
           trav.passportExpiry && {
-          PassportNo: trav.passportNumber.trim(),
-          PassportExpiry: trav.passportExpiry,
-        }),
+            PassportNo: trav.passportNumber.trim(),
+            PassportExpiry: trav.passportExpiry,
+          }),
         ...(paxType === 1 &&
           trav.panNumber?.trim() && {
-          PanNo: trav.panNumber.trim(),
-        }),
+            PanNo: trav.panNumber.trim(),
+          }),
         Baggage: paxBaggage,
         ...(mealRequiredForLeg &&
           paxMeals.length > 0 && { MealDynamic: paxMeals }),
@@ -472,8 +476,16 @@ export default function FlightPaymentPage() {
       const paxType = getPaxType(idx);
       const paxCount = getPaxCount(paxType);
 
-      const onwardFareBreakdown = buildFareBreakdown(fareQuote, paxType, paxCount);
-      const returnFareBreakdown = buildFareBreakdown(returnFareQuote, paxType, paxCount);
+      const onwardFareBreakdown = buildFareBreakdown(
+        fareQuote,
+        paxType,
+        paxCount,
+      );
+      const returnFareBreakdown = buildFareBreakdown(
+        returnFareQuote,
+        paxType,
+        paxCount,
+      );
       const onwardFareObj = Array.isArray(onwardFareBreakdown)
         ? onwardFareBreakdown[0]
         : onwardFareBreakdown;
@@ -482,12 +494,20 @@ export default function FlightPaymentPage() {
         : returnFareBreakdown;
       const combinedFareObj = mergeFareObjects(onwardFareObj, returnFareObj);
 
-      const onwardMeals = mealRequired ? getPaxMeals(mealsSplit.onward, trav?.id) : [];
-      const returnMeals = mealRequired ? getPaxMeals(mealsSplit.return, trav?.id) : [];
+      const onwardMeals = mealRequired
+        ? getPaxMeals(mealsSplit.onward, trav?.id)
+        : [];
+      const returnMeals = mealRequired
+        ? getPaxMeals(mealsSplit.return, trav?.id)
+        : [];
       const combinedMeals = [...onwardMeals, ...returnMeals];
 
-      const onwardSeats = seatRequired ? getPaxSeats(seatsSplit.onward, trav?.id) : [];
-      const returnSeats = seatRequired ? getPaxSeats(seatsSplit.return, trav?.id) : [];
+      const onwardSeats = seatRequired
+        ? getPaxSeats(seatsSplit.onward, trav?.id)
+        : [];
+      const returnSeats = seatRequired
+        ? getPaxSeats(seatsSplit.return, trav?.id)
+        : [];
       const combinedSeats = [...onwardSeats, ...returnSeats];
 
       // ── ASSUMPTION: combined mode me Baggage array [onward, return]
@@ -515,16 +535,18 @@ export default function FlightPaymentPage() {
         ...(combinedFareObj && { Fare: combinedFareObj }),
         ...(trav.passportNumber &&
           trav.passportExpiry && {
-          PassportNo: trav.passportNumber.trim(),
-          PassportExpiry: trav.passportExpiry,
-        }),
+            PassportNo: trav.passportNumber.trim(),
+            PassportExpiry: trav.passportExpiry,
+          }),
         ...(paxType === 1 &&
           trav.panNumber?.trim() && {
-          PanNo: trav.panNumber.trim(),
-        }),
+            PanNo: trav.panNumber.trim(),
+          }),
         BaggageDynamic: combinedBaggage,
-        ...(mealRequired && combinedMeals.length > 0 && { MealDynamic: combinedMeals }),
-        ...(seatRequired && combinedSeats.length > 0 && { SeatDynamic: combinedSeats }),
+        ...(mealRequired &&
+          combinedMeals.length > 0 && { MealDynamic: combinedMeals }),
+        ...(seatRequired &&
+          combinedSeats.length > 0 && { SeatDynamic: combinedSeats }),
       };
     });
   };
@@ -630,18 +652,21 @@ export default function FlightPaymentPage() {
         icon: "error",
         title: "Booking Failed",
         html: `
-          <div style="font-size:14px;color:#374151;line-height:1.8;text-align:left">
+          <div style="font-size:14px;color:var(--fl-text-body);line-height:1.8;text-align:left">
             <div style="margin-bottom:6px">
-              <span style="color:#6b7280;font-size:12px">Reason</span><br/>
-              <strong>${bookErr.message || "Something went wrong. Please try again."}</strong>
+              <span style="color:var(--fl-text-muted);font-size:12px">Reason</span><br/>
+              <strong>${
+                bookErr.message || "Something went wrong. Please try again."
+              }</strong>
             </div>
-            ${bookErr.code
-            ? `<div>
-              <span style="color:#6b7280;font-size:12px">Error Code</span><br/>
+            ${
+              bookErr.code
+                ? `<div>
+              <span style="color:var(--fl-text-muted);font-size:12px">Error Code</span><br/>
               <strong style="font-family:monospace">${bookErr.code}</strong>
             </div>`
-            : ""
-          }
+                : ""
+            }
           </div>
         `,
         confirmButtonColor: "#16a34a",
@@ -707,18 +732,21 @@ export default function FlightPaymentPage() {
         icon: "error",
         title: "Booking Failed",
         html: `
-          <div style="font-size:14px;color:#374151;line-height:1.8;text-align:left">
+          <div style="font-size:14px;color:var(--fl-text-body);line-height:1.8;text-align:left">
             <div style="margin-bottom:6px">
-              <span style="color:#6b7280;font-size:12px">Reason</span><br/>
-              <strong>${bookErr.message || "Something went wrong. Please try again."}</strong>
+              <span style="color:var(--fl-text-muted);font-size:12px">Reason</span><br/>
+              <strong>${
+                bookErr.message || "Something went wrong. Please try again."
+              }</strong>
             </div>
-            ${bookErr.code
-            ? `<div>
-              <span style="color:#6b7280;font-size:12px">Error Code</span><br/>
+            ${
+              bookErr.code
+                ? `<div>
+              <span style="color:var(--fl-text-muted);font-size:12px">Error Code</span><br/>
               <strong style="font-family:monospace">${bookErr.code}</strong>
             </div>`
-            : ""
-          }
+                : ""
+            }
           </div>
         `,
         confirmButtonColor: "#16a34a",
@@ -816,49 +844,52 @@ export default function FlightPaymentPage() {
     setShowPaymentModal(true);
     startPolling(traceId, legPayload);
   };
-// ── Generic API-error Swal — booking ke alawa har jagah (initiate,
-//    unexpected errors, etc.) ke liye. Booking errors already apni
-//    Swal dikha chuke hote hain (bookErr.handledByBookingSwal = true),
-//    is helper ko sirf unhi errors pe call karo jinke paas ye flag NAHI hai —
-//    warna duplicate Swal aa jayegi. ─────────────────────────────────────
-const showApiErrorAndGoBack = async (err) => {
-  await Swal.fire({
-    icon: "error",
-    title: "Payment Failed",
-    html: `
-      <div style="font-size:14px;color:#374151;line-height:1.8;text-align:left">
+  // ── Generic API-error Swal — booking ke alawa har jagah (initiate,
+  //    unexpected errors, etc.) ke liye. Booking errors already apni
+  //    Swal dikha chuke hote hain (bookErr.handledByBookingSwal = true),
+  //    is helper ko sirf unhi errors pe call karo jinke paas ye flag NAHI hai —
+  //    warna duplicate Swal aa jayegi. ─────────────────────────────────────
+  const showApiErrorAndGoBack = async (err) => {
+    await Swal.fire({
+      icon: "error",
+      title: "Payment Failed",
+      html: `
+      <div style="font-size:14px;color:var(--fl-text-body);line-height:1.8;text-align:left">
         <div style="margin-bottom:6px">
-          <span style="color:#6b7280;font-size:12px">Reason</span><br/>
-          <strong>${err?.message || "Something went wrong. Please try again."}</strong>
+          <span style="color:var(--fl-text-muted);font-size:12px">Reason</span><br/>
+          <strong>${
+            err?.message || "Something went wrong. Please try again."
+          }</strong>
         </div>
-        ${err?.code
-          ? `<div>
-            <span style="color:#6b7280;font-size:12px">Error Code</span><br/>
+        ${
+          err?.code
+            ? `<div>
+            <span style="color:var(--fl-text-muted);font-size:12px">Error Code</span><br/>
             <strong style="font-family:monospace">${err.code}</strong>
           </div>`
-          : ""
+            : ""
         }
       </div>
     `,
-    confirmButtonColor: "#16a34a",
-    confirmButtonText: "Go Back",
-    allowOutsideClick: false,
-  });
-  navigate("/flights", { replace: true });
-};
+      confirmButtonColor: "#16a34a",
+      confirmButtonText: "Go Back",
+      allowOutsideClick: false,
+    });
+    navigate("/flights", { replace: true });
+  };
   // ── Ek leg ka pura cycle: book(if needed) → initiate → (poll status externally) ──
   // ── Sirf ONE-WAY ke liye use hota hai ab (legs = ["onward"]) ──────────────
   const runLegFlow = async (legKey) => {
-  try {
-    await bookLegIfNeeded(legKey);
-    await initiatePaymentForLeg(legKey);
-  } catch (err) {
-    // console.error("Payment flow error:", err);
-    if (!err?.handledByBookingSwal) {
-      await showApiErrorAndGoBack(err);
+    try {
+      await bookLegIfNeeded(legKey);
+      await initiatePaymentForLeg(legKey);
+    } catch (err) {
+      // console.error("Payment flow error:", err);
+      if (!err?.handledByBookingSwal) {
+        await showApiErrorAndGoBack(err);
+      }
     }
-  }
-};
+  };
 
   // ── Round-trip ka pura cycle — do alag paths:
   //
@@ -873,26 +904,26 @@ const showApiErrorAndGoBack = async (err) => {
   //      hai uska), fir ek combined initiate (jo pehle se `{}` bhejta
   //      tha — usko bhi ab non-combined case me as-is rakha hai).
   const runRoundTripFlow = async () => {
-  try {
-    if (isCombinedRoundTrip) {
-      await bookCombinedIfNeeded();
-      await initiateCombinedPayment();
-    } else {
-      await bookLegIfNeeded("onward");
-      await bookLegIfNeeded("return");
-      setProcessingText("Preparing your payment...");
-      const result = await initiatePayment(traceId, {});
-      setPaymentData(result);
-      setShowPaymentModal(true);
-      startPolling(traceId, {});
+    try {
+      if (isCombinedRoundTrip) {
+        await bookCombinedIfNeeded();
+        await initiateCombinedPayment();
+      } else {
+        await bookLegIfNeeded("onward");
+        await bookLegIfNeeded("return");
+        setProcessingText("Preparing your payment...");
+        const result = await initiatePayment(traceId, {});
+        setPaymentData(result);
+        setShowPaymentModal(true);
+        startPolling(traceId, {});
+      }
+    } catch (err) {
+      // console.error("Payment flow error:", err);
+      if (!err?.handledByBookingSwal) {
+        await showApiErrorAndGoBack(err);
+      }
     }
-  } catch (err) {
-    // console.error("Payment flow error:", err);
-    if (!err?.handledByBookingSwal) {
-      await showApiErrorAndGoBack(err);
-    }
-  }
-};
+  };
 
   // ── Current leg/combined payment SUCCESS → ticket banao → agli leg
   //    (agar hai, sirf one-way ke fallback loop me) chalao ─────────────────
@@ -960,7 +991,9 @@ const showApiErrorAndGoBack = async (err) => {
             // ✅ FIX: agar returnTicketObj nahi mila to `ticket` (poora combined
             // response) fallback mat karo — usse returnTicket galti se truthy
             // ban jaata hai. null hi rakho taaki isRoundTrip sahi se false ho.
-            returnTicket: returnTicketObj ? { tickets: [returnTicketObj] } : null,
+            returnTicket: returnTicketObj
+              ? { tickets: [returnTicketObj] }
+              : null,
             flight,
             returnFlight,
             searchMeta,
@@ -1016,7 +1049,6 @@ const showApiErrorAndGoBack = async (err) => {
     }
   };
 
-
   useEffect(() => {
     // console.log("[CHECKPOINT 6] FlightPaymentPage resultIndex:", resultIndex);
     if (hasStartedRef.current) return;
@@ -1051,34 +1083,35 @@ const showApiErrorAndGoBack = async (err) => {
   //    round-trip me `{}` (as-is purana), oneway me current leg ka payload ──
   const handleFlightCancel = async () => {
     const legPayload = isRoundTrip
-      ? (isCombinedRoundTrip ? buildCombinedInitiatePayload() : {})
+      ? isCombinedRoundTrip
+        ? buildCombinedInitiatePayload()
+        : {}
       : buildLegInitiatePayload(legs[legIndex]);
     await cancelFlightPayment(traceId, legPayload);
     stopPolling();
     navigate("/flights", { replace: true });
   };
 
-
   const handleRetry = async () => {
-  try {
-    if (isRoundTrip) {
-      if (isCombinedRoundTrip) {
-        await initiateCombinedPayment();
+    try {
+      if (isRoundTrip) {
+        if (isCombinedRoundTrip) {
+          await initiateCombinedPayment();
+        } else {
+          setProcessingText("Preparing your payment...");
+          const result = await initiatePayment(traceId, {});
+          setPaymentData(result);
+          setShowPaymentModal(true);
+          startPolling(traceId, {});
+        }
       } else {
-        setProcessingText("Preparing your payment...");
-        const result = await initiatePayment(traceId, {});
-        setPaymentData(result);
-        setShowPaymentModal(true);
-        startPolling(traceId, {});
+        await initiatePaymentForLeg(legs[legIndex]);
       }
-    } else {
-      await initiatePaymentForLeg(legs[legIndex]);
+    } catch (err) {
+      // console.error("Retry initiate error:", err);
+      await showApiErrorAndGoBack(err);
     }
-  } catch (err) {
-    // console.error("Retry initiate error:", err);
-    await showApiErrorAndGoBack(err);
-  }
-};
+  };
 
   // ── Error screen ──────────────────────────────────────────────────────────
   if (flowError) {
@@ -1090,7 +1123,7 @@ const showApiErrorAndGoBack = async (err) => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#f0f4fa",
+          background: "var(--fl-surface-subtle)",
           fontFamily: "'Inter', sans-serif",
           gap: 12,
           padding: 24,
@@ -1098,7 +1131,12 @@ const showApiErrorAndGoBack = async (err) => {
         }}
       >
         <p
-          style={{ fontSize: 16, fontWeight: 600, color: "#dc2626", margin: 0 }}
+          style={{
+            fontSize: 16,
+            fontWeight: 600,
+            color: "var(--fl-danger-text)",
+            margin: 0,
+          }}
         >
           {flowError}
         </p>
@@ -1108,7 +1146,7 @@ const showApiErrorAndGoBack = async (err) => {
             marginTop: 8,
             padding: "10px 20px",
             borderRadius: 8,
-            background: "#16a34a",
+            background: "var(--fl-brand)",
             color: "#fff",
             border: "none",
             fontWeight: 700,
@@ -1132,8 +1170,8 @@ const showApiErrorAndGoBack = async (err) => {
   const currentLegResultIndex = isRoundTrip
     ? resultIndex
     : legs[legIndex] === "onward"
-      ? resultIndex
-      : returnResultIndex;
+    ? resultIndex
+    : returnResultIndex;
 
   return (
     <BusPaymentQRModal

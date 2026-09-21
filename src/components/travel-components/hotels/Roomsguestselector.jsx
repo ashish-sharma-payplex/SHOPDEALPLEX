@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const GREEN = "#16a34a";
+const GREEN = "var(--ht-brand)";
 
 const AGE_OPTIONS = [
   { value: "", label: "Select age" },
@@ -19,16 +19,30 @@ function CounterRow({ icon, label, subLabel, value, onInc, onDec, min = 0 }) {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "14px 0",
-        borderBottom: "1px solid #f3f4f6",
+        borderBottom: "1px solid var(--ht-border-soft)",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ fontSize: 20, color: "#9ca3af" }}>{icon}</span>
+        <span style={{ fontSize: 20, color: "var(--ht-text-faint)" }}>
+          {icon}
+        </span>
         <div>
-          <div style={{ fontSize: 14, fontWeight: 500, color: "#111827" }}>
+          <div
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              color: "var(--ht-text-strong)",
+            }}
+          >
             {label}
           </div>
-          <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
+          <div
+            style={{
+              fontSize: 12,
+              color: "var(--ht-text-faint)",
+              marginTop: 2,
+            }}
+          >
             {subLabel}
           </div>
         </div>
@@ -42,9 +56,12 @@ function CounterRow({ icon, label, subLabel, value, onInc, onDec, min = 0 }) {
             width: 28,
             height: 28,
             borderRadius: "50%",
-            border: `1.5px solid ${value <= min ? "#e5e7eb" : GREEN}`,
+            border: `1.5px solid ${
+              value <= min ? "var(--ht-border)" : "var(--ht-brand-line)"
+            }`,
             background: "transparent",
-            color: value <= min ? "#d1d5db" : GREEN,
+            color:
+              value <= min ? "var(--ht-text-disabled)" : "var(--ht-brand-text)",
             fontSize: 18,
             lineHeight: 1,
             display: "flex",
@@ -62,7 +79,7 @@ function CounterRow({ icon, label, subLabel, value, onInc, onDec, min = 0 }) {
           style={{
             fontSize: 15,
             fontWeight: 500,
-            color: "#111827",
+            color: "var(--ht-text-strong)",
             minWidth: 18,
             textAlign: "center",
           }}
@@ -153,8 +170,8 @@ function RoomsGuestDropdown({ open, onClose, anchorEl, onDone }) {
         top: position.top,
         left: position.left,
         zIndex: 9999,
-        background: "#ffffff",
-        border: "1px solid #f3f4f6",
+        background: "var(--ht-surface)",
+        border: "1px solid var(--ht-border-soft)",
         borderRadius: 16,
         boxShadow: "0 8px 40px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07)",
         padding: "8px 20px 16px",
@@ -213,7 +230,7 @@ function RoomsGuestDropdown({ open, onClose, anchorEl, onDone }) {
               <div
                 style={{
                   fontSize: 13,
-                  color: "#374151",
+                  color: "var(--ht-text-body)",
                   marginBottom: 6,
                   fontWeight: 500,
                 }}
@@ -231,11 +248,13 @@ function RoomsGuestDropdown({ open, onClose, anchorEl, onDone }) {
                   style={{
                     width: "100%",
                     padding: "9px 36px 9px 12px",
-                    border: "1px solid #e5e7eb",
+                    border: "1px solid var(--ht-border)",
                     borderRadius: 8,
                     fontSize: 14,
-                    color: childAges[i] ? "#111827" : "#9ca3af",
-                    background: "#ffffff",
+                    color: childAges[i]
+                      ? "var(--ht-text-strong)"
+                      : "var(--ht-text-faint)",
+                    background: "var(--ht-surface)",
                     appearance: "none",
                     cursor: "pointer",
                     outline: "none",
@@ -258,7 +277,7 @@ function RoomsGuestDropdown({ open, onClose, anchorEl, onDone }) {
                     top: "50%",
                     transform: "translateY(-50%)",
                     pointerEvents: "none",
-                    color: "#9ca3af",
+                    color: "var(--ht-text-faint)",
                     fontSize: 16,
                   }}
                 >
@@ -286,7 +305,7 @@ function RoomsGuestDropdown({ open, onClose, anchorEl, onDone }) {
           width: "100%",
           padding: "10px",
           background: GREEN,
-          color: "#fff",
+          color: "var(--ht-text-on-brand)",
           border: "none",
           borderRadius: 8,
           fontSize: 14,

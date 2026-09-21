@@ -3,8 +3,24 @@ import React from "react";
 import { Box, Paper, Skeleton } from "@mui/material";
 
 const HotelCardSkeleton = () => (
-  <Paper elevation={0} sx={{ borderRadius: "16px", border: "1px solid #e8e8e8", overflow: "hidden" }}>
-    <Box sx={{ px: 2.5, py: 1.5, bgcolor: "#f9fafb", borderBottom: "1px solid #eee", display: "flex", gap: 1.2 }}>
+  <Paper
+    elevation={0}
+    sx={{
+      borderRadius: "16px",
+      border: "1px solid var(--ht-border)",
+      overflow: "hidden",
+    }}
+  >
+    <Box
+      sx={{
+        px: 2.5,
+        py: 1.5,
+        bgcolor: "var(--ht-surface-subtle)",
+        borderBottom: "1px solid var(--ht-border)",
+        display: "flex",
+        gap: 1.2,
+      }}
+    >
       <Skeleton variant="rounded" width={34} height={34} />
       <Box sx={{ flex: 1 }}>
         <Skeleton width="60%" height={16} />

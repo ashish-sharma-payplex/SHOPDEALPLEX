@@ -7,8 +7,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const BORDER_BLUE = "#1e3a5f";
-const CARD_BG = "#f3f4f6";
-const TEXT_DARK = "#1a1a1a";
+const CARD_BG = "var(--bs-surface)";
+const TEXT_DARK = "var(--bs-text-strong)";
 const LINE_GRAY = "#c9c2b4";
 
 /*
@@ -42,7 +42,11 @@ const formatBookedAt = (isoString) => {
   try {
     const date = new Date(isoString);
     const datePart = date
-      .toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" })
+      .toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
       .toUpperCase();
     const timePart = date.toLocaleTimeString("en-IN", {
       hour: "2-digit",
@@ -73,7 +77,7 @@ const Notches = ({ side }) =>
         width: NOTCH_SIZE,
         height: NOTCH_SIZE,
         borderRadius: "50%",
-        bgcolor: "#ffffff",
+        bgcolor: "var(--bs-surface)",
         border: `1.2px solid ${LINE_GRAY}`,
         zIndex: 2,
         boxSizing: "border-box",
@@ -95,13 +99,15 @@ const BoxedField = ({ icon, label, value, sx }) => (
       ...sx,
     }}
   >
-    <Box sx={{ color: BORDER_BLUE, display: "flex", flexShrink: 0 }}>{icon}</Box>
+    <Box sx={{ color: BORDER_BLUE, display: "flex", flexShrink: 0 }}>
+      {icon}
+    </Box>
     <Box sx={{ minWidth: 0, flex: 1 }}>
       <Typography
         sx={{
           fontSize: "clamp(9px, 2.4vw, 10.5px)",
           fontWeight: 600,
-          color: "#555",
+          color: "var(--bs-text-neutral)",
           textTransform: "uppercase",
           letterSpacing: "0.02em",
           lineHeight: 1.3,
@@ -162,13 +168,21 @@ const BusBookingCard = ({ booking, onClick }) => {
       <Notches side="right" />
 
       {/* Header */}
-      <Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 1, minWidth: 0 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: 1,
+          minWidth: 0,
+        }}
+      >
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography
             sx={{
               fontSize: "clamp(9.5px, 2.4vw, 11px)",
               fontWeight: 600,
-              color: "#444",
+              color: "var(--bs-text-body)",
               letterSpacing: "0.03em",
             }}
           >
@@ -213,7 +227,9 @@ const BusBookingCard = ({ booking, onClick }) => {
           borderRadius: "16px",
           bgcolor: isConfirmed ? "#c9e8c9" : "#f5c6c6",
           border: `1.2px solid ${isConfirmed ? "#4caf50" : "#e53935"}`,
-          boxShadow: isConfirmed ? "0 0 8px rgba(76, 175, 80, 0.45)" : "0 0 8px rgba(229, 57, 53, 0.35)",
+          boxShadow: isConfirmed
+            ? "0 0 8px rgba(76, 175, 80, 0.45)"
+            : "0 0 8px rgba(229, 57, 53, 0.35)",
         }}
       >
         <Typography
@@ -237,7 +253,11 @@ const BusBookingCard = ({ booking, onClick }) => {
           mb: 0.7,
         }}
       >
-        <BoxedField icon={<DirectionsBusIcon sx={{ fontSize: 16 }} />} label="Bus ID" value={bus_id ?? "-"} />
+        <BoxedField
+          icon={<DirectionsBusIcon sx={{ fontSize: 16 }} />}
+          label="Bus ID"
+          value={bus_id ?? "-"}
+        />
         <BoxedField
           icon={<ReceiptLongIcon sx={{ fontSize: 16 }} />}
           label="Invoice No."
@@ -266,7 +286,13 @@ const BusBookingCard = ({ booking, onClick }) => {
           PAYMENT DETAILS
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "stretch", gap: "clamp(10px, 3%, 16px)" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "stretch",
+            gap: "clamp(10px, 3%, 16px)",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -294,7 +320,12 @@ const BusBookingCard = ({ booking, onClick }) => {
             </Box>
             <Box sx={{ minWidth: 0 }}>
               <Typography
-                sx={{ fontSize: "clamp(9px, 2.2vw, 10px)", fontWeight: 600, color: "#555", textTransform: "uppercase" }}
+                sx={{
+                  fontSize: "clamp(9px, 2.2vw, 10px)",
+                  fontWeight: 600,
+                  color: "var(--bs-text-neutral)",
+                  textTransform: "uppercase",
+                }}
               >
                 Total Amount
               </Typography>
@@ -311,11 +342,18 @@ const BusBookingCard = ({ booking, onClick }) => {
             </Box>
           </Box>
 
-          <Box sx={{ width: "1.2px", bgcolor: LINE_GRAY, my: 0.3, flexShrink: 0 }} />
+          <Box
+            sx={{ width: "1.2px", bgcolor: LINE_GRAY, my: 0.3, flexShrink: 0 }}
+          />
 
           <Box sx={{ flex: "1 1 0", minWidth: 0, overflow: "hidden" }}>
             <Typography
-              sx={{ fontSize: "clamp(9px, 2.2vw, 10px)", fontWeight: 600, color: "#555", textTransform: "uppercase" }}
+              sx={{
+                fontSize: "clamp(9px, 2.2vw, 10px)",
+                fontWeight: 600,
+                color: "var(--bs-text-neutral)",
+                textTransform: "uppercase",
+              }}
             >
               Invoice Amount
             </Typography>
@@ -345,7 +383,7 @@ const BusBookingCard = ({ booking, onClick }) => {
         <Typography
           sx={{
             fontSize: "clamp(9px, 2.2vw, 10px)",
-            color: "#555",
+            color: "var(--bs-text-neutral)",
             wordBreak: "break-all",
           }}
         >

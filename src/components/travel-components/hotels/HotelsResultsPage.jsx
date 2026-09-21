@@ -1,5 +1,11 @@
 // src\components\travel-components\hotels\HotelsResultsPage.jsx
-import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -29,8 +35,8 @@ import RoomsGuestDropdown from "./Roomsguestselector";
 import LocationDropdown from "./LocationDropdown";
 import Lottie from "lottie-react";
 
-const GREEN = "#16a34a";
-const BORDER = "#e5e7eb";
+const GREEN = "var(--ht-brand)";
+const BORDER = "var(--ht-border)";
 
 const CATEGORIES = [
   {
@@ -69,7 +75,6 @@ function formatDate(date) {
   });
 }
 
-
 // ─── Full-screen Search Loader (Lottie) ───
 const HotelSearchLoader = ({ open }) => {
   if (!open) return null;
@@ -78,7 +83,7 @@ const HotelSearchLoader = ({ open }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        bgcolor: "rgba(255,255,255,0.92)",
+        bgcolor: "var(--ht-surface-glass)",
         zIndex: 2000,
         display: "flex",
         flexDirection: "column",
@@ -92,18 +97,22 @@ const HotelSearchLoader = ({ open }) => {
       </Box>
       <Box sx={{ textAlign: "center" }}>
         <Typography
-          sx={{ fontSize: 18, fontWeight: 700, color: "#111827", mb: 0.5 }}
+          sx={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: "var(--ht-text-strong)",
+            mb: 0.5,
+          }}
         >
           Searching Best Hotels...
         </Typography>
-        <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
+        <Typography sx={{ fontSize: 14, color: "var(--ht-text-muted)" }}>
           Checking availability across properties
         </Typography>
       </Box>
     </Box>
   );
 };
-
 
 // ─── Search Header ─────────────────────────────
 const SearchHeader = ({ initialData }) => {
@@ -256,7 +265,9 @@ const SearchHeader = ({ initialData }) => {
       id: "location",
       label: "Location",
       value: selectedCity.name,
-      icon: <LocationOnIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <LocationOnIcon sx={{ color: "var(--ht-brand-text)", fontSize: 19 }} />
+      ),
       ref: locationRef,
       onClick: () => setLocationOpen((o) => !o),
     },
@@ -264,7 +275,11 @@ const SearchHeader = ({ initialData }) => {
       id: "checkin",
       label: "Check In",
       value: checkIn ? formatDate(checkIn) : "Select date",
-      icon: <CalendarTodayIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <CalendarTodayIcon
+          sx={{ color: "var(--ht-brand-text)", fontSize: 19 }}
+        />
+      ),
       ref: checkinRef,
       onClick: () => openCalendar("checkin"),
     },
@@ -272,7 +287,11 @@ const SearchHeader = ({ initialData }) => {
       id: "checkout",
       label: "Check Out",
       value: checkOut ? formatDate(checkOut) : "Select date",
-      icon: <CalendarTodayIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <CalendarTodayIcon
+          sx={{ color: "var(--ht-brand-text)", fontSize: 19 }}
+        />
+      ),
       ref: checkoutRef,
       onClick: () => openCalendar("checkout"),
     },
@@ -280,7 +299,9 @@ const SearchHeader = ({ initialData }) => {
       id: "guests",
       label: "Rooms & Guests",
       value: guestsLabel,
-      icon: <PeopleAltIcon sx={{ color: GREEN, fontSize: 19 }} />,
+      icon: (
+        <PeopleAltIcon sx={{ color: "var(--ht-brand-text)", fontSize: 19 }} />
+      ),
       ref: guestsRef,
       onClick: () => setGuestsOpen((o) => !o),
     },
@@ -288,7 +309,7 @@ const SearchHeader = ({ initialData }) => {
 
   return (
     <>
-         <HotelSearchLoader open={hotelLoading} />
+      <HotelSearchLoader open={hotelLoading} />
 
       <Box ref={placeholderRef} sx={{ height: 0 }} />
 
@@ -307,7 +328,8 @@ const SearchHeader = ({ initialData }) => {
                 position: "relative",
               }),
           zIndex: 1100,
-          // bgcolor: "#fff",
+          // ✅ solid strip while fixed — otherwise results scroll visibly behind it
+          bgcolor: isFixed ? "var(--ht-surface)" : "transparent",
           // boxShadow: isFixed ? "0 2px 10px rgba(0,0,0,0.06)" : "none",
           px: { xs: 2, md: 4 },
           py: { xs: 1.5, md: 2 },
@@ -322,6 +344,8 @@ const SearchHeader = ({ initialData }) => {
             maxWidth: 1100,
             mx: "auto",
             overflow: "visible",
+            bgcolor: "var(--ht-surface)",
+            backgroundImage: "none",
           }}
         >
           <Box
@@ -366,7 +390,9 @@ const SearchHeader = ({ initialData }) => {
                     gap: "5px",
                     minWidth: 0,
                     transition: "background 0.15s",
-                    bgcolor: isActive ? "#f0fdf4" : "transparent",
+                    bgcolor: isActive
+                      ? "var(--ht-brand-soft-bg)"
+                      : "transparent",
                     borderRadius: isActive
                       ? index === 0
                         ? "11px 0 0 11px"
@@ -374,14 +400,16 @@ const SearchHeader = ({ initialData }) => {
                         ? "0 11px 11px 0"
                         : "0"
                       : "0",
-                    "&:hover": { background: "#f9fafb" },
+                    "&:hover": { background: "var(--ht-surface-subtle)" },
                   }}
                 >
                   <Typography
                     sx={{
                       fontSize: "0.68rem",
                       fontWeight: 600,
-                      color: isActive ? GREEN : "#6b7280",
+                      color: isActive
+                        ? "var(--ht-brand-text)"
+                        : "var(--ht-text-muted)",
                       letterSpacing: "0.15px",
                     }}
                   >
@@ -398,8 +426,8 @@ const SearchHeader = ({ initialData }) => {
                         color:
                           field.value === "Select date" ||
                           field.value === "Select Location"
-                            ? "#9ca3af"
-                            : "#111827",
+                            ? "var(--ht-text-faint)"
+                            : "var(--ht-text-strong)",
                         flex: 1,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
@@ -410,7 +438,9 @@ const SearchHeader = ({ initialData }) => {
                     </Typography>
                     <KeyboardArrowDownIcon
                       sx={{
-                        color: isActive ? GREEN : "#6b7280",
+                        color: isActive
+                          ? "var(--ht-brand-text)"
+                          : "var(--ht-text-muted)",
                         fontSize: 18,
                         flexShrink: 0,
                         transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
@@ -427,7 +457,7 @@ const SearchHeader = ({ initialData }) => {
                 alignItems: "center",
                 px: { xs: 1.5, md: 1.2 },
                 py: { xs: 1.2, md: 1 },
-                bgcolor: "#fff",
+                bgcolor: "var(--ht-surface)",
                 flexShrink: 0,
                 borderRadius: "0 11px 11px 0",
               }}
@@ -438,7 +468,7 @@ const SearchHeader = ({ initialData }) => {
                 startIcon={<SearchIcon sx={{ fontSize: "19px !important" }} />}
                 sx={{
                   background: GREEN,
-                  color: "#fff",
+                  color: "var(--ht-text-on-brand)",
                   fontWeight: 700,
                   fontSize: "0.95rem",
                   textTransform: "none",
@@ -447,9 +477,12 @@ const SearchHeader = ({ initialData }) => {
                   py: 1.4,
                   width: { xs: "100%", md: "auto" },
                   minWidth: { xs: 0, md: 130 },
-                  "&:hover": { background: "#15803d" },
+                  "&:hover": { background: "var(--ht-brand-hover)" },
                   "&:active": { transform: "scale(0.97)" },
-                  "&.Mui-disabled": { background: "#86efac", color: "#fff" },
+                  "&.Mui-disabled": {
+                    background: "var(--ht-success-border)",
+                    color: "var(--ht-text-on-brand)",
+                  },
                   transition: "background 0.2s, transform 0.1s",
                 }}
               >
@@ -530,7 +563,7 @@ const NoHotelFound = ({ onBack }) => (
       sx={{
         fontSize: { xs: 17, sm: 19, md: 21 },
         fontWeight: 700,
-        color: "#111827",
+        color: "var(--ht-text-strong)",
         fontFamily: "Inter, sans-serif",
         mb: 0.6,
       }}
@@ -540,7 +573,7 @@ const NoHotelFound = ({ onBack }) => (
     <Typography
       sx={{
         fontSize: { xs: 13, sm: 14 },
-        color: "#6b7280",
+        color: "var(--ht-text-muted)",
         fontFamily: "Inter, sans-serif",
         mb: 2,
       }}
@@ -554,14 +587,14 @@ const NoHotelFound = ({ onBack }) => (
       disableElevation
       sx={{
         bgcolor: GREEN,
-        color: "#fff",
+        color: "var(--ht-text-on-brand)",
         fontWeight: 600,
         textTransform: "none",
         borderRadius: "8px",
         px: 2,
         py: 1,
         fontSize: { xs: 13, sm: 14 },
-        "&:hover": { bgcolor: "#15803d" },
+        "&:hover": { bgcolor: "var(--ht-brand-hover)" },
       }}
     >
       Back to Search
@@ -605,14 +638,20 @@ const HotelsResultsPage = ({ scrolled }) => {
         toastOptions={{
           style: {
             borderRadius: "12px",
-            background: "#1f2937",
-            color: "#fff",
+            background: "var(--ht-toast-bg)",
+            color: "var(--ht-text-on-brand)",
             fontSize: "14px",
             padding: "12px 18px",
           },
-          success: { style: { background: "#166534", color: "#fff" } },
-          error: { style: { background: "#991b1b", color: "#fff" } },
-          loading: { style: { background: "#166534", color: "#fff" } },
+          success: {
+            style: { background: "#166534", color: "var(--ht-text-on-brand)" },
+          },
+          error: {
+            style: { background: "#991b1b", color: "var(--ht-text-on-brand)" },
+          },
+          loading: {
+            style: { background: "#166534", color: "var(--ht-text-on-brand)" },
+          },
         }}
       />
 

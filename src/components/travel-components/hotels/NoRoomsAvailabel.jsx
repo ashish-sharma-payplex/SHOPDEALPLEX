@@ -2,18 +2,14 @@
 // React + MUI Responsive UI
 
 import React from "react";
-import {
-  Box,
-  Typography,
-  Container,
-} from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 
 const NoRoomsAvailable = () => {
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        // bgcolor: "#f7f7f7",
+        // bgcolor: "var(--ht-surface-subtle)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -55,7 +51,7 @@ const NoRoomsAvailable = () => {
                 md: "30px",
               },
               fontWeight: 600,
-              color: "#222",
+              color: "var(--ht-text-strong)",
               mb: 1,
             }}
           >
@@ -70,7 +66,7 @@ const NoRoomsAvailable = () => {
                 sm: "15px",
                 md: "16px",
               },
-              color: "#8a8a8a",
+              color: "var(--ht-text-soft)",
               maxWidth: "420px",
               lineHeight: 1.6,
             }}

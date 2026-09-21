@@ -1,0 +1,201 @@
+/* =========================================================================
+   flight.module.css
+
+/* ─────────────────────────── LIGHT (original colours) ─────────────────── */
+.flightThemeVars {
+  color-scheme: light;
+
+  /* ---------- Surfaces ---------- */
+  --fl-page: #f5f7fa;
+  --fl-page-blue: #f0f4fa;
+  --fl-page-slate: #f1f5f9;
+  --fl-page-subtle: #f9fafb;
+  --fl-surface: #ffffff;
+  --fl-surface-subtle: #f9fafb;
+  --fl-surface-muted: #f3f4f6;
+  --fl-surface-strong: #d1d5db;
+  --fl-surface-glass: rgba(255, 255, 255, 0.92);
+  --fl-surface-glass-hover: rgba(255, 255, 255, 0.6);
+  --fl-shimmer: rgba(255, 255, 255, 0.7);
+  --fl-toast-bg: #111827;
+  --fl-logo-bg: #ffffff; /* airline-logo tiles stay white in both modes */
+  --fl-route-bg-opacity: 0.18; /* decorative map behind My-Trips flight cards */
+  --fl-footer-bg: #f8f8f8;
+
+  /* ---------- Borders ---------- */
+  --fl-border: #e5e7eb;
+  --fl-border-soft: #f3f4f6;
+  --fl-border-strong: #d1d5db;
+
+  /* ---------- Text ---------- */
+  --fl-text-strong: #111827;
+  --fl-text-body: #374151;
+  --fl-text-neutral: #555555;
+  --fl-text-muted: #6b7280;
+  --fl-text-soft: #888888;
+  --fl-text-faint: #9ca3af;
+  --fl-text-disabled: #d1d5db;
+
+  /* ---------- Brand green ---------- */
+  --fl-brand: #16a34a;
+  --fl-brand2: #1a914b;
+  --fl-brand-hover: #15803d;
+  --fl-brand-text: #16a34a;
+  --fl-brand2-text: #1a914b;
+  --fl-brand-strong-text: #15803d;
+  --fl-brand-line: #16a34a;
+  --fl-brand2-line: #1a914b;
+  --fl-brand-strong-line: #15803d;
+
+  /* ---------- Navy / blue accent (ticket page) ---------- */
+  --fl-navy: #16305a;
+  --fl-navy-hover: #0f2340;
+  --fl-navy-text: #16305a;
+  --fl-blue-accent: #2563eb;
+  --fl-blue-accent-bg: #eef2ff;
+
+  /* ---------- Success ---------- */
+  --fl-success-bg: #f0fdf4;
+  --fl-success-bg-strong: #dcfce7;
+  --fl-success-border: #bbf7d0;
+
+  /* ---------- Danger ---------- */
+  --fl-danger-text: #dc2626;
+  --fl-danger-strong-text: #991b1b;
+  --fl-danger-line: #dc2626;
+  --fl-danger-bg: #fef2f2;
+  --fl-danger-bg-strong: #fee2e2;
+  --fl-danger-border: #fecaca;
+
+  /* ---------- Info (blue) ---------- */
+  --fl-info-text: #1d4ed8;
+  --fl-info-bg: #eff6ff;
+  --fl-info-bg-strong: #dbeafe;
+  --fl-info-border: #bfdbfe;
+
+  /* ---------- Warning (amber) ---------- */
+  --fl-warn-text: #92400e;
+  --fl-warn-bg: #fef3c7;
+  --fl-warn-border: #fde68a;
+
+  /* ---------- Purple ---------- */
+  --fl-purple-text: #a21caf;
+  --fl-purple-bg: #fdf4ff;
+  --fl-purple-border: #c084fc;
+}
+
+/* ─────────────────────────────── DARK ─────────────────────────────────── */
+:global([data-theme="dark"]) .flightThemeVars {
+  color-scheme: dark;
+
+  /* ---------- Surfaces ---------- */
+  --fl-page: #131313; /* = MUI dark theme background.default */
+  --fl-page-blue: #131313;
+  --fl-page-slate: #131313;
+  --fl-page-subtle: #131313;
+  --fl-surface: #1a1a1a;
+  --fl-surface-subtle: #202020;
+  --fl-surface-muted: #2a2a2a;
+  --fl-surface-strong: #3f3f46;
+  --fl-surface-glass: rgba(26, 26, 26, 0.92);
+  --fl-surface-glass-hover: rgba(255, 255, 255, 0.08);
+  --fl-shimmer: rgba(255, 255, 255, 0.08);
+  --fl-toast-bg: #2b3040;
+  --fl-logo-bg: #ffffff;
+  --fl-route-bg-opacity: 0.07;
+  --fl-footer-bg: #131313;
+
+  /* ---------- Borders ---------- */
+  --fl-border: #2e2e2e;
+  --fl-border-soft: #262626;
+  --fl-border-strong: #3f3f46;
+
+  /* ---------- Text ---------- */
+  --fl-text-strong: #f3f4f6;
+  --fl-text-body: #d1d5db;
+  --fl-text-neutral: #b4b9c2;
+  --fl-text-muted: #9ca3af;
+  --fl-text-soft: #8b929e;
+  --fl-text-faint: #7b8494;
+  --fl-text-disabled: #4b5563;
+
+  /* ---------- Brand green ----------
+     Backgrounds (buttons) keep the same green so white text stays readable.
+     Text / outlines get a lighter green so they stay visible on dark. */
+  --fl-brand: #16a34a;
+  --fl-brand2: #1a914b;
+  --fl-brand-hover: #15803d;
+  --fl-brand-text: #22c55e;
+  --fl-brand2-text: #22c55e;
+  --fl-brand-strong-text: #4ade80;
+  --fl-brand-line: #22c55e;
+  --fl-brand2-line: #22c55e;
+  --fl-brand-strong-line: #15803d;
+
+  /* ---------- Navy / blue accent (ticket page) ---------- */
+  --fl-navy: #234a86;
+  --fl-navy-hover: #2c5a9e;
+  --fl-navy-text: #93c5fd;
+  --fl-blue-accent: #60a5fa;
+  --fl-blue-accent-bg: rgba(99, 102, 241, 0.16);
+
+  /* ---------- Success ---------- */
+  --fl-success-bg: rgba(34, 197, 94, 0.12);
+  --fl-success-bg-strong: rgba(34, 197, 94, 0.22);
+  --fl-success-border: rgba(34, 197, 94, 0.4);
+
+  /* ---------- Danger ---------- */
+  --fl-danger-text: #f87171;
+  --fl-danger-strong-text: #fca5a5;
+  --fl-danger-line: #f87171;
+  --fl-danger-bg: rgba(248, 113, 113, 0.12);
+  --fl-danger-bg-strong: rgba(248, 113, 113, 0.2);
+  --fl-danger-border: rgba(248, 113, 113, 0.4);
+
+  /* ---------- Info (blue) ---------- */
+  --fl-info-text: #93c5fd;
+  --fl-info-bg: rgba(59, 130, 246, 0.14);
+  --fl-info-bg-strong: rgba(59, 130, 246, 0.24);
+  --fl-info-border: rgba(96, 165, 250, 0.45);
+
+  /* ---------- Warning (amber) ---------- */
+  --fl-warn-text: #fbbf24;
+  --fl-warn-bg: rgba(245, 158, 11, 0.14);
+  --fl-warn-border: rgba(245, 158, 11, 0.45);
+
+  /* ---------- Purple ---------- */
+  --fl-purple-text: #d8b4fe;
+  --fl-purple-bg: rgba(192, 132, 252, 0.14);
+  --fl-purple-border: rgba(192, 132, 252, 0.5);
+}
+
+/* ─────────────────────── SweetAlert2 popups (Swal.fire) ─────────────────
+   Swal renders in <body>, outside React's tree, with its own light styles.
+   Because <body> carries .flightThemeVars while the travel app is mounted,
+   these descendant rules re-skin every Swal popup opened from flight pages.
+   ------------------------------------------------------------------------ */
+.flightThemeVars :global(.swal2-popup) {
+  background: var(--fl-surface);
+  color: var(--fl-text-body);
+}
+.flightThemeVars :global(.swal2-title) {
+  color: var(--fl-text-strong);
+}
+.flightThemeVars :global(.swal2-html-container) {
+  color: var(--fl-text-body);
+}
+.flightThemeVars :global(.swal2-input),
+.flightThemeVars :global(.swal2-textarea),
+.flightThemeVars :global(.swal2-select) {
+  background: var(--fl-surface-subtle);
+  color: var(--fl-text-strong);
+  border-color: var(--fl-border-strong);
+}
+.flightThemeVars :global(.swal2-timer-progress-bar) {
+  background: var(--fl-brand);
+}
+.flightThemeVars :global(.swal2-success-circular-line-left),
+.flightThemeVars :global(.swal2-success-circular-line-right),
+.flightThemeVars :global(.swal2-success-fix) {
+  background: transparent !important;
+}
