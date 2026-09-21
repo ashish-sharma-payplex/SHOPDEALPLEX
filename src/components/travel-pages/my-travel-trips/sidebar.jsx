@@ -18,7 +18,13 @@ const Sidebar = ({ selectedCategory, onCategorySelect, onSelect }) => {
       <Box sx={{ p: 2.5, pb: 1.5 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <CalendarMonthIcon sx={{ fontSize: 24, color: GREEN }} />
-          <Typography sx={{ fontSize: 18, fontWeight: 700, color: "#1a1a1a" }}>
+          <Typography
+            sx={{
+              fontSize: 18,
+              fontWeight: 700,
+              color: "var(--mb-text-strong)",
+            }}
+          >
             My Trips
           </Typography>
         </Box>
@@ -35,7 +41,9 @@ const Sidebar = ({ selectedCategory, onCategorySelect, onSelect }) => {
             }}
             sx={{
               bgcolor:
-                selectedCategory === category.label ? "#f0fdf4" : "transparent",
+                selectedCategory === category.label
+                  ? "var(--mb-brand-soft-bg)"
+                  : "transparent",
             }}
           >
             <ListItemButton
@@ -47,13 +55,16 @@ const Sidebar = ({ selectedCategory, onCategorySelect, onSelect }) => {
                     ? `3px solid ${GREEN}`
                     : "3px solid transparent",
                 transition: "all 0.2s ease",
-                "&:hover": { bgcolor: "#fafafa" },
+                "&:hover": { bgcolor: "var(--mb-surface-subtle)" },
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 40,
-                  color: selectedCategory === category.label ? GREEN : "#999",
+                  color:
+                    selectedCategory === category.label
+                      ? GREEN
+                      : "var(--mb-text-faint)",
                 }}
               >
                 {category.icon}
@@ -63,7 +74,10 @@ const Sidebar = ({ selectedCategory, onCategorySelect, onSelect }) => {
                 primaryTypographyProps={{
                   fontSize: 14,
                   fontWeight: selectedCategory === category.label ? 700 : 500,
-                  color: selectedCategory === category.label ? GREEN : "#333",
+                  color:
+                    selectedCategory === category.label
+                      ? GREEN
+                      : "var(--mb-text-body)",
                 }}
               />
             </ListItemButton>

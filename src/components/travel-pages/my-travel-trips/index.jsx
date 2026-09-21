@@ -1,5 +1,11 @@
 // pages\my-travel-trips\index.jsx
-import React, { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import {
   Box,
   Paper,
@@ -20,7 +26,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SortIcon from "@mui/icons-material/Sort";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { GREEN, CATEGORIES, STATUS_FILTERS, STATUS_MAP, HOTEL_STATUS_MAP, STATIC_DATA } from "components/travel-hooks/my-trips/constants";
+import {
+  GREEN,
+  CATEGORIES,
+  STATUS_FILTERS,
+  STATUS_MAP,
+  HOTEL_STATUS_MAP,
+  STATIC_DATA,
+} from "components/travel-hooks/my-trips/constants";
 import { flattenOrders } from "components/travel-hooks/my-trips/flattenOrders";
 
 import FlightCard from "./FlightCard";
@@ -88,7 +101,8 @@ const MyTrips = () => {
 
   // ✅ NAYA — Hotel cancellations ke liye state
   const [hotelCancellations, setHotelCancellations] = useState([]);
-  const [hotelCancellationsLoading, setHotelCancellationsLoading] = useState(false);
+  const [hotelCancellationsLoading, setHotelCancellationsLoading] =
+    useState(false);
 
   const [hotelDetailsOpen, setHotelDetailsOpen] = useState(false);
   const [hotelDetailsData, setHotelDetailsData] = useState(null);
@@ -207,7 +221,10 @@ const MyTrips = () => {
         setHotelLoading(true);
       }
 
-      const response = await getHotelBookings({ page, pageSize: HOTEL_PAGE_SIZE });
+      const response = await getHotelBookings({
+        page,
+        pageSize: HOTEL_PAGE_SIZE,
+      });
       const results = response.results || [];
 
       setHotelBookings((prev) => (append ? [...prev, ...results] : results));
@@ -298,7 +315,8 @@ const MyTrips = () => {
     if (selectedStatus === "Cancelled") {
       fetchCancellations();
     } else {
-      const apiStatus = selectedStatus === "All" ? null : STATUS_MAP[selectedStatus];
+      const apiStatus =
+        selectedStatus === "All" ? null : STATUS_MAP[selectedStatus];
       fetchFlightBookings(apiStatus);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -331,7 +349,10 @@ const MyTrips = () => {
       if (!map.has(item.order_id)) map.set(item.order_id, []);
       map.get(item.order_id).push(item);
     });
-    return Array.from(map.entries()).map(([orderId, requests]) => ({ orderId, requests }));
+    return Array.from(map.entries()).map(([orderId, requests]) => ({
+      orderId,
+      requests,
+    }));
   }, [cancellations]);
 
   // ✅ NAYA — Hotels ke liye client-side status filter.
@@ -352,25 +373,33 @@ const MyTrips = () => {
         ? []
         : flightBookings
       : selectedCategory === "Hotels"
-        ? hotelBookings
-        : selectedStatus === "All"
-          ? STATIC_DATA[selectedCategory] || []
-          : STATIC_DATA[selectedCategory]?.filter((item) => item.status === selectedStatus) || [];
+      ? hotelBookings
+      : selectedStatus === "All"
+      ? STATIC_DATA[selectedCategory] || []
+      : STATIC_DATA[selectedCategory]?.filter(
+          (item) => item.status === selectedStatus,
+        ) || [];
 
   const visibleData =
-    selectedCategory === "Flights" ? filteredData.slice(0, visibleCount) : filteredData;
+    selectedCategory === "Flights"
+      ? filteredData.slice(0, visibleCount)
+      : filteredData;
 
   const hasMore =
     selectedCategory === "Flights" &&
     selectedStatus !== "Cancelled" &&
     visibleCount < filteredData.length;
 
-  const isCancelledView = selectedCategory === "Flights" && selectedStatus === "Cancelled";
-  const isBusCancelledView = selectedCategory === "Bus" && selectedStatus === "Cancelled";
+  const isCancelledView =
+    selectedCategory === "Flights" && selectedStatus === "Cancelled";
+  const isBusCancelledView =
+    selectedCategory === "Bus" && selectedStatus === "Cancelled";
 
   // ✅ UPDATED — "Cancelled" status pe ab alag branch (isHotelCancelledView) chalega
-  const isHotelsView = selectedCategory === "Hotels" && selectedStatus !== "Cancelled";
-  const isHotelCancelledView = selectedCategory === "Hotels" && selectedStatus === "Cancelled";
+  const isHotelsView =
+    selectedCategory === "Hotels" && selectedStatus !== "Cancelled";
+  const isHotelCancelledView =
+    selectedCategory === "Hotels" && selectedStatus === "Cancelled";
 
   const handleCategorySelect = (label) => {
     setSelectedCategory(label);
@@ -395,7 +424,8 @@ const MyTrips = () => {
   }, [loadingMore, hasMore]);
 
   useEffect(() => {
-    if (selectedCategory !== "Flights" || selectedStatus === "Cancelled") return;
+    if (selectedCategory !== "Flights" || selectedStatus === "Cancelled")
+      return;
     const node = sentinelRef.current;
     if (!node) return;
 
@@ -405,7 +435,7 @@ const MyTrips = () => {
           loadMore();
         }
       },
-      { root: null, rootMargin: "200px", threshold: 0 }
+      { root: null, rootMargin: "200px", threshold: 0 },
     );
 
     observer.observe(node);
@@ -429,7 +459,7 @@ const MyTrips = () => {
           loadMoreHotels();
         }
       },
-      { root: null, rootMargin: "200px", threshold: 0 }
+      { root: null, rootMargin: "200px", threshold: 0 },
     );
 
     observer.observe(node);
@@ -437,7 +467,9 @@ const MyTrips = () => {
   }, [loadMoreHotels, selectedCategory, hotelBookings.length]);
 
   const handleOpenDetails = async (booking) => {
-    const journeysWithId = (booking?.journeys || []).filter((j) => j.booking_id);
+    const journeysWithId = (booking?.journeys || []).filter(
+      (j) => j.booking_id,
+    );
 
     if (journeysWithId.length === 0) return;
 
@@ -445,7 +477,7 @@ const MyTrips = () => {
       setDetailsLoadingId(booking.order_id);
 
       const responses = await Promise.all(
-        journeysWithId.map((journey) => getBookingDetails(journey.booking_id))
+        journeysWithId.map((journey) => getBookingDetails(journey.booking_id)),
       );
 
       const bookingsData = responses.map((response, idx) => ({
@@ -482,7 +514,8 @@ const MyTrips = () => {
     if (selectedStatus === "Cancelled") {
       fetchCancellations();
     } else {
-      const apiStatus = selectedStatus === "All" ? null : STATUS_MAP[selectedStatus];
+      const apiStatus =
+        selectedStatus === "All" ? null : STATUS_MAP[selectedStatus];
       fetchFlightBookings(apiStatus);
     }
   };
@@ -515,7 +548,7 @@ const MyTrips = () => {
                   textTransform: "none",
                   fontWeight: 600,
                   fontSize: 13,
-                  "&:hover": { bgcolor: "#f0fdf4" },
+                  "&:hover": { bgcolor: "var(--mb-brand-soft-bg)" },
                 }}
               >
                 Categories
@@ -523,11 +556,19 @@ const MyTrips = () => {
             )}
 
             {!isMobile && (
-              <Box sx={{ display: "flex", gap: { xs: 0.8, sm: 2 }, flexWrap: "wrap" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: { xs: 0.8, sm: 2 },
+                  flexWrap: "wrap",
+                }}
+              >
                 {STATUS_FILTERS.map((status) => (
                   <Button
                     key={status}
-                    variant={selectedStatus === status ? "contained" : "outlined"}
+                    variant={
+                      selectedStatus === status ? "contained" : "outlined"
+                    }
                     onClick={() => {
                       setSelectedStatus(status);
                       setVisibleCount(BATCH_SIZE);
@@ -541,8 +582,17 @@ const MyTrips = () => {
                       py: 1,
                       minWidth: 0,
                       ...(selectedStatus === status
-                        ? { bgcolor: GREEN, color: "#fff", borderColor: GREEN, "&:hover": { bgcolor: "#15803d" } }
-                        : { borderColor: "#ddd", color: "#666", "&:hover": { borderColor: GREEN, color: GREEN } }),
+                        ? {
+                            bgcolor: GREEN,
+                            color: "#fff",
+                            borderColor: GREEN,
+                            "&:hover": { bgcolor: "var(--mb-brand-hover)" },
+                          }
+                        : {
+                            borderColor: "var(--mb-border-strong)",
+                            color: "var(--mb-text-muted)",
+                            "&:hover": { borderColor: GREEN, color: GREEN },
+                          }),
                     }}
                   >
                     {status}
@@ -564,7 +614,10 @@ const MyTrips = () => {
                   fontSize: 13,
                   borderRadius: "10px",
                   px: 2,
-                  "&:hover": { borderColor: GREEN, bgcolor: "#f0fdf4" },
+                  "&:hover": {
+                    borderColor: GREEN,
+                    bgcolor: "var(--mb-brand-soft-bg)",
+                  },
                 }}
               >
                 Sort
@@ -572,15 +625,22 @@ const MyTrips = () => {
             )}
           </Box>
 
-          <Box sx={{ display: "flex", gap: 3, minHeight: "calc(100vh - 150px)", alignItems: "flex-start" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 3,
+              minHeight: "calc(100vh - 150px)",
+              alignItems: "flex-start",
+            }}
+          >
             {!isMobile && (
               <Paper
                 elevation={0}
                 sx={{
                   width: 200,
-                  bgcolor: "#ffffff",
+                  bgcolor: "var(--mb-surface)",
                   borderRadius: "16px",
-                  border: "1px solid #e8e8e8",
+                  border: "1px solid var(--mb-border)",
                   flexShrink: 0,
                   height: "fit-content",
                   position: "sticky",
@@ -588,7 +648,10 @@ const MyTrips = () => {
                   overflow: "hidden",
                 }}
               >
-                <Sidebar selectedCategory={selectedCategory} onCategorySelect={handleCategorySelect} />
+                <Sidebar
+                  selectedCategory={selectedCategory}
+                  onCategorySelect={handleCategorySelect}
+                />
               </Paper>
             )}
 
@@ -596,7 +659,14 @@ const MyTrips = () => {
               anchor="left"
               open={drawerOpen}
               onClose={() => setDrawerOpen(false)}
-              PaperProps={{ sx: { width: 260, borderRadius: "0 16px 16px 0" } }}
+              PaperProps={{
+                sx: {
+                  width: 260,
+                  borderRadius: "0 16px 16px 0",
+                  bgcolor: "var(--mb-surface)",
+                  backgroundImage: "none",
+                },
+              }}
             >
               <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
                 <IconButton onClick={() => setDrawerOpen(false)}>
@@ -614,7 +684,13 @@ const MyTrips = () => {
               anchor="right"
               open={sortDrawerOpen}
               onClose={() => setSortDrawerOpen(false)}
-              PaperProps={{ sx: { width: 220 } }}
+              PaperProps={{
+                sx: {
+                  width: 220,
+                  bgcolor: "var(--mb-surface)",
+                  backgroundImage: "none",
+                },
+              }}
             >
               <Box
                 sx={{
@@ -622,10 +698,12 @@ const MyTrips = () => {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  borderBottom: "1px solid #eee",
+                  borderBottom: "1px solid var(--mb-border-soft)",
                 }}
               >
-                <Typography sx={{ fontWeight: 700, fontSize: 18 }}>Sort</Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: 18 }}>
+                  Sort
+                </Typography>
                 <IconButton onClick={() => setSortDrawerOpen(false)}>
                   <CloseIcon />
                 </IconButton>
@@ -635,13 +713,22 @@ const MyTrips = () => {
                   <ListItem key={status} disablePadding>
                     <ListItemButton
                       onClick={() => handleSortSelect(status)}
-                      sx={{ py: 1.8, bgcolor: selectedStatus === status ? "#f0fdf4" : "transparent" }}
+                      sx={{
+                        py: 1.8,
+                        bgcolor:
+                          selectedStatus === status
+                            ? "var(--mb-brand-soft-bg)"
+                            : "transparent",
+                      }}
                     >
                       <ListItemText
                         primary={status}
                         primaryTypographyProps={{
                           fontWeight: selectedStatus === status ? 700 : 500,
-                          color: selectedStatus === status ? GREEN : "#333",
+                          color:
+                            selectedStatus === status
+                              ? GREEN
+                              : "var(--mb-text-body)",
                         }}
                       />
                     </ListItemButton>
@@ -654,9 +741,9 @@ const MyTrips = () => {
               elevation={0}
               sx={{
                 flex: 1,
-                bgcolor: "#ffffff",
+                bgcolor: "var(--mb-surface)",
                 borderRadius: "16px",
-                border: "1px solid #e8e8e8",
+                border: "1px solid var(--mb-border)",
                 p: { xs: 2, sm: 3, md: 4 },
                 minHeight: "600px",
                 minWidth: 0,
@@ -670,11 +757,17 @@ const MyTrips = () => {
                     gap: 1,
                     mb: 2,
                     pb: 1.5,
-                    borderBottom: "1px solid #f3f4f6",
+                    borderBottom: "1px solid var(--mb-surface-muted)",
                   }}
                 >
                   <CalendarMonthIcon sx={{ fontSize: 18, color: GREEN }} />
-                  <Typography sx={{ fontWeight: 700, fontSize: 15, color: "#1a1a1a" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: 15,
+                      color: "var(--mb-text-strong)",
+                    }}
+                  >
                     {selectedCategory}
                   </Typography>
                 </Box>
@@ -683,7 +776,13 @@ const MyTrips = () => {
               {selectedCategory === "Bus" ? (
                 isBusCancelledView ? (
                   busCancellationsLoading ? (
-                    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                        gap: 2,
+                      }}
+                    >
                       {Array.from({ length: 4 }).map((_, i) => (
                         <FlightCardSkeleton key={`bus-cancel-skel-${i}`} />
                       ))}
@@ -721,11 +820,21 @@ const MyTrips = () => {
                       }}
                     >
                       <Box sx={{ mb: 3, fontSize: 80, opacity: 0.3 }}>📅</Box>
-                      <Typography sx={{ fontSize: { xs: 18, sm: 24 }, fontWeight: 700, color: "#1a1a1a", mb: 1 }}>
+                      <Typography
+                        sx={{
+                          fontSize: { xs: 18, sm: 24 },
+                          fontWeight: 700,
+                          color: "var(--mb-text-strong)",
+                          mb: 1,
+                        }}
+                      >
                         No Cancelled Bookings
                       </Typography>
-                      <Typography sx={{ color: "#666", fontSize: 14 }}>
-                        Looks like you don't have any bus cancellation requests yet.
+                      <Typography
+                        sx={{ color: "var(--mb-text-muted)", fontSize: 14 }}
+                      >
+                        Looks like you don't have any bus cancellation requests
+                        yet.
                       </Typography>
                     </Box>
                   )
@@ -734,7 +843,13 @@ const MyTrips = () => {
                 )
               ) : isCancelledView ? (
                 cancellationsLoading ? (
-                  <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                      gap: 2,
+                    }}
+                  >
                     {Array.from({ length: 4 }).map((_, i) => (
                       <FlightCardSkeleton key={`cancel-skel-${i}`} />
                     ))}
@@ -755,7 +870,10 @@ const MyTrips = () => {
                           mb: 2,
                         }}
                       >
-                        <CancellationCard orderId={orderId} requests={requests} />
+                        <CancellationCard
+                          orderId={orderId}
+                          requests={requests}
+                        />
                       </Box>
                     ))}
                   </Box>
@@ -772,10 +890,19 @@ const MyTrips = () => {
                     }}
                   >
                     <Box sx={{ mb: 3, fontSize: 80, opacity: 0.3 }}>📅</Box>
-                    <Typography sx={{ fontSize: { xs: 18, sm: 24 }, fontWeight: 700, color: "#1a1a1a", mb: 1 }}>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: 18, sm: 24 },
+                        fontWeight: 700,
+                        color: "var(--mb-text-strong)",
+                        mb: 1,
+                      }}
+                    >
                       No Cancelled Bookings
                     </Typography>
-                    <Typography sx={{ color: "#666", fontSize: 14 }}>
+                    <Typography
+                      sx={{ color: "var(--mb-text-muted)", fontSize: 14 }}
+                    >
                       Looks like you don't have any cancellation requests yet.
                     </Typography>
                   </Box>
@@ -783,17 +910,29 @@ const MyTrips = () => {
               ) : isHotelCancelledView ? (
                 // ✅ NAYA — Hotels > Cancelled tab
                 hotelCancellationsLoading ? (
-                  <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                      gap: 2,
+                    }}
+                  >
                     {Array.from({ length: 4 }).map((_, i) => (
                       <FlightCardSkeleton key={`hotel-cancel-skel-${i}`} />
                     ))}
                   </Box>
                 ) : hotelCancellations.length > 0 ? (
-                  <Box sx={{ columnCount: { xs: 1, sm: 2 }, columnGap: "16px" }}>
+                  <Box
+                    sx={{ columnCount: { xs: 1, sm: 2 }, columnGap: "16px" }}
+                  >
                     {hotelCancellations.map((item) => (
                       <Box
                         key={item.changeRequestId}
-                        sx={{ breakInside: "avoid", WebkitColumnBreakInside: "avoid", mb: 2 }}
+                        sx={{
+                          breakInside: "avoid",
+                          WebkitColumnBreakInside: "avoid",
+                          mb: 2,
+                        }}
                       >
                         <HotelCancellationCard booking={item} />
                       </Box>
@@ -812,24 +951,46 @@ const MyTrips = () => {
                     }}
                   >
                     <Box sx={{ mb: 3, fontSize: 80, opacity: 0.3 }}>📅</Box>
-                    <Typography sx={{ fontSize: { xs: 18, sm: 24 }, fontWeight: 700, color: "#1a1a1a", mb: 1 }}>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: 18, sm: 24 },
+                        fontWeight: 700,
+                        color: "var(--mb-text-strong)",
+                        mb: 1,
+                      }}
+                    >
                       No Cancelled Bookings
                     </Typography>
-                    <Typography sx={{ color: "#666", fontSize: 14 }}>
-                      Looks like you don't have any hotel cancellation requests yet.
+                    <Typography
+                      sx={{ color: "var(--mb-text-muted)", fontSize: 14 }}
+                    >
+                      Looks like you don't have any hotel cancellation requests
+                      yet.
                     </Typography>
                   </Box>
                 )
               ) : isHotelsView ? (
                 hotelLoading && hotelBookings.length === 0 ? (
-                  <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                      gap: 2,
+                    }}
+                  >
                     {Array.from({ length: BATCH_SIZE }).map((_, i) => (
                       <HotelCardSkeleton key={`hotel-initial-skel-${i}`} />
                     ))}
                   </Box>
                 ) : displayedHotelBookings.length > 0 ? (
                   <>
-                    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                        gap: 2,
+                      }}
+                    >
                       {displayedHotelBookings.map((booking) => (
                         <HotelCard
                           key={booking.booking_id}
@@ -857,16 +1018,29 @@ const MyTrips = () => {
                         }}
                       >
                         {hotelLoadingMore && (
-                          <Typography sx={{ fontSize: 13, color: "#888" }}>Loading more...</Typography>
+                          <Typography
+                            sx={{ fontSize: 13, color: "var(--mb-text-faint)" }}
+                          >
+                            Loading more...
+                          </Typography>
                         )}
                       </Box>
                     )}
 
-                    {!hotelHasMore && hotelBookings.length > HOTEL_PAGE_SIZE && (
-                      <Typography sx={{ textAlign: "center", fontSize: 12.5, color: "#999", mt: 3 }}>
-                        You've reached the end — all {hotelBookings.length} bookings shown.
-                      </Typography>
-                    )}
+                    {!hotelHasMore &&
+                      hotelBookings.length > HOTEL_PAGE_SIZE && (
+                        <Typography
+                          sx={{
+                            textAlign: "center",
+                            fontSize: 12.5,
+                            color: "var(--mb-text-faint)",
+                            mt: 3,
+                          }}
+                        >
+                          You've reached the end — all {hotelBookings.length}{" "}
+                          bookings shown.
+                        </Typography>
+                      )}
                   </>
                 ) : hotelBookings.length > 0 ? (
                   // ✅ NAYA — raw data hai lekin selected status ka koi match nahi mila
@@ -882,11 +1056,21 @@ const MyTrips = () => {
                     }}
                   >
                     <Box sx={{ mb: 3, fontSize: 80, opacity: 0.3 }}>🏨</Box>
-                    <Typography sx={{ fontSize: { xs: 18, sm: 24 }, fontWeight: 700, color: "#1a1a1a", mb: 1 }}>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: 18, sm: 24 },
+                        fontWeight: 700,
+                        color: "var(--mb-text-strong)",
+                        mb: 1,
+                      }}
+                    >
                       No {selectedStatus} Hotel Bookings
                     </Typography>
-                    <Typography sx={{ color: "#666", fontSize: 14 }}>
-                      Looks like you don't have any {selectedStatus.toLowerCase()} hotel bookings yet.
+                    <Typography
+                      sx={{ color: "var(--mb-text-muted)", fontSize: 14 }}
+                    >
+                      Looks like you don't have any{" "}
+                      {selectedStatus.toLowerCase()} hotel bookings yet.
                     </Typography>
                   </Box>
                 ) : (
@@ -902,22 +1086,43 @@ const MyTrips = () => {
                     }}
                   >
                     <Box sx={{ mb: 3, fontSize: 80, opacity: 0.3 }}>🏨</Box>
-                    <Typography sx={{ fontSize: { xs: 18, sm: 24 }, fontWeight: 700, color: "#1a1a1a", mb: 1 }}>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: 18, sm: 24 },
+                        fontWeight: 700,
+                        color: "var(--mb-text-strong)",
+                        mb: 1,
+                      }}
+                    >
                       No Hotel Bookings
                     </Typography>
-                    <Typography sx={{ color: "#666", fontSize: 14 }}>
+                    <Typography
+                      sx={{ color: "var(--mb-text-muted)", fontSize: 14 }}
+                    >
                       Looks like you don't have any hotel bookings yet.
                     </Typography>
                     <Button
                       variant="contained"
-                      sx={{ mt: 3, bgcolor: GREEN, textTransform: "none", fontWeight: 600, "&:hover": { bgcolor: "#15803d" } }}
+                      sx={{
+                        mt: 3,
+                        bgcolor: GREEN,
+                        textTransform: "none",
+                        fontWeight: 600,
+                        "&:hover": { bgcolor: "var(--mb-brand-hover)" },
+                      }}
                     >
                       Book your next stay
                     </Button>
                   </Box>
                 )
               ) : selectedCategory === "Flights" && loading ? (
-                <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                    gap: 2,
+                  }}
+                >
                   {Array.from({ length: BATCH_SIZE }).map((_, i) => (
                     <FlightCardSkeleton key={`initial-skel-${i}`} />
                   ))}
@@ -925,18 +1130,28 @@ const MyTrips = () => {
               ) : filteredData.length > 0 ? (
                 selectedCategory === "Flights" ? (
                   <>
-                    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                        gap: 2,
+                      }}
+                    >
                       {visibleData.map((booking) => (
                         <FlightCard
                           key={`${booking.order_id}-${booking.booking_id}`}
                           booking={booking}
                           onViewDetails={handleOpenDetails}
-                          detailsLoading={detailsLoadingId === booking.booking_id}
+                          detailsLoading={
+                            detailsLoadingId === booking.booking_id
+                          }
                         />
                       ))}
 
                       {loadingMore &&
-                        Array.from({ length: 2 }).map((_, i) => <FlightCardSkeleton key={`skel-${i}`} />)}
+                        Array.from({ length: 2 }).map((_, i) => (
+                          <FlightCardSkeleton key={`skel-${i}`} />
+                        ))}
                     </Box>
 
                     {hasMore && (
@@ -951,7 +1166,9 @@ const MyTrips = () => {
                         }}
                       >
                         {loadingMore && (
-                          <Typography sx={{ fontSize: 13, color: "#888" }}>
+                          <Typography
+                            sx={{ fontSize: 13, color: "var(--mb-text-faint)" }}
+                          >
                             Loading more...
                           </Typography>
                         )}
@@ -960,16 +1177,26 @@ const MyTrips = () => {
 
                     {!hasMore && filteredData.length > BATCH_SIZE && (
                       <Typography
-                        sx={{ textAlign: "center", fontSize: 12.5, color: "#999", mt: 3 }}
+                        sx={{
+                          textAlign: "center",
+                          fontSize: 12.5,
+                          color: "var(--mb-text-faint)",
+                          mt: 3,
+                        }}
                       >
-                        You've reached the end — all {filteredData.length} bookings shown.
+                        You've reached the end — all {filteredData.length}{" "}
+                        bookings shown.
                       </Typography>
                     )}
                   </>
                 ) : (
                   <Box>
                     {filteredData.map((booking) => (
-                      <StaticCard key={booking.id} booking={booking} selectedCategory={selectedCategory} />
+                      <StaticCard
+                        key={booking.id}
+                        booking={booking}
+                        selectedCategory={selectedCategory}
+                      />
                     ))}
                   </Box>
                 )
@@ -986,17 +1213,35 @@ const MyTrips = () => {
                   }}
                 >
                   <Box sx={{ mb: 3, fontSize: 80, opacity: 0.3 }}>📅</Box>
-                  <Typography sx={{ fontSize: { xs: 18, sm: 24 }, fontWeight: 700, color: "#1a1a1a", mb: 1 }}>
-                    No {selectedStatus === "All" ? "" : selectedStatus + " "}Bookings
+                  <Typography
+                    sx={{
+                      fontSize: { xs: 18, sm: 24 },
+                      fontWeight: 700,
+                      color: "var(--mb-text-strong)",
+                      mb: 1,
+                    }}
+                  >
+                    No {selectedStatus === "All" ? "" : selectedStatus + " "}
+                    Bookings
                   </Typography>
-                  <Typography sx={{ color: "#666", fontSize: 14 }}>
+                  <Typography
+                    sx={{ color: "var(--mb-text-muted)", fontSize: 14 }}
+                  >
                     Looks like you don't have any{" "}
-                    {selectedStatus === "All" ? "" : selectedStatus.toLowerCase() + " "}
+                    {selectedStatus === "All"
+                      ? ""
+                      : selectedStatus.toLowerCase() + " "}
                     {selectedCategory.toLowerCase()} bookings yet.
                   </Typography>
                   <Button
                     variant="contained"
-                    sx={{ mt: 3, bgcolor: GREEN, textTransform: "none", fontWeight: 600, "&:hover": { bgcolor: "#15803d" } }}
+                    sx={{
+                      mt: 3,
+                      bgcolor: GREEN,
+                      textTransform: "none",
+                      fontWeight: 600,
+                      "&:hover": { bgcolor: "var(--mb-brand-hover)" },
+                    }}
                   >
                     Book your next trip
                   </Button>
@@ -1007,7 +1252,11 @@ const MyTrips = () => {
         </Box>
       </Box>
 
-      <BookingDetailsDialog open={openDetails} bookings={selectedBookings} onClose={handleCloseDetails} />
+      <BookingDetailsDialog
+        open={openDetails}
+        bookings={selectedBookings}
+        onClose={handleCloseDetails}
+      />
 
       <HotelBookingDetailsDialog
         open={hotelDetailsOpen}

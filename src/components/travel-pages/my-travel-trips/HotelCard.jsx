@@ -18,15 +18,21 @@ import { GREEN } from "components/travel-hooks/my-trips/constants";
 import { cancelHotelBooking } from "components/travel-hooks/my-trips/MyTripsApi";
 
 const HOTEL_STATUS_STYLE = {
-  Confirmed: { bg: "#dcfce7", color: "var(--ht-brand-strong-text)" },
-  Pending: { bg: "#fef3c7", color: "#b45309" },
-  Failed: { bg: "#fee2e2", color: "var(--ht-danger-text)" },
+  Confirmed: {
+    bg: "var(--mb-success-bg-strong)",
+    color: "var(--ht-brand-strong-text)",
+  },
+  Pending: { bg: "var(--mb-warn-bg)", color: "var(--mb-warn-strong-text)" },
+  Failed: { bg: "var(--mb-danger-bg-strong)", color: "var(--ht-danger-text)" },
 };
 
 const BOOKING_STATUS_STYLE = {
-  Upcoming: { bg: "#dbeafe", color: "var(--ht-info-text)" },
-  Completed: { bg: "#f3f4f6", color: "var(--ht-text-body)" },
-  Cancelled: { bg: "#fee2e2", color: "var(--ht-danger-text)" },
+  Upcoming: { bg: "var(--mb-info-bg-strong)", color: "var(--ht-info-text)" },
+  Completed: { bg: "var(--mb-surface-muted)", color: "var(--ht-text-body)" },
+  Cancelled: {
+    bg: "var(--mb-danger-bg-strong)",
+    color: "var(--ht-danger-text)",
+  },
 };
 
 const formatDate = (iso) => {
@@ -61,11 +67,11 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
   const [cancelling, setCancelling] = useState(false);
 
   const hotelStyle = HOTEL_STATUS_STYLE[hotel_booking_status] || {
-    bg: "#f3f4f6",
+    bg: "var(--mb-surface-muted)",
     color: "var(--ht-text-muted)",
   };
   const bookingStyle = BOOKING_STATUS_STYLE[booking_status] || {
-    bg: "#f3f4f6",
+    bg: "var(--mb-surface-muted)",
     color: "var(--ht-text-muted)",
   };
 
@@ -155,7 +161,7 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
         transition: "all 0.2s ease",
         "&:hover": {
           boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-          borderColor: "#d1fae5",
+          borderColor: "var(--mb-success-border)",
         },
       }}
     >
@@ -286,7 +292,10 @@ const HotelCard = ({ booking, onViewDetails, onCancelSuccess }) => {
                 sx={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: payment?.status === "SUCCESS" ? GREEN : "#dc2626",
+                  color:
+                    payment?.status === "SUCCESS"
+                      ? GREEN
+                      : "var(--mb-danger-text)",
                 }}
               >
                 {payment?.status}

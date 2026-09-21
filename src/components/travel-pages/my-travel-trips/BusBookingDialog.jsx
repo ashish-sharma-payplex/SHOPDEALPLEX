@@ -43,27 +43,27 @@ const formatDateTime = (iso, opts) =>
 
 const STATUS_STYLES = {
   CONFIRMED: {
-    bg: "#dcfce7",
-    text: "#15803d",
+    bg: "var(--mb-success-bg-strong)",
+    text: "var(--mb-brand-strong-text)",
     icon: CheckCircleIcon,
     subtitle: "Booking Confirmed",
   },
   CANCELLED: {
-    bg: "#fee2e2",
-    text: "#b91c1c",
+    bg: "var(--mb-danger-bg-strong)",
+    text: "var(--mb-danger-strong-text)",
     icon: CancelIcon,
     subtitle: "Booking Cancelled",
   },
   PENDING: {
-    bg: "#fef9c3",
-    text: "#a16207",
+    bg: "var(--mb-warn-bg)",
+    text: "var(--mb-warn-deep-text)",
     icon: ScheduleIcon,
     subtitle: "Awaiting Confirmation",
   },
 };
 const DEFAULT_STATUS_STYLE = {
-  bg: "#f3f4f6",
-  text: "#374151",
+  bg: "var(--mb-surface-muted)",
+  text: "var(--mb-text-body)",
   icon: InfoOutlinedIcon,
   subtitle: "",
 };
@@ -103,7 +103,7 @@ const BusBookingDetailsDialog = ({
   const sectionTitleSx = {
     fontWeight: 800,
     fontSize: 15,
-    color: "#0f1e4d",
+    color: "var(--mb-title)",
     mb: 1.5,
   };
 
@@ -155,6 +155,8 @@ const BusBookingDetailsDialog = ({
       maxWidth="md"
       PaperProps={{
         sx: {
+          bgcolor: "var(--mb-surface)",
+          backgroundImage: "none",
           borderRadius: 3,
           overflow: "hidden",
           maxHeight: "92vh",
@@ -165,7 +167,7 @@ const BusBookingDetailsDialog = ({
       {/* ── Header bar ── */}
       <Box
         sx={{
-          bgcolor: "#0f1e4d",
+          bgcolor: "var(--mb-header-bg)",
           color: "var(--bs-text-on-brand)",
           px: { xs: 2, sm: 3 },
           py: 2,
@@ -272,7 +274,9 @@ const BusBookingDetailsDialog = ({
                       {journey?.origin}
                     </Typography>
                   </Box>
-                  <DirectionsBusIcon sx={{ fontSize: 18, color: "#c9c9c9" }} />
+                  <DirectionsBusIcon
+                    sx={{ fontSize: 18, color: "var(--mb-text-disabled)" }}
+                  />
                   <Box sx={{ textAlign: "center" }}>
                     <Typography
                       sx={{
@@ -486,7 +490,8 @@ const BusBookingDetailsDialog = ({
                     key={idx}
                     sx={{
                       py: 1.25,
-                      borderTop: idx > 0 ? "1px solid #f1f1f1" : "none",
+                      borderTop:
+                        idx > 0 ? "1px solid var(--mb-border-soft)" : "none",
                     }}
                   >
                     <Box
@@ -692,7 +697,11 @@ const BusBookingDetailsDialog = ({
                 >
                   <GavelIcon sx={{ fontSize: 18, color: GREEN }} />
                   <Typography
-                    sx={{ fontWeight: 800, fontSize: 15, color: "#0f1e4d" }}
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: 15,
+                      color: "var(--mb-title)",
+                    }}
                   >
                     Cancellation Policy
                   </Typography>
@@ -705,7 +714,8 @@ const BusBookingDetailsDialog = ({
                       justifyContent: "space-between",
                       alignItems: "center",
                       py: 1,
-                      borderTop: idx > 0 ? "1px solid #f1f1f1" : "none",
+                      borderTop:
+                        idx > 0 ? "1px solid var(--mb-border-soft)" : "none",
                     }}
                   >
                     <Typography
@@ -742,7 +752,11 @@ const BusBookingDetailsDialog = ({
                 >
                   <HistoryIcon sx={{ fontSize: 18, color: GREEN }} />
                   <Typography
-                    sx={{ fontWeight: 800, fontSize: 15, color: "#0f1e4d" }}
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: 15,
+                      color: "var(--mb-title)",
+                    }}
                   >
                     Booking History
                   </Typography>
@@ -752,7 +766,8 @@ const BusBookingDetailsDialog = ({
                     key={idx}
                     sx={{
                       py: 1,
-                      borderTop: idx > 0 ? "1px solid #f1f1f1" : "none",
+                      borderTop:
+                        idx > 0 ? "1px solid var(--mb-border-soft)" : "none",
                     }}
                   >
                     <Typography
@@ -832,7 +847,9 @@ const BusBookingDetailsDialog = ({
               <InfoOutlinedIcon
                 sx={{ fontSize: 18, color: "var(--bs-info-text)" }}
               />
-              <Typography sx={{ fontSize: 12.5, color: "#3730a3" }}>
+              <Typography
+                sx={{ fontSize: 12.5, color: "var(--mb-indigo-strong-text)" }}
+              >
                 Please carry a valid photo ID at the time of boarding.
               </Typography>
             </Box>
@@ -867,7 +884,12 @@ const BusBookingDetailsDialog = ({
                       >
                         Cancel this booking?
                       </Typography>
-                      <Typography sx={{ fontSize: 12, color: "#7f1d1d" }}>
+                      <Typography
+                        sx={{
+                          fontSize: 12,
+                          color: "var(--mb-danger-deep-text)",
+                        }}
+                      >
                         Cancellation charges may apply as per the policy above.
                       </Typography>
                     </Box>

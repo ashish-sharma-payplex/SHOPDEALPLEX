@@ -88,13 +88,27 @@ const routeLabel = (group = []) => {
 };
 
 // ✅ NAYA — ek khaali sector row banane ka helper
-const emptySector = (origin = "", destination = "") => ({ origin, destination });
+const emptySector = (origin = "", destination = "") => ({
+  origin,
+  destination,
+});
 
-export default function CancelTicketDialog({ open, booking, onClose, onSuccess }) {
-  const { getCancellationCharges, loading: chargesLoading, error: chargesError } =
-    useFlightCancellationCharges();
-  const { sendChangeRequest, loading: submitting, error: submitError } =
-    useFlightChangeRequest();
+export default function CancelTicketDialog({
+  open,
+  booking,
+  onClose,
+  onSuccess,
+}) {
+  const {
+    getCancellationCharges,
+    loading: chargesLoading,
+    error: chargesError,
+  } = useFlightCancellationCharges();
+  const {
+    sendChangeRequest,
+    loading: submitting,
+    error: submitError,
+  } = useFlightChangeRequest();
 
   const cancellableJourneys = useMemo(
     () => (booking?.journeys || []).filter((j) => j.booking_id),
@@ -137,7 +151,8 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
   // ✅ NAYA — multi-sector sirf Partial Cancellation + "Others" reason
   // ke combination me allow hoga. Baaki sab combinations me (Partial +
   // No Show / Flight Cancelled) pehle jaisa hi single sector rahega.
-  const allowMultipleSectors = isPartial && cancellationType === OTHERS_CANCELLATION_TYPE;
+  const allowMultipleSectors =
+    isPartial && cancellationType === OTHERS_CANCELLATION_TYPE;
 
   // ✅ UPDATED — Ticket Id selection ab SIRF Partial Cancellation
   // (RequestType 2) me allow hogi. Full Cancellation (1) + Others (3)
@@ -164,7 +179,12 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
     setTripGroups([]); // ✅ NAYA
     setJourneyTypeCode(null); // ✅ NAYA
     setLocalSubmitError(null); // ✅ purana "already exists" error yahi clear hota hai
-    setSectors([emptySector(selectedJourney.origin || "", selectedJourney.destination || "")]);
+    setSectors([
+      emptySector(
+        selectedJourney.origin || "",
+        selectedJourney.destination || "",
+      ),
+    ]);
 
     (async () => {
       try {
@@ -237,7 +257,9 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
   // ✅ NAYA — sector row helpers
   const updateSector = (idx, field, value) => {
     setSectors((prev) =>
-      prev.map((s, i) => (i === idx ? { ...s, [field]: value.toUpperCase() } : s)),
+      prev.map((s, i) =>
+        i === idx ? { ...s, [field]: value.toUpperCase() } : s,
+      ),
     );
   };
 
@@ -246,12 +268,15 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
   };
 
   const removeSector = (idx) => {
-    setSectors((prev) => (prev.length > 1 ? prev.filter((_, i) => i !== idx) : prev));
+    setSectors((prev) =>
+      prev.length > 1 ? prev.filter((_, i) => i !== idx) : prev,
+    );
   };
 
   const raw = charges?.raw?.Response;
   const refundAmount = raw?.RefundAmount ?? charges?.refund_amount;
-  const cancellationCharge = raw?.CancellationCharge ?? charges?.cancellation_charge;
+  const cancellationCharge =
+    raw?.CancellationCharge ?? charges?.cancellation_charge;
   const currency = raw?.Currency ?? charges?.currency ?? "INR";
   const gst = raw?.GST;
   const paxCharges = raw?.CancelChargeDetails || [];
@@ -261,13 +286,14 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
     passengers.length === 1
       ? passengers[0]?.Ticket?.TicketId
       : passengers.length > 1
-        ? "Multiple"
-        : null;
+      ? "Multiple"
+      : null;
 
   // ✅ UPDATED — Partial me har sector row ka Origin + Destination dono
   // filled hone chahiye (chahe 1 ho ya multiple)
   const sectorsValid =
-    !isPartial || sectors.every((s) => s.origin?.trim() && s.destination?.trim());
+    !isPartial ||
+    sectors.every((s) => s.origin?.trim() && s.destination?.trim());
 
   // ✅ UPDATED — TicketId ab sirf Partial ke liye mandatory hai. Baaki
   // combinations (jaha selector hi nahi dikhta) me ye check apne aap
@@ -296,7 +322,10 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
         // entry hoti hai — jaisa pehle tha. "Others" ke saath user ne
         // agar aur rows add ki hain, to wo sab is array me chali jaayengi.
         ...(isPartial && {
-          Sectors: sectors.map((s) => ({ Origin: s.origin, Destination: s.destination })),
+          Sectors: sectors.map((s) => ({
+            Origin: s.origin,
+            Destination: s.destination,
+          })),
         }),
         // ✅ UPDATED — TicketId ab sirf Partial Cancellation me bhejte hain.
         ...(requiresTicketSelection && {
@@ -318,17 +347,28 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
   if (!booking) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth scroll="paper">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      scroll="paper"
+      PaperProps={{
+        sx: { bgcolor: "var(--mb-surface)", backgroundImage: "none" },
+      }}
+    >
       <DialogTitle
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          borderBottom: "1px solid #f0f0f0",
+          borderBottom: "1px solid var(--mb-border-soft)",
           py: 1.5,
         }}
       >
-        <Typography sx={{ fontWeight: 800, fontSize: 17 }}>Cancel Ticket</Typography>
+        <Typography sx={{ fontWeight: 800, fontSize: 17 }}>
+          Cancel Ticket
+        </Typography>
         <IconButton onClick={onClose} size="small">
           <CloseIcon fontSize="small" />
         </IconButton>
@@ -339,26 +379,29 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
           <Box sx={{ p: 3 }}>
             <Box sx={{ textAlign: "center", mb: 2 }}>
               <Box sx={{ fontSize: 46, mb: 1 }}>✅</Box>
-              <Typography sx={{ fontWeight: 800, fontSize: 17, color: GREEN, mb: 0.5 }}>
-
+              <Typography
+                sx={{ fontWeight: 800, fontSize: 17, color: GREEN, mb: 0.5 }}
+              >
                 Cancellation Request Submitted
               </Typography>
-              <Typography sx={{ fontSize: 13, color: "#6b7280" }}>
+              <Typography sx={{ fontSize: 13, color: "var(--mb-text-muted)" }}>
                 {submitted.message}
               </Typography>
             </Box>
 
             <Box
               sx={{
-                border: "1px solid #e5e7eb",
+                border: "1px solid var(--mb-border)",
                 borderRadius: 2.5,
                 p: 1.8,
-                bgcolor: "#fafafa",
+                bgcolor: "var(--mb-surface-subtle)",
               }}
             >
               <Grid container spacing={1.4}>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
                     Change Request ID
                   </Typography>
                   <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
@@ -366,7 +409,9 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
                     Status
                   </Typography>
                   <Chip
@@ -376,22 +421,32 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                       fontSize: 11,
                       height: 20,
                       textTransform: "capitalize",
-                      bgcolor: "#fef3c7",
-                      color: "#92400e",
+                      bgcolor: "var(--mb-warn-bg)",
+                      color: "var(--mb-warn-text)",
                       fontWeight: 700,
                     }}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
                     Request Status
                   </Typography>
-                  <Typography sx={{ fontSize: 13, fontWeight: 700, textTransform: "capitalize" }}>
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      textTransform: "capitalize",
+                    }}
+                  >
                     {submitted.request_status_label}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
                     Remarks
                   </Typography>
                   <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
@@ -403,29 +458,51 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
               {/* ✅ NAYA — jab submit hua tha use multiple sectors, to confirmation
                   screen pe bhi wo sab sectors dikha do, taaki user ko confirm ho
                   jaaye ki dono/saari sectors sahi se submit hui hain. */}
-              {isPartial && sectors.length > 0 && sectors.some((s) => s.origin || s.destination) && (
-                <>
-                  <Divider sx={{ my: 1.4 }} />
-                  <Typography sx={{ fontSize: 11, fontWeight: 800, color: "#111827", mb: 0.8 }}>
-                    Sector(s) Submitted
-                  </Typography>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.8 }}>
-                    {sectors.map((s, idx) => (
-                      <Chip
-                        key={idx}
-                        size="small"
-                        label={`${s.origin || "—"} → ${s.destination || "—"}`}
-                        sx={{ fontSize: 11, height: 22, bgcolor: "#f0fdf4", color: GREEN, fontWeight: 700 }}
-                      />
-                    ))}
-                  </Box>
-                </>
-              )}
+              {isPartial &&
+                sectors.length > 0 &&
+                sectors.some((s) => s.origin || s.destination) && (
+                  <>
+                    <Divider sx={{ my: 1.4 }} />
+                    <Typography
+                      sx={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: "var(--mb-text-strong)",
+                        mb: 0.8,
+                      }}
+                    >
+                      Sector(s) Submitted
+                    </Typography>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.8 }}>
+                      {sectors.map((s, idx) => (
+                        <Chip
+                          key={idx}
+                          size="small"
+                          label={`${s.origin || "—"} → ${s.destination || "—"}`}
+                          sx={{
+                            fontSize: 11,
+                            height: 22,
+                            bgcolor: "var(--mb-brand-soft-bg)",
+                            color: GREEN,
+                            fontWeight: 700,
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </>
+                )}
 
               {submitted.raw?.TicketCRInfo?.length > 0 && (
                 <>
                   <Divider sx={{ my: 1.4 }} />
-                  <Typography sx={{ fontSize: 11, fontWeight: 800, color: "#111827", mb: 0.8 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: "var(--mb-text-strong)",
+                      mb: 0.8,
+                    }}
+                  >
                     Ticket-wise Status
                   </Typography>
                   {submitted.raw.TicketCRInfo.map((t, idx) => (
@@ -439,15 +516,21 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                         mb: 0.6,
                       }}
                     >
-                      <span>Ticket ID: <b>{t.TicketId}</b></span>
+                      <span>
+                        Ticket ID: <b>{t.TicketId}</b>
+                      </span>
                       <Chip
                         size="small"
                         label={t.Remarks}
                         sx={{
                           fontSize: 10.5,
                           height: 19,
-                          bgcolor: t.Status === 1 ? "#f0fdf4" : "#fef2f2",
-                          color: t.Status === 1 ? GREEN : "#dc2626",
+                          bgcolor:
+                            t.Status === 1
+                              ? "var(--mb-brand-soft-bg)"
+                              : "var(--mb-danger-bg)",
+                          color:
+                            t.Status === 1 ? GREEN : "var(--mb-danger-text)",
                           fontWeight: 700,
                         }}
                       />
@@ -456,7 +539,9 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                 </>
               )}
 
-              <Typography sx={{ fontSize: 10.5, color: "#9ca3af", mt: 1.2 }}>
+              <Typography
+                sx={{ fontSize: 10.5, color: "var(--mb-text-faint)", mt: 1.2 }}
+              >
                 Trace ID: {submitted.trace_id}
               </Typography>
             </Box>
@@ -465,14 +550,23 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
           <Box sx={{ p: 2.5 }}>
             {cancellableJourneys.length > 1 && (
               <Box sx={{ mb: 2 }}>
-                <Typography sx={{ fontSize: 11.5, fontWeight: 700, color: "#9ca3af", mb: 0.8 }}>
+                <Typography
+                  sx={{
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    color: "var(--mb-text-faint)",
+                    mb: 0.8,
+                  }}
+                >
                   SELECT LEG TO CANCEL
                 </Typography>
                 <ToggleButtonGroup
                   value={selectedJourneyIdx}
                   exclusive
                   size="small"
-                  onChange={(_, val) => val !== null && setSelectedJourneyIdx(val)}
+                  onChange={(_, val) =>
+                    val !== null && setSelectedJourneyIdx(val)
+                  }
                   sx={{ display: "flex", width: "100%" }}
                 >
                   {cancellableJourneys.map((j, idx) => (
@@ -484,7 +578,11 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                         textTransform: "none",
                         fontWeight: 600,
                         fontSize: 12.5,
-                        "&.Mui-selected": { bgcolor: "#f0fdf4", color: GREEN, borderColor: GREEN },
+                        "&.Mui-selected": {
+                          bgcolor: "var(--mb-brand-soft-bg)",
+                          color: GREEN,
+                          borderColor: GREEN,
+                        },
                       }}
                     >
                       {j.journey_type} · {j.origin}→{j.destination}
@@ -497,11 +595,11 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
             {/* ── TICKET SUMMARY ────────────────────────────────────────── */}
             <Box
               sx={{
-                border: "1px solid #e5e7eb",
+                border: "1px solid var(--mb-border)",
                 borderRadius: 2.5,
                 p: 1.8,
                 mb: 2,
-                bgcolor: "#fafafa",
+                bgcolor: "var(--mb-surface-subtle)",
               }}
             >
               {/* ✅ UPDATED — agar booking-details se pata chale ki ye
@@ -512,32 +610,93 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                   rahega — koi change nahi. */}
               {isRoundTripItinerary ? (
                 <Box sx={{ mb: 1 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-                    <FlightIcon sx={{ fontSize: 18, color: GREEN, transform: "rotate(45deg)" }} />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      mb: 1,
+                    }}
+                  >
+                    <FlightIcon
+                      sx={{
+                        fontSize: 18,
+                        color: GREEN,
+                        transform: "rotate(45deg)",
+                      }}
+                    />
                     <Chip
                       size="small"
                       label="Round Trip"
-                      sx={{ fontSize: 10.5, height: 20, bgcolor: "#ede9fe", color: "#7c3aed", fontWeight: 700 }}
+                      sx={{
+                        fontSize: 10.5,
+                        height: 20,
+                        bgcolor: "var(--mb-purple-bg)",
+                        color: "var(--mb-purple-text)",
+                        fontWeight: 700,
+                      }}
                     />
                   </Box>
 
                   {/* ✅ NAYA — har group (Outbound / Return) ke andar jitne bhi
         individual segments hain (connecting flights samet), sab
         alag-alag line me dikhte hain — sirf first→last route nahi */}
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+                  >
                     {outboundGroup.length > 0 && (
                       <Box>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.4 }}>
-                          <Chip size="small" label="Outbound" sx={{ fontSize: 9.5, height: 18, bgcolor: "#dbeafe", color: "#1d4ed8", fontWeight: 700 }} />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 0.4,
+                          }}
+                        >
+                          <Chip
+                            size="small"
+                            label="Outbound"
+                            sx={{
+                              fontSize: 9.5,
+                              height: 18,
+                              bgcolor: "var(--mb-info-bg-strong)",
+                              color: "var(--mb-info-text)",
+                              fontWeight: 700,
+                            }}
+                          />
                         </Box>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.3, pl: 0.5 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 0.3,
+                            pl: 0.5,
+                          }}
+                        >
                           {outboundGroup.map((seg, idx) => (
-                            <Box key={idx} sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-                              <Typography sx={{ fontWeight: 700, fontSize: 13 }}>
-                                {seg?.Origin?.Airport?.AirportCode || "—"} → {seg?.Destination?.Airport?.AirportCode || "—"}
+                            <Box
+                              key={idx}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.75,
+                              }}
+                            >
+                              <Typography
+                                sx={{ fontWeight: 700, fontSize: 13 }}
+                              >
+                                {seg?.Origin?.Airport?.AirportCode || "—"} →{" "}
+                                {seg?.Destination?.Airport?.AirportCode || "—"}
                               </Typography>
-                              <Typography sx={{ fontSize: 11, color: "#9ca3af" }}>
-                                {seg?.Airline?.AirlineCode} {seg?.Airline?.FlightNumber}
+                              <Typography
+                                sx={{
+                                  fontSize: 11,
+                                  color: "var(--mb-text-faint)",
+                                }}
+                              >
+                                {seg?.Airline?.AirlineCode}{" "}
+                                {seg?.Airline?.FlightNumber}
                               </Typography>
                             </Box>
                           ))}
@@ -547,17 +706,57 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
 
                     {returnGroup.length > 0 && (
                       <Box>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.4 }}>
-                          <Chip size="small" label="Return" sx={{ fontSize: 9.5, height: 18, bgcolor: "#fef3c7", color: "#92400e", fontWeight: 700 }} />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 0.4,
+                          }}
+                        >
+                          <Chip
+                            size="small"
+                            label="Return"
+                            sx={{
+                              fontSize: 9.5,
+                              height: 18,
+                              bgcolor: "var(--mb-warn-bg)",
+                              color: "var(--mb-warn-text)",
+                              fontWeight: 700,
+                            }}
+                          />
                         </Box>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.3, pl: 0.5 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 0.3,
+                            pl: 0.5,
+                          }}
+                        >
                           {returnGroup.map((seg, idx) => (
-                            <Box key={idx} sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-                              <Typography sx={{ fontWeight: 700, fontSize: 13 }}>
-                                {seg?.Origin?.Airport?.AirportCode || "—"} → {seg?.Destination?.Airport?.AirportCode || "—"}
+                            <Box
+                              key={idx}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.75,
+                              }}
+                            >
+                              <Typography
+                                sx={{ fontWeight: 700, fontSize: 13 }}
+                              >
+                                {seg?.Origin?.Airport?.AirportCode || "—"} →{" "}
+                                {seg?.Destination?.Airport?.AirportCode || "—"}
                               </Typography>
-                              <Typography sx={{ fontSize: 11, color: "#9ca3af" }}>
-                                {seg?.Airline?.AirlineCode} {seg?.Airline?.FlightNumber}
+                              <Typography
+                                sx={{
+                                  fontSize: 11,
+                                  color: "var(--mb-text-faint)",
+                                }}
+                              >
+                                {seg?.Airline?.AirlineCode}{" "}
+                                {seg?.Airline?.FlightNumber}
                               </Typography>
                             </Box>
                           ))}
@@ -567,8 +766,16 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                   </Box>
                 </Box>
               ) : (
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-                  <FlightIcon sx={{ fontSize: 18, color: GREEN, transform: "rotate(45deg)" }} />
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
+                >
+                  <FlightIcon
+                    sx={{
+                      fontSize: 18,
+                      color: GREEN,
+                      transform: "rotate(45deg)",
+                    }}
+                  />
                   <Typography sx={{ fontWeight: 800, fontSize: 14 }}>
                     {selectedJourney?.origin} → {selectedJourney?.destination}
                   </Typography>
@@ -582,25 +789,41 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
 
               <Grid container spacing={1}>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>PNR</Typography>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
+                    PNR
+                  </Typography>
                   <Typography sx={{ fontSize: 12.5, fontWeight: 700 }}>
                     {selectedJourney?.pnr || "—"}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>Booking ID</Typography>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
+                    Booking ID
+                  </Typography>
                   <Typography sx={{ fontSize: 12.5, fontWeight: 700 }}>
                     {selectedJourney?.booking_id || "—"}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>Ticket ID</Typography>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
+                    Ticket ID
+                  </Typography>
                   <Typography sx={{ fontSize: 12.5, fontWeight: 700 }}>
                     {detailsLoading ? "Loading..." : summaryTicketId || "—"}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>Fare Paid</Typography>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
+                    Fare Paid
+                  </Typography>
                   <Typography sx={{ fontSize: 12.5, fontWeight: 700 }}>
                     {selectedJourney?.fare?.published_fare
                       ? money(selectedJourney.fare.published_fare)
@@ -608,7 +831,11 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>Order Status</Typography>
+                  <Typography
+                    sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                  >
+                    Order Status
+                  </Typography>
                   <Typography sx={{ fontSize: 12.5, fontWeight: 700 }}>
                     {booking.status}
                   </Typography>
@@ -617,9 +844,13 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
             </Box>
 
             {chargesLoading ? (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, py: 2 }}>
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: 1.5, py: 2 }}
+              >
                 <CircularProgress size={18} sx={{ color: GREEN }} />
-                <Typography sx={{ fontSize: 13, color: "#6b7280" }}>
+                <Typography
+                  sx={{ fontSize: 13, color: "var(--mb-text-muted)" }}
+                >
                   Fetching cancellation charges...
                 </Typography>
               </Box>
@@ -630,38 +861,63 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
             ) : charges ? (
               <Box
                 sx={{
-                  border: "1px solid #fde68a",
-                  background: "#fffbeb",
+                  border: "1px solid var(--mb-warn-border)",
+                  background: "var(--mb-warn-bg-soft)",
                   borderRadius: 2.5,
                   p: 1.8,
                   mb: 2,
                 }}
               >
-                <Typography sx={{ fontSize: 12, fontWeight: 800, color: "#92400e", mb: 1 }}>
+                <Typography
+                  sx={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: "var(--mb-warn-text)",
+                    mb: 1,
+                  }}
+                >
                   Cancellation Charges
                 </Typography>
                 <Grid container spacing={1}>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>
+                    <Typography
+                      sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                    >
                       Cancellation Charge
                     </Typography>
-                    <Typography sx={{ fontSize: 13, fontWeight: 800, color: "#dc2626" }}>
+                    <Typography
+                      sx={{
+                        fontSize: 13,
+                        fontWeight: 800,
+                        color: "var(--mb-danger-text)",
+                      }}
+                    >
                       {money(cancellationCharge, currency)}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: 10.5, color: "#9ca3af" }}>
+                    <Typography
+                      sx={{ fontSize: 10.5, color: "var(--mb-text-faint)" }}
+                    >
                       Refund Amount
                     </Typography>
-                    <Typography sx={{ fontSize: 13, fontWeight: 800, color: GREEN }}>
+                    <Typography
+                      sx={{ fontSize: 13, fontWeight: 800, color: GREEN }}
+                    >
                       {money(refundAmount, currency)}
                     </Typography>
                   </Grid>
                   {gst && (
                     <Grid item xs={12}>
-                      <Typography sx={{ fontSize: 10.5, color: "#9ca3af", mt: 0.5 }}>
-                        GST (Taxable: {money(gst.TaxableAmount, currency)}) — IGST{" "}
-                        {gst.IGSTRate}% = {money(gst.IGSTAmount, currency)}
+                      <Typography
+                        sx={{
+                          fontSize: 10.5,
+                          color: "var(--mb-text-faint)",
+                          mt: 0.5,
+                        }}
+                      >
+                        GST (Taxable: {money(gst.TaxableAmount, currency)}) —
+                        IGST {gst.IGSTRate}% = {money(gst.IGSTAmount, currency)}
                       </Typography>
                     </Grid>
                   )}
@@ -673,7 +929,12 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                     {paxCharges.map((p, idx) => (
                       <Box
                         key={idx}
-                        sx={{ display: "flex", justifyContent: "space-between", fontSize: 12, mb: 0.4 }}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontSize: 12,
+                          mb: 0.4,
+                        }}
                       >
                         <span>
                           {p.Title} {p.FirstName} {p.LastName}
@@ -688,7 +949,14 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
               </Box>
             ) : null}
 
-            <Typography sx={{ fontSize: 12, fontWeight: 800, color: "#111827", mb: 1.2 }}>
+            <Typography
+              sx={{
+                fontSize: 12,
+                fontWeight: 800,
+                color: "var(--mb-text-strong)",
+                mb: 1.2,
+              }}
+            >
               Cancellation Request Details
             </Typography>
 
@@ -736,19 +1004,34 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                     Normal case (No Show / Flight Cancelled) me sirf 1 row
                     dikhegi, koi "Add" button nahi. "Others" select hote hi
                     "+ Add Another Sector" button appear ho jayega. */}
-                <Typography sx={{ fontSize: 11.5, fontWeight: 700, color: "#9ca3af", mb: 0.8 }}>
+                <Typography
+                  sx={{
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    color: "var(--mb-text-faint)",
+                    mb: 0.8,
+                  }}
+                >
                   {allowMultipleSectors ? "SECTOR(S)" : "SECTOR"}
                 </Typography>
 
                 {sectors.map((sector, idx) => (
-                  <Grid container spacing={1.2} sx={{ mb: 1 }} key={idx} alignItems="center">
+                  <Grid
+                    container
+                    spacing={1.2}
+                    sx={{ mb: 1 }}
+                    key={idx}
+                    alignItems="center"
+                  >
                     <Grid item xs={allowMultipleSectors ? 5 : 6}>
                       <TextField
                         fullWidth
                         size="small"
                         label="Sector Origin"
                         value={sector.origin}
-                        onChange={(e) => updateSector(idx, "origin", e.target.value)}
+                        onChange={(e) =>
+                          updateSector(idx, "origin", e.target.value)
+                        }
                       />
                     </Grid>
                     <Grid item xs={allowMultipleSectors ? 5 : 6}>
@@ -757,7 +1040,9 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                         size="small"
                         label="Sector Destination"
                         value={sector.destination}
-                        onChange={(e) => updateSector(idx, "destination", e.target.value)}
+                        onChange={(e) =>
+                          updateSector(idx, "destination", e.target.value)
+                        }
                       />
                     </Grid>
                     {/* ✅ NAYA — remove button sirf tab dikhega jab multi-sector
@@ -767,7 +1052,7 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                         <IconButton
                           size="small"
                           onClick={() => removeSector(idx)}
-                          sx={{ color: "#dc2626" }}
+                          sx={{ color: "var(--mb-danger-text)" }}
                         >
                           <RemoveCircleOutlineIcon fontSize="small" />
                         </IconButton>
@@ -788,7 +1073,10 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                       color: GREEN,
                       mb: 1.6,
                       px: 0,
-                      "&:hover": { bgcolor: "transparent", textDecoration: "underline" },
+                      "&:hover": {
+                        bgcolor: "transparent",
+                        textDecoration: "underline",
+                      },
                     }}
                   >
                     Add Another Sector
@@ -804,24 +1092,33 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
                 combination ke liye ye hata diya gaya hai. */}
             {requiresTicketSelection && (
               <FormControl fullWidth size="small" sx={{ mb: 1.6 }} required>
-                <InputLabel id="ticket-ids-label">Select Passenger(s) / Ticket Id(s)</InputLabel>
+                <InputLabel id="ticket-ids-label">
+                  Select Passenger(s) / Ticket Id(s)
+                </InputLabel>
                 <Select
                   labelId="ticket-ids-label"
                   multiple
                   value={ticketIds}
-                  onChange={(e) => setTicketIds(
-                    typeof e.target.value === "string"
-                      ? e.target.value.split(",")
-                      : e.target.value
-                  )}
-                  input={<OutlinedInput label="Select Passenger(s) / Ticket Id(s)" />}
+                  onChange={(e) =>
+                    setTicketIds(
+                      typeof e.target.value === "string"
+                        ? e.target.value.split(",")
+                        : e.target.value,
+                    )
+                  }
+                  input={
+                    <OutlinedInput label="Select Passenger(s) / Ticket Id(s)" />
+                  }
                   renderValue={(selected) => selected.join(", ")}
                 >
                   {passengers.map((p) => {
                     const tid = String(p.Ticket?.TicketId || "");
                     return (
                       <MenuItem key={tid} value={tid}>
-                        <Checkbox checked={ticketIds.indexOf(tid) > -1} size="small" />
+                        <Checkbox
+                          checked={ticketIds.indexOf(tid) > -1}
+                          size="small"
+                        />
                         <ListItemText
                           primary={`${p.Title} ${p.FirstName} ${p.LastName} — Ticket #${tid}`}
                         />
@@ -852,19 +1149,29 @@ export default function CancelTicketDialog({ open, booking, onClose, onSuccess }
         )}
       </DialogContent>
 
-      <DialogActions sx={{ p: 2, borderTop: "1px solid #f0f0f0" }}>
+      <DialogActions
+        sx={{ p: 2, borderTop: "1px solid var(--mb-border-soft)" }}
+      >
         {submitted ? (
           <Button
             fullWidth
             variant="contained"
             onClick={handleDone}
-            sx={{ bgcolor: GREEN, textTransform: "none", fontWeight: 700, "&:hover": { bgcolor: "#15803d" } }}
+            sx={{
+              bgcolor: GREEN,
+              textTransform: "none",
+              fontWeight: 700,
+              "&:hover": { bgcolor: "var(--mb-brand-hover)" },
+            }}
           >
             Done
           </Button>
         ) : (
           <>
-            <Button onClick={onClose} sx={{ textTransform: "none", color: "#6b7280" }}>
+            <Button
+              onClick={onClose}
+              sx={{ textTransform: "none", color: "var(--mb-text-muted)" }}
+            >
               Close
             </Button>
             <Button

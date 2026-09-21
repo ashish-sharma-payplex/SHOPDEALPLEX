@@ -58,33 +58,33 @@ const nightsBetween = (checkIn, checkOut) => {
 
 const STATUS_STYLES = {
   CONFIRMED: {
-    bg: "#dcfce7",
-    text: "#15803d",
+    bg: "var(--mb-success-bg-strong)",
+    text: "var(--mb-brand-strong-text)",
     icon: CheckCircleIcon,
     subtitle: "Booking Confirmed",
   },
   PENDING: {
-    bg: "#fef9c3",
-    text: "#a16207",
+    bg: "var(--mb-warn-bg)",
+    text: "var(--mb-warn-deep-text)",
     icon: ScheduleIcon,
     subtitle: "Awaiting Confirmation",
   },
   CANCELLED: {
-    bg: "#fee2e2",
-    text: "#b91c1c",
+    bg: "var(--mb-danger-bg-strong)",
+    text: "var(--mb-danger-strong-text)",
     icon: CancelIcon,
     subtitle: "Booking Cancelled",
   },
   FAILED: {
-    bg: "#fee2e2",
-    text: "#b91c1c",
+    bg: "var(--mb-danger-bg-strong)",
+    text: "var(--mb-danger-strong-text)",
     icon: CancelIcon,
     subtitle: "Booking Failed",
   },
 };
 const DEFAULT_STATUS_STYLE = {
-  bg: "#f3f4f6",
-  text: "#374151",
+  bg: "var(--mb-surface-muted)",
+  text: "var(--mb-text-body)",
   icon: InfoOutlinedIcon,
   subtitle: "",
 };
@@ -110,7 +110,7 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
   const sectionTitleSx = {
     fontWeight: 800,
     fontSize: 15,
-    color: "#0f1e4d",
+    color: "var(--mb-title)",
     mb: 1.5,
   };
 
@@ -122,6 +122,8 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
       maxWidth="md"
       PaperProps={{
         sx: {
+          bgcolor: "var(--mb-surface)",
+          backgroundImage: "none",
           borderRadius: 3,
           overflow: "hidden",
           maxHeight: "92vh",
@@ -132,7 +134,7 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
       {/* ── Header ── */}
       <Box
         sx={{
-          bgcolor: "#0f1e4d",
+          bgcolor: "var(--mb-header-bg)",
           color: "var(--ht-text-on-brand)",
           px: { xs: 2, sm: 3 },
           py: 2,
@@ -349,7 +351,13 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                     {nightsBetween(result?.CheckInDate, result?.CheckOutDate)}
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center", my: 0.5 }}>
-                    <Box sx={{ flex: 1, height: 1, bgcolor: "#ddd" }} />
+                    <Box
+                      sx={{
+                        flex: 1,
+                        height: 1,
+                        bgcolor: "var(--mb-border-strong)",
+                      }}
+                    />
                     <HotelIcon
                       sx={{
                         fontSize: 16,
@@ -357,7 +365,13 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                         mx: 0.5,
                       }}
                     />
-                    <Box sx={{ flex: 1, height: 1, bgcolor: "#ddd" }} />
+                    <Box
+                      sx={{
+                        flex: 1,
+                        height: 1,
+                        bgcolor: "var(--mb-border-strong)",
+                      }}
+                    />
                   </Box>
                 </Box>
 
@@ -397,7 +411,11 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                   </Typography>
                   {result?.LastCancellationDate && (
                     <Typography
-                      sx={{ fontSize: 12, color: "#b45309", mt: 0.5 }}
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--mb-warn-strong-text)",
+                        mt: 0.5,
+                      }}
                     >
                       Free cancellation till{" "}
                       {formatDate(result.LastCancellationDate, {
@@ -458,7 +476,8 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
                       alignItems: "center",
                       gap: 1,
                       py: 0.75,
-                      borderTop: pIdx > 0 ? "1px solid #f1f1f1" : "none",
+                      borderTop:
+                        pIdx > 0 ? "1px solid var(--mb-border-soft)" : "none",
                     }}
                   >
                     <PersonIcon
@@ -611,7 +630,9 @@ const HotelBookingDetailsDialog = ({ open, loading, data, onClose }) => {
               <InfoOutlinedIcon
                 sx={{ fontSize: 18, color: "var(--ht-info-text)" }}
               />
-              <Typography sx={{ fontSize: 12.5, color: "#3730a3" }}>
+              <Typography
+                sx={{ fontSize: 12.5, color: "var(--mb-indigo-strong-text)" }}
+              >
                 Please carry a valid government-issued photo ID at the time of
                 check-in.
               </Typography>

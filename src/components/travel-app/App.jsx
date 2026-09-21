@@ -12,6 +12,8 @@ import flightStyles from "../../styles/flight.module.css";
 // ✅ Same token contract for the Hotel (--ht-*) and Bus (--bs-*) modules
 import hotelStyles from "../../styles/hotel.module.css";
 import busStyles from "../../styles/bus.module.css";
+// ✅ Same token contract for My Trips / My Bookings (--mb-*)
+import myBookingStyles from "../../styles/mybooking.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 // ✅ configData ke liye (logo/header data)
@@ -138,6 +140,7 @@ function App() {
       flightStyles.flightThemeVars,
       hotelStyles.hotelThemeVars,
       busStyles.busThemeVars,
+      myBookingStyles.myBookingThemeVars,
     ].filter(Boolean);
     document.body.classList.add(...classes);
     return () => document.body.classList.remove(...classes);
@@ -180,7 +183,7 @@ function App() {
       <ScrollHandler setScrolled={setScrolled} />
 
       <MainLayoutRoot
-        className={`${flightStyles.flightThemeVars} ${hotelStyles.hotelThemeVars} ${busStyles.busThemeVars}`}
+        className={`${flightStyles.flightThemeVars} ${hotelStyles.hotelThemeVars} ${busStyles.busThemeVars} ${myBookingStyles.myBookingThemeVars}`}
       >
         {/* ✅ Sirf EK navbar — StickyNavbar hamesha top pe fixed/visible
             rehta hai. Iske andar CATEGORIES (Flights/Hotels/Buses) row

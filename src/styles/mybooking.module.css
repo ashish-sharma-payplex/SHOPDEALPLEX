@@ -1,0 +1,186 @@
+/* =========================================================================
+   mybooking.module.css
+/* --------------------------- LIGHT (original colours) -------------------- */
+.myBookingThemeVars {
+  color-scheme: light;
+
+  /* ---------- Surfaces ---------- */
+  --mb-page: #f5f7fa;
+  --mb-surface: #ffffff;
+  --mb-surface-subtle: #fafafa;
+  --mb-surface-muted: #f3f4f6;
+  --mb-surface-strong: #d1d5db;
+  --mb-dialog-bg: #f5f5f5; /* grey area behind cards inside detail dialogs */
+  --mb-header-bg: #0f1e4d; /* navy header of the booking-detail dialogs */
+  --mb-overlay: rgba(0, 0, 0, 0.5);
+
+  /* ---------- Borders ---------- */
+  --mb-border: #e8e8e8;
+  --mb-border-soft: #eeeeee;
+  --mb-border-strong: #dddddd;
+
+  /* ---------- Text ---------- */
+  --mb-text-strong: #1a1a1a;
+  --mb-text-body: #333333;
+  --mb-text-muted: #666666;
+  --mb-text-faint: #999999;
+  --mb-text-disabled: #c9c9c9;
+  --mb-text-on-brand: #ffffff;
+  --mb-title: #0f1e4d; /* section titles inside detail dialogs */
+
+  /* ---------- Brand green ---------- */
+  --mb-brand: #16a34a;
+  --mb-brand-hover: #15803d;
+  --mb-brand-text: #16a34a;
+  --mb-brand-strong-text: #15803d;
+  --mb-brand-soft-bg: #f0fdf4;
+
+  /* ---------- Success ---------- */
+  --mb-success-bg-strong: #dcfce7;
+  --mb-success-border: #d1fae5;
+
+  /* ---------- Danger ---------- */
+  --mb-danger-text: #dc2626;
+  --mb-danger-strong-text: #b91c1c;
+  --mb-danger-deep-text: #7f1d1d;
+  --mb-danger-bg: #fef2f2;
+  --mb-danger-bg-strong: #fee2e2;
+
+  /* ---------- Warning ---------- */
+  --mb-warn-text: #92400e;
+  --mb-warn-strong-text: #b45309;
+  --mb-warn-deep-text: #a16207;
+  --mb-warn-bg: #fef3c7;
+  --mb-warn-bg-soft: #fffbeb;
+  --mb-warn-border: #fde68a;
+
+  /* ---------- Info (blue) ---------- */
+  --mb-info-text: #1d4ed8;
+  --mb-info-bg-strong: #dbeafe;
+
+  /* ---------- Indigo (fare notes) ---------- */
+  --mb-indigo-text: #4338ca;
+  --mb-indigo-strong-text: #3730a3;
+  --mb-indigo-bg: #eef2ff;
+
+  /* ---------- Purple ---------- */
+  --mb-purple-text: #7c3aed;
+  --mb-purple-bg: #ede9fe;
+}
+
+/* ------------------------------- DARK ------------------------------------ */
+:global([data-theme="dark"]) .myBookingThemeVars {
+  color-scheme: dark;
+
+  --mb-page: #131313;
+  --mb-surface: #1a1a1a;
+  --mb-surface-subtle: #202020;
+  --mb-surface-muted: #2a2a2a;
+  --mb-surface-strong: #3f3f46;
+  --mb-dialog-bg: #131313;
+  --mb-header-bg: #16305a;
+  --mb-overlay: rgba(0, 0, 0, 0.7);
+
+  --mb-border: #2e2e2e;
+  --mb-border-soft: #262626;
+  --mb-border-strong: #3f3f46;
+
+  --mb-text-strong: #f3f4f6;
+  --mb-text-body: #d1d5db;
+  --mb-text-muted: #9ca3af;
+  --mb-text-faint: #7b8494;
+  --mb-text-disabled: #4b5563;
+  --mb-text-on-brand: #ffffff;
+  --mb-title: #e5e7eb;
+
+  /* filled green buttons keep the same green; text / outlines get lighter */
+  --mb-brand: #16a34a;
+  --mb-brand-hover: #15803d;
+  --mb-brand-text: #22c55e;
+  --mb-brand-strong-text: #4ade80;
+  --mb-brand-soft-bg: rgba(34, 197, 94, 0.12);
+
+  --mb-success-bg-strong: rgba(34, 197, 94, 0.22);
+  --mb-success-border: rgba(34, 197, 94, 0.4);
+
+  --mb-danger-text: #f87171;
+  --mb-danger-strong-text: #f87171;
+  --mb-danger-deep-text: #fca5a5;
+  --mb-danger-bg: rgba(248, 113, 113, 0.12);
+  --mb-danger-bg-strong: rgba(248, 113, 113, 0.2);
+
+  --mb-warn-text: #fbbf24;
+  --mb-warn-strong-text: #fcd34d;
+  --mb-warn-deep-text: #fbbf24;
+  --mb-warn-bg: rgba(245, 158, 11, 0.16);
+  --mb-warn-bg-soft: rgba(245, 158, 11, 0.09);
+  --mb-warn-border: rgba(245, 158, 11, 0.45);
+
+  --mb-info-text: #93c5fd;
+  --mb-info-bg-strong: rgba(59, 130, 246, 0.24);
+
+  --mb-indigo-text: #a5b4fc;
+  --mb-indigo-strong-text: #c7d2fe;
+  --mb-indigo-bg: rgba(99, 102, 241, 0.16);
+
+  --mb-purple-text: #d8b4fe;
+  --mb-purple-bg: rgba(192, 132, 252, 0.14);
+}
+
+/* ---------------------- SweetAlert2 popups (Swal.fire) -------------------
+   Swal renders under <body>, outside React, with its own light styles.
+   ------------------------------------------------------------------------ */
+.myBookingThemeVars :global(.swal2-popup) {
+  background: var(--mb-surface);
+  color: var(--mb-text-body);
+}
+.myBookingThemeVars :global(.swal2-title) {
+  color: var(--mb-text-strong);
+}
+.myBookingThemeVars :global(.swal2-html-container) {
+  color: var(--mb-text-body);
+}
+.myBookingThemeVars :global(.swal2-input),
+.myBookingThemeVars :global(.swal2-textarea),
+.myBookingThemeVars :global(.swal2-select) {
+  background: var(--mb-surface-subtle);
+  color: var(--mb-text-strong);
+  border-color: var(--mb-border-strong);
+}
+.myBookingThemeVars :global(.swal2-success-circular-line-left),
+.myBookingThemeVars :global(.swal2-success-circular-line-right),
+.myBookingThemeVars :global(.swal2-success-fix) {
+  background: transparent !important;
+}
+
+/* ---------------------- Native form controls -----------------------------
+   Cancel-ticket dialog uses plain <textarea>/<input>; keep them readable
+   (incl. Chrome autofill, which paints a near-white background).
+   ------------------------------------------------------------------------ */
+.myBookingThemeVars
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]),
+.myBookingThemeVars select,
+.myBookingThemeVars textarea {
+  color: var(--mb-text-strong);
+  background-color: var(--mb-surface);
+}
+.myBookingThemeVars input::placeholder,
+.myBookingThemeVars textarea::placeholder {
+  color: var(--mb-text-faint);
+  opacity: 1;
+}
+.myBookingThemeVars select option {
+  background: var(--mb-surface);
+  color: var(--mb-text-strong);
+}
+.myBookingThemeVars input:-webkit-autofill,
+.myBookingThemeVars input:-webkit-autofill:hover,
+.myBookingThemeVars input:-webkit-autofill:focus,
+.myBookingThemeVars textarea:-webkit-autofill,
+.myBookingThemeVars select:-webkit-autofill {
+  -webkit-text-fill-color: var(--mb-text-strong);
+  -webkit-box-shadow: 0 0 0 1000px var(--mb-surface) inset;
+  box-shadow: 0 0 0 1000px var(--mb-surface) inset;
+  caret-color: var(--mb-text-strong);
+  transition: background-color 9999s ease-in-out 0s;
+}
