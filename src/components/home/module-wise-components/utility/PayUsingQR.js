@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import styles from "styles/utility.module.css";
 import {
   Box,
   Typography,
@@ -148,7 +149,7 @@ const PayUsingQRContent = () => {
                   "bbps_payment_response",
                   JSON.stringify(payRes),
                 );
-              } catch (_) { }
+              } catch (_) {}
               sessionStorage.removeItem("bbps_qr_data");
               setTimeout(() => {
                 router.push(
@@ -166,7 +167,7 @@ const PayUsingQRContent = () => {
               setFailureReason(reason);
             }
           }
-        } catch (_) { }
+        } catch (_) {}
       }, POLL_INTERVAL_MS);
     },
     [checkStatus, router],
@@ -187,9 +188,7 @@ const PayUsingQRContent = () => {
     expiryTimeRef.current = absoluteExpiry;
 
     const tick = () => {
-      const remaining = Math.floor(
-        (expiryTimeRef.current - Date.now()) / 1000,
-      );
+      const remaining = Math.floor((expiryTimeRef.current - Date.now()) / 1000);
 
       if (remaining <= 0) {
         clearInterval(timerRef.current);
@@ -216,7 +215,7 @@ const PayUsingQRContent = () => {
       const parsed = JSON.parse(raw);
       updateQrData(parsed);
       initTimer(parsed.expiry);
-    } catch (_) { }
+    } catch (_) {}
   }, []);
 
   useEffect(() => {
@@ -269,9 +268,9 @@ const PayUsingQRContent = () => {
         amount: Number(qrData.amount),
         amountTags: qrData.amountTags || [],
         fetchRefId: qrData.fetchRefId || "",
-      }).catch(() => { });
+      }).catch(() => {});
       startPolling(intentRes.order_id);
-    } catch (_) { }
+    } catch (_) {}
   };
 
   const handleCancelClick = () => setShowCancelDialog(true);
@@ -286,7 +285,7 @@ const PayUsingQRContent = () => {
       setPaymentStatus("CANCELLED");
       sessionStorage.removeItem("bbps_qr_data");
       router.push("/utility");
-    } catch (_) { }
+    } catch (_) {}
   };
 
   const handleCancelDialogClose = () => setShowCancelDialog(false);
@@ -321,7 +320,7 @@ const PayUsingQRContent = () => {
         sx={{
           flex: 1,
           minWidth: 0,
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--ut-border-e5e7eb)",
           borderRadius: "12px",
           p: 2.5,
         }}
@@ -342,7 +341,9 @@ const PayUsingQRContent = () => {
             <Typography
               sx={{
                 fontSize: 13,
-                color: isExpired ? "#ef4444" : "#16a34a",
+                color: isExpired
+                  ? "var(--ut-text-ef4444)"
+                  : "var(--ut-text-16a34a)",
                 fontWeight: 600,
               }}
             >
@@ -357,15 +358,16 @@ const PayUsingQRContent = () => {
             <Box
               sx={{
                 p: 1.5,
-                border: `1.5px solid ${isFailed || isCancelled
-                    ? "#fca5a5"
+                border: `1.5px solid ${
+                  isFailed || isCancelled
+                    ? "var(--ut-border-fca5a5)"
                     : isSuccess
-                      ? "#86efac"
-                      : "#e5e7eb"
-                  }`,
+                    ? "var(--ut-border-86efac)"
+                    : "var(--ut-border-e5e7eb)"
+                }`,
                 borderRadius: "12px",
                 display: "inline-block",
-                background: "#fff",
+                background: "#ffffff", // QR quiet-zone must stay white in dark mode too
                 opacity: isQrDisabled ? 0.25 : isExpired ? 0.25 : 1,
                 // ✅ Cancel hone par blur effect
                 filter: isCancelled ? "blur(3px)" : "none",
@@ -488,7 +490,11 @@ const PayUsingQRContent = () => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: 13, color: "#6b7280", fontWeight: 600 }}
+                  sx={{
+                    fontSize: 13,
+                    color: "var(--ut-text-6b7280)",
+                    fontWeight: 600,
+                  }}
                 >
                   Cancelled
                 </Typography>
@@ -498,7 +504,9 @@ const PayUsingQRContent = () => {
 
           {/* Status Messages */}
           {isExpired && !isQrDisabled && (
-            <Typography sx={{ fontSize: 12, color: "#ef4444", mb: 1 }}>
+            <Typography
+              sx={{ fontSize: 12, color: "var(--ut-text-ef4444)", mb: 1 }}
+            >
               QR code expired. Click Retry to generate a new one.
             </Typography>
           )}
@@ -511,8 +519,8 @@ const PayUsingQRContent = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 gap: 0.5,
-                background: "#fef2f2",
-                border: "1px solid #fca5a5",
+                background: "var(--ut-bg-fef2f2)",
+                border: "1px solid var(--ut-border-fca5a5)",
                 borderRadius: "8px",
                 px: 2,
                 py: 1,
@@ -523,7 +531,11 @@ const PayUsingQRContent = () => {
               }}
             >
               <Typography
-                sx={{ fontSize: 12, color: "#dc2626", fontWeight: 600 }}
+                sx={{
+                  fontSize: 12,
+                  color: "var(--ut-text-dc2626)",
+                  fontWeight: 600,
+                }}
               >
                 Payment Failed
               </Typography>
@@ -531,7 +543,7 @@ const PayUsingQRContent = () => {
                 <Typography
                   sx={{
                     fontSize: 12,
-                    color: "#7f1d1d",
+                    color: "var(--ut-text-7f1d1d)",
                     textAlign: "center",
                     lineHeight: 1.4,
                   }}
@@ -543,7 +555,9 @@ const PayUsingQRContent = () => {
           )}
 
           {isCancelled && (
-            <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 1 }}>
+            <Typography
+              sx={{ fontSize: 12, color: "var(--ut-text-6b7280)", mb: 1 }}
+            >
               Payment was cancelled.
             </Typography>
           )}
@@ -558,8 +572,8 @@ const PayUsingQRContent = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 gap: 0.8,
-                background: "#f0fdf4",
-                border: "1px solid #86efac",
+                background: "var(--ut-bg-f0fdf4)",
+                border: "1px solid var(--ut-border-86efac)",
                 borderRadius: "8px",
                 px: 1.5,
                 py: 0.8,
@@ -567,7 +581,11 @@ const PayUsingQRContent = () => {
               }}
             >
               <Typography
-                sx={{ fontSize: 12, color: "#16a34a", fontWeight: 500 }}
+                sx={{
+                  fontSize: 12,
+                  color: "var(--ut-text-16a34a)",
+                  fontWeight: 500,
+                }}
               >
                 ✓ Payment successful! Redirecting...
               </Typography>
@@ -591,7 +609,9 @@ const PayUsingQRContent = () => {
           )}
 
           {!paymentStatus && !isExpired && (
-            <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 1.5 }}>
+            <Typography
+              sx={{ fontSize: 12, color: "var(--ut-text-6b7280)", mb: 1.5 }}
+            >
               Pay securely with any UPI app
             </Typography>
           )}
@@ -651,8 +671,8 @@ const PayUsingQRContent = () => {
                         width: 24,
                         height: 24,
                         borderRadius: "50%",
-                        border: "1px solid #c7d2fe",
-                        color: "#4f46e5",
+                        border: "1px solid var(--ut-border-c7d2fe)",
+                        color: "var(--ut-text-4f46e5)",
                         fontSize: 12,
                         display: "flex",
                         alignItems: "center",
@@ -667,7 +687,9 @@ const PayUsingQRContent = () => {
                       <Typography fontSize={13} fontWeight={500}>
                         {item.title}
                       </Typography>
-                      <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+                      <Typography
+                        sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}
+                      >
                         {item.desc}
                       </Typography>
                     </Box>
@@ -679,8 +701,8 @@ const PayUsingQRContent = () => {
                       width: 26,
                       height: 26,
                       borderRadius: "50%",
-                      border: "1px solid #c7d2fe",
-                      color: "#4f46e5",
+                      border: "1px solid var(--ut-border-c7d2fe)",
+                      color: "var(--ut-text-4f46e5)",
                       fontSize: 12,
                       display: "flex",
                       alignItems: "center",
@@ -693,7 +715,9 @@ const PayUsingQRContent = () => {
                   <Typography fontSize={13} fontWeight={500}>
                     {item.title}
                   </Typography>
-                  <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+                  <Typography
+                    sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}
+                  >
                     {item.desc}
                   </Typography>
                 </Box>
@@ -714,20 +738,26 @@ const PayUsingQRContent = () => {
         }}
       >
         {/* Bill Summary */}
-        <Box sx={{ border: "1px solid #e5e7eb", borderRadius: "12px", p: 2 }}>
-          <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+        <Box
+          sx={{
+            border: "1px solid var(--ut-border-e5e7eb)",
+            borderRadius: "12px",
+            p: 2,
+          }}
+        >
+          <Typography sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}>
             Total Amount
           </Typography>
           <Typography fontSize={18} fontWeight={600} mb={1}>
             ₹{qrData?.amount || "--"}
           </Typography>
-          <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+          <Typography sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}>
             Biller Name
           </Typography>
           <Typography fontSize={14} mb={1}>
             {qrData?.biller_name || "--"}
           </Typography>
-          <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+          <Typography sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}>
             Consumer Number
           </Typography>
           <Typography fontSize={14}>
@@ -736,7 +766,13 @@ const PayUsingQRContent = () => {
         </Box>
 
         {/* Payment Summary */}
-        <Box sx={{ border: "1px solid #e5e7eb", borderRadius: "12px", p: 2 }}>
+        <Box
+          sx={{
+            border: "1px solid var(--ut-border-e5e7eb)",
+            borderRadius: "12px",
+            p: 2,
+          }}
+        >
           <Typography fontWeight={600} fontSize={14} mb={1.5}>
             Payment Summary
           </Typography>
@@ -748,7 +784,9 @@ const PayUsingQRContent = () => {
             <Typography fontSize={13}>Coupon Discount</Typography>
             <Typography fontSize={13}>₹0</Typography>
           </Box>
-          <Box sx={{ borderTop: "1px dashed #e5e7eb", my: 1 }} />
+          <Box
+            sx={{ borderTop: "1px dashed var(--ut-border-e5e7eb)", my: 1 }}
+          />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography fontWeight={600}>Payable Amount</Typography>
             <Typography fontWeight={600}>₹{qrData?.amount || "--"}</Typography>
@@ -766,20 +804,34 @@ const PayUsingQRContent = () => {
                 py: 1.1,
                 fontSize: 13,
                 border: "1.5px solid",
-                borderColor: isCancelEnabled ? "#ef4444" : "#e5e7eb",
-                color: isCancelEnabled ? "#ef4444" : "#9ca3af",
+                borderColor: isCancelEnabled
+                  ? "#ef4444"
+                  : "var(--ut-border-e5e7eb)",
+                color: isCancelEnabled
+                  ? "var(--ut-text-ef4444)"
+                  : "var(--ut-text-9ca3af)",
                 background: "transparent",
                 "&:hover": {
-                  background: isCancelEnabled ? "#fef2f2" : "transparent",
-                  borderColor: isCancelEnabled ? "#dc2626" : "#e5e7eb",
+                  background: isCancelEnabled
+                    ? "var(--ut-bg-fef2f2)"
+                    : "transparent",
+                  borderColor: isCancelEnabled
+                    ? "#dc2626"
+                    : "var(--ut-border-e5e7eb)",
                 },
-                "&.Mui-disabled": { color: "#9ca3af", borderColor: "#e5e7eb" },
+                "&.Mui-disabled": {
+                  color: "var(--ut-text-9ca3af)",
+                  borderColor: "var(--ut-border-e5e7eb)",
+                },
                 transition: "all 0.2s",
               }}
             >
               {cancelling ? (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <CircularProgress size={14} sx={{ color: "#ef4444" }} />
+                  <CircularProgress
+                    size={14}
+                    sx={{ color: "var(--ut-text-ef4444)" }}
+                  />
                   Cancelling...
                 </Box>
               ) : (
@@ -790,7 +842,7 @@ const PayUsingQRContent = () => {
               <Typography
                 sx={{
                   fontSize: 11,
-                  color: "#9ca3af",
+                  color: "var(--ut-text-9ca3af)",
                   textAlign: "center",
                   mt: 0.5,
                 }}
@@ -804,6 +856,7 @@ const PayUsingQRContent = () => {
 
       {/* Confirmation Dialog */}
       <Dialog
+        className={styles.utilityTheme}
         open={showCancelDialog}
         onClose={handleCancelDialogClose}
         PaperProps={{
@@ -811,25 +864,41 @@ const PayUsingQRContent = () => {
             borderRadius: "16px !important",
             p: 1,
             maxWidth: 360,
-            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.08)"
+            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.08)",
           },
         }}
       >
         {/* Header */}
-        <DialogTitle sx={{ fontSize: 18, fontWeight: 700, pt: 2, pb: 1, color: "#111827" }}>
+        <DialogTitle
+          sx={{
+            fontSize: 18,
+            fontWeight: 700,
+            pt: 2,
+            pb: 1,
+            color: "var(--ut-text-111827)",
+          }}
+        >
           Cancel Payment?
         </DialogTitle>
 
         {/* Body Content */}
         <DialogContent sx={{ pb: 2 }}>
-          <DialogContentText sx={{ fontSize: 14, color: "#4b5563", lineHeight: 1.5 }}>
-            Are you sure you want to cancel this payment? This action cannot be undone.
+          <DialogContentText
+            sx={{
+              fontSize: 14,
+              color: "var(--ut-text-4b5563)",
+              lineHeight: 1.5,
+            }}
+          >
+            Are you sure you want to cancel this payment? This action cannot be
+            undone.
           </DialogContentText>
         </DialogContent>
 
         {/* Action Buttons */}
-        <DialogActions sx={{ px: 3, pb: 2, gap: 4.5, justifyContent: "flex-end" }}>
-
+        <DialogActions
+          sx={{ px: 3, pb: 2, gap: 4.5, justifyContent: "flex-end" }}
+        >
           {/* Cancel Action (Subtle Text/Outlined style) */}
           <Button
             onClick={handleCancelConfirm}
@@ -838,12 +907,12 @@ const PayUsingQRContent = () => {
               textTransform: "none",
               fontSize: 14,
               fontWeight: 600,
-              color: "#ef4444",
-               background: "#fef2f2",
+              color: "var(--ut-text-ef4444)",
+              background: "var(--ut-bg-fef2f2)",
               borderRadius: "10px",
               px: 2.5,
               py: 1,
-              "&:hover": { background: "#f7dddd" },
+              "&:hover": { background: "var(--ut-bg-f7dddd)" },
               "&.Mui-disabled": { color: "#fca5a5" },
             }}
           >
@@ -876,7 +945,6 @@ const PayUsingQRContent = () => {
           >
             Keep Paying
           </Button>
-
         </DialogActions>
       </Dialog>
     </Box>

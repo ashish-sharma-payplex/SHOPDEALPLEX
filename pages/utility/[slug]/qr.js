@@ -1,6 +1,7 @@
 // pages/utility/[slug]/qr.js
 
 import { Box, styled } from "@mui/material";
+import styles from "styles/utility.module.css";
 import HeaderComponent from "../../../src/components/header";
 import FooterComponent from "../../../src/components/footer";
 import PayUsingQR from "../../../src/components/home/module-wise-components/utility/PayUsingQR";
@@ -14,7 +15,7 @@ const MainLayoutRoot = styled("div")({
 
 const UtilityQRPage = () => {
   return (
-    <MainLayoutRoot>
+    <MainLayoutRoot className={styles.utilityTheme}>
       <header style={{ display: "flex", alignItems: "center" }}>
         <HeaderComponent />
       </header>
@@ -26,7 +27,7 @@ const UtilityQRPage = () => {
           alignItems: "center !important",
           justifyContent: "center !important",
           alignContent: "center !important",
-          bgcolor: "#ffffff",
+          bgcolor: "var(--ut-page-bg)",
         }}
       >
         <Box
@@ -43,7 +44,7 @@ const UtilityQRPage = () => {
       <footer
         style={{
           width: "100%",
-          backgroundColor: "#F8F8F8",
+          backgroundColor: "var(--ut-bg-f8f8f8)",
           display: "flex",
           justifyContent: "center",
           padding: "20px 0",

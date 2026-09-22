@@ -33,6 +33,7 @@ import UserDetailsNew from "components/user-information/UserDetailsNew";
 import DeleteAccount from "components/user-information/DeleteAccount";
 import CustomModal from "components/modal";
 import { setAuthToken } from "redux/slices/authSlice";
+import styles from "styles/profilemenu.module.css";
 
 const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
   const { t } = useTranslation();
@@ -66,8 +67,9 @@ const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
     }
   };
 
-  const { mutate, isLoading: isLoadingDelete } =
-    useDeleteProfile(onSuccessHandlerForUserDelete);
+  const { mutate, isLoading: isLoadingDelete } = useDeleteProfile(
+    onSuccessHandlerForUserDelete,
+  );
 
   const deleteUserHandler = () => mutate();
 
@@ -112,7 +114,7 @@ const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
     if (item.name === "cart") {
       if (openCartDrawer) {
         openCartDrawer(); // open drawer
-        onClose?.();      // close popover
+        onClose?.(); // close popover
       }
       scrollToTop();
       return;
@@ -131,17 +133,7 @@ const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
 
   return (
     <Box display="flex">
-
-      <Box
-        sx={{
-          width: "260px",
-          border: "1px solid #EEF2F6",
-          borderRadius: "14px",
-          padding: "16px 12px",
-          backgroundColor: "#fff",
-          // border: "2px solid red"
-        }}
-      >
+      <Box className={styles.menuContainer}>
         {/* USER DETAILS */}
         {userToken && (
           <Grid mb={2} mt={1}>
@@ -167,8 +159,11 @@ const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
               (configData?.customer_wallet_status === 0 && item.id === 5) ||
               (configData?.loyalty_point_status === 0 && item.id === 6) ||
               (configData?.ref_earning_status === 0 && item.id === 7) ||
-              ((!modules?.find((m) => m?.module_type === "rental") && item.id === 4) ||
-                (modules?.find((m) => m?.module_type === "rental")?.status === 0 && item.id === 4));
+              (!modules?.find((m) => m?.module_type === "rental") &&
+                item.id === 4) ||
+              (modules?.find((m) => m?.module_type === "rental")?.status ===
+                0 &&
+                item.id === 4);
 
             if (shouldHide) return null;
 
@@ -176,78 +171,45 @@ const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
               <MenuItem
                 key={item.id}
                 onClick={() => handleClick(item)}
-                sx={{
-                  borderRadius: "14px",
-                  px: "12px",
-                  py: "6px",
-                  mb: "6px",
-                  display: "flex",
-                  alignItems: "center",
-                  mx: "12px",
-                  backgroundColor: isActive ? "#FFFFFF" : "transparent",
-                  boxShadow: isActive ? "0px 6px 18px rgba(27, 166, 114, 0.18)" : "none",
-
-                  "&:hover": {
-                    backgroundColor: isActive
-                      ? "#FFFFFF"
-                      : (theme) => theme.palette.primary.semiLight,
-                  },
-                }}
+                className={`${styles.menuItem} ${
+                  isActive ? styles.menuItemActive : ""
+                }`}
               >
                 <ListItemIcon
-                  sx={{
-                    minWidth: 25,
-                    width: 25,
-                    height: 25,
-                    borderRadius: "2px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    mr: "8px",
-
-                    backgroundColor: isActive ? "#0B8F3F" : "transparent",
-                    color: isActive ? "#FFFFFF" : "inherit",
-                  }}
+                  className={`${styles.iconWrap} ${
+                    isActive ? styles.iconWrapActive : ""
+                  }`}
                 >
                   {React.cloneElement(item.icon, { fontSize: "small" })}
                 </ListItemIcon>
 
                 <ListItemText
-                  sx={{
-                    textTransform: "capitalize",
-                    "& span": {
-                      fontWeight: isActive ? 600 : 500,
-                      color: isActive ? "#111827" : "inherit",
-                    },
-                  }}
+                  className={`${styles.itemText} ${
+                    isActive ? styles.itemTextActive : ""
+                  }`}
                   primary={t(item.name.replace("-", " "))}
                 />
               </MenuItem>
             );
           })}
 
-
           {/* LOGOUT BUTTON */}
-          <Divider />
+          <Divider className={styles.menuDivider} />
 
           <MenuItem
+            className={styles.logoutItem}
             onClick={() => {
               setOpenModal(true);
               setIsLogoutLoading(false);
             }}
-            sx={{
-              "&:hover": {
-                backgroundColor: (theme) => theme.palette.primary.semiLight,
-              },
-            }}
           >
-            <ListItemIcon sx={{ minWidth: "25px !important", fontWeight: 600 }}>
-              <LogoutIcon fontSize="small" sx={{ fontWeight: 600, mx: "14px", color: "#111823" }} />
+            <ListItemIcon sx={{ minWidth: "25px !important" }}>
+              <LogoutIcon fontSize="small" className={styles.logoutIcon} />
             </ListItemIcon>
 
             <ListItemText
               primary={
-                <Typography variant="body1" sx={{ fontWeight: 500, mx: "-20px" }}>
+                <Typography variant="body1" className={styles.logoutText}>
                   {t("Logout")}
                 </Typography>
               }
@@ -256,7 +218,10 @@ const Menu = ({ onClose, cartListRefetch, openCartDrawer }) => {
         </MenuList>
 
         {/* ===== DELETE ACCOUNT MODAL ===== */}
-        <CustomModal openModal={deleteModal} handleClose={() => setDeleteModal(false)}>
+        <CustomModal
+          openModal={deleteModal}
+          handleClose={() => setDeleteModal(false)}
+        >
           <DeleteAccount
             isLoading={isLoadingDelete}
             handleClose={() => setDeleteModal(false)}

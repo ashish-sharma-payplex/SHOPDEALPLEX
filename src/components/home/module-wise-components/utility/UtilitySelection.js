@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
-  Box, Grid, Typography, Skeleton, TextField, InputAdornment,
+  Box,
+  Grid,
+  Typography,
+  Skeleton,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import SearchIcon from "@mui/icons-material/Search";
@@ -50,7 +55,7 @@ const serviceImageMap = {
 // ✅ Plain fetcher function — useGetBbpsBillerDetails hook ka fetcher
 const fetchBillerDetails = async (billerId) => {
   const response = await MainApi.get(
-    `/api/v1/bbps/billers/details?billerId=${billerId}`
+    `/api/v1/bbps/billers/details?billerId=${billerId}`,
   );
   return response?.data?.data || response?.data || null;
 };
@@ -66,8 +71,8 @@ const BillerSkeleton = () => (
         gap: 1.5,
         px: 2,
         borderRadius: "10px",
-        border: "1px solid #eee",
-        background: "#fff",
+        border: "1px solid var(--ut-border-eeeeee)",
+        background: "var(--ut-bg-ffffff)",
       }}
     >
       <Skeleton variant="circular" width={32} height={32} animation="wave" />
@@ -94,7 +99,7 @@ const UtilitySelectionContent = () => {
 
   const allBillers = data?.pages?.flatMap((p) => p.records) || [];
   const filteredBillers = allBillers.filter((b) =>
-    b.billerName?.toLowerCase().includes(searchQuery.toLowerCase())
+    b.billerName?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const sentinelRef = useRef(null);
@@ -105,7 +110,7 @@ const UtilitySelectionContent = () => {
       if (entry.isIntersecting && hasNextPage && !isFetchingNextPage)
         fetchNextPage();
     },
-    [hasNextPage, isFetchingNextPage, fetchNextPage]
+    [hasNextPage, isFetchingNextPage, fetchNextPage],
   );
 
   useEffect(() => {
@@ -125,18 +130,24 @@ const UtilitySelectionContent = () => {
     queryClient.prefetchQuery(
       ["bbps-biller-details", billerId],
       () => fetchBillerDetails(billerId),
-      { staleTime: 0 }  // ✅
+      { staleTime: 0 }, // ✅
     );
   };
 
   return (
     <Box sx={{ flex: 1, px: { xs: 0, md: 0 }, minWidth: 0 }}>
-      <Box sx={{ borderRadius: "16px", p: { xs: 2, md: 3 }, border: "1px solid #e5e7eb" }}>
+      <Box
+        sx={{
+          borderRadius: "16px",
+          p: { xs: 2, md: 3 },
+          border: "1px solid var(--ut-border-e5e7eb)",
+        }}
+      >
         {/* HEADER */}
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
           <Box>
             <Typography fontWeight={600}>Recharges & Bill Payments</Typography>
-            <Typography sx={{ fontSize: 13, color: "#6b7280" }}>
+            <Typography sx={{ fontSize: 13, color: "var(--ut-text-6b7280)" }}>
               Pay utility bills, recharges & government bills securely
             </Typography>
           </Box>
@@ -145,8 +156,23 @@ const UtilitySelectionContent = () => {
 
         {/* CATEGORY */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-          <Box sx={{ width: 50, height: 50, borderRadius: "30%", borderColor: "#e8f5e9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Box component="img" src={serviceIcon} alt={serviceName} sx={{ width: 30, height: 30, objectFit: "contain" }} />
+          <Box
+            sx={{
+              width: 50,
+              height: 50,
+              borderRadius: "30%",
+              borderColor: "var(--ut-border-e8f5e9)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              component="img"
+              src={serviceIcon}
+              alt={serviceName}
+              sx={{ width: 30, height: 30, objectFit: "contain" }}
+            />
           </Box>
           <Typography fontWeight={500}>{serviceName}</Typography>
         </Box>
@@ -162,28 +188,43 @@ const UtilitySelectionContent = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 18, color: "#9ca3af" }} />
+                  <SearchIcon
+                    sx={{ fontSize: 18, color: "var(--ut-text-9ca3af)" }}
+                  />
                 </InputAdornment>
               ),
-              sx: { borderRadius: "8px", fontSize: "14px", background: "#F8F9FA", borderColor: "#DDE2E4" },
+              sx: {
+                borderRadius: "8px",
+                fontSize: "14px",
+                background: "var(--ut-bg-f8f9fa)",
+                borderColor: "var(--ut-border-dde2e4)",
+              },
             }}
           />
         </Box>
 
         {/* TITLE */}
-        <Typography fontWeight={500} sx={{ mb: 2 }}>All Providers</Typography>
+        <Typography fontWeight={500} sx={{ mb: 2 }}>
+          All Providers
+        </Typography>
 
         {/* BILLERS GRID */}
         <Grid container spacing={2}>
           {isLoading &&
-            Array.from({ length: 6 }).map((_, i) => <BillerSkeleton key={`sk-${i}`} />)}
+            Array.from({ length: 6 }).map((_, i) => (
+              <BillerSkeleton key={`sk-${i}`} />
+            ))}
 
           {!isLoading &&
             filteredBillers.map((biller, i) => (
               <Grid item xs={12} sm={6} md={4} key={biller.billerId || i}>
                 <Box
                   onClick={() => {
-                    router.push(`/utility/${slug}/form?billerId=${biller.billerId}&billerName=${encodeURIComponent(biller.billerName)}`);
+                    router.push(
+                      `/utility/${slug}/form?billerId=${
+                        biller.billerId
+                      }&billerName=${encodeURIComponent(biller.billerName)}`,
+                    );
                   }}
                   onMouseEnter={() => prefetchBillerDetails(biller.billerId)} // ✅ hover pe prefetch
                   sx={{
@@ -193,16 +234,42 @@ const UtilitySelectionContent = () => {
                     gap: 1.5,
                     px: 2,
                     borderRadius: "10px",
-                    border: "1px solid #eee",
-                    background: "#fff",
+                    border: "1px solid var(--ut-border-eeeeee)",
+                    background: "var(--ut-bg-ffffff)",
                     cursor: "pointer",
                     "&:hover": { boxShadow: "0 2px 6px rgba(0,0,0,0.08)" },
                   }}
                 >
-                  <Box sx={{ width: 32, height: 32, borderRadius: "50%", background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
-                    <Box component="img" src={serviceIcon} alt={slug} sx={{ width: 18, height: 18, objectFit: "contain" }} />
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: "50%",
+                      background: "var(--ut-bg-f3f4f6)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={serviceIcon}
+                      alt={slug}
+                      sx={{ width: 18, height: 18, objectFit: "contain" }}
+                    />
                   </Box>
-                  <Typography sx={{ fontSize: 13, color: "#111827", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      color: "var(--ut-text-111827)",
+                      lineHeight: 1.3,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {biller.billerName}
                   </Typography>
                 </Box>
@@ -210,11 +277,15 @@ const UtilitySelectionContent = () => {
             ))}
 
           {isFetchingNextPage &&
-            Array.from({ length: 3 }).map((_, i) => <BillerSkeleton key={`nsk-${i}`} />)}
+            Array.from({ length: 3 }).map((_, i) => (
+              <BillerSkeleton key={`nsk-${i}`} />
+            ))}
 
           {!isLoading && filteredBillers.length === 0 && (
             <Grid item xs={12}>
-              <Typography sx={{ color: "#6b7280", fontSize: 14, py: 2 }}>
+              <Typography
+                sx={{ color: "var(--ut-text-6b7280)", fontSize: 14, py: 2 }}
+              >
                 No providers found{searchQuery ? ` for "${searchQuery}"` : ""}
               </Typography>
             </Grid>
@@ -229,7 +300,7 @@ const UtilitySelectionContent = () => {
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
 const UtilitySelection = () => (
-  <UtilityLayout activeKey="home" >
+  <UtilityLayout activeKey="home">
     <UtilitySelectionContent />
   </UtilityLayout>
 );

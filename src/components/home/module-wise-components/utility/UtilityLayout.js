@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "styles/utility.module.css";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
@@ -7,7 +8,11 @@ import { useRouter } from "next/router";
 const sidebarItems = [
   { name: "Home", icon: "/utility/home.svg", key: "home" },
   { name: "Help & Support", icon: "/utility/helpsupport.svg", key: "help" },
-  { name: "My Transactions", icon: "/utility/mytransactions.svg", key: "transactions" },
+  {
+    name: "My Transactions",
+    icon: "/utility/mytransactions.svg",
+    key: "transactions",
+  },
 ];
 
 const UtilityLayout = ({ children, activeKey, onNavigate }) => {
@@ -25,22 +30,31 @@ const UtilityLayout = ({ children, activeKey, onNavigate }) => {
   };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2, gap: 2 }}>
+    <Box
+      className={styles.utilityTheme}
+      sx={{ display: "flex", alignItems: "flex-start", mb: 2, gap: 2 }}
+    >
       {!isMobile && (
         <Box
           sx={{
             width: 220,
-            height: "350px" ,
+            height: "350px",
             flexShrink: 0,
             alignSelf: "flex-start",
             position: "sticky",
             top: 0,
             p: 1,
-            border: "1px solid #E3E8EE",
+            border: "1px solid var(--ut-border-e3e8ee)",
             borderRadius: "8px",
           }}
         >
-          <Box sx={{ background: "#fff", borderRadius: "12px", p: 1 }}>
+          <Box
+            sx={{
+              background: "var(--ut-bg-ffffff)",
+              borderRadius: "12px",
+              p: 1,
+            }}
+          >
             {sidebarItems.map((item, i) => {
               const isActive = activeKey === item.key;
               return (
@@ -55,23 +69,26 @@ const UtilityLayout = ({ children, activeKey, onNavigate }) => {
                     py: 1.2,
                     borderRadius: "8px",
                     mb: 1,
-                    background: isActive ? "#eeeeee" : "transparent",
+                    background: isActive
+                      ? "var(--ut-bg-eeeeee)"
+                      : "transparent",
                     cursor: "pointer",
                     transition: "0.2s",
-                    "&:hover": { background: "#f3f3f3" },
+                    "&:hover": { background: "var(--ut-bg-f3f3f3)" },
                   }}
                 >
                   <Box
                     component="img"
                     src={item.icon}
                     alt={item.name}
+                    className={styles.utilityIconMono}
                     sx={{ width: 22, height: 22, objectFit: "contain" }}
                   />
                   <Typography
                     sx={{
                       fontFamily: "Inter",
                       fontSize: "14px",
-                      color: "#292D32",
+                      color: "var(--ut-text-292d32)",
                       fontWeight: isActive ? 500 : 400,
                     }}
                   >

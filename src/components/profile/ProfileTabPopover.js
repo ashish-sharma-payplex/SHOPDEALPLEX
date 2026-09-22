@@ -9,22 +9,39 @@ import { useRouter } from "next/router";
 import CustomDialogConfirm from "../custom-dialog/confirm/CustomDialogConfirm";
 import CustomModal from "../modal";
 import DeleteAccount from "../user-information/DeleteAccount";
+import styles from "styles/profilemenu.module.css";
 
 // Styled MenuItem with dynamic background for active menu
 const StyledMenuItem = styled(MenuItem)(({ theme, page, menu }) => ({
-  // backgroundColor: page === menu?.name && alpha(theme.palette.footer.inputButton, 0.1),
   minHeight: "30px",
   height: "38px",
   lineHeight: "30px",
   borderRadius: "5px",
   fontSize: "12px",
+  color: "#e8eaec",
+  backgroundColor: page === menu?.name ? "#ffffff" : "transparent",
+  "& span": {
+    color: page === menu?.name ? "#111827" : "#e8eaec",
+    fontWeight: page === menu?.name ? 600 : 500,
+  },
   "&:hover": {
-    backgroundColor: (theme) => theme.palette.primary.semiLight,
+    backgroundColor:
+      page === menu?.name ? "#ffffff" : "rgba(52, 164, 44, 0.12)",
   },
 }));
 
 const ProfileTabPopover = (props) => {
-  const { deleteUserHandler, isLoadingDelete, accountDeleteStatus, setAccountDeleteStatus, anchorEl, onClose, open, page, ...other } = props;
+  const {
+    deleteUserHandler,
+    isLoadingDelete,
+    accountDeleteStatus,
+    setAccountDeleteStatus,
+    anchorEl,
+    onClose,
+    open,
+    page,
+    ...other
+  } = props;
   const { configData } = useSelector((state) => state.configData);
   const [openModal, setOpenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -71,13 +88,15 @@ const ProfileTabPopover = (props) => {
           top: "56px !important",
           left: "157px !important",
           borderRadius: "0px",
+          backgroundColor: "#111827",
+          border: "1px solid #2d3748",
         },
       }}
       transitionDuration={2}
       {...other}
     >
       <Stack paddingRight="10px" alignItems="flex-end">
-        <IconButton onClick={onClose}>
+        <IconButton className={styles.closeButton} onClick={onClose}>
           <CloseRoundedIcon sx={{ width: "15px", height: "15px" }} />
         </IconButton>
       </Stack>

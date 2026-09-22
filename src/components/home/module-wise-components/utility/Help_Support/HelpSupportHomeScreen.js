@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "styles/utility.module.css";
 import {
   Box,
   Button,
@@ -60,7 +61,9 @@ const FAQSection = () => {
 
         return (
           <Box key={index}>
-            {!isFirst && <Divider color="#EAECF0" />}
+            {!isFirst && (
+              <Divider sx={{ borderColor: "var(--ut-border-eaecf0)" }} />
+            )}
 
             <Box
               onClick={() => handleToggle(index)}
@@ -78,7 +81,7 @@ const FAQSection = () => {
                   fontFamily: "'Inter', sans-serif",
                   fontSize: { xs: "0.88rem", sm: "0.95rem" },
                   fontWeight: 500,
-                  color: "#101828",
+                  color: "var(--ut-text-101828)",
                   lineHeight: 1.5,
                   flex: 1,
                 }}
@@ -90,6 +93,7 @@ const FAQSection = () => {
                 component="img"
                 src={isOpen ? "/utility/CloseIcon.svg" : "/utility/AddIcon.svg"}
                 alt={isOpen ? "close" : "add"}
+                className={styles.utilityIconMono}
                 sx={{ width: 22, height: 22, flexShrink: 0 }}
               />
             </Box>
@@ -106,7 +110,7 @@ const FAQSection = () => {
                   fontFamily: "'Inter', sans-serif",
                   fontWeight: 400,
                   fontSize: { xs: "0.85rem", sm: "0.9rem" },
-                  color: "#667085",
+                  color: "var(--ut-text-667085)",
                   lineHeight: 1.7,
                   pb: "18px",
                 }}
@@ -125,8 +129,7 @@ const FAQSection = () => {
 export default function HelpSupportHomeScreen() {
   const [view, setView] = useState("home");
 
-
-   useEffect(() => {
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   // ✅ Raise Ticket view
@@ -158,7 +161,7 @@ export default function HelpSupportHomeScreen() {
               fontWeight: 500,
               fontSize: { xs: "2rem", sm: "2.6rem", md: "3rem" },
               lineHeight: 1.2,
-              color: "#1a1a2e",
+              color: "var(--ut-text-1a1a2e)",
             }}
           >
             Need help with your
@@ -171,7 +174,7 @@ export default function HelpSupportHomeScreen() {
           <Typography
             sx={{
               mt: 2,
-              color: "#4D525F",
+              color: "var(--ut-text-4d525f)",
               lineHeight: 1.7,
               fontFamily: "'Inter', sans-serif",
               fontSize: { xs: "0.9rem", md: "1rem" },
@@ -229,11 +232,11 @@ export default function HelpSupportHomeScreen() {
                 padding: "12px 28px",
                 width: { xs: "100%", sm: "auto" },
                 maxWidth: { xs: 280, sm: "none" },
-                borderColor: "#e5e7eb",
-                color: "#1a1a2e",
+                borderColor: "var(--ut-border-e5e7eb)",
+                color: "var(--ut-text-1a1a2e)",
                 "&:hover": {
-                  borderColor: "#9ca3af",
-                  backgroundColor: "#f9fafb",
+                  borderColor: "var(--ut-border-9ca3af)",
+                  backgroundColor: "var(--ut-bg-f9fafb)",
                   transform: "translateY(-1px)",
                 },
                 transition: "all 0.2s ease",
@@ -261,7 +264,7 @@ export default function HelpSupportHomeScreen() {
                 fontFamily: "'Inter', sans-serif",
                 fontWeight: 600,
                 fontSize: { xs: "1.4rem", md: "1.85rem" },
-                color: "#101828",
+                color: "var(--ut-text-101828)",
                 mb: 1,
               }}
             >
@@ -270,7 +273,7 @@ export default function HelpSupportHomeScreen() {
             <Typography
               sx={{
                 fontFamily: "'Inter', sans-serif",
-                color: "#667085",
+                color: "var(--ut-text-667085)",
                 fontWeight: 400,
                 fontSize: "0.95rem",
               }}

@@ -1,5 +1,6 @@
 // pages\utility\index.js
 import { useEffect, useState } from "react";
+import styles from "styles/utility.module.css";
 import { Box, styled } from "@mui/material";
 import { CustomStackFullWidth } from "../../src/styled-components/CustomStyles.style";
 import HeaderComponent from "../../src/components/header";
@@ -85,14 +86,14 @@ const Index = ({ configData }) => {
   }, [router.isReady, router.query.section]);
 
   return (
-    <MainLayoutRoot>
+    <MainLayoutRoot className={styles.utilityTheme}>
       <SEO
-  title="Safe & Secure Online Payments | UPI, Cards & Wallets "
-  description="Pay securely on Dealplex using UPI, credit/debit cards, net banking, wallets & cash on delivery. Instant payment confirmation. Shop with confidence."
-  keywords="secure online payment, UPI payment india, pay by UPI, phonepe payment, google pay checkout, paytm payment, credit card payment online, debit card payment, net banking india, cash on delivery, wallet payment india, safe payment gateway, instant payment confirmation, online transaction india, payment options india, buy now pay later india, EMI payment option, dealplex payment, secure checkout, digital payment india"
-  // image="https://shopdealplex.com/icons/favIcon.png" 
-  businessName="Dealplex"  
-/>
+        title="Safe & Secure Online Payments | UPI, Cards & Wallets "
+        description="Pay securely on Dealplex using UPI, credit/debit cards, net banking, wallets & cash on delivery. Instant payment confirmation. Shop with confidence."
+        keywords="secure online payment, UPI payment india, pay by UPI, phonepe payment, google pay checkout, paytm payment, credit card payment online, debit card payment, net banking india, cash on delivery, wallet payment india, safe payment gateway, instant payment confirmation, online transaction india, payment options india, buy now pay later india, EMI payment option, dealplex payment, secure checkout, digital payment india"
+        // image="https://shopdealplex.com/icons/favIcon.png"
+        businessName="Dealplex"
+      />
 
       <header style={{ display: "flex", alignItems: "center" }}>
         <HeaderComponent />
@@ -105,7 +106,7 @@ const Index = ({ configData }) => {
           alignItems: "center !important",
           justifyContent: "center !important",
           alignContent: "center !important",
-          bgcolor: "#ffffff",
+          bgcolor: "var(--ut-page-bg)",
           mb: 2,
         }}
       >
@@ -151,7 +152,7 @@ const Index = ({ configData }) => {
       <footer
         style={{
           width: "100%",
-          backgroundColor: "#F8F8F8",
+          backgroundColor: "var(--ut-bg-f8f8f8)",
           display: "flex",
           justifyContent: "center",
           padding: "20px 0",

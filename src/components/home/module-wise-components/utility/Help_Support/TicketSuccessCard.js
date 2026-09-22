@@ -41,7 +41,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
           width: "100%",
           maxWidth: 400,
           borderRadius: "16px",
-          border: "1px solid #EAECF0",
+          border: "1px solid var(--ut-border-eaecf0)",
           p: { xs: "24px 20px", sm: "32px 28px" },
           textAlign: "center",
         }}
@@ -52,7 +52,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
             width: 64,
             height: 64,
             borderRadius: "50%",
-            bgcolor: "#E8F5E9",
+            bgcolor: "var(--ut-bg-e8f5e9)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -60,7 +60,9 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
             mb: 2,
           }}
         >
-          <CheckCircleOutlineIcon sx={{ fontSize: 34, color: "#2E7D32" }} />
+          <CheckCircleOutlineIcon
+            sx={{ fontSize: 34, color: "var(--ut-text-2e7d32)" }}
+          />
         </Box>
 
         {/* Title */}
@@ -69,7 +71,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
             fontFamily: "'Inter', sans-serif",
             fontWeight: 600,
             fontSize: { xs: "1rem", sm: "1.1rem" },
-            color: "#101828",
+            color: "var(--ut-text-101828)",
             mb: 0.75,
           }}
         >
@@ -80,7 +82,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
           sx={{
             fontFamily: "'Inter', sans-serif",
             fontSize: "13px",
-            color: "#667085",
+            color: "var(--ut-text-667085)",
             lineHeight: 1.6,
             mb: 2.5,
           }}
@@ -89,7 +91,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
         </Typography>
 
         {/* Rows */}
-        <Divider sx={{ borderColor: "#EAECF0" }} />
+        <Divider sx={{ borderColor: "var(--ut-border-eaecf0)" }} />
 
         {rows.map((row, i) => (
           <Box key={i}>
@@ -106,7 +108,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
                 sx={{
                   fontFamily: "'Inter', sans-serif",
                   fontSize: "13px",
-                  color: "#667085",
+                  color: "var(--ut-text-667085)",
                   flexShrink: 0,
                 }}
               >
@@ -119,7 +121,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "5px",
-                    bgcolor: "#FFF8E1",
+                    bgcolor: "var(--ut-bg-fff8e1)",
                     px: "10px",
                     py: "3px",
                     borderRadius: "20px",
@@ -139,7 +141,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
                       fontFamily: "'Inter', sans-serif",
                       fontSize: "12px",
                       fontWeight: 500,
-                      color: "#854F0B",
+                      color: "var(--ut-text-854f0b)",
                     }}
                   >
                     {row.value}
@@ -151,7 +153,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
                     fontFamily: "'Inter', sans-serif",
                     fontSize: "13px",
                     fontWeight: 500,
-                    color: "#101828",
+                    color: "var(--ut-text-101828)",
                     textAlign: "right",
                     wordBreak: "break-all",
                   }}
@@ -161,7 +163,7 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
               )}
             </Box>
             {i < rows.length - 1 && (
-              <Divider sx={{ borderColor: "#EAECF0" }} />
+              <Divider sx={{ borderColor: "var(--ut-border-eaecf0)" }} />
             )}
           </Box>
         ))}
@@ -173,8 +175,8 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
           onClick={onViewTickets}
           sx={{
             mt: 2.5,
-            borderColor: "#E5E7EB",
-            color: "#101828",
+            borderColor: "var(--ut-border-e5e7eb)",
+            color: "var(--ut-text-101828)",
             fontFamily: "'Inter', sans-serif",
             fontWeight: 500,
             fontSize: "14px",
@@ -182,8 +184,8 @@ export default function TicketSuccessCard({ ticketData, onViewTickets }) {
             borderRadius: "8px",
             py: 1.2,
             "&:hover": {
-              borderColor: "#9CA3AF",
-              bgcolor: "#F9FAFB",
+              borderColor: "var(--ut-border-9ca3af)",
+              bgcolor: "var(--ut-bg-f9fafb)",
             },
           }}
         >

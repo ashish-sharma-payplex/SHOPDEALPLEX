@@ -1,0 +1,217 @@
+/* =========================================================================
+   utility.module.css
+
+/* ------------------------------ LIGHT (original colours) ------------------------------ */
+.utilityTheme {
+  color-scheme: light;
+
+  /* ---------- PAGE BACKGROUND ---------- */
+  --ut-page-bg: #ffffff;
+
+  /* ---------- BACKGROUNDS  (cards, inputs, hover fills, status tints) ---------- */
+  --ut-bg-ffffff: #ffffff;
+  --ut-bg-f4fdf7: #f4fdf7;
+  --ut-bg-fafafa: #fafafa;
+  --ut-bg-f9fafb: #f9fafb;
+  --ut-bg-f0fdf4: #f0fdf4;
+  --ut-bg-f8f9fa: #f8f9fa;
+  --ut-bg-f8f8f8: #f8f8f8;
+  --ut-bg-fff8e1: #fff8e1;
+  --ut-bg-fff5f5: #fff5f5;
+  --ut-bg-fef9c3: #fef9c3;
+  --ut-bg-f5f6fa: #f5f6fa;
+  --ut-bg-fff3f3: #fff3f3;
+  --ut-bg-e8faf0: #e8faf0;
+  --ut-bg-f5f5f5: #f5f5f5;
+  --ut-bg-fef2f2: #fef2f2;
+  --ut-bg-fff3e0: #fff3e0;
+  --ut-bg-f3f4f6: #f3f4f6;
+  --ut-bg-dcfce7: #dcfce7;
+  --ut-bg-f3f3f3: #f3f3f3;
+  --ut-bg-e8f5e9: #e8f5e9;
+  --ut-bg-d1fae5: #d1fae5;
+  --ut-bg-ffebee: #ffebee;
+  --ut-bg-e0f2fe: #e0f2fe;
+  --ut-bg-eeeeee: #eeeeee;
+  --ut-bg-fee2e2: #fee2e2;
+  --ut-bg-bbf7d0: #bbf7d0;
+  --ut-bg-d4edda: #d4edda;
+  --ut-bg-f7dddd: #f7dddd;
+
+  /* ---------- BORDERS / DIVIDERS ---------- */
+  --ut-border-ffffff: #ffffff;
+  --ut-border-f7f7f7: #f7f7f7;
+  --ut-border-f3f4f6: #f3f4f6;
+  --ut-border-e8f5e9: #e8f5e9;
+  --ut-border-f0f0f0: #f0f0f0;
+  --ut-border-d1fae5: #d1fae5;
+  --ut-border-eeeeee: #eeeeee;
+  --ut-border-eaecf0: #eaecf0;
+  --ut-border-bbf7d0: #bbf7d0;
+  --ut-border-e3e8ee: #e3e8ee;
+  --ut-border-e7e7e7: #e7e7e7;
+  --ut-border-e5e7eb: #e5e7eb;
+  --ut-border-dde2e4: #dde2e4;
+  --ut-border-e0e0e0: #e0e0e0;
+  --ut-border-fecaca: #fecaca;
+  --ut-border-d1d5db: #d1d5db;
+  --ut-border-86efac: #86efac;
+  --ut-border-c7d2fe: #c7d2fe;
+  --ut-border-cccccc: #cccccc;
+  --ut-border-c4c4c4: #c4c4c4;
+  --ut-border-fca5a5: #fca5a5;
+  --ut-border-9ca3af: #9ca3af;
+
+  /* ---------- TEXT / ICON COLOURS ---------- */
+  --ut-text-bbbbbb: #bbbbbb;
+  --ut-text-9ca3af: #9ca3af;
+  --ut-text-ff8f00: #ff8f00;
+  --ut-text-999999: #999999;
+  --ut-text-888888: #888888;
+  --ut-text-d97706: #d97706;
+  --ut-text-16a34a: #16a34a;
+  --ut-text-1a914b: #1a914b;
+  --ut-text-6b7280: #6b7280;
+  --ut-text-667085: #667085;
+  --ut-text-e65100: #e65100;
+  --ut-text-ef4444: #ef4444;
+  --ut-text-2e7d32: #2e7d32;
+  --ut-text-0369a1: #0369a1;
+  --ut-text-854f0b: #854f0b;
+  --ut-text-555555: #555555;
+  --ut-text-854d0e: #854d0e;
+  --ut-text-4b5563: #4b5563;
+  --ut-text-4f46e5: #4f46e5;
+  --ut-text-4d525f: #4d525f;
+  --ut-text-166534: #166534;
+  --ut-text-dc2626: #dc2626;
+  --ut-text-065f46: #065f46;
+  --ut-text-c62828: #c62828;
+  --ut-text-374151: #374151;
+  --ut-text-991b1b: #991b1b;
+  --ut-text-7f1d1d: #7f1d1d;
+  --ut-text-292d32: #292d32;
+  --ut-text-1a1a2e: #1a1a2e;
+  --ut-text-1a1a1a: #1a1a1a;
+  --ut-text-111827: #111827;
+  --ut-text-101828: #101828;
+  --ut-text-111111: #111111;
+  --ut-text-0d1117: #0d1117;
+
+  /* ---------- MISC ---------- */
+  --ut-brand-hairline: #1a914b40;
+}
+
+/* ------------------------------ DARK (hard-coded) ------------------------------ */
+:global([data-theme="dark"]) .utilityTheme {
+  color-scheme: dark;
+
+  /* ---------- PAGE BACKGROUND ---------- */
+     --ut-page-bg: #131313;
+
+
+  /* ---------- BACKGROUNDS  (cards, inputs, hover fills, status tints) ---------- */
+  --ut-bg-ffffff: #131313;  /* light: #ffffff */
+  --ut-bg-f4fdf7: rgba(52,164,44,0.10);  /* light: #f4fdf7 */
+  --ut-bg-fafafa: #161c2a;  /* light: #fafafa */
+  --ut-bg-f9fafb: #161c2a;  /* light: #f9fafb */
+  --ut-bg-f0fdf4: rgba(52,164,44,0.14);  /* light: #f0fdf4 */
+  --ut-bg-f8f9fa: #161c2a;  /* light: #f8f9fa */
+  --ut-bg-f8f8f8: #020303;  /* light: #f8f8f8 */
+  --ut-bg-fff8e1: rgba(255,176,32,0.14);  /* light: #fff8e1 */
+  --ut-bg-fff5f5: rgba(209,67,67,0.10);  /* light: #fff5f5 */
+  --ut-bg-fef9c3: rgba(255,176,32,0.16);  /* light: #fef9c3 */
+  --ut-bg-f5f6fa: #161c2a;  /* light: #f5f6fa */
+  --ut-bg-fff3f3: rgba(209,67,67,0.10);  /* light: #fff3f3 */
+  --ut-bg-e8faf0: rgba(52,164,44,0.14);  /* light: #e8faf0 */
+  --ut-bg-f5f5f5: #1f2937;  /* light: #f5f5f5 */
+  --ut-bg-fef2f2: rgba(209,67,67,0.10);  /* light: #fef2f2 */
+  --ut-bg-fff3e0: rgba(255,176,32,0.14);  /* light: #fff3e0 */
+  --ut-bg-f3f4f6: #1f2937;  /* light: #f3f4f6 */
+  --ut-bg-dcfce7: rgba(52,164,44,0.18);  /* light: #dcfce7 */
+  --ut-bg-f3f3f3: #1f2937;  /* light: #f3f3f3 */
+  --ut-bg-e8f5e9: rgba(52,164,44,0.14);  /* light: #e8f5e9 */
+  --ut-bg-d1fae5: rgba(52,164,44,0.18);  /* light: #d1fae5 */
+  --ut-bg-ffebee: rgba(209,67,67,0.16);  /* light: #ffebee */
+  --ut-bg-e0f2fe: rgba(56,189,248,0.14);  /* light: #e0f2fe */
+  --ut-bg-eeeeee: #1f2937;  /* light: #eeeeee */
+  --ut-bg-fee2e2: rgba(209,67,67,0.16);  /* light: #fee2e2 */
+  --ut-bg-bbf7d0: rgba(52,164,44,0.24);  /* light: #bbf7d0 */
+  --ut-bg-d4edda: rgba(52,164,44,0.16);  /* light: #d4edda */
+  --ut-bg-f7dddd: rgba(209,67,67,0.16);  /* light: #f7dddd */
+
+  /* ---------- BORDERS / DIVIDERS ---------- */
+  --ut-border-ffffff: #111827;  /* light: #ffffff */
+  --ut-border-f7f7f7: #232c3d;  /* light: #f7f7f7 */
+  --ut-border-f3f4f6: #232c3d;  /* light: #f3f4f6 */
+  --ut-border-e8f5e9: rgba(52,164,44,0.25);  /* light: #e8f5e9 */
+  --ut-border-f0f0f0: #232c3d;  /* light: #f0f0f0 */
+  --ut-border-d1fae5: rgba(52,164,44,0.30);  /* light: #d1fae5 */
+  --ut-border-eeeeee: #2d3748;  /* light: #eeeeee */
+  --ut-border-eaecf0: #2d3748;  /* light: #eaecf0 */
+  --ut-border-bbf7d0: rgba(52,164,44,0.35);  /* light: #bbf7d0 */
+  --ut-border-e3e8ee: #2d3748;  /* light: #e3e8ee */
+  --ut-border-e7e7e7: #2d3748;  /* light: #e7e7e7 */
+  --ut-border-e5e7eb: #2d3748;  /* light: #e5e7eb */
+  --ut-border-dde2e4: #2d3748;  /* light: #dde2e4 */
+  --ut-border-e0e0e0: #2d3748;  /* light: #e0e0e0 */
+  --ut-border-fecaca: rgba(209,67,67,0.40);  /* light: #fecaca */
+  --ut-border-d1d5db: #4b5563;  /* light: #d1d5db */
+  --ut-border-86efac: rgba(52,164,44,0.40);  /* light: #86efac */
+  --ut-border-c7d2fe: rgba(129,140,248,0.40);  /* light: #c7d2fe */
+  --ut-border-cccccc: #4b5563;  /* light: #cccccc */
+  --ut-border-c4c4c4: #4b5563;  /* light: #c4c4c4 */
+  --ut-border-fca5a5: rgba(209,67,67,0.45);  /* light: #fca5a5 */
+  --ut-border-9ca3af: #6b7280;  /* light: #9ca3af */
+
+  /* ---------- TEXT / ICON COLOURS ---------- */
+  --ut-text-bbbbbb: #6b7280;  /* light: #bbbbbb */
+  --ut-text-9ca3af: #8a94a6;  /* light: #9ca3af */
+  --ut-text-ff8f00: #ffb74d;  /* light: #ff8f00 */
+  --ut-text-999999: #8a94a6;  /* light: #999999 */
+  --ut-text-888888: #8a94a6;  /* light: #888888 */
+  --ut-text-d97706: #fbbf24;  /* light: #d97706 */
+  --ut-text-16a34a: #3bb77e;  /* light: #16a34a */
+  --ut-text-1a914b: #3bb77e;  /* light: #1a914b */
+  --ut-text-6b7280: #a0aec0;  /* light: #6b7280 */
+  --ut-text-667085: #a0aec0;  /* light: #667085 */
+  --ut-text-e65100: #ffa726;  /* light: #e65100 */
+  --ut-text-ef4444: #f87171;  /* light: #ef4444 */
+  --ut-text-2e7d32: #3bb77e;  /* light: #2e7d32 */
+  --ut-text-0369a1: #7dd3fc;  /* light: #0369a1 */
+  --ut-text-854f0b: #fcd34d;  /* light: #854f0b */
+  --ut-text-555555: #cbd5e1;  /* light: #555555 */
+  --ut-text-854d0e: #fcd34d;  /* light: #854d0e */
+  --ut-text-4b5563: #cbd5e1;  /* light: #4b5563 */
+  --ut-text-4f46e5: #a5b4fc;  /* light: #4f46e5 */
+  --ut-text-4d525f: #cbd5e1;  /* light: #4d525f */
+  --ut-text-166534: #4ade80;  /* light: #166534 */
+  --ut-text-dc2626: #f87171;  /* light: #dc2626 */
+  --ut-text-065f46: #4ade80;  /* light: #065f46 */
+  --ut-text-c62828: #ef9a9a;  /* light: #c62828 */
+  --ut-text-374151: #cbd5e1;  /* light: #374151 */
+  --ut-text-991b1b: #fca5a5;  /* light: #991b1b */
+  --ut-text-7f1d1d: #fca5a5;  /* light: #7f1d1d */
+  --ut-text-292d32: #e8eaec;  /* light: #292d32 */
+  --ut-text-1a1a2e: #e8eaec;  /* light: #1a1a2e */
+  --ut-text-1a1a1a: #e8eaec;  /* light: #1a1a1a */
+  --ut-text-111827: #e8eaec;  /* light: #111827 */
+  --ut-text-101828: #e8eaec;  /* light: #101828 */
+  --ut-text-111111: #e8eaec;  /* light: #111111 */
+  --ut-text-0d1117: #e8eaec;  /* light: #0d1117 */
+
+  /* ---------- MISC ---------- */
+  --ut-brand-hairline: rgba(59,183,122,0.35);  /* light: #1a914b40 */
+}
+
+/* ------------------------------ Monochrome icons ------------------------------
+   home / help-support / my-transactions / + / x svgs are black or grey strokes
+   (invisible on a dark card). Coloured service icons (green strokes) are NOT
+   touched. Light mode: no filter = original look. */
+.utilityIconMono {
+  transition: filter 0.15s ease;
+}
+
+:global([data-theme="dark"]) .utilityIconMono {
+  filter: invert(1) hue-rotate(180deg);
+}

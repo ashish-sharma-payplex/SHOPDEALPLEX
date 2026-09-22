@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import styles from "styles/utility.module.css";
 import {
   Box,
   Typography,
@@ -63,8 +64,11 @@ const serviceImageMap = {
 // ─── Dynamic Field ────────────────────────────────────────────────────────────
 const DynamicField = ({ param, value, onChange, error }) => {
   const isNumeric = param.dataType === "NUMERIC";
-const exampleValue = param.example || "";
-const shouldUppercase = exampleValue && exampleValue === exampleValue.toUpperCase() && /[A-Z]/.test(exampleValue);
+  const exampleValue = param.example || "";
+  const shouldUppercase =
+    exampleValue &&
+    exampleValue === exampleValue.toUpperCase() &&
+    /[A-Z]/.test(exampleValue);
   const isOptional = param.optional === true || param.optional === "true";
   const [touched, setTouched] = useState(false);
 
@@ -84,21 +88,23 @@ const shouldUppercase = exampleValue && exampleValue === exampleValue.toUpperCas
       try {
         const regex = new RegExp(param.regex);
         if (!regex.test(val))
-          return param.validationMessage || `Invalid format for ${param.paramName}`;
+          return (
+            param.validationMessage || `Invalid format for ${param.paramName}`
+          );
       } catch (_) {}
     }
     return "";
   };
 
   const handleChange = (e) => {
-  setTouched(true);
-  let val = e.target.value;
-  if (isNumeric) val = val.replace(/[^0-9]/g, "");
-  if (shouldUppercase) val = val.toUpperCase(); // ✅ uppercase force
-  if (param.maxLength && val.length > parseInt(param.maxLength))
-    val = val.slice(0, parseInt(param.maxLength));
-  onChange(param.paramName, val);
-};
+    setTouched(true);
+    let val = e.target.value;
+    if (isNumeric) val = val.replace(/[^0-9]/g, "");
+    if (shouldUppercase) val = val.toUpperCase(); // ✅ uppercase force
+    if (param.maxLength && val.length > parseInt(param.maxLength))
+      val = val.slice(0, parseInt(param.maxLength));
+    onChange(param.paramName, val);
+  };
 
   // ✅ External error ko priority do, phir inline error
   const inlineError = error || getInlineError();
@@ -111,94 +117,99 @@ const shouldUppercase = exampleValue && exampleValue === exampleValue.toUpperCas
       data-param={param.paramName}
       sx={{ width: { xs: "100%", sm: "360px" }, mb: 2 }}
     >
-      <Typography sx={{ fontWeight:600,fontSize: 14, mb: 0.5, color: "#6b7280" }}>
+      <Typography
+        sx={{
+          fontWeight: 600,
+          fontSize: 14,
+          mb: 0.5,
+          color: "var(--ut-text-6b7280)",
+        }}
+      >
         {/* {param.paramName} */}
         {/* {!isOptional && (
           <Typography
             component="span"
-            sx={{ color: "#ef4444", ml: 0.3, fontSize: 12 }}
+            sx={{ color: "var(--ut-text-ef4444)", ml: 0.3, fontSize: 12 }}
           >
             *
           </Typography>
         )} */}
       </Typography>
       <TextField
-  fullWidth
-  size="small"  
-  label={
-    <span>
-      {param.paramName}
-      {!isOptional && (
-        <span style={{ color: "#ef4444" }}> *</span>
-      )}
-    </span>
-  }
-  placeholder={
-    exampleValue
-      ? `e.g. ${exampleValue}`
-      : `Enter ${param.paramName}`
-  }
-  value={value || ""}
-  onChange={handleChange}
-  onBlur={() => setTouched(true)}
-  inputProps={{ inputMode: isNumeric ? "numeric" : "text" }}
-  error={!!inlineError}
-  helperText={
-    inlineError ? (
-      <Typography
-        component="span"
+        fullWidth
+        size="small"
+        label={
+          <span>
+            {param.paramName}
+            {!isOptional && (
+              <span style={{ color: "var(--ut-text-ef4444)" }}> *</span>
+            )}
+          </span>
+        }
+        placeholder={
+          exampleValue ? `e.g. ${exampleValue}` : `Enter ${param.paramName}`
+        }
+        value={value || ""}
+        onChange={handleChange}
+        onBlur={() => setTouched(true)}
+        inputProps={{ inputMode: isNumeric ? "numeric" : "text" }}
+        error={!!inlineError}
+        helperText={
+          inlineError ? (
+            <Typography
+              component="span"
+              sx={{
+                fontSize: 11,
+                color: "var(--ut-text-ef4444)",
+                display: "flex",
+                alignItems: "center",
+                gap: 0.3,
+              }}
+            >
+              ⚠ {inlineError}
+            </Typography>
+          ) : showCounter ? (
+            <Typography
+              component="span"
+              sx={{ fontSize: 11, color: "var(--ut-text-9ca3af)" }}
+            >
+              {currentLen}/{minLen} digits
+            </Typography>
+          ) : (
+            ""
+          )
+        }
         sx={{
-          fontSize: 11,
-          color: "#ef4444",
-          display: "flex",
-          alignItems: "center",
-          gap: 0.3,
+          background: "var(--ut-bg-ffffff)",
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+            fontSize: 14,
+            "& fieldset": {
+              borderColor: inlineError ? "#ef4444" : "var(--ut-border-e5e7eb)",
+            },
+            "&:hover fieldset": {
+              borderColor: inlineError ? "#ef4444" : "#1A914B",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: inlineError ? "#ef4444" : "#1A914B",
+            },
+          },
+
+          // floating label styling
+          "& .MuiInputLabel-root": {
+            color: "var(--ut-text-6b7280)",
+            fontSize: "14px",
+          },
+
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "var(--ut-text-1a914b)",
+          },
+
+          "& .MuiInputLabel-root.Mui-error": {
+            color: "var(--ut-text-ef4444)",
+          },
         }}
-      >
-        ⚠ {inlineError}
-      </Typography>
-    ) : showCounter ? (
-      <Typography
-        component="span"
-        sx={{ fontSize: 11, color: "#9ca3af" }}
-      >
-        {currentLen}/{minLen} digits
-      </Typography>
-    ) : (
-      ""
-    )
-  }
-  sx={{
-    background: "#fff",
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "8px",
-      fontSize: 14,
-      "& fieldset": {
-        borderColor: inlineError ? "#ef4444" : "#e5e7eb",
-      },
-      "&:hover fieldset": {
-        borderColor: inlineError ? "#ef4444" : "#1A914B",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: inlineError ? "#ef4444" : "#1A914B",
-      },
-    },
-
-    // floating label styling
-    "& .MuiInputLabel-root": {
-      color: "#6b7280",
-      fontSize: "14px",
-    },
-
-    "& .MuiInputLabel-root.Mui-focused": {
-      color: "#1A914B",
-    },
-
-    "& .MuiInputLabel-root.Mui-error": {
-      color: "#ef4444",
-    },
-  }}
-/>
+      />
     </Box>
   );
 };
@@ -220,9 +231,10 @@ const FieldSkeleton = () => (
         borderRadius: "8px",
         width: "100%",
         maxWidth: 360,
-        bgcolor: "#e8f5e9",
+        bgcolor: "var(--ut-bg-e8f5e9)",
         "&::after": {
-          background: "linear-gradient(90deg, transparent, #1A914B40, transparent)",
+          background:
+            "linear-gradient(90deg, transparent, var(--ut-brand-hairline), transparent)",
         },
       }}
     />
@@ -232,6 +244,7 @@ const FieldSkeleton = () => (
 // ─── Success Popup ────────────────────────────────────────────────────────────
 const ValidationSuccessPopup = ({ open, onClose }) => (
   <Dialog
+    className={styles.utilityTheme}
     open={open}
     onClose={onClose}
     PaperProps={{ sx: { borderRadius: "16px", p: 1, minWidth: 300 } }}
@@ -245,12 +258,19 @@ const ValidationSuccessPopup = ({ open, onClose }) => (
         px: 3,
       }}
     >
-      <CheckCircleOutlineIcon sx={{ fontSize: 64, color: "#1A914B", mb: 2 }} />
+      <CheckCircleOutlineIcon
+        sx={{ fontSize: 64, color: "var(--ut-text-1a914b)", mb: 2 }}
+      />
       <Typography fontWeight={600} fontSize={18} sx={{ mb: 1 }}>
         Bill Validation Successful
       </Typography>
       <Typography
-        sx={{ fontSize: 13, color: "#6b7280", textAlign: "center", mb: 3 }}
+        sx={{
+          fontSize: 13,
+          color: "var(--ut-text-6b7280)",
+          textAlign: "center",
+          mb: 3,
+        }}
       >
         Your bill has been validated successfully.
       </Typography>
@@ -278,8 +298,10 @@ const UtilityBillFormContent = () => {
   const router = useRouter();
 
   const slug = router.query?.slug || "";
- const billerIdFromQuery = router.query?.billerId || "";
-const billerNameFromQuery = router.query?.billerName ? decodeURIComponent(router.query.billerName) : "";
+  const billerIdFromQuery = router.query?.billerId || "";
+  const billerNameFromQuery = router.query?.billerName
+    ? decodeURIComponent(router.query.billerName)
+    : "";
 
   const serviceIcon = serviceImageMap[slug] || "/utility/recharge.svg";
   const serviceName = slug
@@ -321,34 +343,38 @@ const billerNameFromQuery = router.query?.billerName ? decodeURIComponent(router
 
   const customerParams = billerDetails?.biller?.customerParams || [];
   const fetchRequirement = billerDetails?.biller?.fetchRequirement || "";
-  const supportBillValidation = billerDetails?.biller?.supportBillValidation || "";
+  const supportBillValidation =
+    billerDetails?.biller?.supportBillValidation || "";
 
   const isValidateFlow =
     fetchRequirement === "NOT_SUPPORTED" &&
-    (supportBillValidation === "MANDATORY" || supportBillValidation === "OPTIONAL");
+    (supportBillValidation === "MANDATORY" ||
+      supportBillValidation === "OPTIONAL");
 
   // customerParams mein Amount field already hai?
   const hasAmountInParams = customerParams.some(
     (p) => p.paramName?.toLowerCase() === "amount",
   );
 
-  const { mutateAsync: fetchBill, isLoading: fetchingBill } = useGetBbpsBillFetch();
-  const { mutateAsync: validateBill, isLoading: validatingBill } = useGetBbpsBillValidate();
+  const { mutateAsync: fetchBill, isLoading: fetchingBill } =
+    useGetBbpsBillFetch();
+  const { mutateAsync: validateBill, isLoading: validatingBill } =
+    useGetBbpsBillValidate();
 
   const isActionLoading = fetchingBill || validatingBill;
 
- useEffect(() => {
-  if (router.isReady) {
-    if (billerIdFromQuery) setSelectedBillerId(billerIdFromQuery);
-    if (billerNameFromQuery) setSelectedBillerName(billerNameFromQuery);
-  }
-}, [router.isReady, billerIdFromQuery, billerNameFromQuery]);
-//  useEffect(() => {
-//   if (!selectedBillerName) {
-//     const stored = sessionStorage.getItem("bbps_biller_name");
-//     if (stored) setSelectedBillerName(stored);
-//   }
-// }, [selectedBillerName]);
+  useEffect(() => {
+    if (router.isReady) {
+      if (billerIdFromQuery) setSelectedBillerId(billerIdFromQuery);
+      if (billerNameFromQuery) setSelectedBillerName(billerNameFromQuery);
+    }
+  }, [router.isReady, billerIdFromQuery, billerNameFromQuery]);
+  //  useEffect(() => {
+  //   if (!selectedBillerName) {
+  //     const stored = sessionStorage.getItem("bbps_biller_name");
+  //     if (stored) setSelectedBillerName(stored);
+  //   }
+  // }, [selectedBillerName]);
 
   useEffect(() => {
     setFieldValues({});
@@ -388,12 +414,12 @@ const billerNameFromQuery = router.query?.billerName ? decodeURIComponent(router
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-useEffect(() => {
-  if (!searchQuery) return;
-  if (hasNextPage && !isFetchingNextPage) {
-    fetchNextPage();
-  }
-}, [searchQuery, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  useEffect(() => {
+    if (!searchQuery) return;
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [searchQuery, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const handleFieldChange = (paramName, value) => {
     setFieldValues((prev) => ({ ...prev, [paramName]: value }));
@@ -424,7 +450,9 @@ useEffect(() => {
       if (!val) {
         errors[param.paramName] = `${param.paramName} is required`;
       } else if (param.minLength && val.length < parseInt(param.minLength)) {
-        errors[param.paramName] = `${val.length}/${param.minLength} — Minimum ${param.minLength} digits required`;
+        errors[
+          param.paramName
+        ] = `${val.length}/${param.minLength} — Minimum ${param.minLength} digits required`;
       }
     });
     return errors;
@@ -440,7 +468,9 @@ useEffect(() => {
         return;
       }
       if (val && param.minLength && val.length < parseInt(param.minLength)) {
-        errors[param.paramName] = `${val.length}/${param.minLength} — Minimum ${param.minLength} digits required`;
+        errors[
+          param.paramName
+        ] = `${val.length}/${param.minLength} — Minimum ${param.minLength} digits required`;
         return;
       }
       if (val && param.regex) {
@@ -448,7 +478,8 @@ useEffect(() => {
           const regex = new RegExp(param.regex);
           if (!regex.test(val))
             errors[param.paramName] =
-              param.validationMessage || `Invalid format for ${param.paramName}`;
+              param.validationMessage ||
+              `Invalid format for ${param.paramName}`;
         } catch (_) {}
       }
     });
@@ -466,7 +497,8 @@ useEffect(() => {
 
       const val = (fieldValues[param.paramName] || "").trim();
       if (!val) return false;
-      if (param.minLength && val.length < parseInt(param.minLength)) return false;
+      if (param.minLength && val.length < parseInt(param.minLength))
+        return false;
     }
 
     // Validate flow mein manual amount check — sirf tab jab params mein Amount nahi hai
@@ -486,7 +518,9 @@ useEffect(() => {
   const scrollToFirstError = (errors) => {
     const firstErrorParam = customerParams.find((p) => errors[p.paramName]);
     if (firstErrorParam) {
-      const el = document.querySelector(`[data-param="${firstErrorParam.paramName}"]`);
+      const el = document.querySelector(
+        `[data-param="${firstErrorParam.paramName}"]`,
+      );
       if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   };
@@ -514,16 +548,22 @@ useEffect(() => {
         billerId: selectedBillerId,
         customerParams: getCustomerParms(),
       });
-        console.log("🔍 FULL RESPONSE:", JSON.stringify(billData, null, 2));
+      console.log("🔍 FULL RESPONSE:", JSON.stringify(billData, null, 2));
     } catch (err) {
       // ✅ Network/server error — pehle field ke niche dikhao
       if (customerParams.length > 0) {
         const firstParam = customerParams[0];
-        setFieldErrors({ [firstParam.paramName]: "Something went wrong. Please try again." });
-        const el = document.querySelector(`[data-param="${firstParam.paramName}"]`);
+        setFieldErrors({
+          [firstParam.paramName]: "Something went wrong. Please try again.",
+        });
+        const el = document.querySelector(
+          `[data-param="${firstParam.paramName}"]`,
+        );
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
-        toast.error("Something went wrong. Please try again.", { style: { boxShadow: "none" } });
+        toast.error("Something went wrong. Please try again.", {
+          style: { boxShadow: "none" },
+        });
       }
       return;
     }
@@ -531,11 +571,17 @@ useEffect(() => {
     if (!billData) {
       if (customerParams.length > 0) {
         const firstParam = customerParams[0];
-        setFieldErrors({ [firstParam.paramName]: "No response from server. Please try again." });
-        const el = document.querySelector(`[data-param="${firstParam.paramName}"]`);
+        setFieldErrors({
+          [firstParam.paramName]: "No response from server. Please try again.",
+        });
+        const el = document.querySelector(
+          `[data-param="${firstParam.paramName}"]`,
+        );
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
-        toast.error("No response from server. Please try again.", { style: { boxShadow: "none" } });
+        toast.error("No response from server. Please try again.", {
+          style: { boxShadow: "none" },
+        });
       }
       return;
     }
@@ -543,7 +589,7 @@ useEffect(() => {
     // ✅ Actual API shape: billData.bbps.bill (NOT billData.bbps.response)
     const topStatus = billData?.status?.toUpperCase();
     const bbpsBill = billData?.bbps?.bill || {};
-    const responseCode = bbpsBill?.responseCode;        // "000" = success
+    const responseCode = bbpsBill?.responseCode; // "000" = success
     const responseReason = bbpsBill?.responseReason?.toUpperCase();
     const errorList = bbpsBill?.errorList || [];
     const complianceReason = bbpsBill?.complianceReason || "";
@@ -567,7 +613,9 @@ useEffect(() => {
       if (customerParams.length > 0) {
         const firstParam = customerParams[0];
         setFieldErrors({ [firstParam.paramName]: errorMsg });
-        const el = document.querySelector(`[data-param="${firstParam.paramName}"]`);
+        const el = document.querySelector(
+          `[data-param="${firstParam.paramName}"]`,
+        );
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
         toast.error(errorMsg, { style: { boxShadow: "none" } });
@@ -629,11 +677,17 @@ useEffect(() => {
     } catch (err) {
       if (customerParams.length > 0) {
         const firstParam = customerParams[0];
-        setFieldErrors({ [firstParam.paramName]: "Something went wrong. Please try again." });
-        const el = document.querySelector(`[data-param="${firstParam.paramName}"]`);
+        setFieldErrors({
+          [firstParam.paramName]: "Something went wrong. Please try again.",
+        });
+        const el = document.querySelector(
+          `[data-param="${firstParam.paramName}"]`,
+        );
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
-        toast.error("Something went wrong. Please try again.", { style: { boxShadow: "none" } });
+        toast.error("Something went wrong. Please try again.", {
+          style: { boxShadow: "none" },
+        });
       }
       return;
     }
@@ -641,17 +695,24 @@ useEffect(() => {
     if (!result) {
       if (customerParams.length > 0) {
         const firstParam = customerParams[0];
-        setFieldErrors({ [firstParam.paramName]: "No response from server. Please try again." });
-        const el = document.querySelector(`[data-param="${firstParam.paramName}"]`);
+        setFieldErrors({
+          [firstParam.paramName]: "No response from server. Please try again.",
+        });
+        const el = document.querySelector(
+          `[data-param="${firstParam.paramName}"]`,
+        );
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
-        toast.error("No response from server. Please try again.", { style: { boxShadow: "none" } });
+        toast.error("No response from server. Please try again.", {
+          style: { boxShadow: "none" },
+        });
       }
       return;
     }
 
     const bbpsStatus = result?.bbps?.status?.toUpperCase();
-    const responseReason = result?.bbps?.response?.responseReason?.toUpperCase();
+    const responseReason =
+      result?.bbps?.response?.responseReason?.toUpperCase();
     const errorList = result?.bbps?.response?.errorList || [];
     const complianceReason = result?.bbps?.response?.complianceReason || "";
 
@@ -671,7 +732,9 @@ useEffect(() => {
       if (customerParams.length > 0) {
         const firstParam = customerParams[0];
         setFieldErrors({ [firstParam.paramName]: errorMsg });
-        const el = document.querySelector(`[data-param="${firstParam.paramName}"]`);
+        const el = document.querySelector(
+          `[data-param="${firstParam.paramName}"]`,
+        );
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
         toast.error(errorMsg, { style: { boxShadow: "none" } });
@@ -714,7 +777,7 @@ useEffect(() => {
           minHeight: "520px",
           borderRadius: "16px",
           p: { xs: 2, md: 3 },
-          border: "1px solid #e5e7eb",
+          border: "1px solid var(--ut-border-e5e7eb)",
         }}
       >
         {/* HEADER */}
@@ -730,7 +793,7 @@ useEffect(() => {
             <Typography fontWeight={600} fontSize={15}>
               Recharges & Bill Payments
             </Typography>
-            <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+            <Typography sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}>
               Pay utility bills, recharges & government bills securely
             </Typography>
           </Box>
@@ -776,16 +839,16 @@ useEffect(() => {
           <Box
             onClick={() => setDropdownOpen((prev) => !prev)}
             sx={{
-              border: "1px solid #e5e7eb",
+              border: "1px solid var(--ut-border-e5e7eb)",
               borderRadius: "12px",
               px: 2,
               py: 1.5,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              background: "#fff",
+              background: "var(--ut-bg-ffffff)",
               cursor: "pointer",
-              "&:hover": { borderColor: "#d1d5db" },
+              "&:hover": { borderColor: "var(--ut-border-d1d5db)" },
             }}
           >
             <Box
@@ -803,7 +866,11 @@ useEffect(() => {
               />
               <Typography
                 fontSize={13}
-                color={selectedBillerName ? "#111" : "#9ca3af"}
+                color={
+                  selectedBillerName
+                    ? "var(--ut-text-111111)"
+                    : "var(--ut-text-9ca3af)"
+                }
                 sx={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -816,7 +883,7 @@ useEffect(() => {
             <Typography
               sx={{
                 fontSize: 12,
-                color: "#16a34a",
+                color: "var(--ut-text-16a34a)",
                 fontWeight: 600,
                 flexShrink: 0,
                 ml: 1,
@@ -834,15 +901,17 @@ useEffect(() => {
                 left: 0,
                 right: 0,
                 zIndex: 10,
-                background: "#fff",
-                border: "1px solid #e5e7eb",
+                background: "var(--ut-bg-ffffff)",
+                border: "1px solid var(--ut-border-e5e7eb)",
                 borderRadius: "10px",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 mt: 0.5,
                 overflow: "hidden",
               }}
             >
-              <Box sx={{ p: 1, borderBottom: "1px solid #f3f4f6" }}>
+              <Box
+                sx={{ p: 1, borderBottom: "1px solid var(--ut-border-f3f4f6)" }}
+              >
                 <TextField
                   autoFocus
                   fullWidth
@@ -853,7 +922,9 @@ useEffect(() => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
+                        <SearchIcon
+                          sx={{ fontSize: 16, color: "var(--ut-text-9ca3af)" }}
+                        />
                       </InputAdornment>
                     ),
                   }}
@@ -884,7 +955,12 @@ useEffect(() => {
                   ))
                 ) : filteredBillers.length === 0 ? (
                   <Typography
-                    sx={{ fontSize: 13, color: "#9ca3af", px: 2, py: 2 }}
+                    sx={{
+                      fontSize: 13,
+                      color: "var(--ut-text-9ca3af)",
+                      px: 2,
+                      py: 2,
+                    }}
                   >
                     No billers found
                   </Typography>
@@ -912,9 +988,9 @@ useEffect(() => {
                         cursor: "pointer",
                         background:
                           selectedBillerId === biller.billerId
-                            ? "#f0fdf4"
+                            ? "var(--ut-bg-f0fdf4)"
                             : "transparent",
-                        "&:hover": { background: "#f9fafb" },
+                        "&:hover": { background: "var(--ut-bg-f9fafb)" },
                       }}
                     >
                       <Box
@@ -962,7 +1038,7 @@ useEffect(() => {
                 Amount
                 <Typography
                   component="span"
-                  sx={{ color: "#ef4444", ml: 0.3, fontSize: 12 }}
+                  sx={{ color: "var(--ut-text-ef4444)", ml: 0.3, fontSize: 12 }}
                 >
                   *
                 </Typography>
@@ -985,7 +1061,7 @@ useEffect(() => {
                       component="span"
                       sx={{
                         fontSize: 11,
-                        color: "#ef4444",
+                        color: "var(--ut-text-ef4444)",
                         display: "flex",
                         alignItems: "center",
                         gap: 0.3,
@@ -1000,20 +1076,24 @@ useEffect(() => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Typography sx={{ fontSize: 14, color: "#6b7280" }}>
+                      <Typography
+                        sx={{ fontSize: 14, color: "var(--ut-text-6b7280)" }}
+                      >
                         ₹
                       </Typography>
                     </InputAdornment>
                   ),
                 }}
                 sx={{
-                  background: "#fff",
+                  background: "var(--ut-bg-ffffff)",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "8px",
                     fontSize: 14,
                     "& fieldset": {
                       borderColor:
-                        amountTouched && amountError ? "#ef4444" : "#e5e7eb",
+                        amountTouched && amountError
+                          ? "#ef4444"
+                          : "var(--ut-border-e5e7eb)",
                     },
                     "&:hover fieldset": {
                       borderColor:
@@ -1094,7 +1174,7 @@ useEffect(() => {
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
 const UtilityBillForm = () => (
-  <UtilityLayout activeKey="home" >
+  <UtilityLayout activeKey="home">
     <UtilityBillFormContent />
   </UtilityLayout>
 );

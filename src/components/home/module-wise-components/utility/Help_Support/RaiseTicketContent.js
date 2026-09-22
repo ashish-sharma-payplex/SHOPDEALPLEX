@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import styles from "styles/utility.module.css";
 import {
   Box,
   Typography,
@@ -13,7 +14,7 @@ import {
   CircularProgress,
   InputAdornment,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SecurityIcon from "@mui/icons-material/Security";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -24,48 +25,56 @@ import useCreateBbpsTicket from "api-manage/hooks/react-query/utility/useGetBbps
 import TicketSuccessCard from "./TicketSuccessCard";
 import { dispositions } from "../Help_Support/DispositionConstants";
 
-const theme = createTheme({
-  palette: {
-    primary: { main: "#2E7D32" },
-    secondary: { main: "#FF6F00" },
-    background: { paper: "#FFFFFF" },
-  },
-  typography: {
-    fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-  },
-  components: {
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#2E7D32",
+const buildTheme = (isDark) =>
+  createTheme({
+    palette: {
+      primary: { main: "#2E7D32" },
+      secondary: { main: "#FF6F00" },
+      // light values are the original ones; dark values follow the app's dark palette
+      mode: isDark ? "dark" : "light",
+      background: isDark
+        ? { default: "#131313", paper: "#111827" }
+        : { paper: "#FFFFFF" },
+      ...(isDark && {
+        text: { primary: "#e8eaec", secondary: "#A0AEC0" },
+        divider: "#2D3748",
+      }),
+    },
+    typography: {
+      fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+    },
+    components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#2E7D32",
+            },
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+            textTransform: "none",
+            fontSize: "16px",
+            fontWeight: 600,
+            padding: "12px 24px",
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            borderRadius: 12,
+            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
           },
         },
       },
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          textTransform: "none",
-          fontSize: "16px",
-          fontWeight: 600,
-          padding: "12px 24px",
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          borderRadius: 12,
-          boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-        },
-      },
-    },
-  },
-});
-
+  });
 
 // ─── Custom Disposition Dropdown ──────────────────────────────────────────────
 const DispositionDropdown = ({ value, onChange }) => {
@@ -77,7 +86,7 @@ const DispositionDropdown = ({ value, onChange }) => {
   const isActive = open || !!selectedDisp;
 
   const filtered = dispositions.filter((d) =>
-    d.name.toLowerCase().includes(search.toLowerCase())
+    d.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   useEffect(() => {
@@ -95,7 +104,7 @@ const DispositionDropdown = ({ value, onChange }) => {
         onClick={() => setOpen((prev) => !prev)}
         sx={{
           position: "relative",
-          border: `1px solid ${open ? "#2E7D32" : "#c4c4c4"}`,
+          border: `1px solid ${open ? "#2E7D32" : "var(--ut-border-c4c4c4)"}`,
           borderRadius: "8px",
           px: 1.75,
           py: 1,
@@ -103,7 +112,7 @@ const DispositionDropdown = ({ value, onChange }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: "#fff",
+          background: "var(--ut-bg-ffffff)",
           cursor: "pointer",
           transition: "border-color 0.2s",
           "&:hover": { borderColor: "#2E7D32" },
@@ -120,9 +129,9 @@ const DispositionDropdown = ({ value, onChange }) => {
               ? "translateY(0) scale(0.75)"
               : "translateY(-50%) scale(1)",
             transformOrigin: "left center",
-            background: "#fff",
+            background: "var(--ut-bg-ffffff)",
             px: "4px",
-            color: open ? "#2E7D32" : "#6b7280",
+            color: open ? "var(--ut-text-2e7d32)" : "var(--ut-text-6b7280)",
             fontSize: "1rem",
             pointerEvents: "none",
             transition: "all 0.2s ease",
@@ -133,7 +142,7 @@ const DispositionDropdown = ({ value, onChange }) => {
           Select Disposition{" "}
           <Typography
             component="span"
-            sx={{ color: "#ef4444", fontSize: "inherit" }}
+            sx={{ color: "var(--ut-text-ef4444)", fontSize: "inherit" }}
           >
             *
           </Typography>
@@ -142,7 +151,7 @@ const DispositionDropdown = ({ value, onChange }) => {
         {/* Selected Value Text */}
         <Typography
           fontSize={14}
-          color={selectedDisp ? "#111" : "transparent"}
+          color={selectedDisp ? "var(--ut-text-111111)" : "transparent"}
           sx={{
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -156,7 +165,12 @@ const DispositionDropdown = ({ value, onChange }) => {
 
         {/* Edit / Select Badge */}
         <Typography
-          sx={{ fontSize: 12, color: "#16a34a", fontWeight: 600, flexShrink: 0 }}
+          sx={{
+            fontSize: 12,
+            color: "var(--ut-text-16a34a)",
+            fontWeight: 600,
+            flexShrink: 0,
+          }}
         >
           {selectedDisp ? "" : ""}
         </Typography>
@@ -171,8 +185,8 @@ const DispositionDropdown = ({ value, onChange }) => {
             left: 0,
             right: 0,
             zIndex: 10,
-            background: "#fff",
-            border: "1px solid #e5e7eb",
+            background: "var(--ut-bg-ffffff)",
+            border: "1px solid var(--ut-border-e5e7eb)",
             borderRadius: "10px",
             boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
             mt: 0.5,
@@ -180,7 +194,7 @@ const DispositionDropdown = ({ value, onChange }) => {
           }}
         >
           {/* Search */}
-          <Box sx={{ p: 1, borderBottom: "1px solid #f3f4f6" }}>
+          <Box sx={{ p: 1, borderBottom: "1px solid var(--ut-border-f3f4f6)" }}>
             <TextField
               autoFocus
               fullWidth
@@ -191,7 +205,9 @@ const DispositionDropdown = ({ value, onChange }) => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
+                    <SearchIcon
+                      sx={{ fontSize: 16, color: "var(--ut-text-9ca3af)" }}
+                    />
                   </InputAdornment>
                 ),
               }}
@@ -207,7 +223,14 @@ const DispositionDropdown = ({ value, onChange }) => {
           {/* Options */}
           <Box sx={{ maxHeight: 220, overflowY: "auto" }}>
             {filtered.length === 0 ? (
-              <Typography sx={{ fontSize: 13, color: "#9ca3af", px: 2, py: 2 }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  color: "var(--ut-text-9ca3af)",
+                  px: 2,
+                  py: 2,
+                }}
+              >
                 No dispositions found
               </Typography>
             ) : (
@@ -223,8 +246,9 @@ const DispositionDropdown = ({ value, onChange }) => {
                     px: 2,
                     py: 1.2,
                     cursor: "pointer",
-                    background: value === d.code ? "#f0fdf4" : "transparent",
-                    "&:hover": { background: "#f9fafb" },
+                    background:
+                      value === d.code ? "var(--ut-bg-f0fdf4)" : "transparent",
+                    "&:hover": { background: "var(--ut-bg-f9fafb)" },
                   }}
                 >
                   <Typography fontSize={13}>{d.name}</Typography>
@@ -240,6 +264,11 @@ const DispositionDropdown = ({ value, onChange }) => {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function RaiseTicket({ onBack }) {
+  // Local MUI theme follows the app's light/dark mode (light values are unchanged)
+  const appTheme = useTheme();
+  const isDark = appTheme.palette.mode === "dark";
+  const theme = useMemo(() => buildTheme(isDark), [isDark]);
+
   const [form, setForm] = useState({
     transactionId: "",
     amount: "",
@@ -299,7 +328,8 @@ export default function RaiseTicket({ onBack }) {
             status: data?.status || data?.data?.status || "Pending Review",
             service: data?.service || data?.data?.service || "—",
             issue:
-              dispositions.find((d) => d.code === form.disposition)?.name || "—",
+              dispositions.find((d) => d.code === form.disposition)?.name ||
+              "—",
             transactionId: form.transactionId,
           });
 
@@ -335,7 +365,7 @@ export default function RaiseTicket({ onBack }) {
             "Something went wrong.";
           toast.error(message);
         },
-      }
+      },
     );
   };
 
@@ -349,7 +379,7 @@ export default function RaiseTicket({ onBack }) {
       <Box
         sx={{
           minHeight: "100vh",
-          border: "1px solid #e7e7e7",
+          border: "1px solid var(--ut-border-e7e7e7)",
           borderRadius: "8px",
           p: 3,
         }}
@@ -371,12 +401,15 @@ export default function RaiseTicket({ onBack }) {
                 sx={{
                   mb: 1,
                   px: 0,
-                  color: "#667085",
+                  color: "var(--ut-text-667085)",
                   fontFamily: "'Inter', sans-serif",
                   fontWeight: 500,
                   fontSize: "0.85rem",
                   textTransform: "none",
-                  "&:hover": { background: "transparent", color: "#101828" },
+                  "&:hover": {
+                    background: "transparent",
+                    color: "var(--ut-text-101828)",
+                  },
                 }}
               >
                 Back to Help
@@ -391,10 +424,16 @@ export default function RaiseTicket({ onBack }) {
           </Box>
 
           {/* Logo */}
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-                 
-                  <img src="/BharatConnect.png" style={{ height: 36 }} />
-                </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 3,
+            }}
+          >
+            <img src="/BharatConnect.png" style={{ height: 36 }} />
+          </Box>
         </Box>
 
         <Grid container spacing={3}>
@@ -488,21 +527,28 @@ export default function RaiseTicket({ onBack }) {
               </Typography>
 
               <Box
-                sx={{ mt: 2, display: "flex", gap: 2, alignItems: "flex-start" }}
+                sx={{
+                  mt: 2,
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "flex-start",
+                }}
               >
                 <Box
                   sx={{
                     width: 36,
                     height: 36,
                     borderRadius: "50%",
-                    bgcolor: "#FFF8E1",
+                    bgcolor: "var(--ut-bg-fff8e1)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <AccessTimeIcon sx={{ color: "#FF8F00", fontSize: 18 }} />
+                  <AccessTimeIcon
+                    sx={{ color: "var(--ut-text-ff8f00)", fontSize: 18 }}
+                  />
                 </Box>
                 <Box>
                   <Typography variant="body2" fontWeight={600}>
@@ -515,21 +561,28 @@ export default function RaiseTicket({ onBack }) {
               </Box>
 
               <Box
-                sx={{ mt: 2, display: "flex", gap: 2, alignItems: "flex-start" }}
+                sx={{
+                  mt: 2,
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "flex-start",
+                }}
               >
                 <Box
                   sx={{
                     width: 36,
                     height: 36,
                     borderRadius: "50%",
-                    bgcolor: "#E8F5E9",
+                    bgcolor: "var(--ut-bg-e8f5e9)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <SecurityIcon sx={{ color: "#2E7D32", fontSize: 18 }} />
+                  <SecurityIcon
+                    sx={{ color: "var(--ut-text-2e7d32)", fontSize: 18 }}
+                  />
                 </Box>
                 <Box>
                   <Typography variant="body2" fontWeight={600}>
@@ -561,7 +614,7 @@ export default function RaiseTicket({ onBack }) {
                   <ListItem key={tip} disableGutters sx={{ py: 0.3 }}>
                     <ListItemIcon sx={{ minWidth: 20 }}>
                       <FiberManualRecordIcon
-                        sx={{ fontSize: 7, color: "#555" }}
+                        sx={{ fontSize: 7, color: "var(--ut-text-555555)" }}
                       />
                     </ListItemIcon>
                     <ListItemText

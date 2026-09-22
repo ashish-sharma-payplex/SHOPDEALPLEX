@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styles from "styles/utility.module.css";
 import { Box, styled } from "@mui/material";
 import HeaderComponent from "../../../src/components/header";
 import FooterComponent from "../../../src/components/footer";
@@ -64,7 +65,6 @@ const UtilitySuccessPage = () => {
   const serviceName = slug
     ? slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
     : "";
-
 
   const handleNeedHelp = () => {
     router.push("/utility?section=help");
@@ -144,7 +144,7 @@ const UtilitySuccessPage = () => {
   };
 
   return (
-    <MainLayoutRoot>
+    <MainLayoutRoot className={styles.utilityTheme}>
       <header style={{ display: "flex", alignItems: "center" }}>
         <HeaderComponent />
       </header>
@@ -155,7 +155,7 @@ const UtilitySuccessPage = () => {
           px: "5%",
           alignItems: "center",
           justifyContent: "center",
-          bgcolor: "#ffffff",
+          bgcolor: "var(--ut-page-bg)",
         }}
       >
         <Box
@@ -175,7 +175,7 @@ const UtilitySuccessPage = () => {
             billerLogo={serviceIcon}
             billInfo={billInfo}
             onBackToHome={handleBackToHome}
-             onNeedHelp={handleNeedHelp}
+            onNeedHelp={handleNeedHelp}
           />
         </Box>
       </CustomStackFullWidth>
@@ -183,7 +183,7 @@ const UtilitySuccessPage = () => {
       <footer
         style={{
           width: "100%",
-          backgroundColor: "#F8F8F8",
+          backgroundColor: "var(--ut-bg-f8f8f8)",
           display: "flex",
           justifyContent: "center",
           padding: "20px 0",

@@ -1,5 +1,6 @@
 // pages/utility/[slug]/form.js
 import { Box, styled } from "@mui/material";
+import styles from "styles/utility.module.css";
 import HeaderComponent from "../../../src/components/header";
 import FooterComponent from "../../../src/components/footer";
 import UtilityBillForm from "../../../src/components/home/module-wise-components/utility/UtilityBillForm";
@@ -13,7 +14,7 @@ const MainLayoutRoot = styled("div")({
 
 const UtilityFormPage = () => {
   return (
-    <MainLayoutRoot>
+    <MainLayoutRoot className={styles.utilityTheme}>
       <header style={{ display: "flex", alignItems: "center" }}>
         <HeaderComponent />
       </header>
@@ -25,7 +26,7 @@ const UtilityFormPage = () => {
           alignItems: "center !important",
           justifyContent: "center !important",
           alignContent: "center !important",
-          bgcolor: "#ffffff",
+          bgcolor: "var(--ut-page-bg)",
         }}
       >
         <Box
@@ -42,7 +43,7 @@ const UtilityFormPage = () => {
       <footer
         style={{
           width: "100%",
-          backgroundColor: "#F8F8F8",
+          backgroundColor: "var(--ut-bg-f8f8f8)",
           display: "flex",
           justifyContent: "center",
           padding: "20px 0",
@@ -50,7 +51,7 @@ const UtilityFormPage = () => {
       >
         <Box
           sx={{
-            backgroundColor: "pink",
+            backgroundColor: "transparent",
             padding: "10px 20px",
             borderRadius: "5px",
           }}

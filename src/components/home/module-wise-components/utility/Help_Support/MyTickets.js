@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "styles/utility.module.css";
 import {
   Box,
   Typography,
@@ -34,12 +35,36 @@ import RaiseTicket from "./RaiseTicketContent";
 
 // ─── Status Badge Config ──────────────────────────────────────────────────────
 const STATUS_STYLES = {
-  ASSIGNED: { bg: "#d1fae5", color: "#065f46", label: "Assigned" },
-  REFUNDED: { bg: "#dcfce7", color: "#166534", label: "Refunded" },
-  REFUND_INITIATED: { bg: "#e0f2fe", color: "#0369a1", label: "Refund Initiated" },
-  RESOLVED: { bg: "#fef9c3", color: "#854d0e", label: "Resolved" },
-  REJECTED: { bg: "#fee2e2", color: "#991b1b", label: "Rejected" },
-  CLOSED: { bg: "#f3f4f6", color: "#374151", label: "Closed" },
+  ASSIGNED: {
+    bg: "var(--ut-bg-d1fae5)",
+    color: "var(--ut-text-065f46)",
+    label: "Assigned",
+  },
+  REFUNDED: {
+    bg: "var(--ut-bg-dcfce7)",
+    color: "var(--ut-text-166534)",
+    label: "Refunded",
+  },
+  REFUND_INITIATED: {
+    bg: "var(--ut-bg-e0f2fe)",
+    color: "var(--ut-text-0369a1)",
+    label: "Refund Initiated",
+  },
+  RESOLVED: {
+    bg: "var(--ut-bg-fef9c3)",
+    color: "var(--ut-text-854d0e)",
+    label: "Resolved",
+  },
+  REJECTED: {
+    bg: "var(--ut-bg-fee2e2)",
+    color: "var(--ut-text-991b1b)",
+    label: "Rejected",
+  },
+  CLOSED: {
+    bg: "var(--ut-bg-f3f4f6)",
+    color: "var(--ut-text-374151)",
+    label: "Closed",
+  },
 };
 
 const formatDate = (dateStr) => {
@@ -60,6 +85,7 @@ const formatAmount = (amount) => {
 
 // ─── Shared MenuProps ─────────────────────────────────────────────────────────
 const dropdownMenuProps = {
+  className: styles.utilityTheme, // menu renders in a portal -> needs the theme tokens itself
   disablePortal: false,
   disableScrollLock: true,
   PaperProps: {
@@ -69,10 +95,10 @@ const dropdownMenuProps = {
       mt: 0.5,
       "& .MuiMenuItem-root": {
         fontSize: 13.5,
-        "&:hover": { bgcolor: "#f0fdf4" },
+        "&:hover": { bgcolor: "var(--ut-bg-f0fdf4)" },
         "&.Mui-selected": {
-          bgcolor: "#dcfce7",
-          "&:hover": { bgcolor: "#bbf7d0" },
+          bgcolor: "var(--ut-bg-dcfce7)",
+          "&:hover": { bgcolor: "var(--ut-bg-bbf7d0)" },
         },
       },
     },
@@ -103,14 +129,23 @@ export default function MyTickets({ onBack }) {
   const [popupOpen, setPopupOpen] = useState(false);
   const [statusData, setStatusData] = useState(null);
 
-  const { data: apiResponse, isLoading, isError, error, refetch } = useGetBbpsTicketList();
-  const { mutate: fetchTicketStatus, isLoading: statusLoading } = useGetBbpsTicketStatus();
+  const {
+    data: apiResponse,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetBbpsTicketList();
+  const { mutate: fetchTicketStatus, isLoading: statusLoading } =
+    useGetBbpsTicketStatus();
 
   const tickets = apiResponse?.data?.tickets ?? apiResponse?.tickets ?? [];
 
   const serviceNames = [
     "All Category",
-    ...Array.from(new Set(tickets.map((t) => t.transaction?.service_name).filter(Boolean))),
+    ...Array.from(
+      new Set(tickets.map((t) => t.transaction?.service_name).filter(Boolean)),
+    ),
   ];
   const statusOptions = [
     "All Status",
@@ -130,20 +165,26 @@ export default function MyTickets({ onBack }) {
   });
 
   const getStatusStyle = (statusKey) =>
-    STATUS_STYLES[statusKey] ?? { bg: "#f3f4f6", color: "#374151", label: statusKey };
+    STATUS_STYLES[statusKey] ?? {
+      bg: "var(--ut-bg-f3f4f6)",
+      color: "var(--ut-text-374151)",
+      label: statusKey,
+    };
 
   // ── Row click handler ──
   const handleRowClick = (ticket) => {
     setStatusData(null);
     setServiceName(ticket.transaction?.service_name ?? "—");
-    setIssueName(DISPOSITION_MAP[ticket.disposition] ?? ticket.disposition ?? "—");
+    setIssueName(
+      DISPOSITION_MAP[ticket.disposition] ?? ticket.disposition ?? "—",
+    );
     setPopupOpen(true);
     fetchTicketStatus(
       { ticketId: ticket.ticket_id },
       {
         onSuccess: (data) => setStatusData(data),
         onError: () => setPopupOpen(false),
-      }
+      },
     );
   };
 
@@ -160,7 +201,13 @@ export default function MyTickets({ onBack }) {
   const hasNoTickets = !isLoading && !isError && tickets.length === 0;
 
   return (
-    <Box sx={{ p: { xs: 1.5, sm: 3 }, minHeight: "100vh", bgcolor: "#f5f6fa" }}>
+    <Box
+      sx={{
+        p: { xs: 1.5, sm: 3 },
+        minHeight: "100vh",
+        bgcolor: "var(--ut-bg-f5f6fa)",
+      }}
+    >
       <Paper
         elevation={0}
         sx={{
@@ -189,13 +236,22 @@ export default function MyTickets({ onBack }) {
               <IconButton
                 onClick={onBack}
                 size="small"
-                sx={{ color: "#374151", "&:hover": { bgcolor: "#f3f4f6" }, mr: 0.5 }}
+                sx={{
+                  color: "var(--ut-text-374151)",
+                  "&:hover": { bgcolor: "var(--ut-bg-f3f4f6)" },
+                  mr: 0.5,
+                }}
               >
                 <ArrowBackIcon fontSize="small" />
               </IconButton>
             )}
             <Box>
-              <Typography variant="h6" fontWeight={700} color="#111827" letterSpacing="-0.2px">
+              <Typography
+                variant="h6"
+                fontWeight={700}
+                color="var(--ut-text-111827)"
+                letterSpacing="-0.2px"
+              >
                 My Tickets
               </Typography>
               <Typography variant="body2" color="text.secondary" mt={0.3}>
@@ -248,7 +304,9 @@ export default function MyTickets({ onBack }) {
                 </Button>
               }
             >
-              {error?.response?.data?.message ?? error?.message ?? "Something went wrong."}
+              {error?.response?.data?.message ??
+                error?.message ??
+                "Something went wrong."}
             </Alert>
           </Box>
         )}
@@ -274,7 +332,7 @@ export default function MyTickets({ onBack }) {
             <Typography
               variant="subtitle1"
               fontWeight={700}
-              color="#111827"
+              color="var(--ut-text-111827)"
               fontSize={16}
             >
               No Tickets Found
@@ -316,7 +374,9 @@ export default function MyTickets({ onBack }) {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#9ca3af", fontSize: 22 }} />
+                      <SearchIcon
+                        sx={{ color: "var(--ut-text-9ca3af)", fontSize: 22 }}
+                      />
                     </InputAdornment>
                   ),
                 }}
@@ -327,16 +387,27 @@ export default function MyTickets({ onBack }) {
                   "& .MuiOutlinedInput-root": {
                     borderRadius: 1,
                     fontSize: 14,
-                    "& fieldset": { borderColor: "#e5e7eb" },
+                    "& fieldset": { borderColor: "var(--ut-border-e5e7eb)" },
                     "&:hover fieldset": { borderColor: "#22c55e" },
                     "&.Mui-focused fieldset": { borderColor: "#22c55e" },
                   },
                 }}
               />
 
-              <Box sx={{ display: "flex", gap: 1.25, ml: "auto", flexWrap: "wrap" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1.25,
+                  ml: "auto",
+                  flexWrap: "wrap",
+                }}
+              >
                 {[
-                  { value: category, setter: setCategory, options: serviceNames },
+                  {
+                    value: category,
+                    setter: setCategory,
+                    options: serviceNames,
+                  },
                   { value: status, setter: setStatus, options: statusOptions },
                 ].map(({ value, setter, options }, i) => (
                   <FormControl key={i} size="small">
@@ -348,10 +419,16 @@ export default function MyTickets({ onBack }) {
                         borderRadius: 1,
                         fontSize: 13.5,
                         fontWeight: 500,
-                        color: "#374151",
-                        "& .MuiOutlinedInput-notchedOutline": { borderColor: "#e5e7eb" },
-                        "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#22c55e" },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#22c55e" },
+                        color: "var(--ut-text-374151)",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "var(--ut-border-e5e7eb)",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#22c55e",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#22c55e",
+                        },
                       }}
                     >
                       {options.map((o) => (
@@ -369,14 +446,25 @@ export default function MyTickets({ onBack }) {
             <TableContainer>
               <Table sx={{ minWidth: isMobile ? 520 : "100%" }}>
                 <TableHead>
-                  <TableRow sx={{ bgcolor: "#f9fafb", borderTop: "1px solid #f0f0f0" }}>
-                    {["Ticket ID", "Service", "Deposition", "Amount", "Created"].map((col) => (
+                  <TableRow
+                    sx={{
+                      bgcolor: "var(--ut-bg-f9fafb)",
+                      borderTop: "1px solid var(--ut-border-f0f0f0)",
+                    }}
+                  >
+                    {[
+                      "Ticket ID",
+                      "Service",
+                      "Deposition",
+                      "Amount",
+                      "Created",
+                    ].map((col) => (
                       <TableCell
                         key={col}
                         sx={{
                           fontWeight: 600,
                           fontSize: 12,
-                          color: "#9ca3af",
+                          color: "var(--ut-text-9ca3af)",
                           textTransform: "uppercase",
                           letterSpacing: 0.4,
                           py: 1.5,
@@ -390,15 +478,20 @@ export default function MyTickets({ onBack }) {
                       sx={{
                         fontWeight: 600,
                         fontSize: 12,
-                        color: "#9ca3af",
+                        color: "var(--ut-text-9ca3af)",
                         textTransform: "uppercase",
                         letterSpacing: 0.4,
                         py: 1.5,
                         px: { xs: 1.5, sm: 2.5 },
                       }}
                     >
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                        Status <ArrowDownwardIcon sx={{ fontSize: 13, opacity: 0.5 }} />
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                      >
+                        Status{" "}
+                        <ArrowDownwardIcon
+                          sx={{ fontSize: 13, opacity: 0.5 }}
+                        />
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -410,7 +503,11 @@ export default function MyTickets({ onBack }) {
                       <TableCell
                         colSpan={6}
                         align="center"
-                        sx={{ py: 5, color: "#9ca3af", fontSize: 14 }}
+                        sx={{
+                          py: 5,
+                          color: "var(--ut-text-9ca3af)",
+                          fontSize: 14,
+                        }}
                       >
                         No results for current filters
                       </TableCell>
@@ -423,27 +520,38 @@ export default function MyTickets({ onBack }) {
                           key={ticket.ticket_id}
                           onClick={() => handleRowClick(ticket)}
                           sx={{
-                            borderBottom: "1px solid #f3f4f6",
+                            borderBottom: "1px solid var(--ut-border-f3f4f6)",
                             "&:last-child td": { border: 0 },
-                            "&:hover": { bgcolor: "#f0fdf4" },
+                            "&:hover": { bgcolor: "var(--ut-bg-f0fdf4)" },
                             transition: "background 0.13s",
                             cursor: "pointer",
                           }}
                         >
                           <TableCell
-                            sx={{ fontWeight: 700, color: "#111827", px: { xs: 1.5, sm: 2.5 }, py: 2 }}
+                            sx={{
+                              fontWeight: 700,
+                              color: "var(--ut-text-111827)",
+                              px: { xs: 1.5, sm: 2.5 },
+                              py: 2,
+                            }}
                           >
                             {ticket.ticket_id}
                           </TableCell>
                           <TableCell
-                            sx={{ fontSize: 14, color: "#374151", px: { xs: 1.5, sm: 2.5 }, py: 2, lineHeight: 1.4 }}
+                            sx={{
+                              fontSize: 14,
+                              color: "var(--ut-text-374151)",
+                              px: { xs: 1.5, sm: 2.5 },
+                              py: 2,
+                              lineHeight: 1.4,
+                            }}
                           >
                             {ticket.transaction?.service_name ?? "—"}
                           </TableCell>
                           <TableCell
                             sx={{
                               fontSize: 14,
-                              color: "#6b7280",
+                              color: "var(--ut-text-6b7280)",
                               maxWidth: 200,
                               overflow: "hidden",
                               textOverflow: "ellipsis",
@@ -455,14 +563,19 @@ export default function MyTickets({ onBack }) {
                             {ticket.description}
                           </TableCell>
                           <TableCell
-                            sx={{ fontWeight: 600, color: "#111827", px: { xs: 1.5, sm: 2.5 }, py: 2 }}
+                            sx={{
+                              fontWeight: 600,
+                              color: "var(--ut-text-111827)",
+                              px: { xs: 1.5, sm: 2.5 },
+                              py: 2,
+                            }}
                           >
                             {formatAmount(ticket.transaction?.amount)}
                           </TableCell>
                           <TableCell
                             sx={{
                               fontSize: 13,
-                              color: "#6b7280",
+                              color: "var(--ut-text-6b7280)",
                               px: { xs: 1.5, sm: 2.5 },
                               py: 2,
                               whiteSpace: "nowrap",

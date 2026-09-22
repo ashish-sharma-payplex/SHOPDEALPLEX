@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import styles from "styles/utility.module.css";
 import { Box, Grid, Typography, useMediaQuery, Skeleton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -95,7 +96,12 @@ const SkeletonGrid = () => (
             gap: 1.3,
           }}
         >
-          <Skeleton variant="circular" width={40} height={40} animation="wave" />
+          <Skeleton
+            variant="circular"
+            width={40}
+            height={40}
+            animation="wave"
+          />
           <Skeleton variant="rounded" width={60} height={12} animation="wave" />
           <Skeleton variant="rounded" width={48} height={12} animation="wave" />
         </Box>
@@ -103,7 +109,6 @@ const SkeletonGrid = () => (
     ))}
   </>
 );
-
 
 // Custom order — API slug ke hisaab se
 const CUSTOM_ORDER = [
@@ -144,7 +149,6 @@ const CUSTOM_ORDER = [
   "national-pension-system",
 ];
 
-
 // ─── Inner Content ────────────────────────────────────────────────────────────
 export const RechargeDashboardContent = ({ onNavigate }) => {
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -161,7 +165,9 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
   const pollRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  useEffect(() => { setIsMounted(true); }, []);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isMounted) return;
@@ -199,33 +205,34 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
 
   const { data: servicesData, isLoading } = useGetBbpsServices(hasToken);
 
- const activeServices = (servicesData || [])
-  .filter((s) => s.status === "ACTIVE")
-  .map((s) => ({
-    name: s.name,
-    slug: s.slug,
-    img: serviceImageMap[s.slug] || "/utility/recharge.svg",
-  }))
-  .sort((a, b) => {
-    const ai = CUSTOM_ORDER.indexOf(a.slug);
-    const bi = CUSTOM_ORDER.indexOf(b.slug);
-    const aIndex = ai === -1 ? 999 : ai;
-    const bIndex = bi === -1 ? 999 : bi;
-    return aIndex - bIndex;
-  });
+  const activeServices = (servicesData || [])
+    .filter((s) => s.status === "ACTIVE")
+    .map((s) => ({
+      name: s.name,
+      slug: s.slug,
+      img: serviceImageMap[s.slug] || "/utility/recharge.svg",
+    }))
+    .sort((a, b) => {
+      const ai = CUSTOM_ORDER.indexOf(a.slug);
+      const bi = CUSTOM_ORDER.indexOf(b.slug);
+      const aIndex = ai === -1 ? 999 : ai;
+      const bIndex = bi === -1 ? 999 : bi;
+      return aIndex - bIndex;
+    });
 
   const mainServices = activeServices.slice(0, MAIN_COUNT);
   const extraServices = activeServices.slice(MAIN_COUNT);
-  const showSkeleton = !isMounted || !hasToken || isLoading || activeServices.length === 0;
+  const showSkeleton =
+    !isMounted || !hasToken || isLoading || activeServices.length === 0;
 
   // ✅ Prefetch helper — fetchBillers direct use karo, hook nahi
- const prefetchBillers = (slug) => {
-  queryClient.prefetchInfiniteQuery(
-    ["bbps-billers", slug],
-    fetchBillers,
-    { staleTime: 0 }  // ✅
-  );
-};
+  const prefetchBillers = (slug) => {
+    queryClient.prefetchInfiniteQuery(
+      ["bbps-billers", slug],
+      fetchBillers,
+      { staleTime: 0 }, // ✅
+    );
+  };
 
   const handleServiceClick = (slug) => {
     prefetchBillers(slug); // navigate se pehle prefetch
@@ -235,7 +242,11 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
 
   const mobileSidebarItems = [
     { name: "Help & Support", icon: "/utility/helpsupport.svg", key: "help" },
-    { name: "My Transactions", icon: "/utility/mytransactions.svg", key: "transactions" },
+    {
+      name: "My Transactions",
+      icon: "/utility/mytransactions.svg",
+      key: "transactions",
+    },
   ];
 
   const renderItem = (item, index) => (
@@ -262,7 +273,7 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
           cursor: "pointer",
           borderRadius: "8px",
           transition: "background 0.15s",
-          "&:hover": { background: "#f3f4f6" },
+          "&:hover": { background: "var(--ut-bg-f3f4f6)" },
         }}
       >
         <Box
@@ -291,7 +302,9 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
             return (
               <>
                 <span style={{ display: "block" }}>{words[0]}</span>
-                <span style={{ display: "block" }}>{words.slice(1).join(" ")}</span>
+                <span style={{ display: "block" }}>
+                  {words.slice(1).join(" ")}
+                </span>
               </>
             );
           })()}
@@ -305,7 +318,7 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
       sx={{
         flex: 1,
         minWidth: 0,
-        border: "1px solid #E3E8EE",
+        border: "1px solid var(--ut-border-e3e8ee)",
         borderRadius: "8px",
         p: { xs: 1.5, sm: 3 },
       }}
@@ -314,7 +327,12 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
       {isMobile && (
         <Box
           ref={dropdownRef}
-          sx={{ display: "flex", justifyContent: "flex-end", mb: 2, position: "relative" }}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mb: 2,
+            position: "relative",
+          }}
         >
           <Box
             onClick={() => setMobileDropdown((prev) => !prev)}
@@ -322,8 +340,8 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
               display: "inline-flex",
               alignItems: "center",
               gap: 0.8,
-              background: "#fff",
-              border: "1px solid #E3E8EE",
+              background: "var(--ut-bg-ffffff)",
+              border: "1px solid var(--ut-border-e3e8ee)",
               borderRadius: "8px",
               px: 1.4,
               py: 0.8,
@@ -331,12 +349,31 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
               boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
             }}
           >
-            <Box component="img" src="/utility/home.svg" alt="Home" sx={{ width: 18, height: 18, objectFit: "contain" }} />
-            <Typography sx={{ fontSize: 13, fontWeight: 500, color: "#292D32" }}>Home</Typography>
-            {mobileDropdown
-              ? <KeyboardArrowUpIcon sx={{ fontSize: 18, color: "#292D32" }} />
-              : <KeyboardArrowDownIcon sx={{ fontSize: 18, color: "#292D32" }} />
-            }
+            <Box
+              component="img"
+              src="/utility/home.svg"
+              alt="Home"
+              className={styles.utilityIconMono}
+              sx={{ width: 18, height: 18, objectFit: "contain" }}
+            />
+            <Typography
+              sx={{
+                fontSize: 13,
+                fontWeight: 500,
+                color: "var(--ut-text-292d32)",
+              }}
+            >
+              Home
+            </Typography>
+            {mobileDropdown ? (
+              <KeyboardArrowUpIcon
+                sx={{ fontSize: 18, color: "var(--ut-text-292d32)" }}
+              />
+            ) : (
+              <KeyboardArrowDownIcon
+                sx={{ fontSize: 18, color: "var(--ut-text-292d32)" }}
+              />
+            )}
           </Box>
 
           {mobileDropdown && (
@@ -345,8 +382,8 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
                 position: "absolute",
                 top: "calc(100% + 6px)",
                 right: 0,
-                background: "#fff",
-                border: "1px solid #E3E8EE",
+                background: "var(--ut-bg-ffffff)",
+                border: "1px solid var(--ut-border-e3e8ee)",
                 borderRadius: "10px",
                 boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
                 overflow: "hidden",
@@ -357,7 +394,10 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
               {mobileSidebarItems.map((item, i) => (
                 <Box
                   key={i}
-                  onClick={() => { setMobileDropdown(false); onNavigate(item.key); }}
+                  onClick={() => {
+                    setMobileDropdown(false);
+                    onNavigate(item.key);
+                  }}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -365,13 +405,24 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
                     px: 1.5,
                     py: 1.2,
                     cursor: "pointer",
-                    borderBottom: i === 0 ? "1px solid #f3f4f6" : "none",
-                    "&:hover": { background: "#f9fafb" },
+                    borderBottom:
+                      i === 0 ? "1px solid var(--ut-border-f3f4f6)" : "none",
+                    "&:hover": { background: "var(--ut-bg-f9fafb)" },
                     transition: "0.15s",
                   }}
                 >
-                  <Box component="img" src={item.icon} alt={item.name} sx={{ width: 18, height: 18, objectFit: "contain" }} />
-                  <Typography sx={{ fontSize: 13, color: "#292D32" }}>{item.name}</Typography>
+                  <Box
+                    component="img"
+                    src={item.icon}
+                    alt={item.name}
+                    className={styles.utilityIconMono}
+                    sx={{ width: 18, height: 18, objectFit: "contain" }}
+                  />
+                  <Typography
+                    sx={{ fontSize: 13, color: "var(--ut-text-292d32)" }}
+                  >
+                    {item.name}
+                  </Typography>
                 </Box>
               ))}
             </Box>
@@ -380,7 +431,14 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
       )}
 
       {/* Header */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
         <Typography fontWeight={600}>Recharges & Bill Payments</Typography>
         <img src="/BharatConnect.png" style={{ height: 36 }} />
       </Box>
@@ -393,13 +451,20 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
             {mainServices.map(renderItem)}
             {!showMore
               ? extraServices.length > 0 && (
-                <Grid item xs={4} sm={4} md={2}>
-                  <Box onClick={() => setShowMore(true)} sx={{ textAlign: "center", cursor: "pointer", mt: 3 }}>
-                    <Box component="img" src="/utility/viewmore.svg" sx={{ height: 40 }} />
-                    <Typography>View More</Typography>
-                  </Box>
-                </Grid>
-              )
+                  <Grid item xs={4} sm={4} md={2}>
+                    <Box
+                      onClick={() => setShowMore(true)}
+                      sx={{ textAlign: "center", cursor: "pointer", mt: 3 }}
+                    >
+                      <Box
+                        component="img"
+                        src="/utility/viewmore.svg"
+                        sx={{ height: 40 }}
+                      />
+                      <Typography>View More</Typography>
+                    </Box>
+                  </Grid>
+                )
               : extraServices.map(renderItem)}
           </>
         )}
@@ -409,7 +474,10 @@ export const RechargeDashboardContent = ({ onNavigate }) => {
 };
 
 const RechargeDashboard = ({ activeKey, onNavigate }) => (
-  <UtilityLayout activeKey={activeKey || "home"} onNavigate={onNavigate || (() => {})}>
+  <UtilityLayout
+    activeKey={activeKey || "home"}
+    onNavigate={onNavigate || (() => {})}
+  >
     <RechargeDashboardContent onNavigate={onNavigate || (() => {})} />
   </UtilityLayout>
 );

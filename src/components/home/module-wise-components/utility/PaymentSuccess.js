@@ -12,14 +12,16 @@ import DownloadIcon from "@mui/icons-material/Download";
 const getPaymentStatus = (apiResponse) => {
   if (!apiResponse) return "failure";
   const bbpsStatus = apiResponse?.bbps?.status?.toUpperCase();
-  const responseReason = apiResponse?.bbps?.response?.responseReason?.toUpperCase();
+  const responseReason =
+    apiResponse?.bbps?.response?.responseReason?.toUpperCase();
   const errorList = apiResponse?.bbps?.response?.errorList || [];
   if (
     bbpsStatus === "FAILURE" ||
     responseReason === "FAILURE" ||
     responseReason === "ERROR" ||
     errorList.length > 0
-  ) return "failure";
+  )
+    return "failure";
   if (bbpsStatus === "SUCCESS") return "success";
   return "failure";
 };
@@ -30,7 +32,11 @@ const getFailureMessage = (apiResponse) => {
   const message = apiResponse?.message || "";
   if (complianceReason) return complianceReason;
   if (errorList.length > 0)
-    return errorList[0]?.errorDtl?.trim() || message || "Payment failed. Please try again.";
+    return (
+      errorList[0]?.errorDtl?.trim() ||
+      message ||
+      "Payment failed. Please try again."
+    );
   return message || "Payment failed. Please try again.";
 };
 
@@ -47,9 +53,9 @@ const CopyButton = ({ text, copied, type, onCopy }) => (
       alignItems: "center",
       gap: 0.5,
       cursor: "pointer",
-      color: copied ? "#16a34a" : "#6b7280",
+      color: copied ? "var(--ut-text-16a34a)" : "var(--ut-text-6b7280)",
       transition: "color 0.2s",
-      "&:hover": { color: "#16a34a" },
+      "&:hover": { color: "var(--ut-text-16a34a)" },
       flexShrink: 0,
     }}
   >
@@ -60,7 +66,9 @@ const CopyButton = ({ text, copied, type, onCopy }) => (
   </Box>
 );
 
-const Divider = () => <Box sx={{ borderTop: "1px solid #e5e7eb", my: 2 }} />;
+const Divider = () => (
+  <Box sx={{ borderTop: "1px solid var(--ut-border-e5e7eb)", my: 2 }} />
+);
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
@@ -160,7 +168,10 @@ const PaymentSuccess = ({
       const canvas = await html2canvas(element, {
         scale: 3,
         useCORS: true,
-        backgroundColor: "#ffffff",
+        backgroundColor:
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "#111827"
+            : "#ffffff",
         logging: false,
       });
 
@@ -170,7 +181,11 @@ const PaymentSuccess = ({
       setIsPdfMode(false);
 
       // A4 page: 210 × 297 mm
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
 
@@ -190,10 +205,14 @@ const PaymentSuccess = ({
         const ctx = sliceCanvas.getContext("2d");
         ctx.drawImage(
           canvas,
-          0, sourceY,
-          canvas.width, sliceCanvas.height,
-          0, 0,
-          canvas.width, sliceCanvas.height
+          0,
+          sourceY,
+          canvas.width,
+          sliceCanvas.height,
+          0,
+          0,
+          canvas.width,
+          sliceCanvas.height,
         );
 
         if (sourceY > 0) pdf.addPage();
@@ -203,7 +222,7 @@ const PaymentSuccess = ({
           margin,
           margin,
           imgWidth,
-          sliceHeight
+          sliceHeight,
         );
 
         sourceY += sliceCanvas.height;
@@ -214,7 +233,6 @@ const PaymentSuccess = ({
         txnReferenceId || Date.now()
       }.pdf`;
       pdf.save(fileName);
-
     } catch (err) {
       // console.error("PDF generation failed:", err);
       alert("PDF download failed. Please try again.");
@@ -238,7 +256,6 @@ const PaymentSuccess = ({
       }}
     >
       <Box sx={{ width: "100%", maxWidth: 480 }}>
-
         {/* ── BILL CARD (this gets captured) ── */}
         <Box
           ref={billCardRef}
@@ -246,16 +263,16 @@ const PaymentSuccess = ({
             width: "100%",
             borderRadius: "16px",
             overflow: "hidden",
-            border: "1px solid #e5e7eb",
-            background: "#fff",
+            border: "1px solid var(--ut-border-e5e7eb)",
+            background: "var(--ut-bg-ffffff)",
           }}
         >
           {/* ── TOP BANNER ── */}
           <Box
             sx={{
               background: isSuccess
-                ? "linear-gradient(180deg, #d1fae5 0%, #f0fdf4 60%, #fff 100%)"
-                : "linear-gradient(180deg, #fee2e2 0%, #fff5f5 60%, #fff 100%)",
+                ? "linear-gradient(180deg, var(--ut-bg-d1fae5) 0%, var(--ut-bg-f0fdf4) 60%, var(--ut-bg-ffffff) 100%)"
+                : "linear-gradient(180deg, var(--ut-bg-fee2e2) 0%, var(--ut-bg-fff5f5) 60%, var(--ut-bg-ffffff) 100%)",
               pt: 4,
               pb: 3,
               textAlign: "center",
@@ -285,7 +302,9 @@ const PaymentSuccess = ({
               sx={{
                 fontSize: 18,
                 fontWeight: 600,
-                color: isSuccess ? "#16a34a" : "#dc2626",
+                color: isSuccess
+                  ? "var(--ut-text-16a34a)"
+                  : "var(--ut-text-dc2626)",
                 mb: isSuccess ? 1.5 : 1,
               }}
             >
@@ -293,13 +312,26 @@ const PaymentSuccess = ({
             </Typography>
 
             {isSuccess && amount && (
-              <Typography sx={{ fontSize: 30, fontWeight: 700, color: "#16a34a" }}>
+              <Typography
+                sx={{
+                  fontSize: 30,
+                  fontWeight: 700,
+                  color: "var(--ut-text-16a34a)",
+                }}
+              >
                 ₹{amount}
               </Typography>
             )}
 
             {!isSuccess && (
-              <Typography sx={{ fontSize: 13, color: "#6b7280", px: 3, lineHeight: 1.5 }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  color: "var(--ut-text-6b7280)",
+                  px: 3,
+                  lineHeight: 1.5,
+                }}
+              >
                 {failureMessage}
               </Typography>
             )}
@@ -307,7 +339,6 @@ const PaymentSuccess = ({
 
           {/* ── BODY ── */}
           <Box sx={{ px: { xs: 2, sm: 3 }, pb: 3 }}>
-
             {/* ── SERVICE ROW ── */}
             <Box
               sx={{
@@ -317,7 +348,13 @@ const PaymentSuccess = ({
                 mb: 1.5,
               }}
             >
-              <Typography sx={{ fontSize: 14, fontWeight: 600, color: "#111" }}>
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: "var(--ut-text-111111)",
+                }}
+              >
                 {serviceType}
               </Typography>
 
@@ -339,10 +376,12 @@ const PaymentSuccess = ({
                     {downloading ? (
                       <CircularProgress
                         size={16}
-                        sx={{ color: "#6b7280" }}
+                        sx={{ color: "var(--ut-text-6b7280)" }}
                       />
                     ) : (
-                      <DownloadIcon sx={{ fontSize: 18, color: "#6b7280" }} />
+                      <DownloadIcon
+                        sx={{ fontSize: 18, color: "var(--ut-text-6b7280)" }}
+                      />
                     )}
                   </Box>
                 )}
@@ -360,8 +399,18 @@ const PaymentSuccess = ({
                     "&:hover": { opacity: 0.8 },
                   }}
                 >
-                  <HeadsetMicOutlinedIcon sx={{ fontSize: 14, color: "#6b7280", flexShrink: 0 }} />
-                  <Typography sx={{ fontSize: 13, color: "#6b7280" }}>Need Helpp?</Typography>
+                  <HeadsetMicOutlinedIcon
+                    sx={{
+                      fontSize: 14,
+                      color: "var(--ut-text-6b7280)",
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Typography
+                    sx={{ fontSize: 13, color: "var(--ut-text-6b7280)" }}
+                  >
+                    Need Helpp?
+                  </Typography>
                 </Box>
               </Box>
             </Box>
@@ -369,7 +418,11 @@ const PaymentSuccess = ({
             {/* ── BILLER INFO CARD ── */}
             <Box
               sx={{
-                border: `1px solid ${isSuccess ? "#e5e7eb" : "#fca5a5"}`,
+                border: `1px solid ${
+                  isSuccess
+                    ? "var(--ut-border-e5e7eb)"
+                    : "var(--ut-border-fca5a5)"
+                }`,
                 borderRadius: "10px",
                 p: 1.5,
                 display: "flex",
@@ -377,7 +430,9 @@ const PaymentSuccess = ({
                 justifyContent: "space-between",
                 gap: 1,
                 mb: 2,
-                background: isSuccess ? "#fff" : "#fff5f5",
+                background: isSuccess
+                  ? "var(--ut-bg-ffffff)"
+                  : "var(--ut-bg-fff5f5)",
               }}
             >
               <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
@@ -394,13 +449,28 @@ const PaymentSuccess = ({
                   }}
                 />
                 <Box>
-                  <Typography sx={{ fontSize: 13, fontWeight: 500, color: "#111", lineHeight: 1.4 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: "var(--ut-text-111111)",
+                      lineHeight: 1.4,
+                    }}
+                  >
                     {billerName}
                   </Typography>
-                  <Typography sx={{ fontSize: 13, color: "#374151" }}>
+                  <Typography
+                    sx={{ fontSize: 13, color: "var(--ut-text-374151)" }}
+                  >
                     {consumerNumber}
                   </Typography>
-                  <Typography sx={{ fontSize: 12, color: "#6b7280", mt: 0.3 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 12,
+                      color: "var(--ut-text-6b7280)",
+                      mt: 0.3,
+                    }}
+                  >
                     {date}
                   </Typography>
                 </Box>
@@ -408,7 +478,13 @@ const PaymentSuccess = ({
 
               <Box sx={{ textAlign: "right", flexShrink: 0 }}>
                 {amount && (
-                  <Typography sx={{ fontSize: 15, fontWeight: 600, color: "#111" }}>
+                  <Typography
+                    sx={{
+                      fontSize: 15,
+                      fontWeight: 600,
+                      color: "var(--ut-text-111111)",
+                    }}
+                  >
                     ₹{amount}
                   </Typography>
                 )}
@@ -433,7 +509,9 @@ const PaymentSuccess = ({
                   <Typography
                     sx={{
                       fontSize: 12,
-                      color: isSuccess ? "#16a34a" : "#dc2626",
+                      color: isSuccess
+                        ? "var(--ut-text-16a34a)"
+                        : "var(--ut-text-dc2626)",
                       fontWeight: 500,
                     }}
                   >
@@ -448,9 +526,24 @@ const PaymentSuccess = ({
               <>
                 <Divider />
                 <Box sx={{ mb: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.8, mb: 1.5 }}>
-                    <WarningAmberIcon sx={{ fontSize: 16, color: "#dc2626" }} />
-                    <Typography sx={{ fontSize: 14, fontWeight: 600, color: "#111" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 0.8,
+                      mb: 1.5,
+                    }}
+                  >
+                    <WarningAmberIcon
+                      sx={{ fontSize: 16, color: "var(--ut-text-dc2626)" }}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 600,
+                        color: "var(--ut-text-111111)",
+                      }}
+                    >
                       Error Details
                     </Typography>
                   </Box>
@@ -463,17 +556,17 @@ const PaymentSuccess = ({
                         gap: 1,
                         mb: 1,
                         p: 1.2,
-                        background: "#fff5f5",
+                        background: "var(--ut-bg-fff5f5)",
                         borderRadius: "8px",
-                        border: "1px solid #fecaca",
+                        border: "1px solid var(--ut-border-fecaca)",
                       }}
                     >
                       <Typography
                         sx={{
                           fontSize: 11,
                           fontWeight: 600,
-                          color: "#dc2626",
-                          background: "#fee2e2",
+                          color: "var(--ut-text-dc2626)",
+                          background: "var(--ut-bg-fee2e2)",
                           px: 0.8,
                           py: 0.2,
                           borderRadius: "4px",
@@ -483,7 +576,9 @@ const PaymentSuccess = ({
                       >
                         {err.errorCd}
                       </Typography>
-                      <Typography sx={{ fontSize: 13, color: "#374151" }}>
+                      <Typography
+                        sx={{ fontSize: 13, color: "var(--ut-text-374151)" }}
+                      >
                         {err.errorDtl}
                       </Typography>
                     </Box>
@@ -504,7 +599,13 @@ const PaymentSuccess = ({
                     mb: 2,
                   }}
                 >
-                  <Typography sx={{ fontSize: 14, fontWeight: 600, color: "#111" }}>
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "var(--ut-text-111111)",
+                    }}
+                  >
                     Bill Information
                   </Typography>
                   <Box
@@ -536,19 +637,39 @@ const PaymentSuccess = ({
                   }}
                 >
                   <Box>
-                    <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--ut-text-6b7280)",
+                        mb: 0.3,
+                      }}
+                    >
                       Bill Number
                     </Typography>
-                    <Typography sx={{ fontSize: 14, color: "#111", wordBreak: "break-all" }}>
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        color: "var(--ut-text-111111)",
+                        wordBreak: "break-all",
+                      }}
+                    >
                       {billInfo["Bill Number"] || "—"}
                     </Typography>
                   </Box>
 
                   <Box>
-                    <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--ut-text-6b7280)",
+                        mb: 0.3,
+                      }}
+                    >
                       Max Recharge Amount
                     </Typography>
-                    <Typography sx={{ fontSize: 14, color: "#111" }}>
+                    <Typography
+                      sx={{ fontSize: 14, color: "var(--ut-text-111111)" }}
+                    >
                       {billInfo["Maximum Permissible Recharge Amount"]
                         ? `₹${billInfo["Maximum Permissible Recharge Amount"]}`
                         : "—"}
@@ -557,11 +678,20 @@ const PaymentSuccess = ({
 
                   {txnDateTime && (
                     <Box>
-                      <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                      <Typography
+                        sx={{
+                          fontSize: 12,
+                          color: "var(--ut-text-6b7280)",
+                          mb: 0.3,
+                        }}
+                      >
                         Transaction Date & Time
                       </Typography>
-                      <Typography sx={{ fontSize: 14, color: "#111" }}>
-                        {txnDateTime.slice(0, 10)}&nbsp;&nbsp;&nbsp;{txnDateTime.slice(11, 16)}
+                      <Typography
+                        sx={{ fontSize: 14, color: "var(--ut-text-111111)" }}
+                      >
+                        {txnDateTime.slice(0, 10)}&nbsp;&nbsp;&nbsp;
+                        {txnDateTime.slice(11, 16)}
                       </Typography>
                     </Box>
                   )}
@@ -571,14 +701,24 @@ const PaymentSuccess = ({
                       ([key]) =>
                         key !== "Bill Number" &&
                         key !== "Maximum Permissible Recharge Amount" &&
-                        key !== "Tag Status"
+                        key !== "Tag Status",
                     )
                     .map(([key, val]) => (
                       <Box key={key}>
-                        <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                        <Typography
+                          sx={{
+                            fontSize: 12,
+                            color: "var(--ut-text-6b7280)",
+                            mb: 0.3,
+                          }}
+                        >
                           {key}
                         </Typography>
-                        <Typography sx={{ fontSize: 14, color: "#111" }}>{val}</Typography>
+                        <Typography
+                          sx={{ fontSize: 14, color: "var(--ut-text-111111)" }}
+                        >
+                          {val}
+                        </Typography>
                       </Box>
                     ))}
                 </Box>
@@ -589,22 +729,42 @@ const PaymentSuccess = ({
             {isSuccess && (
               <>
                 <Divider />
-                <Typography sx={{ fontSize: 14, fontWeight: 600, color: "#111", mb: 1.5 }}>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: "var(--ut-text-111111)",
+                    mb: 1.5,
+                  }}
+                >
                   Payment Information
                 </Typography>
 
-                <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                <Typography
+                  sx={{ fontSize: 12, color: "var(--ut-text-6b7280)", mb: 0.3 }}
+                >
                   Paid From
                 </Typography>
                 <Typography
-                  sx={{ fontSize: 14, color: "#111", mb: 1.5, textTransform: "uppercase" }}
+                  sx={{
+                    fontSize: 14,
+                    color: "var(--ut-text-111111)",
+                    mb: 1.5,
+                    textTransform: "uppercase",
+                  }}
                 >
                   {paidFrom}
                 </Typography>
 
                 {txnReferenceId && (
                   <>
-                    <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--ut-text-6b7280)",
+                        mb: 0.3,
+                      }}
+                    >
                       Transaction ID
                     </Typography>
                     <Box
@@ -615,7 +775,14 @@ const PaymentSuccess = ({
                         mb: 1.5,
                       }}
                     >
-                      <Typography sx={{ fontSize: 14, color: "#111", wordBreak: "break-all", pr: 1 }}>
+                      <Typography
+                        sx={{
+                          fontSize: 14,
+                          color: "var(--ut-text-111111)",
+                          wordBreak: "break-all",
+                          pr: 1,
+                        }}
+                      >
                         {txnReferenceId}
                       </Typography>
                       <CopyButton
@@ -630,7 +797,13 @@ const PaymentSuccess = ({
 
                 {upiTransactionId && (
                   <>
-                    <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--ut-text-6b7280)",
+                        mb: 0.3,
+                      }}
+                    >
                       UPI Transaction ID
                     </Typography>
                     <Box
@@ -641,7 +814,9 @@ const PaymentSuccess = ({
                         mb: 1.5,
                       }}
                     >
-                      <Typography sx={{ fontSize: 14, color: "#111" }}>
+                      <Typography
+                        sx={{ fontSize: 14, color: "var(--ut-text-111111)" }}
+                      >
                         {upiTransactionId}
                       </Typography>
                       <CopyButton
@@ -656,7 +831,13 @@ const PaymentSuccess = ({
 
                 {dealplexTransactionId && (
                   <>
-                    <Typography sx={{ fontSize: 12, color: "#6b7280", mb: 0.3 }}>
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        color: "var(--ut-text-6b7280)",
+                        mb: 0.3,
+                      }}
+                    >
                       Reference ID
                     </Typography>
                     <Box
@@ -668,7 +849,12 @@ const PaymentSuccess = ({
                       }}
                     >
                       <Typography
-                        sx={{ fontSize: 14, color: "#111", wordBreak: "break-all", pr: 1 }}
+                        sx={{
+                          fontSize: 14,
+                          color: "var(--ut-text-111111)",
+                          wordBreak: "break-all",
+                          pr: 1,
+                        }}
                       >
                         {dealplexTransactionId}
                       </Typography>
@@ -693,7 +879,7 @@ const PaymentSuccess = ({
                   onClick={onBackToHome}
                   sx={{
                     fontSize: 14,
-                    color: "#dc2626",
+                    color: "var(--ut-text-dc2626)",
                     fontWeight: 500,
                     cursor: "pointer",
                     mb: 1,
@@ -706,9 +892,9 @@ const PaymentSuccess = ({
                   onClick={onBackToHome}
                   sx={{
                     fontSize: 13,
-                    color: "#6b7280",
+                    color: "var(--ut-text-6b7280)",
                     cursor: "pointer",
-                    "&:hover": { color: "#374151" },
+                    "&:hover": { color: "var(--ut-text-374151)" },
                   }}
                 >
                   Back to Home
@@ -723,7 +909,7 @@ const PaymentSuccess = ({
                   onClick={onBackToHome}
                   sx={{
                     fontSize: 14,
-                    color: "#16a34a",
+                    color: "var(--ut-text-16a34a)",
                     fontWeight: 500,
                     cursor: "pointer",
                     "&:hover": { textDecoration: "underline" },
@@ -736,7 +922,6 @@ const PaymentSuccess = ({
           </Box>
         </Box>
         {/* end billCardRef */}
-
       </Box>
     </Box>
   );

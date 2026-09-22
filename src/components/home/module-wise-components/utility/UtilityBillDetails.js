@@ -98,7 +98,7 @@ const UtilityBillDetailsContent = () => {
         }
         if (storedName) setBillerNameFromSession(storedName);
         if (storedId) setStoredBillerId(storedId);
-      } catch (_) { }
+      } catch (_) {}
     }
   }, [router.isReady]);
 
@@ -172,7 +172,13 @@ const UtilityBillDetailsContent = () => {
       />
 
       {/* LEFT CARD */}
-      <Box sx={{ border: "1px solid #e5e7eb", borderRadius: "12px", p: 2 }}>
+      <Box
+        sx={{
+          border: "1px solid var(--ut-border-e5e7eb)",
+          borderRadius: "12px",
+          p: 2,
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -195,7 +201,7 @@ const UtilityBillDetailsContent = () => {
             onClick={() => router.back()}
             sx={{
               fontSize: 12,
-              color: "#16a34a",
+              color: "var(--ut-text-16a34a)",
               fontWeight: 600,
               cursor: "pointer",
             }}
@@ -204,11 +210,15 @@ const UtilityBillDetailsContent = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ borderTop: "1px dashed #e5e7eb", my: 1.5 }} />
+        <Box
+          sx={{ borderTop: "1px dashed var(--ut-border-e5e7eb)", my: 1.5 }}
+        />
 
         {/* Customer Name */}
         {billerResponse?.customerName && (
-          <Typography sx={{ fontSize: 13, color: "#111", mb: 1.5 }}>
+          <Typography
+            sx={{ fontSize: 13, color: "var(--ut-text-111111)", mb: 1.5 }}
+          >
             <Typography component="span" sx={{ fontWeight: 500, fontSize: 13 }}>
               Customer Name :{" "}
             </Typography>
@@ -218,7 +228,10 @@ const UtilityBillDetailsContent = () => {
 
         {/* Bill Details */}
         {billDetails.map((detail, i) => (
-          <Typography key={i} sx={{ fontSize: 13, color: "#111", mb: 1.5 }}>
+          <Typography
+            key={i}
+            sx={{ fontSize: 13, color: "var(--ut-text-111111)", mb: 1.5 }}
+          >
             <Typography component="span" sx={{ fontWeight: 500, fontSize: 13 }}>
               {detail.name} :{" "}
             </Typography>
@@ -228,7 +241,9 @@ const UtilityBillDetailsContent = () => {
 
         {/* Bill Number */}
         {billerResponse?.billNumber && (
-          <Typography sx={{ fontSize: 13, color: "#111", mb: 1.5 }}>
+          <Typography
+            sx={{ fontSize: 13, color: "var(--ut-text-111111)", mb: 1.5 }}
+          >
             <Typography component="span" sx={{ fontWeight: 500, fontSize: 13 }}>
               Bill Number :{" "}
             </Typography>
@@ -260,11 +275,17 @@ const UtilityBillDetailsContent = () => {
       </Box>
 
       {/* RIGHT CARD */}
-      <Box sx={{ border: "1px solid #e5e7eb", borderRadius: "12px", p: 2 }}>
+      <Box
+        sx={{
+          border: "1px solid var(--ut-border-e5e7eb)",
+          borderRadius: "12px",
+          p: 2,
+        }}
+      >
         {/* Bill Amount */}
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
           <Box sx={{ flex: 1, mr: 1 }}>
-            <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
+            <Typography sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}>
               Bill Amount
             </Typography>
 
@@ -279,8 +300,10 @@ const UtilityBillDetailsContent = () => {
                   amountEditError
                     ? `⚠ ${amountEditError}`
                     : maxLimit
-                      ? `Min ₹${minLimit} — Max ₹${maxLimit.toLocaleString("en-IN")}`
-                      : ""
+                    ? `Min ₹${minLimit} — Max ₹${maxLimit.toLocaleString(
+                        "en-IN",
+                      )}`
+                    : ""
                 }
                 FormHelperTextProps={{
                   sx: {
@@ -297,7 +320,7 @@ const UtilityBillDetailsContent = () => {
                       <span
                         style={{
                           fontSize: 16,
-                          color: "#6b7280",
+                          color: "var(--ut-text-6b7280)",
                           display: "flex",
                           alignItems: "center",
                         }}
@@ -380,7 +403,7 @@ const UtilityBillDetailsContent = () => {
                 }}
                 sx={{
                   fontSize: 12,
-                  color: "#16a34a",
+                  color: "var(--ut-text-16a34a)",
                   fontWeight: 600,
                   cursor: billData ? "pointer" : "default",
                   alignSelf: "flex-start",
@@ -402,21 +425,23 @@ const UtilityBillDetailsContent = () => {
         >
           {!billData
             ? [1, 2, 3, 4, 5, 6].map((i) => (
-              <Box key={i}>
-                <Skeleton width={80} height={12} sx={{ mb: 0.5 }} />
-                <Skeleton width={100} height={16} />
-              </Box>
-            ))
+                <Box key={i}>
+                  <Skeleton width={80} height={12} sx={{ mb: 0.5 }} />
+                  <Skeleton width={100} height={16} />
+                </Box>
+              ))
             : additionalInfo.map((field, i) => (
-              <Box key={i}>
-                <Typography sx={{ fontSize: 12, color: "#6b7280" }}>
-                  {field.name}
-                </Typography>
-                <Typography fontSize={14} fontWeight={500}>
-                  {field.value}
-                </Typography>
-              </Box>
-            ))}
+                <Box key={i}>
+                  <Typography
+                    sx={{ fontSize: 12, color: "var(--ut-text-6b7280)" }}
+                  >
+                    {field.name}
+                  </Typography>
+                  <Typography fontSize={14} fontWeight={500}>
+                    {field.value}
+                  </Typography>
+                </Box>
+              ))}
         </Box>
       </Box>
     </Box>

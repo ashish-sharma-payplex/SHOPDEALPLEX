@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "styles/utility.module.css";
 import {
   Dialog,
   DialogContent,
@@ -87,7 +88,7 @@ const PaymentMethodModal = ({
           biller_name: service || service_slug,
           biller_id: billerId,
           customerParms,
-           service: service || service_slug,  
+          service: service || service_slug,
           service_slug,
           amountTags,
           fetchRefId,
@@ -115,7 +116,6 @@ const PaymentMethodModal = ({
 
       onClose();
       router.push(`/utility/${service_slug}/qr`);
-
     } else {
       // ── Wallet Flow ───────────────────────────────────────────────────────
       try {
@@ -124,7 +124,7 @@ const PaymentMethodModal = ({
           upi_order_id: null,
           billerId,
           customerParms,
-           service: service || service_slug,  
+          service: service || service_slug,
           service_slug,
           amount: Number(amount),
           amountTags,
@@ -143,7 +143,6 @@ const PaymentMethodModal = ({
 
         onClose();
         router.push(`/utility/${service_slug}/success`);
-
       } catch (err) {
         const msg =
           err?.response?.data?.message ||
@@ -159,7 +158,7 @@ const PaymentMethodModal = ({
       id: "wallet",
       icon: (
         <AccountBalanceWalletOutlinedIcon
-          sx={{ fontSize: 22, color: "#4b5563" }}
+          sx={{ fontSize: 22, color: "var(--ut-text-4b5563)" }}
         />
       ),
       title: "Pay via Wallet",
@@ -168,7 +167,11 @@ const PaymentMethodModal = ({
     },
     {
       id: "upi",
-      icon: <PhoneIphoneOutlinedIcon sx={{ fontSize: 22, color: "#4b5563" }} />,
+      icon: (
+        <PhoneIphoneOutlinedIcon
+          sx={{ fontSize: 22, color: "var(--ut-text-4b5563)" }}
+        />
+      ),
       title: "Pay using UPI",
       subtitle: "Use any UPI app like GPay, PhonePe, Paytm",
     },
@@ -176,6 +179,7 @@ const PaymentMethodModal = ({
 
   return (
     <Dialog
+      className={styles.utilityTheme}
       open={open}
       onClose={!isLoading ? onClose : undefined}
       fullWidth
@@ -208,7 +212,7 @@ const PaymentMethodModal = ({
             onClick={onClose}
             size="small"
             disabled={isLoading}
-            sx={{ color: "#9ca3af" }}
+            sx={{ color: "var(--ut-text-9ca3af)" }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
@@ -232,7 +236,9 @@ const PaymentMethodModal = ({
                   cursor: isLoading ? "not-allowed" : "pointer",
                   transition: "background 0.15s",
                   "&:hover": {
-                    background: isLoading ? "transparent" : "#f9fafb",
+                    background: isLoading
+                      ? "transparent"
+                      : "var(--ut-bg-f9fafb)",
                   },
                 }}
               >
@@ -242,8 +248,8 @@ const PaymentMethodModal = ({
                       width: 40,
                       height: 40,
                       borderRadius: "10px",
-                      border: "1px solid #e5e7eb",
-                      background: "#f9fafb",
+                      border: "1px solid var(--ut-border-e5e7eb)",
+                      background: "var(--ut-bg-f9fafb)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -254,34 +260,44 @@ const PaymentMethodModal = ({
                   </Box>
                   <Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <Typography fontSize={14} fontWeight={500} color="#111">
+                      <Typography
+                        fontSize={14}
+                        fontWeight={500}
+                        color="var(--ut-text-111111)"
+                      >
                         {method.title}
                       </Typography>
                       {method.balance && method.id === "wallet" && (
                         <Typography
                           fontSize={13}
                           fontWeight={600}
-                          color="#1A914B"
+                          color="var(--ut-text-1a914b)"
                         >
                           (₹{method.balance})
                         </Typography>
                       )}
                     </Box>
-                    <Typography fontSize={12} color="#6b7280" sx={{ mt: 0.2 }}>
+                    <Typography
+                      fontSize={12}
+                      color="var(--ut-text-6b7280)"
+                      sx={{ mt: 0.2 }}
+                    >
                       {method.subtitle}
                     </Typography>
                   </Box>
                 </Box>
 
                 {selectedMethod === method.id ? (
-                  <CheckCircleIcon sx={{ color: "#1A914B", fontSize: 24 }} />
+                  <CheckCircleIcon
+                    sx={{ color: "var(--ut-text-1a914b)", fontSize: 24 }}
+                  />
                 ) : (
                   <Box
                     sx={{
                       width: 22,
                       height: 22,
                       borderRadius: "50%",
-                      border: "1.5px solid #d1d5db",
+                      border: "1.5px solid var(--ut-border-d1d5db)",
                       flexShrink: 0,
                     }}
                   />
