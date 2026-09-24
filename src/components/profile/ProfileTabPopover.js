@@ -12,23 +12,32 @@ import DeleteAccount from "../user-information/DeleteAccount";
 import styles from "styles/profilemenu.module.css";
 
 // Styled MenuItem with dynamic background for active menu
-const StyledMenuItem = styled(MenuItem)(({ theme, page, menu }) => ({
-  minHeight: "30px",
-  height: "38px",
-  lineHeight: "30px",
-  borderRadius: "5px",
-  fontSize: "12px",
-  color: "#e8eaec",
-  backgroundColor: page === menu?.name ? "#ffffff" : "transparent",
-  "& span": {
-    color: page === menu?.name ? "#111827" : "#e8eaec",
-    fontWeight: page === menu?.name ? 600 : 500,
-  },
-  "&:hover": {
-    backgroundColor:
-      page === menu?.name ? "#ffffff" : "rgba(52, 164, 44, 0.12)",
-  },
-}));
+// Colors are theme-driven so this reacts to light/dark mode instead of
+// being locked to the old hardcoded dark-only palette.
+const StyledMenuItem = styled(MenuItem)(({ theme, page, menu }) => {
+  const isActive = page === menu?.name;
+  const activeBg =
+    theme.palette.mode === "dark" ? "#ffffff" : theme.palette.primary.light;
+  const activeText =
+    theme.palette.mode === "dark" ? "#111827" : theme.palette.primary.dark;
+
+  return {
+    minHeight: "30px",
+    height: "38px",
+    lineHeight: "30px",
+    borderRadius: "5px",
+    fontSize: "12px",
+    color: theme.palette.text.primary,
+    backgroundColor: isActive ? activeBg : "transparent",
+    "& span": {
+      color: isActive ? activeText : theme.palette.text.primary,
+      fontWeight: isActive ? 600 : 500,
+    },
+    "&:hover": {
+      backgroundColor: isActive ? activeBg : "rgba(52, 164, 44, 0.12)",
+    },
+  };
+});
 
 const ProfileTabPopover = (props) => {
   const {
@@ -88,8 +97,8 @@ const ProfileTabPopover = (props) => {
           top: "56px !important",
           left: "157px !important",
           borderRadius: "0px",
-          backgroundColor: "#111827",
-          border: "1px solid #2d3748",
+          backgroundColor: (theme) => theme.palette.background.paper,
+          border: (theme) => `1px solid ${theme.palette.divider}`,
         },
       }}
       transitionDuration={2}

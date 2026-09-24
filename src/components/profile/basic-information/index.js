@@ -76,7 +76,7 @@ const BasicInformation = (props) => {
             fontWeight: "700",
             fontSize: "18px",
             marginBottom: "15px",
-            color: "#2D3748",
+            color: "var(--pm-logout-text)",
           }}
         >
           {t("My Profile")}

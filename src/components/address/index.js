@@ -91,7 +91,7 @@ const Address = (props) => {
       <Typography
         fontSize={{ xs: "16px", sm: "18px", md: "20px" }}
         fontWeight="700"
-        color="#1e293b"
+        color="var(--pm-logout-text) "
       >
         {t("My Addresses")}
       </Typography>
@@ -104,7 +104,7 @@ const Address = (props) => {
           position: "relative", // Button ko top-right place karne ke liye
           padding: { xs: "15px", md: "25px" },
           paddingTop: "50px", // Button ke liye upar jagah chodi hai
-          background: "#fff",
+          background: "var(--pm-surface)",
         }}
       >
         {/* 3. Add Address Button - Box ke Andar Top Right */}

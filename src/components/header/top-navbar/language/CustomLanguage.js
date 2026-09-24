@@ -58,11 +58,11 @@ const CustomLanguage = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       let languageSetting = JSON.parse(
-        localStorage.getItem("language-setting")
+        localStorage.getItem("language-setting"),
       );
       localStorage.setItem(
         "language-setting",
-        JSON.stringify(languageSetting || i18n.language)
+        JSON.stringify(languageSetting || i18n.language),
       );
     }
   }, []);
@@ -70,7 +70,7 @@ const CustomLanguage = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       let languageSetting = JSON.parse(
-        localStorage.getItem("language-setting")
+        localStorage.getItem("language-setting"),
       );
       let country = JSON.parse(localStorage.getItem("country"));
       if (languageSetting) {
@@ -143,78 +143,72 @@ const CustomLanguage = ({
 
   return (
     <>
-    <TopBarButton
-  formmobilemenu={formmobilemenu}
-  variant="outlined"
-  size="medium"
-  fullWidth
-  onClick={handleClick}
-  sx={{
-    width: "100%",
-    justifyContent: "space-between",
-    borderRadius: "8px",
-    border: "1px solid #D0D5DD",
-    padding: "10px 12px",
-    textTransform: "none",
-    backgroundColor: "#FFFFFF",
+      <TopBarButton
+        formmobilemenu={formmobilemenu}
+        variant="outlined"
+        size="medium"
+        fullWidth
+        onClick={handleClick}
+        sx={{
+          width: "100%",
+          justifyContent: "space-between",
+          borderRadius: "8px",
+          border: `1px solid ${theme.palette.divider}`,
+          padding: "10px 12px",
+          textTransform: "none",
+          backgroundColor: theme.palette.background.paper,
 
-    "&:hover": {
-      backgroundColor: "#FFFFFF",
-      borderColor: "#D0D5DD",
-    },
-  }}
-  startIcon={
-    <Stack direction="row" spacing={1} alignItems="center">
-      <img
-        width="20"
-        src={
-          languageList?.find(
-            (item) => item?.languageCode === language
-          )?.countryFlag
+          "&:hover": {
+            backgroundColor: theme.palette.background.paper,
+            borderColor: theme.palette.divider,
+          },
+        }}
+        startIcon={
+          <Stack direction="row" spacing={1} alignItems="center">
+            <img
+              width="20"
+              src={
+                languageList?.find((item) => item?.languageCode === language)
+                  ?.countryFlag
+              }
+              alt="flag"
+            />
+            <Typography color={theme.palette.text.secondary} fontSize="14px">
+              {languageList?.find((item) => item?.languageCode === language)
+                ?.languageName || t("Select Language")}
+            </Typography>
+          </Stack>
         }
-        alt="flag"
+        endIcon={
+          <KeyboardArrowDownIcon sx={{ color: theme.palette.text.secondary }} />
+        }
       />
-      <Typography color="#667085" fontSize="14px">
-        {
-          languageList?.find(
-            (item) => item?.languageCode === language
-          )?.languageName || t("Select Language")
-        }
-      </Typography>
-    </Stack>
-  }
-  endIcon={
-    <KeyboardArrowDownIcon sx={{ color: "#667085" }} />
-  }
-/>
 
       <StyledMenu
-  anchorEl={anchorEl}
-  open={open}
-  onClose={handleClose}
-  disableScrollLock
-  PaperProps={{
-    sx: {
-      width: anchorEl ? anchorEl.clientWidth : "100%",
-    },
-  }}
->
-
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        disableScrollLock
+        PaperProps={{
+          sx: {
+            width: anchorEl ? anchorEl.clientWidth : "100%",
+          },
+        }}
+      >
         {languageList?.map((lan, index) => (
-         <MenuItem
-  onClick={() => handleSelection(lan)}
-  key={index}
-  sx={{
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    gap: 1,
-  }}
->
-  <img width="20" src={lan.countryFlag} alt="flag" />
-  <Typography>{lan.languageName}</Typography>
-</MenuItem>
-
+          <MenuItem
+            onClick={() => handleSelection(lan)}
+            key={index}
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <img width="20" src={lan.countryFlag} alt="flag" />
+            <Typography>{lan.languageName}</Typography>
+          </MenuItem>
         ))}
       </StyledMenu>
       {openModal && (
@@ -229,7 +223,7 @@ const CustomLanguage = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                <Grid container spacing={2} p={2} >
+                <Grid container spacing={2} p={2}>
                   <Grid item xs={12} align="center">
                     <CustomStackFullWidth spacing={1}>
                       <Typography variant="h6">
@@ -237,7 +231,7 @@ const CustomLanguage = ({
                       </Typography>
                       <Typography variant="h8">
                         {t(
-                          "The browser will refresh to get translated content."
+                          "The browser will refresh to get translated content.",
                         )}
                       </Typography>
                     </CustomStackFullWidth>

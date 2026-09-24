@@ -56,30 +56,47 @@ const BodySection = ({
         query: { page: item?.name },
       },
       undefined,
-      { shallow: true }
+      { shallow: true },
     );
   };
 
   return (
-    <CustomStackFullWidth spacing={2}  sx={{ border: "1px solid #D9E1EC",
-          borderRadius: "14px",
-          padding: "16px 12px",
-          backgroundColor: "#fff",
-		   }}>
+    <CustomStackFullWidth
+      spacing={2}
+      sx={{
+        border: (theme) => `1px solid ${theme.palette.divider}`,
+        borderRadius: "14px",
+        padding: "16px 12px",
+        backgroundColor: (theme) => theme.palette.background.default,
+      }}
+    >
       {/* Main Profile Card */}
       <CustomPaperBigCard
-	 
         padding={page === "my-orders" || page === "inbox" ? "0px" : "10px"}
         noboxshadow={
           isSmall
-            ? page === "my-orders" || page === "inbox" || page === "wallet" || page === "coupons" || page === "loyalty-points" || page === "referral-code" || page === "settings" || page === "profile-settings"
+            ? page === "my-orders" ||
+              page === "inbox" ||
+              page === "wallet" ||
+              page === "coupons" ||
+              page === "loyalty-points" ||
+              page === "referral-code" ||
+              page === "settings" ||
+              page === "profile-settings"
               ? "true"
               : ""
             : "true"
         }
         backgroundcolor={
           isSmall &&
-          (page === "my-orders" || page === "inbox" || page === "wallet" || page === "coupons" || page === "loyalty-points" || page === "referral-code" || page === "settings" || page === "profile-settings")
+          (page === "my-orders" ||
+            page === "inbox" ||
+            page === "wallet" ||
+            page === "coupons" ||
+            page === "loyalty-points" ||
+            page === "referral-code" ||
+            page === "settings" ||
+            page === "profile-settings")
         }
       >
         {/* PROFILE TABS */}

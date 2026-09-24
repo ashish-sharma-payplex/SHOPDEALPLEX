@@ -1,41 +1,110 @@
 /* =====================================================
    profilemenu.module.css
+
    ===================================================== */
 
-/* Outer card / dropdown wrapper */
+/* --------------------------- LIGHT (default) --------------------------- */
+.menuContainer,
+.menuContainerPopover {
+  color-scheme: light;
+
+  --pm-surface: #ffffff;
+  --pm-border: #e6e8f0;
+  --pm-shadow: 0px 8px 20px rgba(17, 24, 39, 0.12);
+
+  --pm-name: #1a1a1a;
+  --pm-joined: #6b7280;
+
+  --pm-close-icon: #6b7280;
+  --pm-close-hover-icon: #111827;
+  --pm-close-hover-bg: rgba(17, 24, 39, 0.06);
+
+  --pm-item-hover-bg: rgba(52, 164, 44, 0.1);
+  --pm-item-active-bg: #ebfdf2;
+  --pm-item-active-shadow: 0px 6px 18px rgba(52, 164, 44, 0.15);
+
+  --pm-icon: #4b5563;
+  --pm-icon-active-bg: #0b8f3f;
+  --pm-icon-active: #ffffff;
+
+  --pm-text: #1f2937;
+  --pm-text-active: #1c6641;
+
+  --pm-divider: #e6e8f0;
+
+  --pm-logout-hover-bg: rgba(209, 67, 67, 0.08);
+  --pm-logout-icon: #d14343;
+  --pm-logout-text: #1f2937;
+}
+
+/* ------------------------------- DARK ----------------------------------- */
+:global([data-theme="dark"]) .menuContainer,
+:global([data-theme="dark"]) .menuContainerPopover {
+  color-scheme: dark;
+
+  --pm-surface: #111827;
+  --pm-border: #2d3748;
+  --pm-shadow: 0px 8px 20px rgba(0, 0, 0, 0.35);
+
+  --pm-name: #e8eaec;
+  --pm-joined: #a0aec0;
+
+  --pm-close-icon: #a0aec0;
+  --pm-close-hover-icon: #e8eaec;
+  --pm-close-hover-bg: rgba(255, 255, 255, 0.06);
+
+  --pm-item-hover-bg: rgba(52, 164, 44, 0.12);
+  --pm-item-active-bg: #ffffff;
+  --pm-item-active-shadow: 0px 6px 18px rgba(52, 164, 44, 0.25);
+
+  --pm-icon: #e8eaec;
+  --pm-icon-active-bg: #0b8f3f;
+  --pm-icon-active: #ffffff;
+
+  --pm-text: #e8eaec;
+  --pm-text-active: #111827;
+
+  --pm-divider: #2d3748;
+
+  --pm-logout-hover-bg: rgba(209, 67, 67, 0.12);
+  --pm-logout-icon: #da6868;
+  --pm-logout-text: #e8eaec;
+}
+
+/* Outer card / dropdown wrapper (left-sidebar version) */
 .menuContainer {
   width: 260px;
-  background-color: #111827; /* dark navy card bg */
-  border: 1px solid #2d3748; /* divider color */
+  background-color: var(--pm-surface);
+  border: 1px solid var(--pm-border);
   border-radius: 14px;
   padding: 16px 12px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--pm-shadow);
 }
 
 /* Popover version (header avatar dropdown) - no fixed width, popover controls it */
 .menuContainerPopover {
-  background-color: #111827;
+  background-color: var(--pm-surface);
   padding: 8px 0 12px;
 }
 
 /* User name / joined date block sitting above the list */
 .userName {
-  color: #e8eaec;
+  color: var(--pm-name);
   font-weight: 700;
 }
 
 .userJoined {
-  color: #a0aec0;
+  color: var(--pm-joined);
 }
 
 /* Close (X) button used in the popover header */
 .closeButton {
-  color: #a0aec0 !important;
+  color: var(--pm-close-icon) !important;
 }
 
 .closeButton:hover {
-  color: #e8eaec !important;
-  background-color: rgba(255, 255, 255, 0.06) !important;
+  color: var(--pm-close-hover-icon) !important;
+  background-color: var(--pm-close-hover-bg) !important;
 }
 
 /* Base row */
@@ -48,17 +117,17 @@
 }
 
 .menuItem:hover {
-  background-color: rgba(52, 164, 44, 0.12) !important; /* soft green tint on dark bg */
+  background-color: var(--pm-item-hover-bg) !important;
 }
 
 /* Active / selected row */
 .menuItemActive {
-  background-color: #ffffff !important;
-  box-shadow: 0px 6px 18px rgba(52, 164, 44, 0.25) !important;
+  background-color: var(--pm-item-active-bg) !important;
+  box-shadow: var(--pm-item-active-shadow) !important;
 }
 
 .menuItemActive:hover {
-  background-color: #ffffff !important;
+  background-color: var(--pm-item-active-bg) !important;
 }
 
 /* Icon chip */
@@ -72,51 +141,52 @@
   justify-content: center;
   margin-right: 8px;
   background-color: transparent;
-  color: #e8eaec !important; /* light icon on dark row */
+  color: var(--pm-icon) !important;
 }
 
 .iconWrapActive {
-  background-color: #0b8f3f !important;
-  color: #ffffff !important;
+  background-color: var(--pm-icon-active-bg) !important;
+  color: var(--pm-icon-active) !important;
 }
 
 /* Row label */
 .itemText span {
-  color: #e8eaec;
+  color: var(--pm-text);
   font-weight: 500;
   text-transform: capitalize;
 }
 
 .itemTextActive span {
-  color: #111827;
+  color: var(--pm-text-active);
   font-weight: 600;
 }
 
 /* Divider before logout */
 .menuDivider {
-  border-color: #2d3748 !important;
+  border-color: var(--pm-divider) !important;
   margin: 8px 12px !important;
 }
 
-/* Logout row - kept distinct (red tint) so it stays legible on the dark bg
-   instead of the old hardcoded #111823 icon that disappeared on dark mode */
+/* Logout row - kept distinct (red tint) so it stays legible in both
+   light and dark mode instead of a hardcoded colour that disappears
+   depending on the active theme */
 .logoutItem {
   border-radius: 14px !important;
   margin: 0 12px !important;
 }
 
 .logoutItem:hover {
-  background-color: rgba(209, 67, 67, 0.12) !important;
+  background-color: var(--pm-logout-hover-bg) !important;
 }
 
 .logoutIcon {
-  color: #da6868 !important;
+  color: var(--pm-logout-icon) !important;
   margin: 0 14px !important;
   font-weight: 600;
 }
 
 .logoutText span,
 .logoutText {
-  color: #e8eaec !important;
+  color: var(--pm-logout-text) !important;
   font-weight: 500;
 }

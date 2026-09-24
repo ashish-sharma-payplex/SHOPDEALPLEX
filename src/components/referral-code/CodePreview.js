@@ -15,16 +15,17 @@ import { t } from "i18next";
 
 const CodePreview = (props) => {
   const theme = useTheme();
-  const isXsmall = useMediaQuery(theme.breakpoints.down("sm"))
+  const isXsmall = useMediaQuery(theme.breakpoints.down("sm"));
   const { profileInfo } = useSelector((state) => state.profileInfo);
   return (
     <Stack
       sx={{ p: "1rem" }}
-      gap={{xs:"10px", sm:"15px", md:"20px"}}
+      gap={{ xs: "10px", sm: "15px", md: "20px" }}
       maxWidth="100% "
       width="100%"
       justifyContent="center"
-      border="1px solid #E3E8EE"
+      border={1}
+      borderColor="divider"
     >
       <CodePreviewWrapper
         direction="row"
@@ -36,10 +37,11 @@ const CodePreview = (props) => {
         </Typography>
         <CustomCopyWithTooltip t={t} value={profileInfo?.ref_code} />
       </CodePreviewWrapper>
-      <Typography>
-        {t("OR SHARE")}
-      </Typography>
-        <ReferralShare referralCode={profileInfo?.ref_code} size={isXsmall ? 30 : 40 }/>
+      <Typography>{t("OR SHARE")}</Typography>
+      <ReferralShare
+        referralCode={profileInfo?.ref_code}
+        size={isXsmall ? 30 : 40}
+      />
     </Stack>
   );
 };
